@@ -20,6 +20,7 @@ To run the project locally, you can use the following npm scripts:
 - [axios](https://github.com/axios/axios): Promise-based HTTP client for the browser and Node.js.
 - [zustand](https://github.com/pmndrs/zustand): A small, fast, and scalable state management library for React.
 - [vitest](https://vitest.dev/): Next Generation Testing Framework. A Vite-native testing framework.
+- [sass](https://sass-lang.com/): Sass (Syntactically Awesome Stylesheets) is a CSS preprocessor
 - [eslint](https://eslint.org/): A pluggable JavaScript linter.
 - [husky](https://github.com/typicode/husky): Git hooks made easy.
 - [prettier](https://prettier.io/): Opinionated code formatter.
