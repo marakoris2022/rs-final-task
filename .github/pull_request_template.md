@@ -9,4 +9,3 @@ Please include a summary of the change and which issue is fixed.
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
 - [ ] This change requires a documentation update.
 - [ ] This change adds test coverage for new/changed/fixed functionality
-      to 'Type of change' section.
