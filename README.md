@@ -9,6 +9,7 @@ To run the project locally, you can use the following npm scripts:
 - `npm run lint`: Lints TypeScript and TypeScript JSX files using ESLint.
 - `npm run preview`: Previews the built project using Vite.
 - `npm run format`: Formats the code using Prettier.
+- `react-router-dom`: ^6.23.0.
 
 ## Dependencies
 
