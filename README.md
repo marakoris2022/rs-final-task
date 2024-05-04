@@ -1,4 +1,32 @@
-# rs-final-task
+# RSTeam Games Store
+
+## Description
+
+This website is an online store that sells video games. The games database is populated using open-source data from Steam. This project is created for educational purposes, aiming to provide hands-on experience in web development, e-commerce, and working with APIs.
+
+## Installation
+
+To install and use this project, follow these steps:
+
+1. Clone the repository to your local machine using Git:
+
+```bash
+git clone https://github.com/marakoris2022/rs-final-task.git
+```
+
+2. Navigate to the cloned directory:
+
+```bash
+cd rs-final-task
+```
+
+3. Install the project dependencies using npm:
+
+```bash
+npm install
+```
+
+4. You're all set! Now you can start using the project or making modifications as needed.
 
 ## Usage
 
