@@ -1,4 +1,4 @@
-import './login.scss'
+import './login.scss';
 
 export default function Login() {
   return (
@@ -7,5 +7,5 @@ export default function Login() {
         <h2>Login Page</h2>
       </section>
     </main>
-  )
+  );
 }

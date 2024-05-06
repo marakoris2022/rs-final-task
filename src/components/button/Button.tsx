@@ -1,9 +1,9 @@
-import './button.scss'
+import './button.scss';
 
 interface Button {
-  style: string
-  title: string
-  onClick?: () => void
+  style: string;
+  title: string;
+  onClick?: () => void;
 }
 
 export default function Button({ style, title, onClick }: Button) {
@@ -13,5 +13,5 @@ export default function Button({ style, title, onClick }: Button) {
         {title}
       </button>
     </>
-  )
+  );
 }
