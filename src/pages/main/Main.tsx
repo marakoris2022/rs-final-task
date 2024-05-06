@@ -1,4 +1,4 @@
-import './main.scss'
+import './main.scss';
 
 export default function Main() {
   return (
@@ -7,5 +7,5 @@ export default function Main() {
         <h2>Main Page</h2>
       </section>
     </main>
-  )
+  );
 }

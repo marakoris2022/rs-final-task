@@ -1,4 +1,4 @@
-import './registration.scss'
+import './registration.scss';
 
 export default function Registration() {
   return (
@@ -7,5 +7,5 @@ export default function Registration() {
         <h2>Registration Page</h2>
       </section>
     </main>
-  )
+  );
 }

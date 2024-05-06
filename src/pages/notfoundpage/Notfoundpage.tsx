@@ -1,4 +1,4 @@
-import './notfoundpage.scss'
+import './notfoundpage.scss';
 
 export default function Notfoundpage() {
   return (
@@ -7,5 +7,5 @@ export default function Notfoundpage() {
         <h2>404</h2>
       </section>
     </main>
-  )
+  );
 }

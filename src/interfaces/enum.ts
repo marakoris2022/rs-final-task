@@ -21,7 +21,7 @@ enum Category {
   WebPublishing = 'ded52f2e-0d4d-4015-bbde-70c0142c61f0',
   PhotoEditing = 'c1dbe964-d17a-4600-b63c-3a69a095668a',
   GameDevelopment = 'a9cc3fa6-30c8-401b-9bdd-b5c630b981d6',
-  Accounting = 'b86528fd-5351-4249-9248-f4c8de4a225e'
+  Accounting = 'b86528fd-5351-4249-9248-f4c8de4a225e',
 }
 
 export default Category;
