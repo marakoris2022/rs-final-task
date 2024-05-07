@@ -7,6 +7,23 @@
 
   cursor: pointer;
 }
-.nav__btn:hover {
-  background-color: lightgray;
+
+
+.login__form__btn {
+  background-color: #007bff;
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.2s ease;
+}
+
+@media (any-hover: hover) {
+  .login__form__btn:hover {
+    background: #5eabdd;
+  }
+
+  .nav__btn:hover {
+    background-color: lightgray;
+  }
 }

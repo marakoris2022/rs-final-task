@@ -94,11 +94,11 @@ export const LoginForm = () => {
         autoComplete="current-password"
       >
         <span className={styles.login__form__pass__ico} onClick={togglePasswordVisibility}>
-          {showPassword ? <FaEyeSlash /> : <FaEye />}
+          {showPassword ? <FaEye /> : <FaEyeSlash />}
         </span>
       </FormField>
 
-      <Button style={styles.login__form__btn} title="Login" type="submit"></Button>
+      <Button style="login__form__btn" title="Login" type="submit"></Button>
     </form>
   );
 };
