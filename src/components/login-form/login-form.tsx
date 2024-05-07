@@ -4,15 +4,15 @@ import Button from '../button/Button';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import FormField from '../form-field/form-field.tsx';
 
-interface formValues {
+interface FormValues {
   email?: string;
-  password?: string | string[];
+  password?: string;
 }
 
-const validate = (values: formValues) => {
-  const errors: formValues = {};
-  const password = values.password || '';
+const validate = (values: FormValues) => {
+  const errors: FormValues = {};
 
   if (!values.email) {
     errors.email = 'Required';
@@ -20,31 +20,20 @@ const validate = (values: formValues) => {
     errors.email = 'Invalid email address';
   }
 
-  const passwordErrors = [];
-  if (!password) {
-    passwordErrors.push('Required');
-  }
-  if (password.length < 8) {
-    passwordErrors.push('Password must be at least 8 characters');
-  }
-  if (!/(?=.*[a-z])/.test(password as string)) {
-    passwordErrors.push('Password must contain at least one lowercase letter (a-z)');
-  }
-  if (!/(?=.*[A-Z])/.test(password as string)) {
-    passwordErrors.push('Password must contain at least one uppercase letter (A-Z)');
-  }
-  if (!/(?=.*\d)/.test(password as string)) {
-    passwordErrors.push('Password must contain at least one digit (0-9)');
-  }
-  if (!/(?=.*[!@#$%^&*])/.test(password as string)) {
-    passwordErrors.push('Password must contain at least one special character');
-  }
-  if (/^\s|\s$/.test(password as string)) {
-    passwordErrors.push('Password must not contain leading or trailing whitespace');
-  }
-
-  if (passwordErrors.length > 0) {
-    errors.password = passwordErrors;
+  if (!values.password) {
+    errors.password = 'Required';
+  } else if (/^\s|\s$/.test(values.password)) {
+    errors.password = 'Password must not contain leading or trailing whitespace';
+  } else if (!/(?=.*[a-z])/.test(values.password)) {
+    errors.password = 'Password must contain at least one lowercase letter (a-z)';
+  } else if (!/(?=.*[A-Z])/.test(values.password)) {
+    errors.password = 'Password must contain at least one uppercase letter (A-Z)';
+  } else if (!/(?=.*\d)/.test(values.password)) {
+    errors.password = 'Password must contain at least one digit (0-9)';
+  } else if (!/(?=.*[!@#$%^&*])/.test(values.password)) {
+    errors.password = 'Password must contain at least one special character';
+  } else if (values.password.length < 8) {
+    errors.password = 'Must be at least 8 characters';
   }
 
   return errors;
@@ -66,64 +55,52 @@ export const LoginForm = () => {
     validate,
     onSubmit: (values) => {
       console.log('data to api', values);
+      {
+        /*LOGIC WITH SERVER
+        if (resp.code === 200) {
+          navigate
+        } else {
+          error modal
+        }
+         */
+      }
       navigate('/');
     },
   });
 
   return (
     <form className={styles.login__form} onSubmit={formik.handleSubmit}>
-      <div className={styles.login__form__field}>
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          onChange={(e) => {
-            formik.handleChange(e);
-            formik.setFieldTouched('email', true, false);
-          }}
-          onBlur={formik.handleBlur}
-          value={formik.values.email}
-        />
+      <FormField
+        styles={styles.login__form__field}
+        formik={formik}
+        labelText="Email"
+        id="email"
+        name="email"
+        type="email"
+        autoComplete="email"
+      >
         {formik.touched.email && formik.errors.email ? (
           <div className={styles.login__form__error}>{formik.errors.email}</div>
         ) : null}
-      </div>
+      </FormField>
 
-      <div className={styles.login__form__field}>
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          name="password"
-          type={showPassword ? 'text' : 'password'}
-          autoComplete="current-password"
-          onChange={(e) => {
-            formik.handleChange(e);
-            formik.setFieldTouched('password', true, false);
-          }}
-          onBlur={formik.handleBlur}
-          value={formik.values.password}
-        />
-
+      <FormField
+        styles={styles.login__form__field}
+        formik={formik}
+        labelText="Password"
+        id="password"
+        name="password"
+        type={showPassword ? 'text' : 'password'}
+        autoComplete="current-password"
+      >
         <span className={styles.login__form__pass__ico} onClick={togglePasswordVisibility}>
           {showPassword ? <FaEyeSlash /> : <FaEye />}
         </span>
 
         {formik.touched.password && formik.errors.password ? (
-          <div className={styles.login__form__error}>
-            {Array.isArray(formik.errors.password) ? (
-              formik.errors.password.map((error, index) => (
-                <div key={index} className={styles.login__form__error}>
-                  {error}
-                </div>
-              ))
-            ) : (
-              <div>{formik.errors.password}</div>
-            )}
-          </div>
+          <div className={styles.login__form__error}>{formik.errors.password}</div>
         ) : null}
-      </div>
+      </FormField>
 
       <Button style={styles.login__form__btn} title="Login" type="submit"></Button>
     </form>
