@@ -1,7 +1,9 @@
 import { Formik } from 'formik';
 
 interface FormFieldProps {
-  styles: string;
+  stylesField: string;
+  stylesError: string;
+  showError?: boolean;
   formik: Formik;
   labelText: string;
   id: string;
@@ -11,9 +13,20 @@ interface FormFieldProps {
   children?: React.ReactNode;
 }
 
-const FormField: React.FC<FormFieldProps> = ({ styles, formik, labelText, id, name, type, autoComplete, children }) => {
+const FormField: React.FC<FormFieldProps> = ({
+  stylesField,
+  stylesError,
+  showError = true,
+  formik,
+  labelText,
+  id,
+  name,
+  type,
+  autoComplete,
+  children,
+}) => {
   return (
-    <div className={styles}>
+    <div className={stylesField}>
       <label htmlFor={id}>{labelText}</label>
       <input
         id={id}
@@ -30,6 +43,9 @@ const FormField: React.FC<FormFieldProps> = ({ styles, formik, labelText, id, na
         value={formik.values.name}
       />
       {children}
+      {showError && formik.touched[name] && formik.errors[name] ? (
+        <div className={stylesError}>{formik.errors[name]}</div>
+      ) : null}
     </div>
   );
 };

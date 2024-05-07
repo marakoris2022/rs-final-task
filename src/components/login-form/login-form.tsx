@@ -73,21 +73,20 @@ export const LoginForm = () => {
   return (
     <form className={styles.login__form} onSubmit={formik.handleSubmit}>
       <FormField
-        styles={styles.login__form__field}
+        stylesField={styles.login__form__field}
+        stylesError={styles.login__form__error}
         formik={formik}
         labelText="Email"
         id="email"
         name="email"
         type="text"
         autoComplete="email"
-      >
-        {formik.touched.email && formik.errors.email ? (
-          <div className={styles.login__form__error}>{formik.errors.email}</div>
-        ) : null}
-      </FormField>
+      ></FormField>
 
       <FormField
-        styles={styles.login__form__field}
+        stylesField={styles.login__form__field}
+        stylesError={styles.login__form__error}
+        showError={true}
         formik={formik}
         labelText="Password"
         id="password"
@@ -98,10 +97,6 @@ export const LoginForm = () => {
         <span className={styles.login__form__pass__ico} onClick={togglePasswordVisibility}>
           {showPassword ? <FaEyeSlash /> : <FaEye />}
         </span>
-
-        {formik.touched.password && formik.errors.password ? (
-          <div className={styles.login__form__error}>{formik.errors.password}</div>
-        ) : null}
       </FormField>
 
       <Button style={styles.login__form__btn} title="Login" type="submit"></Button>
