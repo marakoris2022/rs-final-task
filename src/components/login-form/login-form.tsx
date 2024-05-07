@@ -86,7 +86,6 @@ export const LoginForm = () => {
       <FormField
         stylesField={styles.login__form__field}
         stylesError={styles.login__form__error}
-        showError={true}
         formik={formik}
         labelText="Password"
         id="password"

@@ -1,8 +1,8 @@
 import { Formik } from 'formik';
 
 interface FormFieldProps {
-  stylesField: string;
-  stylesError: string;
+  stylesField?: string;
+  stylesError?: string;
   showError?: boolean;
   formik: Formik;
   labelText: string;
