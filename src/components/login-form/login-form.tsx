@@ -16,6 +16,8 @@ const validate = (values: FormValues) => {
 
   if (!values.email) {
     errors.email = 'Required';
+  } else if (/^\s+|\s+$/.test(values.email)) {
+    errors.email = 'Email must not contain leading or trailing whitespace';
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = 'Invalid email address';
   }
@@ -76,7 +78,7 @@ export const LoginForm = () => {
         labelText="Email"
         id="email"
         name="email"
-        type="email"
+        type="text"
         autoComplete="email"
       >
         {formik.touched.email && formik.errors.email ? (
