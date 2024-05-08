@@ -60,7 +60,7 @@ export const LoginForm = () => {
         const { email, password } = values;
         await login(email, password);
         navigate('/');
-      } catch (err) {
+      } catch (err: any) {
         const errMsg = err.message;
         setError(() => errMsg);
         formik.setFieldValue('password', '');
