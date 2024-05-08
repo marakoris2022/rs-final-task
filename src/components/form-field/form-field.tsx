@@ -54,7 +54,7 @@ const FormField = <T extends FormValues>({
         onBlur={() => {
           formik.handleBlur(name);
         }}
-        value={formik.values?.name}
+        value={formik.values[name]}
       />
       {children}
       {showError && formik.touched[name] && formik.errors[name] ? (

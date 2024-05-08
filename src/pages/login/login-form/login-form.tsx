@@ -63,6 +63,7 @@ export const LoginForm = () => {
       } catch (err) {
         const errMsg = err.message;
         setError(() => errMsg);
+        formik.setFieldValue('password', '');
       }
     },
   });
