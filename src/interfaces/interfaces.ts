@@ -29,3 +29,8 @@ export interface LoginProps {
     scope: string,
     refresh_token: string
 }
+
+
+export interface FormValues {
+    [key: string]: string | undefined;
+  }

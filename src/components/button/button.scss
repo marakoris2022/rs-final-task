@@ -1,3 +1,11 @@
+.default__btn {
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.2s ease;
+}
+
 .nav__btn {
   border: none;
   background-color: white;
@@ -9,4 +17,10 @@
 }
 .nav__btn:hover {
   background-color: lightgray;
+}
+
+@media (any-hover: hover) {
+  .nav__btn:hover {
+    background-color: lightgray;
+  }
 }
