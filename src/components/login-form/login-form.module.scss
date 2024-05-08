@@ -16,10 +16,6 @@
       margin-right: 10px;
     }
 
-    input {
-      height: 30px;
-    }
-
     .login__form__error {
       margin-top: 15px;
       color: red;
@@ -44,6 +40,11 @@
     cursor: pointer;
     border-radius: 10px;
     transition: 0.2s ease;
+  }
+
+  .login__form__input {
+    padding: 5px;
+    height: 30px;
   }
 
   @media (any-hover: hover) {

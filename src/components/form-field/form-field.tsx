@@ -4,6 +4,7 @@ import { FormValues } from '../login-form/login-form';
 interface FormFieldProps<T extends FormValues> {
   stylesField?: string;
   stylesError?: string;
+  stylesInput?: string;
   showError?: boolean;
   formik: FormikProps<T>;
   labelText: string;
@@ -11,15 +12,18 @@ interface FormFieldProps<T extends FormValues> {
   name: keyof T;
   type: string;
   autoComplete?: string;
+  placeholder?: string;
   children?: React.ReactNode;
 }
 
 const FormField = <T extends FormValues>({
   stylesField,
   stylesError,
+  stylesInput,
   showError = true,
   formik,
   labelText,
+  placeholder,
   id,
   name,
   type,
@@ -30,8 +34,17 @@ const FormField = <T extends FormValues>({
     <div className={stylesField}>
       <label htmlFor={id}>{labelText}</label>
       <input
+        className={stylesInput}
+        style={
+          formik.touched[name] && formik.errors[name]
+            ? { borderColor: 'red', outlineColor: 'red' }
+            : formik.values[name]
+              ? { borderColor: 'green', outlineColor: 'green' }
+              : { outlineColor: 'blue' }
+        }
         id={id}
         name={name as string}
+        placeholder={placeholder}
         type={type}
         autoComplete={autoComplete}
         onChange={(e) => {

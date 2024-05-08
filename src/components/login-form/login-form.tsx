@@ -74,8 +74,10 @@ export const LoginForm = () => {
       <FormField
         stylesField={styles.login__form__field}
         stylesError={styles.login__form__error}
+        stylesInput={styles.login__form__input}
         formik={formik}
         labelText="Email"
+        placeholder="example@gmail.com"
         id="email"
         name="email"
         type="text"
@@ -85,6 +87,7 @@ export const LoginForm = () => {
       <FormField
         stylesField={styles.login__form__field}
         stylesError={styles.login__form__error}
+        stylesInput={styles.login__form__input}
         formik={formik}
         labelText="Password"
         id="password"
