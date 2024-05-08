@@ -6,9 +6,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormField from '../form-field/form-field.tsx';
 
-interface FormValues {
-  email?: string;
-  password?: string;
+export interface FormValues {
+  [key: string]: string | undefined;
 }
 
 const validate = (values: FormValues) => {
@@ -98,7 +97,7 @@ export const LoginForm = () => {
         </span>
       </FormField>
 
-      <Button style="login__form__btn" title="Login" type="submit"></Button>
+      <Button style={styles.login__form__btn} title="Login" type="submit"></Button>
     </form>
   );
 };

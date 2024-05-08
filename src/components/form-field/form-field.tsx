@@ -1,19 +1,20 @@
-import { Formik } from 'formik';
+import { FormikProps } from 'formik';
+import { FormValues } from '../login-form/login-form';
 
-interface FormFieldProps {
+interface FormFieldProps<T extends FormValues> {
   stylesField?: string;
   stylesError?: string;
   showError?: boolean;
-  formik: Formik;
+  formik: FormikProps<T>;
   labelText: string;
   id: string;
-  name: string;
+  name: keyof T;
   type: string;
   autoComplete?: string;
   children?: React.ReactNode;
 }
 
-const FormField: React.FC<FormFieldProps> = ({
+const FormField = <T extends FormValues>({
   stylesField,
   stylesError,
   showError = true,
@@ -24,27 +25,27 @@ const FormField: React.FC<FormFieldProps> = ({
   type,
   autoComplete,
   children,
-}) => {
+}: FormFieldProps<T>) => {
   return (
     <div className={stylesField}>
       <label htmlFor={id}>{labelText}</label>
       <input
         id={id}
-        name={name}
+        name={name as string}
         type={type}
         autoComplete={autoComplete}
         onChange={(e) => {
           formik.handleChange(e);
-          formik.setFieldTouched(name, true, false);
+          formik.setFieldTouched(name as string, true, false);
         }}
         onBlur={() => {
           formik.handleBlur(name);
         }}
-        value={formik.values.name}
+        value={formik.values?.name}
       />
       {children}
       {showError && formik.touched[name] && formik.errors[name] ? (
-        <div className={stylesError}>{formik.errors[name]}</div>
+        <div className={stylesError}>{formik.errors[name] as string}</div>
       ) : null}
     </div>
   );
