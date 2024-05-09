@@ -99,7 +99,7 @@ export const LoginForm = () => {
         </span>
       </FormField>
 
-      <Button style={styles.login__form__btn} title="Login" type="submit"></Button>
+      <Button style={styles.login__form__btn} title="Login" type="submit" disabled={!formik.isValid || formik.isSubmitting}></Button>
 
       {error && <ModalError message={error} onClose={() => setError(null)} />}
     </form>

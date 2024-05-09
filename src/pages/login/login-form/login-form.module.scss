@@ -43,6 +43,10 @@
     transition: 0.2s ease;
   }
 
+  .login__form__btn:disabled {
+    cursor: default;
+  }
+
   .login__form__input {
     padding: 5px;
     height: 30px;
@@ -51,6 +55,11 @@
   @media (any-hover: hover) {
     .login__form__btn:hover {
       background: #5eabdd;
+    }
+
+    .login__form__btn:hover:disabled {
+      cursor: default;
+      background-color: #007bff;
     }
   }
 }
