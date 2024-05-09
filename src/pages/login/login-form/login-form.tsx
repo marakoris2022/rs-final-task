@@ -8,6 +8,7 @@ import { FormValues } from '../../../interfaces/interfaces.ts';
 import FormField from '../../../components/form-field/form-field.tsx';
 import { login } from '../../../utils/commers-tools-api.ts';
 import { ModalError } from '../../../components/modal-error/modal-error.tsx';
+import { useIsLoggedContext } from '../../../utils/islogged-context.tsx';
 
 const validate = (values: FormValues) => {
   const errors: FormValues = {};
@@ -42,6 +43,7 @@ const validate = (values: FormValues) => {
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
+  const { setIsLoggedUser } = useIsLoggedContext();
 
   const navigate = useNavigate();
 
@@ -60,10 +62,11 @@ export const LoginForm = () => {
         const { email, password } = values;
         await login(email, password);
         navigate('/');
+        setIsLoggedUser(() => true);
       } catch (err: any) {
         const errMsg = err.message;
         setError(() => errMsg);
-        formik.setFieldValue('password', '');
+        formik.setFieldValue('password', ''); // ЗАКОМЕНТИРУЙ ДЛЯ ОШИБКИ
       }
     },
   });

@@ -1,9 +1,12 @@
 import './navigation.scss';
 import { useNavigate } from 'react-router-dom';
 import Button from '../button/Button';
+import { useIsLoggedContext } from '../../utils/islogged-context';
 
 export default function Navigation() {
   const navigate = useNavigate();
+  const { isLoggedUser, setIsLoggedUser } = useIsLoggedContext();
+
   return (
     <nav>
       <ul>
@@ -11,10 +14,10 @@ export default function Navigation() {
           <Button style={'nav__btn'} onClick={() => navigate('/')} title="Main" />
         </li>
         <li>
-          <Button style={'nav__btn'} onClick={() => navigate('/login')} title="Login" />
+          <Button style={'nav__btn'} onClick={() => { isLoggedUser ? console.log('PROFILE') : navigate('/login'); }}  title={isLoggedUser ? 'Profile' : 'Login'} />
         </li>
         <li>
-          <Button style={'nav__btn'} onClick={() => navigate('/registration')} title="Registration" />
+          <Button style={'nav__btn'} onClick={() => { isLoggedUser ? setIsLoggedUser(() => false) : navigate('/Registration'); }} title={isLoggedUser ? 'Logout' : 'Registration'} />
         </li>
       </ul>
     </nav>
