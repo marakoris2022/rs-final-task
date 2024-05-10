@@ -31,21 +31,57 @@ const validate = (values: FormValues) => {
   if (!values.firstName) {
     errors.firstName = 'Required';
   } else if (!/(?=.*[A-Z])/.test(values.firstName)) {
-    errors.firstName = 'Name must contain at least one uppercase letter (A-Z)';
+    errors.firstName = 'First name must contain at least one uppercase letter (A-Z)';
   } else if (!/^[a-zA-Z]+$/.test(values.firstName)) {
     errors.firstName = 'First name must contain only letters';
   } else if (values.firstName.length < 1) {
-    errors.firstName = 'Name must be at least 1 character';
+    errors.firstName = 'First name must be at least 1 character';
   }
 
   if (!values.lastName) {
     errors.lastName = 'Required';
   } else if (!/(?=.*[A-Z])/.test(values.lastName)) {
-    errors.lastName = 'Name must contain at least one uppercase letter (A-Z)';
+    errors.lastName = 'Last must contain at least one uppercase letter (A-Z)';
   } else if (!/^[a-zA-Z]+$/.test(values.lastName)) {
-    errors.lastName = 'First name must contain only letters';
+    errors.lastName = 'Last must contain only letters';
   } else if (values.lastName.length < 1) {
-    errors.lastName = 'Name must be at least 1 character';
+    errors.lastName = 'Last must be at least 1 character';
+  }
+
+  // date will not validate by formik
+
+  if (!values.street) {
+    errors.street = 'Required';
+  } else if (!/(?=.*[A-Z])/.test(values.street)) {
+    errors.city = 'Street must contain at least one uppercase letter (A-Z)';
+  } else if (values.street.length < 4) {
+    errors.street = 'Street must be at least 4 character';
+  }
+
+  if (!values.city) {
+    errors.city = 'Required';
+  } else if (!/(?=.*[A-Z])/.test(values.city)) {
+    errors.city = 'City must contain at least one uppercase letter (A-Z)';
+  } else if (!/^[a-zA-Z]+$/.test(values.city)) {
+    errors.city = 'City must contain only letters';
+  } else if (values.city.length < 4) {
+    errors.city = 'City must be at least 4 character';
+  }
+
+  if (!values.postal) {
+    errors.postal = 'Required';
+  } else if (!/^[A-Z0-9]+$/.test(values.postal)) {
+    errors.postal = 'Postal Code must contain only uppercase letters and numbers';
+  } else if (values.postal.length < 4) {
+    errors.postal = 'Postal Code must be at least 4 character';
+  }
+
+  const predefinedCountries = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
+
+  if (!values.country) {
+    errors.country = 'Required';
+  } else if (!predefinedCountries.includes(values.country)) {
+    errors.country = 'Invalid country';
   }
 
   return errors;
