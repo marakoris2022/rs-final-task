@@ -6,7 +6,6 @@ import Registration from './pages/registration/Registration';
 import Notfoundpage from './pages/notfoundpage/Notfoundpage';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
-import { useState } from 'react';
 import { useStore } from './store/useStore';
 
 function App() {
