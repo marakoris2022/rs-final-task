@@ -1,5 +1,5 @@
 import './App.scss';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Login from './pages/login/Login';
 import Main from './pages/main/Main';
 import Registration from './pages/registration/Registration';
@@ -17,10 +17,10 @@ function App() {
       <isLoggedContext.Provider value={{ isLoggedUser, setIsLoggedUser }}>
         <Header />
         <Routes>
-          <Route path="/" element={<Main />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/registration" element={<Registration />}></Route>
-          <Route path="*" element={<Notfoundpage />}></Route>
+          <Route path="/login" element={isLoggedUser ? <Navigate to="/" replace /> : <Login />} />
+          <Route path="/registration" element={isLoggedUser ? <Navigate to="/" replace /> : <Registration />} />
+          <Route path="/" element={<Main />} />
+          <Route path="*" element={<Notfoundpage />} />
         </Routes>
         <Footer />
       </isLoggedContext.Provider>
