@@ -1,5 +1,11 @@
-import './register-form.module.scss';
+import styles from './register-form.module.scss';
+import { useFormik } from 'formik';
+import FormField from '../../../components/form-field/form-field.tsx';
+import Button from '../../../components/button/Button.tsx';
 import { FormValues } from '../../../interfaces/interfaces.ts';
+import { ModalError } from '../../../components/modal-error/modal-error.tsx';
+import { useState } from 'react';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const validate = (values: FormValues) => {
   const errors: FormValues = {};
@@ -88,9 +94,76 @@ const validate = (values: FormValues) => {
 };
 
 export default function RegistrationForm() {
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validate,
+    onSubmit: async (values) => {
+      try {
+        console.log('Submit', values);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          const errMsg = err.message;
+          console.log(errMsg);
+
+          formik.setFieldValue('password', '');
+        }
+      }
+    },
+  });
+
   return (
     <>
-      <input type="text" />
+      <form className={styles.login__form} onSubmit={formik.handleSubmit}>
+        <FormField
+          stylesField={styles.login__form__field}
+          stylesError={styles.login__form__error}
+          stylesInput={styles.login__form__input}
+          isRequired={true}
+          formik={formik}
+          labelText="Email"
+          placeholder="example@gmail.com"
+          id="email"
+          name="email"
+          type="text"
+          autoComplete="email"
+        ></FormField>
+
+        <FormField
+          stylesField={styles.login__form__field}
+          stylesError={styles.login__form__error}
+          stylesInput={styles.login__form__input}
+          isRequired={true}
+          formik={formik}
+          labelText="Password"
+          id="password"
+          name="password"
+          type={showPassword ? 'text' : 'password'}
+          autoComplete="current-password"
+        >
+          <span className={styles.login__form__pass__ico} onClick={togglePasswordVisibility}>
+            {showPassword ? <FaEye /> : <FaEyeSlash />}
+          </span>
+        </FormField>
+
+        <Button
+          style={styles.login__form__btn}
+          title="Login"
+          type="submit"
+          disabled={!formik.isValid || formik.isSubmitting}
+        />
+
+        {error && <ModalError message={error} onClose={() => setError(() => '')} />}
+      </form>
     </>
   );
 }
