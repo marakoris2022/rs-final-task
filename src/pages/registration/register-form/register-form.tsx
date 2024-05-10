@@ -7,6 +7,8 @@ import { ModalError } from '../../../components/modal-error/modal-error.tsx';
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
+const predefinedCountries = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
+
 const validate = (values: FormValues) => {
   const errors: FormValues = {};
 
@@ -82,8 +84,6 @@ const validate = (values: FormValues) => {
     errors.postal = 'Postal Code must be at least 4 character';
   }
 
-  const predefinedCountries = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
-
   if (!values.country) {
     errors.country = 'Required';
   } else if (!predefinedCountries.includes(values.country)) {
@@ -105,6 +105,13 @@ export default function RegistrationForm() {
     initialValues: {
       email: '',
       password: '',
+      firstName: '',
+      lastName: '',
+      dateOfBirth: '1990-01-01',
+      street: '',
+      city: '',
+      postal: '',
+      country: String(predefinedCountries[0]),
     },
     validate,
     onSubmit: async (values) => {
@@ -154,6 +161,104 @@ export default function RegistrationForm() {
             {showPassword ? <FaEye /> : <FaEyeSlash />}
           </span>
         </FormField>
+
+        <FormField
+          stylesField={styles.login__form__field}
+          stylesError={styles.login__form__error}
+          stylesInput={styles.login__form__input}
+          isRequired={true}
+          formik={formik}
+          labelText="First name"
+          placeholder="First name"
+          id="firstName"
+          name="firstName"
+          type="text"
+          // autoComplete="email"
+        ></FormField>
+
+        <FormField
+          stylesField={styles.login__form__field}
+          stylesError={styles.login__form__error}
+          stylesInput={styles.login__form__input}
+          isRequired={true}
+          formik={formik}
+          labelText="Last name"
+          placeholder="Last name"
+          id="lastName"
+          name="lastName"
+          type="text"
+          // autoComplete="email"
+        ></FormField>
+
+        <FormField
+          stylesField={styles.login__form__field}
+          stylesError={styles.login__form__error}
+          stylesInput={styles.login__form__input}
+          isRequired={true}
+          formik={formik}
+          labelText="Date of Birth"
+          placeholder="Last name"
+          id="dateOfBirth"
+          name="dateOfBirth"
+          type="date"
+          max="2010-01-01"
+          // autoComplete="email"
+        ></FormField>
+
+        <FormField
+          stylesField={styles.login__form__field}
+          stylesError={styles.login__form__error}
+          stylesInput={styles.login__form__input}
+          isRequired={true}
+          formik={formik}
+          labelText="Street"
+          placeholder="Street"
+          id="street"
+          name="street"
+          type="text"
+          // autoComplete="email"
+        ></FormField>
+
+        <FormField
+          stylesField={styles.login__form__field}
+          stylesError={styles.login__form__error}
+          stylesInput={styles.login__form__input}
+          isRequired={true}
+          formik={formik}
+          labelText="City"
+          placeholder="City"
+          id="city"
+          name="city"
+          type="text"
+          // autoComplete="email"
+        ></FormField>
+
+        <FormField
+          stylesField={styles.login__form__field}
+          stylesError={styles.login__form__error}
+          stylesInput={styles.login__form__input}
+          isRequired={true}
+          formik={formik}
+          labelText="Postal Code"
+          placeholder="Postal Code"
+          id="postal"
+          name="postal"
+          type="text"
+          // autoComplete="email"
+        ></FormField>
+
+        <div>
+          <label htmlFor="country">Select a country</label>
+          <select name="country" id="country">
+            {predefinedCountries.map((country) => {
+              return (
+                <option value={country} label={country}>
+                  {country}
+                </option>
+              );
+            })}
+          </select>
+        </div>
 
         <Button
           style={styles.login__form__btn}

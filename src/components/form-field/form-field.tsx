@@ -16,6 +16,9 @@ interface FormFieldProps<T extends FormValues> {
   autoComplete?: string;
   placeholder?: string;
   children?: React.ReactNode;
+  value?: string;
+  min?: string;
+  max?: string;
 }
 
 const FormField = <T extends FormValues>({
@@ -32,6 +35,8 @@ const FormField = <T extends FormValues>({
   type,
   autoComplete,
   children,
+  min,
+  max,
 }: FormFieldProps<T>) => {
   return (
     <div className={stylesField}>
@@ -48,6 +53,8 @@ const FormField = <T extends FormValues>({
               ? { borderColor: 'green', outlineColor: 'green' }
               : { outlineColor: 'blue' }
         }
+        min={min}
+        max={max}
         id={id}
         name={name as string}
         placeholder={placeholder}
