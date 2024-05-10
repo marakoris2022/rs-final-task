@@ -9,6 +9,7 @@ import FormField from '../../../components/form-field/form-field.tsx';
 import { login } from '../../../utils/commers-tools-api.ts';
 import { ModalError } from '../../../components/modal-error/modal-error.tsx';
 import { useIsLoggedContext } from '../../../utils/islogged-context.tsx';
+import { useStore } from '../../../store/useStore.ts';
 
 const validate = (values: FormValues) => {
   const errors: FormValues = {};
@@ -43,7 +44,8 @@ const validate = (values: FormValues) => {
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const { setIsLoggedUser } = useIsLoggedContext();
+  // const { setIsLoggedUser } = useIsLoggedContext();
+  const { setLogged } = useStore();
 
   const navigate = useNavigate();
 
@@ -62,7 +64,8 @@ export const LoginForm = () => {
         const { email, password } = values;
         await login(email, password);
         navigate('/');
-        setIsLoggedUser(() => true);
+        // setIsLoggedUser(() => true);
+        setLogged(true);
       } catch (err: unknown) {
         if (err instanceof Error) {
           const errMsg = err.message;
