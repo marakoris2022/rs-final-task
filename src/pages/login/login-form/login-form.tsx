@@ -8,7 +8,7 @@ import { FormValues } from '../../../interfaces/interfaces.ts';
 import FormField from '../../../components/form-field/form-field.tsx';
 import { login } from '../../../utils/commers-tools-api.ts';
 import { ModalError } from '../../../components/modal-error/modal-error.tsx';
-import { useIsLoggedContext } from '../../../utils/islogged-context.tsx';
+// import { useIsLoggedContext } from '../../../utils/islogged-context.tsx';
 import { useStore } from '../../../store/useStore.ts';
 
 const validate = (values: FormValues) => {
