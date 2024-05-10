@@ -83,7 +83,8 @@ export async function login(email: string, password: string): Promise<LoginProps
 
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            throw new Error(error.message)
+            console.log(error);
+            throw new Error(error.response?.data.message)
         } else if (error instanceof Error) {
             throw error;
         }
