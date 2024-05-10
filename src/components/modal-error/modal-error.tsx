@@ -52,9 +52,9 @@ export const ModalError = ({ message, onClose }: ModalErrorProps) => {
   };
 
   return (
-      <dialog className={styles.modal__error} ref={dialogRef} onClick={handleBackDropClose}>
-         <p>{message}</p>
-         <Button style={styles.modal__error__btn} title='Close' type='button' onClick={handleClose} />
-      </dialog>
+    <dialog className={styles.modal__error} ref={dialogRef} onClick={handleBackDropClose}>
+      <p>{message}</p>
+      <Button style={styles.modal__error__btn} title="Close" type="button" onClick={handleClose} />
+    </dialog>
   );
 };

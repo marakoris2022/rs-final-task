@@ -35,7 +35,10 @@ const FormField = <T extends FormValues>({
 }: FormFieldProps<T>) => {
   return (
     <div className={stylesField}>
-      <label className={styles.label} htmlFor={id}>{labelText}{isRequired ? <span>*</span> : ''}</label>
+      <label className={styles.label} htmlFor={id}>
+        {labelText}
+        {isRequired ? <span>*</span> : ''}
+      </label>
       <input
         className={stylesInput}
         style={

@@ -11,7 +11,12 @@ interface Button {
 export default function Button({ style, title, disabled, type, onClick }: Button) {
   return (
     <>
-      <button className={`default__btn ${style}`} type={type} disabled={disabled} onClick={onClick ? () => onClick() : () => {}}>
+      <button
+        className={`default__btn ${style}`}
+        type={type}
+        disabled={disabled}
+        onClick={onClick ? () => onClick() : () => {}}
+      >
         {title}
       </button>
     </>

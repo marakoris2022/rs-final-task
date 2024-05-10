@@ -64,7 +64,7 @@ export const LoginForm = () => {
         navigate('/');
         setIsLoggedUser(() => true);
       } catch (err: unknown) {
-         if (err instanceof Error) {
+        if (err instanceof Error) {
           const errMsg = err.message;
           setError(() => errMsg);
           formik.setFieldValue('password', '');
@@ -106,7 +106,12 @@ export const LoginForm = () => {
         </span>
       </FormField>
 
-      <Button style={styles.login__form__btn} title="Login" type="submit" disabled={!formik.isValid || formik.isSubmitting}></Button>
+      <Button
+        style={styles.login__form__btn}
+        title="Login"
+        type="submit"
+        disabled={!formik.isValid || formik.isSubmitting}
+      />
 
       {error && <ModalError message={error} onClose={() => setError(() => '')} />}
     </form>

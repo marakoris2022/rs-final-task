@@ -13,7 +13,8 @@ function App() {
   const [isLoggedUser, setIsLoggedUser] = useState(false);
 
   return (
-    <><isLoggedContext.Provider value={{ isLoggedUser, setIsLoggedUser }}>
+    <>
+      <isLoggedContext.Provider value={{ isLoggedUser, setIsLoggedUser }}>
         <Header />
         <Routes>
           <Route path="/" element={<Main />}></Route>

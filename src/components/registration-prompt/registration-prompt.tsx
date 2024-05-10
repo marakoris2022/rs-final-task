@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from 'react-router-dom';
 import styles from './registration-prompt.module.scss';
 
 export const RegistrationPrompt = () => {
@@ -9,5 +9,5 @@ export const RegistrationPrompt = () => {
       <span>Don't have an account yet?</span>
       <a onClick={() => navigate('/registration')}>Register</a>
     </div>
-  )
-}
+  );
+};
