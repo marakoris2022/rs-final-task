@@ -42,7 +42,7 @@ const validate = (values: FormValues) => {
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const { setIsLoggedUser } = useIsLoggedContext();
 
   const navigate = useNavigate();
@@ -63,10 +63,12 @@ export const LoginForm = () => {
         await login(email, password);
         navigate('/');
         setIsLoggedUser(() => true);
-      } catch (err: any) {
-        const errMsg = err.message;
-        setError(() => errMsg);
-        formik.setFieldValue('password', ''); // ЗАКОМЕНТИРУЙ ДЛЯ ОШИБКИ
+      } catch (err: unknown) {
+         if (err instanceof Error) {
+          const errMsg = err.message;
+          setError(() => errMsg);
+          formik.setFieldValue('password', '');
+        }
       }
     },
   });
@@ -77,6 +79,7 @@ export const LoginForm = () => {
         stylesField={styles.login__form__field}
         stylesError={styles.login__form__error}
         stylesInput={styles.login__form__input}
+        isRequired={true}
         formik={formik}
         labelText="Email"
         placeholder="example@gmail.com"
@@ -90,6 +93,7 @@ export const LoginForm = () => {
         stylesField={styles.login__form__field}
         stylesError={styles.login__form__error}
         stylesInput={styles.login__form__input}
+        isRequired={true}
         formik={formik}
         labelText="Password"
         id="password"
@@ -104,7 +108,7 @@ export const LoginForm = () => {
 
       <Button style={styles.login__form__btn} title="Login" type="submit" disabled={!formik.isValid || formik.isSubmitting}></Button>
 
-      {error && <ModalError message={error} onClose={() => setError(null)} />}
+      {error && <ModalError message={error} onClose={() => setError(() => '')} />}
     </form>
   );
 };

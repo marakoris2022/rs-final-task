@@ -11,6 +11,25 @@ export const ModalError = ({ message, onClose }: ModalErrorProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   let timerId: NodeJS.Timeout | null = null;
 
+  const handleBackDropClose = (event: React.MouseEvent<HTMLDialogElement, MouseEvent>) => {
+    if (!dialogRef.current) {
+      return;
+    }
+    const modalRect = dialogRef.current.getBoundingClientRect();
+
+    if (
+      event.clientX < modalRect.left ||
+      event.clientX > modalRect.right ||
+      event.clientY < modalRect.top ||
+      event.clientY > modalRect.bottom
+    ) {
+      dialogRef.current.close();
+      timerId = setTimeout(() => {
+        onClose();
+      }, 400);
+    }
+  };
+
   useEffect(() => {
     if (dialogRef.current) {
       dialogRef.current.showModal();
@@ -33,9 +52,9 @@ export const ModalError = ({ message, onClose }: ModalErrorProps) => {
   };
 
   return (
-      <dialog className={styles.modal__error} ref={dialogRef}>
+      <dialog className={styles.modal__error} ref={dialogRef} onClick={handleBackDropClose}>
          <p>{message}</p>
-         <Button style={styles.modal__error__btn} title='Close' onClick={handleClose} />
+         <Button style={styles.modal__error__btn} title='Close' type='button' onClick={handleClose} />
       </dialog>
   );
 };

@@ -1,11 +1,13 @@
 import { FormikProps } from 'formik';
 import { FormValues } from '../../interfaces/interfaces';
+import styles from './form-field.module.scss';
 
 interface FormFieldProps<T extends FormValues> {
   stylesField?: string;
   stylesError?: string;
   stylesInput?: string;
   showError?: boolean;
+  isRequired?: boolean;
   formik: FormikProps<T>;
   labelText: string;
   id: string;
@@ -21,6 +23,7 @@ const FormField = <T extends FormValues>({
   stylesError,
   stylesInput,
   showError = true,
+  isRequired = false,
   formik,
   labelText,
   placeholder,
@@ -32,7 +35,7 @@ const FormField = <T extends FormValues>({
 }: FormFieldProps<T>) => {
   return (
     <div className={stylesField}>
-      <label htmlFor={id}>{labelText}</label>
+      <label className={styles.label} htmlFor={id}>{labelText}{isRequired ? <span>*</span> : ''}</label>
       <input
         className={stylesInput}
         style={
