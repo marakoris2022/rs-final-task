@@ -42,14 +42,26 @@
   }
 
   .login__form__btn {
+    transition: 0.2s ease;
+
     background-color: #1d4ae9;
     color: #ffffff;
+
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: none;
+    line-height: 1em;
+    letter-spacing: 0.32px;
+
+    border-radius: 5px;
+    border: none;
 
     cursor: pointer;
   }
 
   .login__form__btn:disabled {
     cursor: default;
+    background-color: lightgray;
   }
 
   .login__form__input {
@@ -80,7 +92,7 @@
 
     .login__form__btn:hover:disabled {
       cursor: default;
-      background-color: #007bff;
+      background-color: lightgray;
     }
   }
 }

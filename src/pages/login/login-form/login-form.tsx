@@ -82,6 +82,7 @@ export const LoginForm = () => {
         stylesField={styles.login__form__field}
         stylesError={styles.login__form__error}
         stylesInput={styles.login__form__input}
+        stylesInputWrapper={styles.login__form__inputWrapper}
         isRequired={true}
         formik={formik}
         labelText="Email"
@@ -96,6 +97,7 @@ export const LoginForm = () => {
         stylesField={styles.login__form__field}
         stylesError={styles.login__form__error}
         stylesInput={styles.login__form__input}
+        stylesInputWrapper={styles.login__form__inputWrapper}
         isRequired={true}
         formik={formik}
         labelText="Password"

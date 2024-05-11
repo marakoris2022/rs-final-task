@@ -6,6 +6,7 @@ interface FormFieldProps<T extends FormValues> {
   stylesField?: string;
   stylesError?: string;
   stylesInput?: string;
+  stylesInputWrapper?: string;
   showError?: boolean;
   isRequired?: boolean;
   formik: FormikProps<T>;
@@ -25,6 +26,7 @@ const FormField = <T extends FormValues>({
   stylesField,
   stylesError,
   stylesInput,
+  stylesInputWrapper,
   showError = true,
   isRequired = false,
   formik,
@@ -40,37 +42,39 @@ const FormField = <T extends FormValues>({
 }: FormFieldProps<T>) => {
   return (
     <div className={stylesField}>
-      <label className={styles.label} htmlFor={id}>
-        {labelText}
-        {isRequired ? <span>*</span> : ''}
-      </label>
-      <div style={{ width: 'fit-content' }}>
-        <input
-          className={stylesInput}
-          style={
-            formik.touched[name] && formik.errors[name]
-              ? { borderColor: 'red', outlineColor: 'red' }
-              : formik.values[name]
-                ? { borderColor: 'green', outlineColor: 'green' }
-                : { outlineColor: 'blue' }
-          }
-          min={min}
-          max={max}
-          id={id}
-          name={name as string}
-          placeholder={placeholder}
-          type={type}
-          autoComplete={autoComplete}
-          onChange={(e) => {
-            formik.handleChange(e);
-            formik.setFieldTouched(name as string, true, false);
-          }}
-          onBlur={() => {
-            formik.handleBlur(name);
-          }}
-          value={formik.values[name]}
-        />
-        {children}
+      <div className={stylesInputWrapper ? stylesInputWrapper : ''}>
+        <label className={styles.label} htmlFor={id}>
+          {labelText}
+          {isRequired ? <span>*</span> : ''}
+        </label>
+        <div>
+          <input
+            className={stylesInput}
+            style={
+              formik.touched[name] && formik.errors[name]
+                ? { borderColor: 'red', outlineColor: 'red' }
+                : formik.values[name]
+                  ? { borderColor: 'green', outlineColor: 'green' }
+                  : { outlineColor: 'blue' }
+            }
+            min={min}
+            max={max}
+            id={id}
+            name={name as string}
+            placeholder={placeholder}
+            type={type}
+            autoComplete={autoComplete}
+            onChange={(e) => {
+              formik.handleChange(e);
+              formik.setFieldTouched(name as string, true, false);
+            }}
+            onBlur={() => {
+              formik.handleBlur(name);
+            }}
+            value={formik.values[name]}
+          />
+          {children}
+        </div>
       </div>
       {showError && formik.touched[name] && formik.errors[name] ? (
         <div className={stylesError}>{formik.errors[name] as string}</div>
