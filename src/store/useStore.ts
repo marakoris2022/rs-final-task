@@ -7,7 +7,7 @@ type Store = {
 
 const useStore = create<Store>()((set) => ({
   isLogged: false,
-  setLogged: (flag) => set(() => ({ isLogged: flag })),
+  setLogged: (flag) => set({ isLogged: flag }),
 }));
 
 export { useStore };
