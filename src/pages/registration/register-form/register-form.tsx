@@ -3,12 +3,11 @@ import { useFormik } from 'formik';
 import FormField from '../../../components/form-field/form-field.tsx';
 import Button from '../../../components/button/Button.tsx';
 import { FormValues } from '../../../interfaces/interfaces.ts';
-import { ModalError } from '../../../components/modal-error/modal-error.tsx';
+import { ModalWindow } from '../../../components/modal/modal-window.tsx';
 import { useState } from 'react';
 import { useStore } from '../../../store/useStore.ts';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { signUp } from '../../../api/commers-tools-api.ts';
-import { useNavigate } from 'react-router-dom';
 
 const predefinedCountries = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
 
@@ -67,8 +66,6 @@ const validate = (values: FormValues) => {
     errors.lastName = 'Last must be at least 1 character';
   }
 
-  // date will not validate by formik
-
   if (!values.street) {
     errors.street = 'Required';
   } else if (!/(?=.*[A-Z])/.test(values.street)) {
@@ -107,8 +104,8 @@ const validate = (values: FormValues) => {
 export default function RegistrationForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [registrationMessage, setRegistrationMessage] = useState('');
   const { setLogged } = useStore();
-  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -128,7 +125,7 @@ export default function RegistrationForm() {
       country: predefinedCountries[0],
     },
     validate,
-    onSubmit: async (values) => {
+    onSubmit: async function (values) {
       try {
         await signUp({
           email: values.email,
@@ -149,15 +146,14 @@ export default function RegistrationForm() {
             },
           ],
         });
-        setLogged(true);
-        navigate('/');
+        setRegistrationMessage('Registration Successful!');
       } catch (err: unknown) {
         if (err instanceof Error) {
           const errMsg = err.message;
           console.log('errMsg', errMsg);
 
           setError(() => errMsg);
-          // formik.setFieldValue('password', '');
+          formik.setFieldValue('password', '');
         }
       }
     },
@@ -208,7 +204,6 @@ export default function RegistrationForm() {
           id="firstName"
           name="firstName"
           type="text"
-          // autoComplete="email"
         ></FormField>
 
         <FormField
@@ -222,7 +217,6 @@ export default function RegistrationForm() {
           id="lastName"
           name="lastName"
           type="text"
-          // autoComplete="email"
         ></FormField>
 
         <FormField
@@ -237,7 +231,6 @@ export default function RegistrationForm() {
           name="dateOfBirth"
           type="date"
           max="2010-01-01"
-          // autoComplete="email"
         ></FormField>
 
         <FormField
@@ -251,7 +244,6 @@ export default function RegistrationForm() {
           id="street"
           name="street"
           type="text"
-          // autoComplete="email"
         ></FormField>
 
         <FormField
@@ -265,7 +257,6 @@ export default function RegistrationForm() {
           id="city"
           name="city"
           type="text"
-          // autoComplete="email"
         ></FormField>
 
         <FormField
@@ -279,7 +270,6 @@ export default function RegistrationForm() {
           id="postal"
           name="postal"
           type="text"
-          // autoComplete="email"
         ></FormField>
 
         <div className={styles.login__form__field}>
@@ -304,7 +294,16 @@ export default function RegistrationForm() {
           disabled={!formik.isValid || formik.isSubmitting}
         />
 
-        {error && <ModalError message={error} onClose={() => setError(() => '')} />}
+        {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
+        {registrationMessage && (
+          <ModalWindow
+            message={registrationMessage}
+            onClose={() => {
+              setRegistrationMessage(() => '');
+              setLogged(true);
+            }}
+          />
+        )}
       </form>
     </>
   );

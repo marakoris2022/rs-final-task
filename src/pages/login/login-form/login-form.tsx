@@ -7,7 +7,7 @@ import Button from '../../../components/button/Button.tsx';
 import { FormValues } from '../../../interfaces/interfaces.ts';
 import FormField from '../../../components/form-field/form-field.tsx';
 import { login } from '../../../api/commers-tools-api.ts';
-import { ModalError } from '../../../components/modal-error/modal-error.tsx';
+import { ModalWindow } from '../../../components/modal/modal-window.tsx';
 // import { useIsLoggedContext } from '../../../utils/islogged-context.tsx';
 import { useStore } from '../../../store/useStore.ts';
 
@@ -118,7 +118,7 @@ export const LoginForm = () => {
         disabled={!formik.isValid || formik.isSubmitting}
       />
 
-      {error && <ModalError message={error} onClose={() => setError(() => '')} />}
+      {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
     </form>
   );
 };
