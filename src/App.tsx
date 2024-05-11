@@ -9,7 +9,7 @@ import Footer from './components/footer/Footer';
 import { useStore } from './store/useStore';
 
 function App() {
-  const { isLogged } = useStore();
+  const isLogged = useStore((state) => state.isLogged);
 
   return (
     <>

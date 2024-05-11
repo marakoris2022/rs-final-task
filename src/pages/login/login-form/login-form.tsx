@@ -43,7 +43,7 @@ const validate = (values: FormValues) => {
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const { setLogged } = useStore();
+  const setLogged = useStore((state) => state.setLogged);
 
   const navigate = useNavigate();
 

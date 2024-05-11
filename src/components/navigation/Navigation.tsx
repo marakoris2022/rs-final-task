@@ -5,7 +5,10 @@ import { useStore } from '../../store/useStore';
 
 export default function Navigation() {
   const navigate = useNavigate();
-  const { isLogged, setLogged } = useStore();
+  const { isLogged, setLogged } = useStore((state) => ({
+    isLogged: state.isLogged,
+    setLogged: state.setLogged,
+  }));
 
   return (
     <nav>
