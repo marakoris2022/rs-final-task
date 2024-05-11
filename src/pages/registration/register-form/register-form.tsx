@@ -282,9 +282,11 @@ export default function RegistrationForm() {
           // autoComplete="email"
         ></FormField>
 
-        <div>
-          <label htmlFor="country">Select a country</label>
-          <select name="country" id="country">
+        <div className={styles.login__form__field}>
+          <label className={styles.label} htmlFor="country">
+            Select a country
+          </label>
+          <select className={styles.login__form__input} style={{ padding: '0 10px' }} name="country" id="country">
             {predefinedCountries.map((country, index) => {
               return (
                 <option key={index} value={country} label={country}>
