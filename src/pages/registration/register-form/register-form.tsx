@@ -2,6 +2,7 @@ import styles from './register-form.module.scss';
 import { useFormik } from 'formik';
 import FormField from '../../../components/form-field/form-field.tsx';
 import Button from '../../../components/button/Button.tsx';
+import SelectField from '../../../components/select-field/Selectfield.tsx';
 import { FormValues } from '../../../interfaces/interfaces.ts';
 import { ModalWindow } from '../../../components/modal/modal-window.tsx';
 import { useState } from 'react';
@@ -9,7 +10,7 @@ import { useStore } from '../../../store/useStore.ts';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { login, signUp } from '../../../api/commers-tools-api.ts';
 
-const predefinedCountries = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
+const selectList = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
 
 const countryCodes: { [key: string]: string } = {
   USA: 'US',
@@ -94,7 +95,7 @@ const validate = (values: FormValues) => {
 
   if (!values.country) {
     errors.country = 'Required';
-  } else if (!predefinedCountries.includes(values.country)) {
+  } else if (!selectList.includes(values.country)) {
     errors.country = 'Invalid country';
   }
 
@@ -122,23 +123,21 @@ export default function RegistrationForm() {
       city: '',
       postal: '',
       title: '',
-      country: predefinedCountries[0],
+      country: selectList[0],
       defaultShippingAddress: '',
+      defaultBillingAddress: '',
     },
     validate,
     onSubmit: async function (values) {
       try {
-        const response = await signUp({
+        const requestBody = {
           email: values.email,
           password: values.password,
           firstName: values.firstName,
           lastName: values.lastName,
           dateOfBirth: values.dateOfBirth,
           title: 'Dear',
-          defaultShippingAddress: 0,
-          defaultBillingAddress: 0,
           isEmailVerified: true,
-          // shippingAddresses: 0,
           addresses: [
             {
               title: 'Dear',
@@ -150,9 +149,20 @@ export default function RegistrationForm() {
               country: countryCodes[values.country],
             },
           ],
-        });
-        const loginResponse = await login(values.email, values.password);
-        console.log('loginResponse', loginResponse);
+        };
+        if (values.defaultShippingAddress) {
+          Object.assign(requestBody, { defaultShippingAddress: 0 });
+        }
+        if (values.defaultBillingAddress) {
+          Object.assign(requestBody, { defaultBillingAddress: 0 });
+        }
+
+        console.table(requestBody);
+        console.log('***');
+        console.table(values);
+
+        await signUp(requestBody);
+        await login(values.email, values.password);
 
         setRegistrationMessage('Registration Successful!');
       } catch (err: unknown) {
@@ -161,7 +171,7 @@ export default function RegistrationForm() {
           console.log('errMsg', errMsg);
 
           setError(() => errMsg);
-          formik.setFieldValue('password', '');
+          // formik.setFieldValue('password', '');
         }
       }
     },
@@ -280,11 +290,28 @@ export default function RegistrationForm() {
           type="text"
         ></FormField>
 
-        <div className={styles.login__form__field}>
+        <SelectField
+          login__form__field={styles.login__form__field}
+          style__label={styles.label}
+          login__form__input={styles.login__form__input}
+          name={'country'}
+          label__text={'Select a country: '}
+          formik={formik}
+          selectList={selectList}
+        />
+
+        {/* <div className={styles.login__form__field}>
           <label className={styles.label} htmlFor="country">
             Select a country
           </label>
-          <select className={styles.login__form__input} style={{ padding: '0 10px' }} name="country" id="country">
+          <select
+            className={styles.login__form__input}
+            style={{ padding: '0 10px' }}
+            name="country"
+            id="country"
+            onChange={formik.handleChange}
+            value={formik.values.country}
+          >
             {predefinedCountries.map((country, index) => {
               return (
                 <option key={index} value={country} label={country}>
@@ -293,7 +320,33 @@ export default function RegistrationForm() {
               );
             })}
           </select>
-        </div>
+        </div> */}
+
+        <FormField
+          stylesField={styles.login__form__field}
+          stylesError={styles.login__form__error}
+          stylesInput={styles.login__form__input__checkbox}
+          isRequired={true}
+          formik={formik}
+          labelText="Use this as the default delivery address?"
+          placeholder=""
+          id="defaultShippingAddress"
+          name="defaultShippingAddress"
+          type="checkbox"
+        ></FormField>
+
+        <FormField
+          stylesField={styles.login__form__field}
+          stylesError={styles.login__form__error}
+          stylesInput={styles.login__form__input__checkbox}
+          isRequired={true}
+          formik={formik}
+          labelText="Use this as the default billing address?"
+          placeholder=""
+          id="defaultBillingAddress"
+          name="defaultBillingAddress"
+          type="checkbox"
+        ></FormField>
 
         <Button
           style={styles.login__form__btn}

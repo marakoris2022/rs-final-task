@@ -29,6 +29,7 @@ export default function Navigation() {
           <Button
             style={'nav__btn'}
             onClick={() => {
+              localStorage.clear();
               isLogged ? setLogged(false) : navigate('/registration');
             }}
             title={isLogged ? 'Logout' : 'Registration'}
