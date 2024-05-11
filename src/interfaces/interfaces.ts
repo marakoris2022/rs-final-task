@@ -6,6 +6,10 @@ export interface UserProps {
   key?: string;
   dateOfBirth?: string;
   title?: string;
+  defaultShippingAddress?: number;
+  defaultBillingAddress?: number;
+  shippingAddresses?: number;
+  isEmailVerified?: boolean;
   addresses?: Array<{
     id?: string;
     title: string;

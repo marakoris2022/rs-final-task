@@ -7,7 +7,7 @@ import { ModalWindow } from '../../../components/modal/modal-window.tsx';
 import { useState } from 'react';
 import { useStore } from '../../../store/useStore.ts';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { signUp } from '../../../api/commers-tools-api.ts';
+import { login, signUp } from '../../../api/commers-tools-api.ts';
 
 const predefinedCountries = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
 
@@ -123,17 +123,22 @@ export default function RegistrationForm() {
       postal: '',
       title: '',
       country: predefinedCountries[0],
+      defaultShippingAddress: '',
     },
     validate,
     onSubmit: async function (values) {
       try {
-        await signUp({
+        const response = await signUp({
           email: values.email,
           password: values.password,
           firstName: values.firstName,
           lastName: values.lastName,
           dateOfBirth: values.dateOfBirth,
           title: 'Dear',
+          defaultShippingAddress: 0,
+          defaultBillingAddress: 0,
+          isEmailVerified: true,
+          // shippingAddresses: 0,
           addresses: [
             {
               title: 'Dear',
@@ -146,6 +151,9 @@ export default function RegistrationForm() {
             },
           ],
         });
+        const loginResponse = await login(values.email, values.password);
+        console.log('loginResponse', loginResponse);
+
         setRegistrationMessage('Registration Successful!');
       } catch (err: unknown) {
         if (err instanceof Error) {

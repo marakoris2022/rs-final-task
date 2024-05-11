@@ -99,8 +99,9 @@ export async function signUp(user: UserProps): Promise<void> {
       dateOfBirth: user.dateOfBirth,
       title: user.title,
       addresses: user.addresses,
-      defaultShippingAddressId: user.defaultShippingAddressId,
-      defaultBillingAddressId: user.defaultBillingAddressId,
+      isEmailVerified: user.isEmailVerified,
+      defaultShippingAddress: user.defaultShippingAddress,
+      defaultBillingAddress: user.defaultBillingAddress,
     };
 
     const response = await api_client.post(`/${projectKey}/customers`, bodyRaw);

@@ -6,7 +6,6 @@ export default function Registration() {
     <main>
       <section>
         <h2 style={{ textAlign: 'center', marginBottom: '50px' }}>Registration Page</h2>
-
         <RegistrationForm />
       </section>
     </main>

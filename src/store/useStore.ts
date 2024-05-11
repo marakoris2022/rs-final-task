@@ -6,7 +6,7 @@ type Store = {
 };
 
 const useStore = create<Store>()((set) => ({
-  isLogged: false,
+  isLogged: localStorage.getItem('commerce-tools-rsteam-games-store') ? true : false,
   setLogged: (flag) => set({ isLogged: flag }),
 }));
 
