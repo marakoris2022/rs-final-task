@@ -5,9 +5,20 @@ import Button from '../../../components/button/Button.tsx';
 import { FormValues } from '../../../interfaces/interfaces.ts';
 import { ModalError } from '../../../components/modal-error/modal-error.tsx';
 import { useState } from 'react';
+import { useStore } from '../../../store/useStore.ts';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { signUp } from '../../../api/commers-tools-api.ts';
+import { useNavigate } from 'react-router-dom';
 
 const predefinedCountries = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
+
+const countryCodes: { [key: string]: string } = {
+  USA: 'US',
+  Canada: 'CA',
+  UK: 'GB',
+  Australia: 'HM',
+  Germany: 'DD',
+};
 
 const validate = (values: FormValues) => {
   const errors: FormValues = {};
@@ -96,6 +107,8 @@ const validate = (values: FormValues) => {
 export default function RegistrationForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const { setLogged } = useStore();
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -111,18 +124,40 @@ export default function RegistrationForm() {
       street: '',
       city: '',
       postal: '',
-      country: String(predefinedCountries[0]),
+      title: '',
+      country: predefinedCountries[0],
     },
     validate,
     onSubmit: async (values) => {
       try {
-        console.log('Submit', values);
+        await signUp({
+          email: values.email,
+          password: values.password,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          dateOfBirth: values.dateOfBirth,
+          title: 'Dear',
+          addresses: [
+            {
+              title: 'Dear',
+              firstName: values.firstName,
+              lastName: values.lastName,
+              streetName: values.street,
+              postalCode: values.postal,
+              city: values.city,
+              country: countryCodes[values.country],
+            },
+          ],
+        });
+        setLogged(true);
+        navigate('/');
       } catch (err: unknown) {
         if (err instanceof Error) {
           const errMsg = err.message;
-          console.log(errMsg);
+          console.log('errMsg', errMsg);
 
-          formik.setFieldValue('password', '');
+          setError(() => errMsg);
+          // formik.setFieldValue('password', '');
         }
       }
     },
@@ -250,9 +285,9 @@ export default function RegistrationForm() {
         <div>
           <label htmlFor="country">Select a country</label>
           <select name="country" id="country">
-            {predefinedCountries.map((country) => {
+            {predefinedCountries.map((country, index) => {
               return (
-                <option value={country} label={country}>
+                <option key={index} value={country} label={country}>
                   {country}
                 </option>
               );
@@ -262,7 +297,7 @@ export default function RegistrationForm() {
 
         <Button
           style={styles.login__form__btn}
-          title="Login"
+          title="Sign up"
           type="submit"
           disabled={!formik.isValid || formik.isSubmitting}
         />

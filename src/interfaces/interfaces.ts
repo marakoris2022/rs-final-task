@@ -3,13 +3,16 @@ export interface UserProps {
   password: string;
   firstName: string;
   lastName: string;
+  key?: string;
+  dateOfBirth?: string;
+  title?: string;
   addresses?: Array<{
-    id: string;
-    title?: string;
-    firstName?: string;
-    lastName?: string;
+    id?: string;
+    title: string;
+    firstName: string;
+    lastName: string;
     streetName: string;
-    streetNumber: string;
+    streetNumber?: string;
     additionalStreetInfo?: string;
     postalCode: string;
     city: string;
