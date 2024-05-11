@@ -44,8 +44,7 @@ const validate = (values: FormValues) => {
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  // const { setIsLoggedUser } = useIsLoggedContext();
-  const { setLogged } = useStore();
+  const setLogged = useStore((state) => state.setLogged);
 
   const navigate = useNavigate();
 
@@ -64,7 +63,6 @@ export const LoginForm = () => {
         const { email, password } = values;
         await login(email, password);
         navigate('/');
-        // setIsLoggedUser(() => true);
         setLogged(true);
       } catch (err: unknown) {
         if (err instanceof Error) {
