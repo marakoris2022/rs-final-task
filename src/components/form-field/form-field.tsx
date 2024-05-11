@@ -52,10 +52,10 @@ const FormField = <T extends FormValues>({
             className={stylesInput}
             style={
               formik.touched[name] && formik.errors[name]
-                ? { borderColor: 'red', outlineColor: 'red' }
+                ? { borderColor: '#D20062', outlineColor: '#D20062' }
                 : formik.values[name]
-                  ? { borderColor: 'green', outlineColor: 'green' }
-                  : { outlineColor: 'blue' }
+                  ? { borderColor: '#AFD198', outlineColor: '#AFD198' }
+                  : { outlineColor: '#8B93FF' }
             }
             min={min}
             max={max}
