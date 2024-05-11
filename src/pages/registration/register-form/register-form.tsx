@@ -16,8 +16,8 @@ const countryCodes: { [key: string]: string } = {
   USA: 'US',
   Canada: 'CA',
   UK: 'GB',
-  Australia: 'HM',
-  Germany: 'DD',
+  Australia: 'AU',
+  Germany: 'DE',
 };
 
 const validate = (values: FormValues) => {
@@ -156,10 +156,6 @@ export default function RegistrationForm() {
         if (values.defaultBillingAddress) {
           Object.assign(requestBody, { defaultBillingAddress: 0 });
         }
-
-        console.table(requestBody);
-        console.log('***');
-        console.table(values);
 
         await signUp(requestBody);
         await login(values.email, values.password);
