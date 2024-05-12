@@ -1,5 +1,7 @@
 import { FormikProps } from 'formik';
 import { FormValues } from '../../interfaces/interfaces';
+import { useEffect } from 'react';
+
 import styles from './form-field.module.scss';
 
 interface FormFieldProps<T extends FormValues> {
@@ -39,7 +41,15 @@ const FormField = <T extends FormValues>({
   children,
   min,
   max,
+  value,
 }: FormFieldProps<T>) => {
+  useEffect(() => {
+    if (value !== undefined) {
+      formik.setFieldValue(name as string, value);
+      formik.validateForm();
+    }
+  }, [value]);
+
   return (
     <div className={stylesField}>
       <div className={stylesInputWrapper ? stylesInputWrapper : ''}>
@@ -71,7 +81,7 @@ const FormField = <T extends FormValues>({
             onBlur={() => {
               formik.handleBlur(name);
             }}
-            value={formik.values[name]}
+            value={formik.values[name] ? formik.values[name] : value}
           />
           {children}
         </div>

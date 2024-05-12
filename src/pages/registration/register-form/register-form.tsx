@@ -70,7 +70,7 @@ const validate = (values: FormValues) => {
   if (!values.street) {
     errors.street = 'Required';
   } else if (!/(?=.*[A-Z])/.test(values.street)) {
-    errors.city = 'Street must contain at least one uppercase letter (A-Z)';
+    errors.street = 'Street must contain at least one uppercase letter (A-Z)';
   } else if (values.street.length < 4) {
     errors.street = 'Street must be at least 4 character';
   }
@@ -99,18 +99,74 @@ const validate = (values: FormValues) => {
     errors.country = 'Invalid country';
   }
 
+  if (!values.street2) {
+    errors.street2 = 'Required';
+  } else if (!/(?=.*[A-Z])/.test(values.street2)) {
+    errors.street2 = 'Street must contain at least one uppercase letter (A-Z)';
+  } else if (values.street2.length < 4) {
+    errors.street2 = 'Street must be at least 4 character';
+  }
+
+  if (!values.city2) {
+    errors.city2 = 'Required';
+  } else if (!/(?=.*[A-Z])/.test(values.city2)) {
+    errors.city2 = 'City must contain at least one uppercase letter (A-Z)';
+  } else if (!/^[a-zA-Z]+$/.test(values.city2)) {
+    errors.city2 = 'City must contain only letters';
+  } else if (values.city2.length < 4) {
+    errors.city2 = 'City must be at least 4 character';
+  }
+
+  if (!values.postal2) {
+    errors.postal2 = 'Required';
+  } else if (!/^[A-Z0-9]+$/.test(values.postal2)) {
+    errors.postal2 = 'Postal Code must contain only uppercase letters and numbers';
+  } else if (values.postal2.length < 4) {
+    errors.postal2 = 'Postal Code must be at least 4 character';
+  }
+
+  if (!values.country2) {
+    errors.country2 = 'Required';
+  } else if (!selectList.includes(values.country2)) {
+    errors.country2 = 'Invalid country';
+  }
+
   return errors;
 };
 
 export default function RegistrationForm() {
+  const { setLogged } = useStore();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [registrationMessage, setRegistrationMessage] = useState('');
-  const { setLogged } = useStore();
+  const [billingData, setBillingData] = useState({
+    city: '',
+    street: '',
+    postal: '',
+    title: '',
+    country: 'USA',
+  });
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  function fillBillingAddress() {
+    const streetEl = document.getElementById('street')! as HTMLInputElement;
+    const cityEl = document.getElementById('city')! as HTMLInputElement;
+    const postalEl = document.getElementById('postal')! as HTMLInputElement;
+    const countryEl = document.getElementById('country')! as HTMLSelectElement;
+
+    setBillingData({
+      city: cityEl.value,
+      street: streetEl.value,
+      postal: postalEl.value,
+      title: 'Dear',
+      country: countryEl.value,
+    });
+
+    console.log(billingData);
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -123,7 +179,12 @@ export default function RegistrationForm() {
       city: '',
       postal: '',
       title: '',
+      street2: billingData.street,
+      city2: billingData.city,
+      postal2: billingData.postal,
+      title2: billingData.title,
       country: selectList[0],
+      country2: selectList[0],
       defaultShippingAddress: '',
       defaultBillingAddress: '',
     },
@@ -148,14 +209,25 @@ export default function RegistrationForm() {
               city: values.city,
               country: countryCodes[values.country],
             },
+            {
+              title: 'Dear',
+              firstName: values.firstName,
+              lastName: values.lastName,
+              streetName: values.street2,
+              postalCode: values.postal2,
+              city: values.city2,
+              country: countryCodes[values.country2],
+            },
           ],
         };
         if (values.defaultShippingAddress) {
           Object.assign(requestBody, { defaultShippingAddress: 0 });
         }
         if (values.defaultBillingAddress) {
-          Object.assign(requestBody, { defaultBillingAddress: 0 });
+          Object.assign(requestBody, { defaultBillingAddress: 1 });
         }
+
+        console.table(requestBody);
 
         await signUp(requestBody);
         await login(values.email, values.password);
@@ -247,102 +319,183 @@ export default function RegistrationForm() {
           max="2010-01-01"
         ></FormField>
 
-        <FormField
-          stylesField={styles.login__form__field}
-          stylesError={styles.login__form__error}
-          stylesInput={styles.login__form__input}
-          isRequired={true}
-          formik={formik}
-          labelText="Street"
-          placeholder="Street"
-          id="street"
-          name="street"
-          type="text"
-        ></FormField>
-
-        <FormField
-          stylesField={styles.login__form__field}
-          stylesError={styles.login__form__error}
-          stylesInput={styles.login__form__input}
-          isRequired={true}
-          formik={formik}
-          labelText="City"
-          placeholder="City"
-          id="city"
-          name="city"
-          type="text"
-        ></FormField>
-
-        <FormField
-          stylesField={styles.login__form__field}
-          stylesError={styles.login__form__error}
-          stylesInput={styles.login__form__input}
-          isRequired={true}
-          formik={formik}
-          labelText="Postal Code"
-          placeholder="Postal Code"
-          id="postal"
-          name="postal"
-          type="text"
-        ></FormField>
-
-        <SelectField
-          login__form__field={styles.login__form__field}
-          style__label={styles.label}
-          login__form__input={styles.login__form__input}
-          name={'country'}
-          label__text={'Select a country: '}
-          formik={formik}
-          selectList={selectList}
-        />
-
-        {/* <div className={styles.login__form__field}>
-          <label className={styles.label} htmlFor="country">
-            Select a country
-          </label>
-          <select
-            className={styles.login__form__input}
-            style={{ padding: '0 10px' }}
-            name="country"
-            id="country"
-            onChange={formik.handleChange}
-            value={formik.values.country}
+        <div
+          style={{
+            padding: '10px',
+            border: '1px solid lightgray',
+            marginBottom: '15px',
+            borderRadius: '10px',
+            position: 'relative',
+          }}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              left: '70px',
+              top: '-9px',
+              backgroundColor: 'white',
+              padding: '3px 5px',
+              fontSize: '14px',
+              color: '#C7B7A3',
+            }}
           >
-            {predefinedCountries.map((country, index) => {
-              return (
-                <option key={index} value={country} label={country}>
-                  {country}
-                </option>
-              );
-            })}
-          </select>
-        </div> */}
+            <span>Shipping Address</span>
+          </div>
 
-        <FormField
-          stylesField={styles.login__form__field}
-          stylesError={styles.login__form__error}
-          stylesInput={styles.login__form__input__checkbox}
-          isRequired={true}
-          formik={formik}
-          labelText="Use this as the default delivery address?"
-          placeholder=""
-          id="defaultShippingAddress"
-          name="defaultShippingAddress"
-          type="checkbox"
-        ></FormField>
+          <FormField
+            stylesField={styles.login__form__field}
+            stylesError={styles.login__form__error}
+            stylesInput={styles.login__form__input}
+            isRequired={true}
+            formik={formik}
+            labelText="Street"
+            placeholder="Street"
+            id="street"
+            name="street"
+            type="text"
+          ></FormField>
 
-        <FormField
-          stylesField={styles.login__form__field}
-          stylesError={styles.login__form__error}
-          stylesInput={styles.login__form__input__checkbox}
-          isRequired={true}
-          formik={formik}
-          labelText="Use this as the default billing address?"
-          placeholder=""
-          id="defaultBillingAddress"
-          name="defaultBillingAddress"
-          type="checkbox"
-        ></FormField>
+          <FormField
+            stylesField={styles.login__form__field}
+            stylesError={styles.login__form__error}
+            stylesInput={styles.login__form__input}
+            isRequired={true}
+            formik={formik}
+            labelText="City"
+            placeholder="City"
+            id="city"
+            name="city"
+            type="text"
+          ></FormField>
+
+          <FormField
+            stylesField={styles.login__form__field}
+            stylesError={styles.login__form__error}
+            stylesInput={styles.login__form__input}
+            isRequired={true}
+            formik={formik}
+            labelText="Postal Code"
+            placeholder="Postal Code"
+            id="postal"
+            name="postal"
+            type="text"
+          ></FormField>
+
+          <SelectField
+            login__form__field={styles.login__form__field}
+            style__label={styles.label}
+            login__form__input={styles.login__form__input}
+            name={'country'}
+            label__text={'Select a country: '}
+            formik={formik}
+            selectList={selectList}
+          />
+
+          <FormField
+            stylesField={styles.login__form__field__checkbox}
+            stylesError={styles.login__form__error}
+            stylesInput={styles.login__form__input__checkbox}
+            isRequired={true}
+            formik={formik}
+            labelText="Use this as the default delivery address?"
+            placeholder=""
+            id="defaultShippingAddress"
+            name="defaultShippingAddress"
+            type="checkbox"
+          ></FormField>
+        </div>
+
+        <div
+          style={{
+            padding: '10px',
+            border: '1px solid lightgray',
+            marginBottom: '15px',
+            borderRadius: '10px',
+            position: 'relative',
+          }}
+        >
+          <div
+            style={{
+              position: 'absolute',
+              left: '70px',
+              top: '-9px',
+              backgroundColor: 'white',
+              padding: '3px 5px',
+              fontSize: '14px',
+              color: '#C7B7A3',
+            }}
+          >
+            <span>Billing Address</span>
+          </div>
+
+          <Button onClick={fillBillingAddress} style={styles.small__btn} type="button" title="Copy shipping address" />
+
+          <FormField
+            stylesField={styles.login__form__field}
+            stylesError={styles.login__form__error}
+            stylesInput={styles.login__form__input}
+            isRequired={true}
+            formik={formik}
+            labelText="Street"
+            placeholder="Street"
+            value={billingData.street}
+            id="street2"
+            name="street2"
+            type="text"
+          ></FormField>
+
+          <FormField
+            stylesField={styles.login__form__field}
+            stylesError={styles.login__form__error}
+            stylesInput={styles.login__form__input}
+            isRequired={true}
+            formik={formik}
+            labelText="City"
+            placeholder="City"
+            value={billingData.city}
+            id="city2"
+            name="city2"
+            type="text"
+          ></FormField>
+
+          <FormField
+            stylesField={styles.login__form__field}
+            stylesError={styles.login__form__error}
+            stylesInput={styles.login__form__input}
+            isRequired={true}
+            formik={formik}
+            labelText="Postal Code"
+            placeholder="Postal Code"
+            value={billingData.postal}
+            id="postal2"
+            name="postal2"
+            type="text"
+          ></FormField>
+
+          <SelectField
+            login__form__field={styles.login__form__field}
+            style__label={styles.label}
+            login__form__input={styles.login__form__input}
+            name={'country2'}
+            label__text={'Select a country: '}
+            formik={formik}
+            selectList={selectList}
+            value={billingData.country}
+          />
+
+          <FormField
+            stylesField={styles.login__form__field__checkbox}
+            stylesError={styles.login__form__error}
+            stylesInput={styles.login__form__input__checkbox}
+            isRequired={true}
+            formik={formik}
+            labelText="Use this as the default billing address?"
+            placeholder=""
+            id="defaultBillingAddress"
+            name="defaultBillingAddress"
+            type="checkbox"
+          ></FormField>
+        </div>
 
         <Button
           style={styles.login__form__btn}

@@ -12,6 +12,7 @@ interface SelectFieldProps<T extends FormValues> {
   name: keyof T;
   formik: FormikProps<T>;
   selectList: string[];
+  value?: string;
 }
 
 export default function SelectField<T extends FormValues>({
@@ -22,6 +23,7 @@ export default function SelectField<T extends FormValues>({
   name,
   formik,
   selectList,
+  value,
 }: SelectFieldProps<T>) {
   return (
     <div className={login__form__field}>
@@ -34,7 +36,7 @@ export default function SelectField<T extends FormValues>({
         name={name as string}
         id={name as string}
         onChange={formik.handleChange}
-        value={formik.values[name]}
+        value={value}
       >
         {selectList.map((item, index) => (
           <option key={index} value={item} label={item}>

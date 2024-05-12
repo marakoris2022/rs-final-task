@@ -6,6 +6,26 @@
   align-items: center;
   margin-bottom: 40px;
 
+  .login__form__field__checkbox {
+    width: 100%;
+
+    label {
+      display: block;
+      width: 100%;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+  }
+
+  .small__btn {
+    font-size: 14px;
+    padding: 2px 3px;
+    margin: 15px 0;
+
+    border: 1px inset rgba(0, 0, 139, 0.5);
+    border-radius: 12px;
+  }
+
   .login__form__field {
     margin-bottom: 10px;
     text-align: start;
@@ -103,6 +123,10 @@
     .login__form__btn:hover:disabled {
       cursor: default;
       background-color: lightgray;
+    }
+
+    .small__btn:hover {
+      background-color: white;
     }
   }
 }
