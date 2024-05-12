@@ -1,12 +1,13 @@
 import styles from './register-form.module.scss';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useStore } from '../../../store/useStore.ts';
 import FormField from '../../../components/form-field/form-field.tsx';
 import Button from '../../../components/button/Button.tsx';
 import SelectField from '../../../components/select-field/Selectfield.tsx';
 import { FormValues } from '../../../interfaces/interfaces.ts';
 import { ModalWindow } from '../../../components/modal/modal-window.tsx';
-import { useState } from 'react';
-import { useStore } from '../../../store/useStore.ts';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { login, signUp } from '../../../api/commers-tools-api.ts';
 
@@ -136,6 +137,7 @@ const validate = (values: FormValues) => {
 
 export default function RegistrationForm() {
   const { setLogged } = useStore();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [registrationMessage, setRegistrationMessage] = useState('');
@@ -144,7 +146,7 @@ export default function RegistrationForm() {
     street: '',
     postal: '',
     title: '',
-    country: 'USA',
+    country: selectList[0],
   });
 
   const togglePasswordVisibility = () => {
@@ -152,10 +154,10 @@ export default function RegistrationForm() {
   };
 
   function fillBillingAddress() {
-    const streetEl = document.getElementById('street')! as HTMLInputElement;
-    const cityEl = document.getElementById('city')! as HTMLInputElement;
-    const postalEl = document.getElementById('postal')! as HTMLInputElement;
-    const countryEl = document.getElementById('country')! as HTMLSelectElement;
+    const streetEl = document.getElementById('street') as HTMLInputElement;
+    const cityEl = document.getElementById('city') as HTMLInputElement;
+    const postalEl = document.getElementById('postal') as HTMLInputElement;
+    const countryEl = document.getElementById('country') as HTMLSelectElement;
 
     setBillingData({
       city: cityEl.value,
@@ -165,7 +167,8 @@ export default function RegistrationForm() {
       country: countryEl.value,
     });
 
-    console.log(billingData);
+    formik.setFieldValue('country2', countryEl.value);
+    formik.setFieldTouched('country2', true, false);
   }
 
   const formik = useFormik({
@@ -184,7 +187,7 @@ export default function RegistrationForm() {
       postal2: billingData.postal,
       title2: billingData.title,
       country: selectList[0],
-      country2: selectList[0],
+      country2: billingData.country,
       defaultShippingAddress: '',
       defaultBillingAddress: '',
     },
@@ -227,8 +230,6 @@ export default function RegistrationForm() {
           Object.assign(requestBody, { defaultBillingAddress: 1 });
         }
 
-        console.table(requestBody);
-
         await signUp(requestBody);
         await login(values.email, values.password);
 
@@ -236,10 +237,8 @@ export default function RegistrationForm() {
       } catch (err: unknown) {
         if (err instanceof Error) {
           const errMsg = err.message;
-          console.log('errMsg', errMsg);
 
           setError(() => errMsg);
-          // formik.setFieldValue('password', '');
         }
       }
     },
@@ -261,7 +260,6 @@ export default function RegistrationForm() {
           type="text"
           autoComplete="email"
         ></FormField>
-
         <FormField
           stylesField={styles.login__form__field}
           stylesError={styles.login__form__error}
@@ -278,7 +276,6 @@ export default function RegistrationForm() {
             {showPassword ? <FaEye /> : <FaEyeSlash />}
           </span>
         </FormField>
-
         <FormField
           stylesField={styles.login__form__field}
           stylesError={styles.login__form__error}
@@ -291,7 +288,6 @@ export default function RegistrationForm() {
           name="firstName"
           type="text"
         ></FormField>
-
         <FormField
           stylesField={styles.login__form__field}
           stylesError={styles.login__form__error}
@@ -304,7 +300,6 @@ export default function RegistrationForm() {
           name="lastName"
           type="text"
         ></FormField>
-
         <FormField
           stylesField={styles.login__form__field}
           stylesError={styles.login__form__error}
@@ -317,8 +312,8 @@ export default function RegistrationForm() {
           name="dateOfBirth"
           type="date"
           max="2010-01-01"
+          value={'1990-01-01'}
         ></FormField>
-
         <div
           style={{
             padding: '10px',
@@ -404,7 +399,6 @@ export default function RegistrationForm() {
             type="checkbox"
           ></FormField>
         </div>
-
         <div
           style={{
             padding: '10px',
@@ -504,7 +498,12 @@ export default function RegistrationForm() {
           disabled={!formik.isValid || formik.isSubmitting}
         />
 
+        <div style={{ paddingTop: '30px', display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <span>Have an account?</span>
+          <Button style={styles.nav__btn__login} title="Login page" type="button" onClick={() => navigate('/login')} />
+        </div>
         {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
+
         {registrationMessage && (
           <ModalWindow
             message={registrationMessage}

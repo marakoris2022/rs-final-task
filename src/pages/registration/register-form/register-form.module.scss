@@ -6,6 +6,17 @@
   align-items: center;
   margin-bottom: 40px;
 
+  .nav__btn__login {
+    border: none;
+    background-color: white;
+    border-radius: 5px;
+    color: #8b93ff;
+
+    padding: 3px 10px;
+
+    cursor: pointer;
+  }
+
   .login__form__field__checkbox {
     width: 100%;
 
@@ -127,6 +138,10 @@
 
     .small__btn:hover {
       background-color: white;
+    }
+
+    .nav__btn__login:hover {
+      background-color: lightgray;
     }
   }
 }

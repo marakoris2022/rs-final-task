@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import { FormValues } from '../../interfaces/interfaces';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import styles from './form-field.module.scss';
 
@@ -43,12 +43,21 @@ const FormField = <T extends FormValues>({
   max,
   value,
 }: FormFieldProps<T>) => {
+  const [inputValue, setInputValue] = useState<string | undefined>(value);
+
   useEffect(() => {
     if (value !== undefined) {
+      setInputValue(value);
       formik.setFieldValue(name as string, value);
-      formik.validateForm();
     }
   }, [value]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setInputValue(newValue);
+    formik.handleChange(e);
+    formik.setFieldTouched(name as string, true, false);
+  };
 
   return (
     <div className={stylesField}>
@@ -74,14 +83,11 @@ const FormField = <T extends FormValues>({
             placeholder={placeholder}
             type={type}
             autoComplete={autoComplete}
-            onChange={(e) => {
-              formik.handleChange(e);
-              formik.setFieldTouched(name as string, true, false);
-            }}
+            onChange={handleChange}
             onBlur={() => {
               formik.handleBlur(name);
             }}
-            value={formik.values[name] ? formik.values[name] : value}
+            value={inputValue ?? ''}
           />
           {children}
         </div>
