@@ -136,7 +136,8 @@ const validate = (values: FormValues) => {
 };
 
 export default function RegistrationForm() {
-  const { setLogged } = useStore();
+  const setLogged = useStore((state) => state.setLogged);
+
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');

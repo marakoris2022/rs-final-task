@@ -2,13 +2,11 @@ import { useFormik } from 'formik';
 import styles from './login-form.module.scss';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Button from '../../../components/button/Button.tsx';
 import { FormValues } from '../../../interfaces/interfaces.ts';
 import FormField from '../../../components/form-field/form-field.tsx';
 import { login } from '../../../api/commers-tools-api.ts';
 import { ModalWindow } from '../../../components/modal/modal-window.tsx';
-// import { useIsLoggedContext } from '../../../utils/islogged-context.tsx';
 import { useStore } from '../../../store/useStore.ts';
 
 const validate = (values: FormValues) => {
@@ -47,8 +45,6 @@ export const LoginForm = () => {
   const [password, setPassword] = useState('');
   const setLogged = useStore((state) => state.setLogged);
 
-  const navigate = useNavigate();
-
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -63,7 +59,6 @@ export const LoginForm = () => {
       try {
         const { email, password } = values;
         await login(email, password);
-        navigate('/');
         setLogged(true);
       } catch (err: unknown) {
         if (err instanceof Error) {

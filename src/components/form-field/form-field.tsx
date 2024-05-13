@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import { FormValues } from '../../interfaces/interfaces';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import styles from './form-field.module.scss';
 
@@ -41,7 +41,6 @@ const FormField = <T extends FormValues>({
   children,
   min,
   max,
-  value,
 }: FormFieldProps<T>) => {
   useEffect(() => {
     formik.setFieldValue(name as string, formik.values[name]);
