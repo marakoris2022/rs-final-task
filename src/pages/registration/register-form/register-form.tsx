@@ -11,6 +11,13 @@ import { ModalWindow } from '../../../components/modal/modal-window.tsx';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { login, signUp } from '../../../api/commers-tools-api.ts';
 
+interface BillingAddressValues {
+  street: string;
+  city: string;
+  postal: string;
+  country: string;
+}
+
 const selectList = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
 
 const countryCodes: { [key: string]: string } = {
@@ -147,8 +154,8 @@ export default function RegistrationForm() {
     setShowPassword(!showPassword);
   };
 
-  async function fillBillingAddress() {
-    const { street, city, postal, country } = formik.values;
+  async function fillBillingAddress(props: BillingAddressValues) {
+    const { street, city, postal, country } = props;
 
     await formik.setFieldValue('country2', country);
     await formik.setFieldValue('city2', city);
@@ -172,7 +179,6 @@ export default function RegistrationForm() {
       postal2: '',
       title2: '',
       country: selectList[0],
-      // country2: billingData.country,
       country2: selectList[0],
       defaultShippingAddress: '',
       defaultBillingAddress: '',
@@ -412,7 +418,21 @@ export default function RegistrationForm() {
             <span>Billing Address</span>
           </div>
 
-          <Button onClick={fillBillingAddress} style={styles.small__btn} type="button" title="Copy shipping address" />
+          <Button
+            onClick={() => {
+              const billingAddressValues = {
+                street: formik.values.street,
+                city: formik.values.city,
+                postal: formik.values.postal,
+                country: formik.values.country,
+              };
+
+              fillBillingAddress(billingAddressValues);
+            }}
+            style={styles.small__btn}
+            type="button"
+            title="Copy shipping address"
+          />
 
           <FormField
             stylesField={styles.login__form__field}
