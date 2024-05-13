@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
 import Button from '../button/Button';
-import styles from './modal-error.module.scss';
+import styles from './modal-window.module.scss';
 
-interface ModalErrorProps {
+interface ModalWindowProps {
   message: string;
   onClose: () => void;
 }
 
-export const ModalError = ({ message, onClose }: ModalErrorProps) => {
+export const ModalWindow = ({ message, onClose }: ModalWindowProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   let timerId: NodeJS.Timeout | null = null;
 

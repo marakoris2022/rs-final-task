@@ -5,7 +5,7 @@ interface Button {
   title: string;
   type?: 'submit' | 'button' | 'reset' | undefined;
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void; // Specify the generic parameter HTMLButtonElement
 }
 
 export default function Button({ style, title, disabled, type, onClick }: Button) {
@@ -15,7 +15,7 @@ export default function Button({ style, title, disabled, type, onClick }: Button
         className={`default__btn ${style}`}
         type={type}
         disabled={disabled}
-        onClick={onClick ? () => onClick() : () => {}}
+        onClick={onClick ? (e) => onClick(e) : () => {}}
       >
         {title}
       </button>

@@ -2,12 +2,11 @@ import { useFormik } from 'formik';
 import styles from './login-form.module.scss';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Button from '../../../components/button/Button.tsx';
 import { FormValues } from '../../../interfaces/interfaces.ts';
 import FormField from '../../../components/form-field/form-field.tsx';
-import { login } from '../../../utils/commers-tools-api.ts';
-import { ModalError } from '../../../components/modal-error/modal-error.tsx';
+import { login } from '../../../api/commers-tools-api.ts';
+import { ModalWindow } from '../../../components/modal/modal-window.tsx';
 import { useStore } from '../../../store/useStore.ts';
 
 const validate = (values: FormValues) => {
@@ -43,9 +42,8 @@ const validate = (values: FormValues) => {
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [password, setPassword] = useState('');
   const setLogged = useStore((state) => state.setLogged);
-
-  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -54,20 +52,20 @@ export const LoginForm = () => {
   const formik = useFormik({
     initialValues: {
       email: '',
-      password: '',
+      password: password,
     },
     validate,
     onSubmit: async (values) => {
       try {
         const { email, password } = values;
         await login(email, password);
-        navigate('/');
         setLogged(true);
       } catch (err: unknown) {
         if (err instanceof Error) {
           const errMsg = err.message;
           setError(() => errMsg);
           formik.setFieldValue('password', '');
+          setPassword('');
         }
       }
     },
@@ -79,6 +77,7 @@ export const LoginForm = () => {
         stylesField={styles.login__form__field}
         stylesError={styles.login__form__error}
         stylesInput={styles.login__form__input}
+        stylesInputWrapper={styles.login__form__inputWrapper}
         isRequired={true}
         formik={formik}
         labelText="Email"
@@ -93,6 +92,7 @@ export const LoginForm = () => {
         stylesField={styles.login__form__field}
         stylesError={styles.login__form__error}
         stylesInput={styles.login__form__input}
+        stylesInputWrapper={styles.login__form__inputWrapper}
         isRequired={true}
         formik={formik}
         labelText="Password"
@@ -100,6 +100,7 @@ export const LoginForm = () => {
         name="password"
         type={showPassword ? 'text' : 'password'}
         autoComplete="current-password"
+        value={password}
       >
         <span className={styles.login__form__pass__ico} onClick={togglePasswordVisibility}>
           {showPassword ? <FaEye /> : <FaEyeSlash />}
@@ -113,7 +114,7 @@ export const LoginForm = () => {
         disabled={!formik.isValid || formik.isSubmitting}
       />
 
-      {error && <ModalError message={error} onClose={() => setError(() => '')} />}
+      {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
     </form>
   );
 };

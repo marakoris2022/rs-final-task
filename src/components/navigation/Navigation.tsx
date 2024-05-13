@@ -20,7 +20,7 @@ export default function Navigation() {
           <Button
             style={'nav__btn'}
             onClick={() => {
-              isLogged ? console.log('PROFILE') : navigate('/login');
+              isLogged ? navigate('/profile') : navigate('/login');
             }}
             title={isLogged ? 'Profile' : 'Login'}
           />
@@ -29,7 +29,8 @@ export default function Navigation() {
           <Button
             style={'nav__btn'}
             onClick={() => {
-              isLogged ? setLogged(false) : navigate('/Registration');
+              localStorage.clear();
+              isLogged ? setLogged(false) : navigate('/registration');
             }}
             title={isLogged ? 'Logout' : 'Registration'}
           />
