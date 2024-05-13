@@ -44,6 +44,7 @@ const validate = (values: FormValues) => {
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [password, setPassword] = useState('');
   const setLogged = useStore((state) => state.setLogged);
 
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ export const LoginForm = () => {
   const formik = useFormik({
     initialValues: {
       email: '',
-      password: '',
+      password: password,
     },
     validate,
     onSubmit: async (values) => {
@@ -69,6 +70,7 @@ export const LoginForm = () => {
           const errMsg = err.message;
           setError(() => errMsg);
           formik.setFieldValue('password', '');
+          setPassword('');
         }
       }
     },
@@ -103,6 +105,7 @@ export const LoginForm = () => {
         name="password"
         type={showPassword ? 'text' : 'password'}
         autoComplete="current-password"
+        value={password}
       >
         <span className={styles.login__form__pass__ico} onClick={togglePasswordVisibility}>
           {showPassword ? <FaEye /> : <FaEyeSlash />}

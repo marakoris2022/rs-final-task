@@ -64,6 +64,7 @@
 
   .login__form__btn:disabled {
     cursor: default;
+    background-color: lightgray;
   }
 
   .login__form__input {
@@ -78,7 +79,7 @@
 
     .login__form__btn:hover:disabled {
       cursor: default;
-      background-color: #007bff;
+      background-color: lightgray;
     }
   }
 }

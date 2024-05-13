@@ -141,33 +141,22 @@ export default function RegistrationForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [registrationMessage, setRegistrationMessage] = useState('');
-  const [billingData, setBillingData] = useState({
-    city: '',
-    street: '',
-    postal: '',
-    title: '',
-    country: selectList[0],
-  });
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  function fillBillingAddress() {
+  async function fillBillingAddress() {
     const streetEl = document.getElementById('street') as HTMLInputElement;
     const cityEl = document.getElementById('city') as HTMLInputElement;
     const postalEl = document.getElementById('postal') as HTMLInputElement;
     const countryEl = document.getElementById('country') as HTMLSelectElement;
 
-    setBillingData({
-      city: cityEl.value,
-      street: streetEl.value,
-      postal: postalEl.value,
-      title: 'Dear',
-      country: countryEl.value,
-    });
-
     formik.setFieldValue('country2', countryEl.value);
+    formik.setFieldValue('city2', cityEl.value);
+    formik.setFieldValue('street2', streetEl.value);
+    formik.setFieldValue('postal2', postalEl.value);
+
     formik.setFieldTouched('country2', true, false);
   }
 
@@ -182,12 +171,13 @@ export default function RegistrationForm() {
       city: '',
       postal: '',
       title: '',
-      street2: billingData.street,
-      city2: billingData.city,
-      postal2: billingData.postal,
-      title2: billingData.title,
+      street2: '',
+      city2: '',
+      postal2: '',
+      title2: '',
       country: selectList[0],
-      country2: billingData.country,
+      // country2: billingData.country,
+      country2: selectList[0],
       defaultShippingAddress: '',
       defaultBillingAddress: '',
     },
@@ -237,7 +227,7 @@ export default function RegistrationForm() {
       } catch (err: unknown) {
         if (err instanceof Error) {
           const errMsg = err.message;
-
+          formik.setFieldValue('password', '');
           setError(() => errMsg);
         }
       }
@@ -260,6 +250,7 @@ export default function RegistrationForm() {
           type="text"
           autoComplete="email"
         ></FormField>
+
         <FormField
           stylesField={styles.login__form__field}
           stylesError={styles.login__form__error}
@@ -276,6 +267,7 @@ export default function RegistrationForm() {
             {showPassword ? <FaEye /> : <FaEyeSlash />}
           </span>
         </FormField>
+
         <FormField
           stylesField={styles.login__form__field}
           stylesError={styles.login__form__error}
@@ -288,6 +280,7 @@ export default function RegistrationForm() {
           name="firstName"
           type="text"
         ></FormField>
+
         <FormField
           stylesField={styles.login__form__field}
           stylesError={styles.login__form__error}
@@ -300,6 +293,7 @@ export default function RegistrationForm() {
           name="lastName"
           type="text"
         ></FormField>
+
         <FormField
           stylesField={styles.login__form__field}
           stylesError={styles.login__form__error}
@@ -312,8 +306,8 @@ export default function RegistrationForm() {
           name="dateOfBirth"
           type="date"
           max="2010-01-01"
-          value={'1990-01-01'}
         ></FormField>
+
         <div
           style={{
             padding: '10px',
@@ -432,7 +426,6 @@ export default function RegistrationForm() {
             formik={formik}
             labelText="Street"
             placeholder="Street"
-            value={billingData.street}
             id="street2"
             name="street2"
             type="text"
@@ -446,7 +439,6 @@ export default function RegistrationForm() {
             formik={formik}
             labelText="City"
             placeholder="City"
-            value={billingData.city}
             id="city2"
             name="city2"
             type="text"
@@ -460,7 +452,6 @@ export default function RegistrationForm() {
             formik={formik}
             labelText="Postal Code"
             placeholder="Postal Code"
-            value={billingData.postal}
             id="postal2"
             name="postal2"
             type="text"
@@ -474,7 +465,6 @@ export default function RegistrationForm() {
             label__text={'Select a country: '}
             formik={formik}
             selectList={selectList}
-            value={billingData.country}
           />
 
           <FormField

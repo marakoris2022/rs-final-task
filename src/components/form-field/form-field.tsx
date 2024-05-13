@@ -43,18 +43,11 @@ const FormField = <T extends FormValues>({
   max,
   value,
 }: FormFieldProps<T>) => {
-  const [inputValue, setInputValue] = useState<string | undefined>(value);
-
   useEffect(() => {
-    if (value !== undefined) {
-      setInputValue(value);
-      formik.setFieldValue(name as string, value);
-    }
-  }, [value]);
+    formik.setFieldValue(name as string, formik.values[name]);
+  }, [formik.values[name]]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setInputValue(newValue);
     formik.handleChange(e);
     formik.setFieldTouched(name as string, true, false);
   };
@@ -87,7 +80,7 @@ const FormField = <T extends FormValues>({
             onBlur={() => {
               formik.handleBlur(name);
             }}
-            value={inputValue ?? ''}
+            value={formik.values[name]}
           />
           {children}
         </div>
