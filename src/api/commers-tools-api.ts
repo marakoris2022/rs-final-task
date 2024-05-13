@@ -100,6 +100,8 @@ export async function signUp(user: UserProps): Promise<void> {
       title: user.title,
       addresses: user.addresses,
       isEmailVerified: user.isEmailVerified,
+      shippingAddresses: user.shippingAddresses,
+      billingAddresses: user.billingAddresses,
       defaultShippingAddress: user.defaultShippingAddress,
       defaultBillingAddress: user.defaultBillingAddress,
     };

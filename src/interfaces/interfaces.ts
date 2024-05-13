@@ -8,7 +8,8 @@ export interface UserProps {
   title?: string;
   defaultShippingAddress?: number;
   defaultBillingAddress?: number;
-  shippingAddresses?: number;
+  shippingAddresses?: number[];
+  billingAddresses?: number[];
   isEmailVerified?: boolean;
   addresses?: Array<{
     id?: string;

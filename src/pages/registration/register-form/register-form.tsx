@@ -194,6 +194,8 @@ export default function RegistrationForm() {
           dateOfBirth: values.dateOfBirth,
           title: 'Dear',
           isEmailVerified: true,
+          shippingAddresses: [0],
+          billingAddresses: [1],
           addresses: [
             {
               title: 'Dear',
