@@ -148,17 +148,12 @@ export default function RegistrationForm() {
   };
 
   async function fillBillingAddress() {
-    const streetEl = document.getElementById('street') as HTMLInputElement;
-    const cityEl = document.getElementById('city') as HTMLInputElement;
-    const postalEl = document.getElementById('postal') as HTMLInputElement;
-    const countryEl = document.getElementById('country') as HTMLSelectElement;
+    const { street, city, postal, country } = formik.values;
 
-    formik.setFieldValue('country2', countryEl.value);
-    formik.setFieldValue('city2', cityEl.value);
-    formik.setFieldValue('street2', streetEl.value);
-    formik.setFieldValue('postal2', postalEl.value);
-
-    formik.setFieldTouched('country2', true, false);
+    await formik.setFieldValue('country2', country);
+    await formik.setFieldValue('city2', city);
+    await formik.setFieldValue('street2', street);
+    await formik.setFieldValue('postal2', postal);
   }
 
   const formik = useFormik({

@@ -18,7 +18,7 @@ function App() {
       <Routes>
         <Route path="/login" element={isLogged ? <Navigate to="/" replace /> : <Login />} />
         <Route path="/registration" element={isLogged ? <Navigate to="/" replace /> : <Registration />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />
         <Route path="/" element={<Main />} />
         <Route path="*" element={<Notfoundpage />} />
       </Routes>

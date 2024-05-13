@@ -1,6 +1,5 @@
 import { FormikProps } from 'formik';
 import { FormValues } from '../../interfaces/interfaces';
-import { useEffect } from 'react';
 
 import styles from './form-field.module.scss';
 
@@ -42,10 +41,6 @@ const FormField = <T extends FormValues>({
   min,
   max,
 }: FormFieldProps<T>) => {
-  useEffect(() => {
-    formik.setFieldValue(name as string, formik.values[name]);
-  }, [formik.values[name]]);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     formik.handleChange(e);
     formik.setFieldTouched(name as string, true, false);
