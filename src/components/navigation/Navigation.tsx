@@ -60,8 +60,6 @@ export default function Navigation() {
       </nav>
       <div className={`${styles.burgerMenuContainer} ${isOpenBurger ? styles.active : ''}`} onClick={handleBurger}>
         <div className={styles.line}></div>
-        <div className={styles.line}></div>
-        <div className={styles.line}></div>
       </div>
     </>
   );
