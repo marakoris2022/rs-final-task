@@ -45,6 +45,12 @@
     width: 360px;
     margin-bottom: 20px;
 
+    @media screen and (max-width: 600px) {
+      & {
+        width: auto;
+      }
+    }
+
     .login__form__error {
       color: red;
       padding: 5px 30px;
@@ -113,6 +119,12 @@
     border-style: solid;
     border-width: 1px 1px 1px 1px;
     border-color: #ebebeb;
+
+    @media screen and (max-width: 600px) {
+      & {
+        width: 200px;
+      }
+    }
   }
   .login__form__input:focus {
     -webkit-box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);

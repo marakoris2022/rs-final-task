@@ -506,7 +506,16 @@ export default function RegistrationForm() {
           disabled={!formik.isValid || formik.isSubmitting}
         />
 
-        <div style={{ paddingTop: '30px', display: 'flex', gap: '10px', alignItems: 'center' }}>
+        <div
+          style={{
+            paddingTop: '30px',
+            display: 'flex',
+            gap: '10px',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+          }}
+        >
           <span>Have an account?</span>
           <Button style={styles.nav__btn__login} title="Login page" type="button" onClick={() => navigate('/login')} />
         </div>
