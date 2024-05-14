@@ -89,12 +89,12 @@
 }
 
 .active .line::before {
-  top: 20px;
+  top: 19px;
   transform: rotate(45deg);
 }
 
 .active .line::after {
-  bottom: 17px;
+  bottom: 18px;
   transform: rotate(-45deg);
 }
 
