@@ -28,6 +28,9 @@ const countryCodes: { [key: string]: string } = {
   Germany: 'DE',
 };
 
+const postalCodesRegexFile = await fetch('../../../../public/json/postal-codes.json');
+const postalCodesRegexCollection = await postalCodesRegexFile.json();
+
 const validate = (values: FormValues) => {
   const errors: FormValues = {};
 
@@ -101,10 +104,29 @@ const validate = (values: FormValues) => {
     errors.postal = 'Postal Code must be at least 4 character';
   }
 
+  interface countryPostal {
+    Note: string;
+    Country: string;
+    ISO: string;
+    Format: string;
+    Regex: string;
+  }
+
   if (!values.country) {
     errors.country = 'Required';
   } else if (!selectList.includes(values.country)) {
     errors.country = 'Invalid country';
+  } else if (values.country && values.postal) {
+    const countryInList = postalCodesRegexCollection.find(
+      (country: countryPostal) => country['ISO'] === values.country || country['Country'] === values.country,
+    );
+    if (countryInList) {
+      console.log(countryInList);
+      const rg = countryInList['Regex'].replaceAll('"', '/');
+      if (!values.postal.match(rg)) {
+        errors.postal = "Postal Code doesn't match chosen country";
+      }
+    }
   }
 
   if (!values.street2) {
