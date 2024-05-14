@@ -10,6 +10,7 @@ import { FormValues } from '../../../interfaces/interfaces.ts';
 import { ModalWindow } from '../../../components/modal/modal-window.tsx';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { login, signUp } from '../../../api/commers-tools-api.ts';
+import postalCodesRegexCollection from '../../../data/json/postal-codes.json';
 
 interface BillingAddressValues {
   street: string;
@@ -27,9 +28,6 @@ const countryCodes: { [key: string]: string } = {
   Australia: 'AU',
   Germany: 'DE',
 };
-
-const postalCodesRegexFile = await fetch('../../../../public/json/postal-codes.json');
-const postalCodesRegexCollection = await postalCodesRegexFile.json();
 
 const validate = (values: FormValues) => {
   const errors: FormValues = {};
@@ -96,14 +94,6 @@ const validate = (values: FormValues) => {
     errors.city = 'City must be at least 4 character';
   }
 
-  if (!values.postal) {
-    errors.postal = 'Required';
-  } else if (!/^[A-Z0-9]+$/.test(values.postal)) {
-    errors.postal = 'Postal Code must contain only uppercase letters and numbers';
-  } else if (values.postal.length < 4) {
-    errors.postal = 'Postal Code must be at least 4 character';
-  }
-
   interface countryPostal {
     Note: string;
     Country: string;
@@ -112,10 +102,12 @@ const validate = (values: FormValues) => {
     Regex: string;
   }
 
-  if (!values.country) {
-    errors.country = 'Required';
-  } else if (!selectList.includes(values.country)) {
-    errors.country = 'Invalid country';
+  if (!values.postal) {
+    errors.postal = 'Required';
+  } else if (!/^[A-Z0-9]+$/.test(values.postal)) {
+    errors.postal = 'Postal Code must contain only uppercase letters and numbers';
+  } else if (values.postal.length < 4) {
+    errors.postal = 'Postal Code must be at least 4 character';
   } else if (values.country && values.postal) {
     const countryInList = postalCodesRegexCollection.find(
       (country: countryPostal) => country['ISO'] === values.country || country['Country'] === values.country,
@@ -127,6 +119,12 @@ const validate = (values: FormValues) => {
         errors.postal = "Postal Code doesn't match chosen country";
       }
     }
+  }
+
+  if (!values.country) {
+    errors.country = 'Required';
+  } else if (!selectList.includes(values.country)) {
+    errors.country = 'Invalid country';
   }
 
   if (!values.street2) {
