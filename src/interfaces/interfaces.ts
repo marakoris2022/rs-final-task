@@ -41,3 +41,12 @@ export interface LoginProps {
 export interface FormValues {
   [key: string]: string | undefined;
 }
+
+export interface CountryPostalCode {
+  Note: string;
+  Country: string;
+  ISO: string;
+  Format: string;
+  Regex: string;
+  Example?: string;
+}

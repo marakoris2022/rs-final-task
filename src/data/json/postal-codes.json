@@ -95,14 +95,16 @@
         "Country": "Australia",
         "ISO": "AU",
         "Format": "NNNN",
-        "Regex": "^\\d{4}$"
+        "Regex": "^\\d{4}$",
+        "Example": "3000"
     },
     {
         "Note": "The first digit denotes regions, which are partly identical to one of the nine provinces—called Bundesländer; the last the nearest post office in the area.",
         "Country": "Austria",
         "ISO": "AT",
         "Format": "NNNN",
-        "Regex": "^\\d{4}$"
+        "Regex": "^\\d{4}$",
+        "Example": "3000"
     },
     {
         "Note": "Previously used NNNNNN system inherited from former Soviet Union.",
@@ -284,7 +286,8 @@
         "Country": "Canada",
         "ISO": "CA",
         "Format": "ANA NAN",
-        "Regex": "^(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\s{0,1}\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d$"
+        "Regex": "^(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\s{0,1}\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d$",
+        "Example": "V2S0A9"
     },
     {
         "Note": "The first digit indicates the island.",
@@ -591,22 +594,9 @@
         "Note": "Postleitzahl (PLZ)",
         "Country": "Germany",
         "ISO": "DE",
-        "Format": "NN",
-        "Regex": "^\\d{5}$"
-    },
-    {
-        "Note": "Postleitzahl (PLZ)",
-        "Country": "Germany",
-        "ISO": "DE",
-        "Format": "NNNN",
-        "Regex": "^\\d{5}$"
-    },
-    {
-        "Note": "Postleitzahl (PLZ), introduced after the German reunification. Between 1989 and 1993 the old separate 4-digit postal codes of former West- and East-Germany were distinguished by preceding \"W-\" or \"O-\" ('Ost' for East).",
-        "Country": "Germany",
-        "ISO": "DE",
         "Format": "NNNNN",
-        "Regex": "^\\d{5}$"
+        "Regex": "^\\d{5}$",
+        "Example": "89073"
     },
     {
         "Note": "[citation needed]",
@@ -1684,14 +1674,16 @@
         "Country": "United Kingdom",
         "ISO": "GB",
         "Format": "A(A)N(A/N)NAA (A[A]N[A/N] NAA)",
-        "Regex": "^[A-Z]{1,2}[0-9R][0-9A-Z]?\\s*[0-9][A-Z-[CIKMOV]]{2}"
+        "Regex": "^[A-Z]{1,2}[0-9R][0-9A-Z]?\\s*[0-9][A-Z-[CIKMOV]]{2}",
+        "Example": "NW6"
     },
     {
         "Note": "Known as the ZIP Code with five digits 99999* or the ZIP+4 Code with nine digits 99999-9999* (while the minimum requirement is the first five digits, the U.S. Postal Service encourages everyone to use all nine). Also used by the former US Pacific Territories: Federated States of Micronesia; Palau; and the Marshall Islands, as well as in current US territories American Samoa, Guam, Northern Mariana Islands, Puerto Rico, and the United States Virgin Islands. An individual delivery point may be represented as an 11-digit number, but these are usually represented by Intelligent Mail barcode or formerly POSTNET bar code.",
         "Country": "United States",
         "ISO": "US",
         "Format": "NNNNN (optionally NNNNN-NNNN)",
-        "Regex": "^\\b\\d{5}\\b(?:[- ]{1}\\d{4})?$"
+        "Regex": "^\\b\\d{5}\\b(?:[- ]{1}\\d{4})?$",
+        "Example": "90210"
     },
     {
         "Note": "",

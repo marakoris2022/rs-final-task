@@ -6,7 +6,7 @@ import { useStore } from '../../../store/useStore.ts';
 import FormField from '../../../components/form-field/form-field.tsx';
 import Button from '../../../components/button/Button.tsx';
 import SelectField from '../../../components/select-field/Selectfield.tsx';
-import { FormValues } from '../../../interfaces/interfaces.ts';
+import { FormValues, CountryPostalCode } from '../../../interfaces/interfaces.ts';
 import { ModalWindow } from '../../../components/modal/modal-window.tsx';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { login, signUp } from '../../../api/commers-tools-api.ts';
@@ -18,6 +18,13 @@ interface BillingAddressValues {
   postal: string;
   country: string;
 }
+
+const getCountry = (countryName: string): CountryPostalCode | undefined => {
+  const countryInList: CountryPostalCode | undefined = postalCodesRegexCollection.find(
+    (country) => country['ISO'] === countryName || country['Country'] === countryName,
+  );
+  return countryInList;
+};
 
 const selectList = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
 
@@ -94,37 +101,27 @@ const validate = (values: FormValues) => {
     errors.city = 'City must be at least 4 character';
   }
 
-  interface countryPostal {
-    Note: string;
-    Country: string;
-    ISO: string;
-    Format: string;
-    Regex: string;
+  if (!values.country) {
+    errors.country = 'Required';
+  } else if (!selectList.includes(values.country)) {
+    errors.country = 'Invalid country';
   }
 
   if (!values.postal) {
     errors.postal = 'Required';
   } else if (!/^[A-Z0-9]+$/.test(values.postal)) {
     errors.postal = 'Postal Code must contain only uppercase letters and numbers';
-  } else if (values.postal.length < 4) {
-    errors.postal = 'Postal Code must be at least 4 character';
+  } else if (values.postal.length < 3) {
+    errors.postal = 'Postal Code must be at least 3 character';
   } else if (values.country && values.postal) {
-    const countryInList = postalCodesRegexCollection.find(
-      (country: countryPostal) => country['ISO'] === values.country || country['Country'] === values.country,
-    );
+    const countryInList: CountryPostalCode | undefined = getCountry(values.country);
+
     if (countryInList) {
-      console.log(countryInList);
-      const rg = countryInList['Regex'].replaceAll('"', '/');
+      const rg = countryInList['Regex'];
       if (!values.postal.match(rg)) {
-        errors.postal = "Postal Code doesn't match chosen country";
+        errors.postal = `${values.country} postal code example: ${countryInList['Example']}`;
       }
     }
-  }
-
-  if (!values.country) {
-    errors.country = 'Required';
-  } else if (!selectList.includes(values.country)) {
-    errors.country = 'Invalid country';
   }
 
   if (!values.street2) {
@@ -149,8 +146,17 @@ const validate = (values: FormValues) => {
     errors.postal2 = 'Required';
   } else if (!/^[A-Z0-9]+$/.test(values.postal2)) {
     errors.postal2 = 'Postal Code must contain only uppercase letters and numbers';
-  } else if (values.postal2.length < 4) {
-    errors.postal2 = 'Postal Code must be at least 4 character';
+  } else if (values.postal2.length < 3) {
+    errors.postal2 = 'Postal Code must be at least 3 character';
+  } else if (values.country2 && values.postal2) {
+    const countryInList2: CountryPostalCode | undefined = getCountry(values.country2);
+
+    if (countryInList2) {
+      const rg = countryInList2['Regex'];
+      if (!values.postal2.match(rg)) {
+        errors.postal2 = `${values.country2} postal code example: ${countryInList2['Example']}`;
+      }
+    }
   }
 
   if (!values.country2) {
