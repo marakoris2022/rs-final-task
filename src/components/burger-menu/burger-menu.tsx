@@ -1,4 +1,4 @@
-import styles from '../navigation/navigation.module.scss';
+import styles from './burger-menu.module.scss';
 
 interface BurgerMenuProps {
   isOpen: boolean;
