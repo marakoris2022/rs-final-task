@@ -2,7 +2,7 @@ import styles from './navigation.module.scss';
 import { useNavigate } from 'react-router-dom';
 import Button from '../button/Button';
 import { useStore } from '../../store/useStore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BurgerMenu } from '../burger-menu/burger-menu';
 
 export default function Navigation() {
@@ -21,6 +21,21 @@ export default function Navigation() {
       document.body.classList.remove('no-scroll');
     }
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (isOpenBurger && window.innerWidth > 768) {
+        setIsOpenBurger(false);
+        document.body.classList.remove('no-scroll');
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <>
