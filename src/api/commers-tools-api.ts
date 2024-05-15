@@ -19,7 +19,6 @@ const api_client: AxiosInstance = axios.create({
   baseURL: api,
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${await tokenRequest()}`,
   },
 });
 
@@ -89,6 +88,8 @@ export async function login(email: string, password: string): Promise<LoginProps
 }
 
 export async function signUp(user: UserProps): Promise<void> {
+  const token = await tokenRequest();
+
   try {
     const bodyRaw = {
       key: user.key,
@@ -106,7 +107,11 @@ export async function signUp(user: UserProps): Promise<void> {
       defaultBillingAddress: user.defaultBillingAddress,
     };
 
-    const response = await api_client.post(`/${projectKey}/customers`, bodyRaw);
+    const response = await api_client.post(`/${projectKey}/customers`, bodyRaw, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const { customer } = response.data;
     console.log(customer);
     return customer;
