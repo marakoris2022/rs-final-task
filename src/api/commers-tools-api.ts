@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { LoginProps, UserProps } from '../interfaces/interfaces';
 
-const auth_host = 'https://auth.europe-west1.gcp.commercetools.com';
+const authHost = 'https://auth.europe-west1.gcp.commercetools.com';
 const api = 'https://api.europe-west1.gcp.commercetools.com';
 const projectKey = 'rsteam-games-store';
 const clientId = 'wgPhvpiwHB8re0G4y3siwiJH';
@@ -9,7 +9,7 @@ const clientSecret = 'WdEJqyDjvG6W-RL1o11Meoe16kCmE3kA';
 const ECommerseKey = `commerce-tools-${projectKey}`;
 
 const authClient: AxiosInstance = axios.create({
-  baseURL: auth_host,
+  baseURL: authHost,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
   },
@@ -79,7 +79,6 @@ export async function login(email: string, password: string): Promise<LoginProps
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.log(error);
       throw new Error(error.response?.data.message);
     } else if (error instanceof Error) {
       throw error;
@@ -113,7 +112,6 @@ export async function signUp(user: UserProps): Promise<void> {
       },
     });
     const { customer } = response.data;
-    console.log(customer);
     return customer;
   } catch (error) {
     if (axios.isAxiosError(error)) {
