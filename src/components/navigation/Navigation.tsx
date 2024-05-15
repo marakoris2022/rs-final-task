@@ -24,12 +24,11 @@ export default function Navigation() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (isOpenBurger && window.innerWidth > 768) {
+      if (!isOpenBurger && window.innerWidth > 768) {
         setIsOpenBurger(false);
         document.body.classList.remove('no-scroll');
       }
     };
-
     window.addEventListener('resize', handleResize);
 
     return () => {
