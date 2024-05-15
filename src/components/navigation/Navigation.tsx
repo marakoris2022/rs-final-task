@@ -48,7 +48,7 @@ export default function Navigation() {
         <ul className={`${styles.ulMenu} ${isOpenBurger ? styles.active : ''}`} onClick={(e) => e.stopPropagation()}>
           <li>
             <Button
-              style={'nav__btn'}
+              style={styles.nav__btn}
               onClick={() => {
                 navigate('/');
                 isOpenBurger && handleBurger();
@@ -58,7 +58,7 @@ export default function Navigation() {
           </li>
           <li>
             <Button
-              style={'nav__btn'}
+              style={styles.nav__btn}
               onClick={() => {
                 isLogged ? navigate('/profile') : navigate('/login');
                 isOpenBurger && handleBurger();
@@ -68,7 +68,7 @@ export default function Navigation() {
           </li>
           <li>
             <Button
-              style={'nav__btn'}
+              style={styles.nav__btn}
               onClick={() => {
                 localStorage.clear();
                 isLogged ? setLogged(false) : navigate('/registration');
