@@ -24,17 +24,21 @@ export default function Navigation() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (!isOpenBurger && window.innerWidth > 768) {
+      if (isOpenBurger && window.innerWidth > 768) {
         setIsOpenBurger(false);
         document.body.classList.remove('no-scroll');
+        window.removeEventListener('resize', handleResize);
       }
     };
-    window.addEventListener('resize', handleResize);
+
+    if (isOpenBurger) {
+      window.addEventListener('resize', handleResize);
+    }
 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [isOpenBurger]);
 
   return (
     <>
