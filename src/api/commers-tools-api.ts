@@ -8,14 +8,14 @@ const clientId = 'wgPhvpiwHB8re0G4y3siwiJH';
 const clientSecret = 'WdEJqyDjvG6W-RL1o11Meoe16kCmE3kA';
 const ECommerseKey = `commerce-tools-${projectKey}`;
 
-const auth_client: AxiosInstance = axios.create({
+const authClient: AxiosInstance = axios.create({
   baseURL: auth_host,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
   },
 });
 
-const api_client: AxiosInstance = axios.create({
+const apiClient: AxiosInstance = axios.create({
   baseURL: api,
   headers: {
     'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export async function tokenRequest() {
     data.append('grant_type', 'client_credentials');
     data.append('scope', `manage_project:${projectKey}`);
 
-    const response = await auth_client.post(`/oauth/token`, data, {
+    const response = await authClient.post(`/oauth/token`, data, {
       auth: {
         username: clientId,
         password: clientSecret,
@@ -54,7 +54,7 @@ export async function login(email: string, password: string): Promise<LoginProps
     data.append('username', email);
     data.append('password', password);
 
-    const response = await auth_client.post(`/oauth/${projectKey}/customers/token`, data, {
+    const response = await authClient.post(`/oauth/${projectKey}/customers/token`, data, {
       auth: {
         username: clientId,
         password: clientSecret,
@@ -107,7 +107,7 @@ export async function signUp(user: UserProps): Promise<void> {
       defaultBillingAddress: user.defaultBillingAddress,
     };
 
-    const response = await api_client.post(`/${projectKey}/customers`, bodyRaw, {
+    const response = await apiClient.post(`/${projectKey}/customers`, bodyRaw, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
