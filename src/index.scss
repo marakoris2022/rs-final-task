@@ -24,6 +24,16 @@ body {
 
     min-height: 100vh;
   }
+
+  main {
+    flex: 1;
+
+    border: 1px solid black;
+    border-radius: 5px;
+
+    padding: 5px 10px;
+    margin-bottom: 10px;
+  }
 }
 
 .no-scroll {
