@@ -21,11 +21,11 @@
       min-width: 380px;
       flex-direction: column;
       min-height: 380px;
-      right: 0;
-      transform: translateX(100%);
-      top: 0;
+      right: -383px;
+      top: -3px;
       background-color: #95b4ce;
       padding-top: 50px;
+      border-radius: 10px;
     }
 
     &.active {
@@ -38,7 +38,7 @@
       z-index: 3;
 
       .ulMenu {
-        transform: translateX(0);
+        transform: translateX(-100%);
         z-index: 4;
       }
     }

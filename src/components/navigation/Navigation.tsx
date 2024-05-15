@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../button/Button';
 import { useStore } from '../../store/useStore';
 import { useState } from 'react';
+import { BurgerMenu } from '../burger-menu/burger-menu';
 
 export default function Navigation() {
   const navigate = useNavigate();
@@ -58,9 +59,7 @@ export default function Navigation() {
           </li>
         </ul>
       </nav>
-      <div className={`${styles.burgerMenuContainer} ${isOpenBurger ? styles.active : ''}`} onClick={handleBurger}>
-        <div className={styles.line}></div>
-      </div>
+      <BurgerMenu isOpen={isOpenBurger} onClick={handleBurger} />
     </>
   );
 }
