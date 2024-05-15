@@ -33,6 +33,8 @@ export default function Navigation() {
 
     if (isOpenBurger) {
       window.addEventListener('resize', handleResize);
+    } else {
+      window.removeEventListener('resize', handleResize);
     }
 
     return () => {
