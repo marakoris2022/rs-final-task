@@ -6,16 +6,6 @@
   transition: 0.2s ease;
 }
 
-.nav__btn {
-  border: none;
-  background-color: white;
-  border-radius: 5px;
-
-  padding: 3px 10px;
-
-  cursor: pointer;
-}
-
 @media (any-hover: hover) {
   .nav__btn:hover {
     background-color: lightgray;

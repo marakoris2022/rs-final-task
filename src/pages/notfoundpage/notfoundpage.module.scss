@@ -1,13 +1,8 @@
-main {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid black;
-  border-radius: 5px;
-
-  padding: 5px 10px;
-  margin-bottom: 10px;
+.notFound {
+  background-image: url(./images/404_1.webp);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .container {

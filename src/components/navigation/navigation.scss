@@ -6,4 +6,14 @@ nav {
 
     list-style-type: none;
   }
+
+  .nav__btn {
+    border: none;
+    background-color: white;
+    border-radius: 5px;
+
+    padding: 3px 10px;
+
+    cursor: pointer;
+  }
 }
