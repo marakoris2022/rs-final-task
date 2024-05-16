@@ -6,6 +6,12 @@
   align-items: center;
   margin-bottom: 40px;
 
+  @media screen and (max-width: 600px) {
+    & {
+      margin-bottom: 15px;
+    }
+  }
+
   .login__form__field {
     margin-bottom: 26px;
     text-align: center;

@@ -6,6 +6,27 @@
   align-items: center;
   margin-bottom: 40px;
 
+  .loginPrompt {
+    padding-top: 30px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    @media screen and (max-width: 600px) {
+      & {
+        padding-top: 20px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    & {
+      margin-bottom: 0px;
+    }
+  }
+
   .nav__btn__login {
     border: none;
     background-color: white;
@@ -25,6 +46,12 @@
       width: 100%;
       margin-bottom: 8px;
       text-align: center;
+
+      @media screen and (max-width: 600px) {
+        & {
+          width: 250px;
+        }
+      }
     }
   }
 
@@ -128,7 +155,7 @@
 
     @media screen and (max-width: 600px) {
       & {
-        width: 200px;
+        width: 100%;
       }
     }
   }
