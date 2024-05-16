@@ -9,7 +9,7 @@ import SelectField from '../../../components/select-field/Selectfield.tsx';
 import { FormValues, CountryPostalCode } from '../../../interfaces/interfaces.ts';
 import { ModalWindow } from '../../../components/modal/modal-window.tsx';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { login, signUp } from '../../../api/commers-tools-api.ts';
+import { getUserToken, signUp } from '../../../api/commers-tools-api.ts';
 import postalCodesRegexCollection from '../../../data/json/postal-codes.json';
 
 interface BillingAddressValues {
@@ -251,7 +251,7 @@ export default function RegistrationForm() {
         }
 
         await signUp(requestBody);
-        await login(values.email, values.password);
+        await getUserToken(values.email, values.password);
 
         setRegistrationMessage('Registration Successful!');
       } catch (err: unknown) {

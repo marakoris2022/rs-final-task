@@ -47,7 +47,7 @@ export async function tokenRequest() {
   }
 }
 
-export async function login(email: string, password: string): Promise<LoginProps | undefined | string> {
+export async function getUserToken(email: string, password: string): Promise<LoginProps | undefined | string> {
   try {
     const data = new URLSearchParams();
     data.append('grant_type', 'password');
@@ -87,7 +87,7 @@ export async function login(email: string, password: string): Promise<LoginProps
 }
 
 export async function SignIn(email: string, password: string): Promise<void> {
-  const token = await login(email, password);
+  const token = await getUserToken(email, password);
 
   try {
     const bodyRaw = {

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Button from '../../../components/button/Button.tsx';
 import { FormValues } from '../../../interfaces/interfaces.ts';
 import FormField from '../../../components/form-field/form-field.tsx';
-import { login, SignIn } from '../../../api/commers-tools-api.ts';
+import { getUserToken, SignIn } from '../../../api/commers-tools-api.ts';
 import { ModalWindow } from '../../../components/modal/modal-window.tsx';
 import { useStore } from '../../../store/useStore.ts';
 
