@@ -4,6 +4,7 @@ import Button from '../button/Button';
 import { useStore } from '../../store/useStore';
 import { useEffect, useState } from 'react';
 import { BurgerMenu } from '../burger-menu/burger-menu';
+import { getBasicToken } from '../../api/commers-tools-api';
 
 export default function Navigation() {
   const navigate = useNavigate();
@@ -70,7 +71,10 @@ export default function Navigation() {
             <Button
               style={styles.nav__btn}
               onClick={() => {
-                localStorage.clear();
+                if (isLogged) {
+                  localStorage.clear();
+                  getBasicToken();
+                }
                 isLogged ? setLogged(false) : navigate('/registration');
                 isOpenBurger && handleBurger();
               }}

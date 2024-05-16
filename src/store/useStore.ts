@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { ECommerceKey } from '../api/commers-tools-api';
 
 type Store = {
   isLogged: boolean;
@@ -6,7 +7,7 @@ type Store = {
 };
 
 const useStore = create<Store>()((set) => ({
-  isLogged: localStorage.getItem('commerce-tools-rsteam-games-store') ? true : false,
+  isLogged: localStorage.getItem(ECommerceKey) ? true : false,
   setLogged: (flag) => set({ isLogged: flag }),
 }));
 
