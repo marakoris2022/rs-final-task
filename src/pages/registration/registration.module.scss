@@ -1,0 +1,10 @@
+.registrationPageTitle {
+  margin-bottom: 50px;
+  text-align: center;
+
+  @media screen and (max-width: 600px) {
+    & {
+      margin-bottom: 25px;
+    }
+  }
+}

@@ -6,6 +6,12 @@
   align-items: center;
   margin-bottom: 40px;
 
+  @media screen and (max-width: 600px) {
+    & {
+      margin-bottom: 15px;
+    }
+  }
+
   .login__form__field {
     margin-bottom: 26px;
     text-align: center;
@@ -18,6 +24,15 @@
       display: flex;
       flex-direction: row;
       align-items: center;
+
+      @media screen and (max-width: 600px) {
+        & {
+          flex-direction: column;
+          align-items: start;
+          gap: 10px;
+          text-align: start;
+        }
+      }
     }
 
     label {
