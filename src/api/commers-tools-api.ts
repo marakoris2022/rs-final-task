@@ -47,7 +47,7 @@ export async function tokenRequest() {
   }
 }
 
-export async function login(email: string, password: string): Promise<LoginProps | undefined> {
+export async function login(email: string, password: string): Promise<LoginProps | undefined | string> {
   try {
     const data = new URLSearchParams();
     data.append('grant_type', 'password');
@@ -61,7 +61,7 @@ export async function login(email: string, password: string): Promise<LoginProps
       },
     });
 
-    const { scope, refresh_token } = response.data as LoginProps;
+    const { scope, refresh_token, access_token } = response.data as LoginProps;
 
     const customerId = scope.split(' ').find((item) => item.startsWith('customer_id'));
     if (customerId) {
@@ -76,6 +76,30 @@ export async function login(email: string, password: string): Promise<LoginProps
       );
     }
 
+    return access_token;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data.message);
+    } else if (error instanceof Error) {
+      throw error;
+    }
+  }
+}
+
+export async function SignIn(email: string, password: string): Promise<void> {
+  const token = await login(email, password);
+
+  try {
+    const bodyRaw = {
+      email: email,
+      password: password,
+    };
+
+    const response = await apiClient.post(`/${projectKey}/login`, bodyRaw, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

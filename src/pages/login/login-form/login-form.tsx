@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Button from '../../../components/button/Button.tsx';
 import { FormValues } from '../../../interfaces/interfaces.ts';
 import FormField from '../../../components/form-field/form-field.tsx';
-import { login } from '../../../api/commers-tools-api.ts';
+import { login, SignIn } from '../../../api/commers-tools-api.ts';
 import { ModalWindow } from '../../../components/modal/modal-window.tsx';
 import { useStore } from '../../../store/useStore.ts';
 
@@ -58,7 +58,8 @@ export const LoginForm = () => {
     onSubmit: async (values) => {
       try {
         const { email, password } = values;
-        await login(email, password);
+        // await login(email, password);
+        await SignIn(email, password);
         setLogged(true);
       } catch (err: unknown) {
         if (err instanceof Error) {
