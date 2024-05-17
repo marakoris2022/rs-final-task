@@ -14,15 +14,20 @@ import { ECommerceLS } from './interfaces/interfaces';
 
 function App() {
   const isLogged = useStore((state) => state.isLogged);
-  useEffect(() => {
-    !isLogged && getBasicToken();
+
+  async function testFunc() {
+    !isLogged && (await getBasicToken());
     if (isLogged) {
       const commerceInfo = localStorage.getItem(ECommerceKey) as string | null;
       if (commerceInfo) {
         const { accessToken, customerId } = JSON.parse(commerceInfo) as ECommerceLS;
-        customerId && getCustomerById(customerId, accessToken);
+        customerId && (await getCustomerById(customerId, accessToken));
       }
     }
+  }
+
+  useEffect(() => {
+    testFunc();
   }, []);
 
   return (
