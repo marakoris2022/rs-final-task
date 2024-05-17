@@ -31,7 +31,7 @@ const validate = (values: FormValues) => {
   } else if (!/(?=.*\d)/.test(values.password)) {
     errors.password = 'Password must contain at least one digit (0-9)';
   } else if (!/(?=.*[!@#$%^&*])/.test(values.password)) {
-    errors.password = 'Password must contain at least one special character';
+    errors.password = 'Password must contain at least one special character !@#$%^&';
   } else if (values.password.length < 8) {
     errors.password = 'Must be at least 8 characters';
   }
