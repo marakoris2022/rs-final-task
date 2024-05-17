@@ -8,9 +8,27 @@ import Notfoundpage from './pages/notfoundpage/Notfoundpage';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import { useStore } from './store/useStore';
+import { useEffect } from 'react';
+import { ECommerceKey, getBasicToken, getCustomerById } from './api/commers-tools-api';
+import { ECommerceLS } from './interfaces/interfaces';
 
 function App() {
   const isLogged = useStore((state) => state.isLogged);
+
+  async function initializeUserSession() {
+    !isLogged && (await getBasicToken());
+    if (isLogged) {
+      const commerceInfo = localStorage.getItem(ECommerceKey) as string | null;
+      if (commerceInfo) {
+        const { accessToken, customerId } = JSON.parse(commerceInfo) as ECommerceLS;
+        customerId && (await getCustomerById(customerId, accessToken));
+      }
+    }
+  }
+
+  useEffect(() => {
+    initializeUserSession();
+  }, []);
 
   return (
     <>

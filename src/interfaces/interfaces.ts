@@ -50,3 +50,16 @@ export interface CountryPostalCode {
   Regex: string;
   Example?: string;
 }
+
+export interface ECommerceLS {
+  customerId?: string;
+  refreshToken?: string;
+  accessToken: string;
+}
+
+export interface IntrospectionResponse {
+  active: boolean;
+  client_id?: string;
+  exp?: number;
+  scope?: string;
+}
