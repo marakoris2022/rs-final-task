@@ -58,7 +58,7 @@ const validate = (values: FormValues) => {
   } else if (!/(?=.*\d)/.test(values.password)) {
     errors.password = 'Password must contain at least one digit (0-9)';
   } else if (!/(?=.*[!@#$%^&*])/.test(values.password)) {
-    errors.password = 'Password must contain at least one special character';
+    errors.password = 'Password must contain at least one special character !@#$%^&';
   } else if (values.password.length < 8) {
     errors.password = 'Must be at least 8 characters';
   }
@@ -85,10 +85,8 @@ const validate = (values: FormValues) => {
 
   if (!values.street) {
     errors.street = 'Required';
-  } else if (!/(?=.*[A-Z])/.test(values.street)) {
-    errors.street = 'Street must contain at least one uppercase letter (A-Z)';
-  } else if (values.street.length < 4) {
-    errors.street = 'Street must be at least 4 character';
+  } else if (values.street.length < 1) {
+    errors.street = 'Street must be at least 1 character';
   }
 
   if (!values.city) {
@@ -109,10 +107,6 @@ const validate = (values: FormValues) => {
 
   if (!values.postal) {
     errors.postal = 'Required';
-  } else if (!/^[A-Z0-9]+$/.test(values.postal)) {
-    errors.postal = 'Postal Code must contain only uppercase letters and numbers';
-  } else if (values.postal.length < 3) {
-    errors.postal = 'Postal Code must be at least 3 character';
   } else if (values.country && values.postal) {
     const countryInList: CountryPostalCode | undefined = getCountry(values.country);
 
@@ -126,10 +120,8 @@ const validate = (values: FormValues) => {
 
   if (!values.street2) {
     errors.street2 = 'Required';
-  } else if (!/(?=.*[A-Z])/.test(values.street2)) {
-    errors.street2 = 'Street must contain at least one uppercase letter (A-Z)';
-  } else if (values.street2.length < 4) {
-    errors.street2 = 'Street must be at least 4 character';
+  } else if (values.street2.length < 1) {
+    errors.street2 = 'Street must be at least 1 character';
   }
 
   if (!values.city2) {
@@ -144,10 +136,6 @@ const validate = (values: FormValues) => {
 
   if (!values.postal2) {
     errors.postal2 = 'Required';
-  } else if (!/^[A-Z0-9]+$/.test(values.postal2)) {
-    errors.postal2 = 'Postal Code must contain only uppercase letters and numbers';
-  } else if (values.postal2.length < 3) {
-    errors.postal2 = 'Postal Code must be at least 3 character';
   } else if (values.country2 && values.postal2) {
     const countryInList2: CountryPostalCode | undefined = getCountry(values.country2);
 
