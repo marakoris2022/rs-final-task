@@ -15,7 +15,7 @@ import { ECommerceLS } from './interfaces/interfaces';
 function App() {
   const isLogged = useStore((state) => state.isLogged);
 
-  async function testFunc() {
+  async function initializeUserSession() {
     !isLogged && (await getBasicToken());
     if (isLogged) {
       const commerceInfo = localStorage.getItem(ECommerceKey) as string | null;
@@ -27,7 +27,7 @@ function App() {
   }
 
   useEffect(() => {
-    testFunc();
+    initializeUserSession();
   }, []);
 
   return (
