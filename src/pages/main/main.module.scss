@@ -1,0 +1,28 @@
+.catalog {
+  display: flex;
+  flex-direction: column;
+
+  .nav__btn {
+    border: none;
+    background-color: white;
+    border-radius: 5px;
+
+    padding: 3px 10px;
+
+    cursor: pointer;
+  }
+
+  .main__section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex: 1;
+  }
+
+  @media (any-hover: hover) {
+    .nav__btn:hover {
+      background-color: lightgray;
+    }
+  }
+}
