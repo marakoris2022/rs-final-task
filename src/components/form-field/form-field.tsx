@@ -3,7 +3,7 @@ import { FormValues } from '../../interfaces/interfaces';
 
 import styles from './form-field.module.scss';
 
-interface FormFieldProps<T extends FormValues> {
+type FormFieldProps<T extends FormValues> = {
   stylesField?: string;
   stylesError?: string;
   stylesInput?: string;
@@ -21,7 +21,7 @@ interface FormFieldProps<T extends FormValues> {
   value?: string;
   min?: string;
   max?: string;
-}
+};
 
 const FormField = <T extends FormValues>({
   stylesField,

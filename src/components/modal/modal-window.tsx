@@ -2,10 +2,10 @@ import { useEffect, useRef } from 'react';
 import Button from '../button/Button';
 import styles from './modal-window.module.scss';
 
-interface ModalWindowProps {
+type ModalWindowProps = {
   message: string;
   onClose: () => void;
-}
+};
 
 export const ModalWindow = ({ message, onClose }: ModalWindowProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);

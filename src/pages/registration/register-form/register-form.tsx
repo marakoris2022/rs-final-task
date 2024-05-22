@@ -12,12 +12,12 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { login, signUp } from '../../../api/commers-tools-api.ts';
 import postalCodesRegexCollection from '../../../data/json/postal-codes.json';
 
-interface BillingAddressValues {
+type BillingAddressValues = {
   street: string;
   city: string;
   postal: string;
   country: string;
-}
+};
 
 const getCountry = (countryName: string): CountryPostalCode | undefined => {
   const countryInList: CountryPostalCode | undefined = postalCodesRegexCollection.find(

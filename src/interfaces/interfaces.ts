@@ -1,4 +1,4 @@
-export interface UserProps {
+export type UserProps = {
   email: string;
   password: string;
   firstName: string;
@@ -28,38 +28,38 @@ export interface UserProps {
   }>;
   defaultShippingAddressId?: string;
   defaultBillingAddressId?: string;
-}
+};
 
-export interface LoginProps {
+export type LoginProps = {
   access_token: string;
   expires_in: number;
   token_type: string;
   scope: string;
   refresh_token: string;
-}
+};
 
-export interface FormValues {
+export type FormValues = {
   [key: string]: string | undefined;
-}
+};
 
-export interface CountryPostalCode {
+export type CountryPostalCode = {
   Note: string;
   Country: string;
   ISO: string;
   Format: string;
   Regex: string;
   Example?: string;
-}
+};
 
-export interface ECommerceLS {
+export type ECommerceLS = {
   customerId?: string;
   refreshToken?: string;
   accessToken: string;
-}
+};
 
-export interface IntrospectionResponse {
+export type IntrospectionResponse = {
   active: boolean;
   client_id?: string;
   exp?: number;
   scope?: string;
-}
+};

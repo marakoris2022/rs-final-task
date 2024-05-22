@@ -1,11 +1,11 @@
 import { FormikProps } from 'formik';
 import React from 'react';
 
-interface FormValues {
+type FormValues = {
   [key: string]: string | undefined;
-}
+};
 
-interface SelectFieldProps<T extends FormValues> {
+type SelectFieldProps<T extends FormValues> = {
   login__form__field: string;
   style__label: string;
   login__form__input: string;
@@ -14,7 +14,7 @@ interface SelectFieldProps<T extends FormValues> {
   formik: FormikProps<T>;
   selectList: string[];
   value?: string;
-}
+};
 
 export default function SelectField<T extends FormValues>({
   login__form__field,
