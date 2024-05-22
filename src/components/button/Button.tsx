@@ -1,4 +1,4 @@
-import './button.scss';
+import styles from './button.module.scss';
 
 type Button = {
   style: string;
@@ -11,7 +11,7 @@ type Button = {
 export const Button = ({ style, title, disabled, type, onClick }: Button) => {
   return (
     <button
-      className={`default__btn ${style}`}
+      className={`${styles.defaultBtn} ${style}`}
       type={type}
       disabled={disabled}
       onClick={onClick ? (e) => onClick(e) : () => {}}

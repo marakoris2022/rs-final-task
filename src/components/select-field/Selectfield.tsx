@@ -6,10 +6,10 @@ type FormValues = {
 };
 
 type SelectFieldProps<T extends FormValues> = {
-  login__form__field: string;
-  style__label: string;
-  login__form__input: string;
-  label__text: string;
+  loginFormField: string;
+  styleLabel: string;
+  loginFormInput: string;
+  labelText: string;
   name: keyof T;
   formik: FormikProps<T>;
   selectList: string[];
@@ -17,10 +17,10 @@ type SelectFieldProps<T extends FormValues> = {
 };
 
 export const SelectField = <T extends FormValues>({
-  login__form__field,
-  style__label,
-  login__form__input,
-  label__text,
+  loginFormField,
+  styleLabel,
+  loginFormInput,
+  labelText,
   name,
   formik,
   selectList,
@@ -33,12 +33,12 @@ export const SelectField = <T extends FormValues>({
   };
 
   return (
-    <div className={login__form__field}>
-      <label className={style__label} htmlFor={name as string}>
-        {label__text}
+    <div className={loginFormField}>
+      <label className={styleLabel} htmlFor={name as string}>
+        {labelText}
       </label>
       <select
-        className={login__form__input}
+        className={loginFormInput}
         style={{ padding: '0 10px' }}
         name={name as string}
         id={name as string}

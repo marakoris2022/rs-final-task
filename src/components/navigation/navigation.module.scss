@@ -1,15 +1,15 @@
-.nav__btn {
-    border: none;
-    background-color: white;
-    border-radius: 5px;
+.navBtn {
+  border: none;
+  background-color: white;
+  border-radius: 5px;
 
-    padding: 3px 10px;
+  padding: 3px 10px;
 
-    cursor: pointer;
+  cursor: pointer;
 }
 
 @media (any-hover: hover) {
-  .nav__btn:hover {
+  .navBtn:hover {
     background-color: lightgray;
   }
 }
@@ -31,7 +31,6 @@
   }
 
   @media screen and (max-width: 768px) {
-
     .ulMenu {
       position: fixed;
       min-width: 380px;

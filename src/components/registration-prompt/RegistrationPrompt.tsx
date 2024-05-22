@@ -5,7 +5,7 @@ export const RegistrationPrompt = () => {
   const navigate = useNavigate();
 
   return (
-    <div className={styles.registration__prompt__container}>
+    <div className={styles.registrationPromptContainer}>
       <span>Don't have an account yet?</span>
       <a onClick={() => navigate('/registration')}>Register</a>
     </div>

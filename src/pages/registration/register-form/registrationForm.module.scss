@@ -1,4 +1,4 @@
-.login__form {
+.loginForm {
   margin: 0 auto;
   padding: 20px;
   display: flex;
@@ -27,7 +27,7 @@
     }
   }
 
-  .nav__btn__login {
+  .navBtnLogin {
     border: none;
     background-color: white;
     border-radius: 5px;
@@ -38,7 +38,7 @@
     cursor: pointer;
   }
 
-  .login__form__field__checkbox {
+  .loginFormFieldCheckbox {
     width: 100%;
 
     label {
@@ -55,7 +55,7 @@
     }
   }
 
-  .small__btn {
+  .smallBtn {
     font-size: 14px;
     padding: 2px 6px;
     margin: 15px 0;
@@ -64,7 +64,7 @@
     border-radius: 12px;
   }
 
-  .login__form__field {
+  .loginFormField {
     margin-bottom: 10px;
     text-align: start;
     display: flex;
@@ -78,7 +78,7 @@
       }
     }
 
-    .login__form__error {
+    .loginFormError {
       color: red;
       padding: 5px 30px;
       font-size: 14px;
@@ -99,7 +99,7 @@
       letter-spacing: 0.9px;
     }
 
-    .login__form__pass__ico {
+    .loginFormPassIco {
       display: inline-block;
       margin-left: -20px;
       transform: translate(30px, 5px);
@@ -111,7 +111,7 @@
     }
   }
 
-  .login__form__btn {
+  .loginFormBtn {
     transition: 0.2s ease;
 
     background-color: #1d4ae9;
@@ -133,12 +133,12 @@
     cursor: pointer;
   }
 
-  .login__form__btn:disabled {
+  .loginFormBtn:disabled {
     cursor: default;
     background-color: lightgray;
   }
 
-  .login__form__input {
+  .loginFormInput {
     padding: 5px;
     height: 30px;
 
@@ -159,33 +159,33 @@
       }
     }
   }
-  .login__form__input:focus {
+  .loginFormInput:focus {
     -webkit-box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
   }
 
-  .login__form__input__checkbox {
+  .loginFormInputCheckbox {
     margin-left: 0 auto;
     height: 15px;
     width: 100%;
   }
 
   @media (any-hover: hover) {
-    .login__form__btn:hover {
+    .loginFormBtn:hover {
       background: #5eabdd;
     }
 
-    .login__form__btn:hover:disabled {
+    .loginFormBtn:hover:disabled {
       cursor: default;
       background-color: lightgray;
     }
 
-    .small__btn:hover {
+    .smallBtn:hover {
       background-color: white;
     }
 
-    .nav__btn__login:hover {
+    .navBtnLogin:hover {
       background-color: lightgray;
     }
   }

@@ -256,11 +256,11 @@ export const RegistrationForm = () => {
 
   return (
     <>
-      <form className={styles.login__form} onSubmit={formik.handleSubmit}>
+      <form className={styles.loginForm} onSubmit={formik.handleSubmit}>
         <FormField
-          stylesField={styles.login__form__field}
-          stylesError={styles.login__form__error}
-          stylesInput={styles.login__form__input}
+          stylesField={styles.loginFormField}
+          stylesError={styles.loginFormError}
+          stylesInput={styles.loginFormInput}
           isRequired={true}
           formik={formik}
           labelText="Email"
@@ -272,9 +272,9 @@ export const RegistrationForm = () => {
         ></FormField>
 
         <FormField
-          stylesField={styles.login__form__field}
-          stylesError={styles.login__form__error}
-          stylesInput={styles.login__form__input}
+          stylesField={styles.loginFormField}
+          stylesError={styles.loginFormError}
+          stylesInput={styles.loginFormInput}
           isRequired={true}
           formik={formik}
           labelText="Password"
@@ -283,15 +283,15 @@ export const RegistrationForm = () => {
           type={showPassword ? 'text' : 'password'}
           autoComplete="current-password"
         >
-          <span className={styles.login__form__pass__ico} onClick={togglePasswordVisibility}>
+          <span className={styles.loginFormPassIco} onClick={togglePasswordVisibility}>
             {showPassword ? <FaEye /> : <FaEyeSlash />}
           </span>
         </FormField>
 
         <FormField
-          stylesField={styles.login__form__field}
-          stylesError={styles.login__form__error}
-          stylesInput={styles.login__form__input}
+          stylesField={styles.loginFormField}
+          stylesError={styles.loginFormError}
+          stylesInput={styles.loginFormInput}
           isRequired={true}
           formik={formik}
           labelText="First name"
@@ -302,9 +302,9 @@ export const RegistrationForm = () => {
         ></FormField>
 
         <FormField
-          stylesField={styles.login__form__field}
-          stylesError={styles.login__form__error}
-          stylesInput={styles.login__form__input}
+          stylesField={styles.loginFormField}
+          stylesError={styles.loginFormError}
+          stylesInput={styles.loginFormInput}
           isRequired={true}
           formik={formik}
           labelText="Last name"
@@ -315,9 +315,9 @@ export const RegistrationForm = () => {
         ></FormField>
 
         <FormField
-          stylesField={styles.login__form__field}
-          stylesError={styles.login__form__error}
-          stylesInput={styles.login__form__input}
+          stylesField={styles.loginFormField}
+          stylesError={styles.loginFormError}
+          stylesInput={styles.loginFormInput}
           isRequired={true}
           formik={formik}
           labelText="Date of Birth"
@@ -352,9 +352,9 @@ export const RegistrationForm = () => {
           </div>
 
           <FormField
-            stylesField={styles.login__form__field}
-            stylesError={styles.login__form__error}
-            stylesInput={styles.login__form__input}
+            stylesField={styles.loginFormField}
+            stylesError={styles.loginFormError}
+            stylesInput={styles.loginFormInput}
             isRequired={true}
             formik={formik}
             labelText="Street"
@@ -365,9 +365,9 @@ export const RegistrationForm = () => {
           ></FormField>
 
           <FormField
-            stylesField={styles.login__form__field}
-            stylesError={styles.login__form__error}
-            stylesInput={styles.login__form__input}
+            stylesField={styles.loginFormField}
+            stylesError={styles.loginFormError}
+            stylesInput={styles.loginFormInput}
             isRequired={true}
             formik={formik}
             labelText="City"
@@ -378,9 +378,9 @@ export const RegistrationForm = () => {
           ></FormField>
 
           <FormField
-            stylesField={styles.login__form__field}
-            stylesError={styles.login__form__error}
-            stylesInput={styles.login__form__input}
+            stylesField={styles.loginFormField}
+            stylesError={styles.loginFormError}
+            stylesInput={styles.loginFormInput}
             isRequired={true}
             formik={formik}
             labelText="Postal Code"
@@ -391,19 +391,19 @@ export const RegistrationForm = () => {
           ></FormField>
 
           <SelectField
-            login__form__field={styles.login__form__field}
-            style__label={styles.label}
-            login__form__input={styles.login__form__input}
+            loginFormField={styles.loginFormField}
+            styleLabel={styles.label}
+            loginFormInput={styles.loginFormInput}
             name={'country'}
-            label__text={'Select a country: '}
+            labelText={'Select a country: '}
             formik={formik}
             selectList={selectList}
           />
 
           <FormField
-            stylesField={styles.login__form__field__checkbox}
-            stylesError={styles.login__form__error}
-            stylesInput={styles.login__form__input__checkbox}
+            stylesField={styles.loginFormFieldCheckbox}
+            stylesError={styles.loginFormError}
+            stylesInput={styles.loginFormInputCheckbox}
             isRequired={true}
             formik={formik}
             labelText="Use this as the default delivery address?"
@@ -447,15 +447,15 @@ export const RegistrationForm = () => {
 
               fillBillingAddress(billingAddressValues);
             }}
-            style={styles.small__btn}
+            style={styles.smallBtn}
             type="button"
             title="Copy shipping address"
           />
 
           <FormField
-            stylesField={styles.login__form__field}
-            stylesError={styles.login__form__error}
-            stylesInput={styles.login__form__input}
+            stylesField={styles.loginFormField}
+            stylesError={styles.loginFormError}
+            stylesInput={styles.loginFormInput}
             isRequired={true}
             formik={formik}
             labelText="Street"
@@ -466,9 +466,9 @@ export const RegistrationForm = () => {
           ></FormField>
 
           <FormField
-            stylesField={styles.login__form__field}
-            stylesError={styles.login__form__error}
-            stylesInput={styles.login__form__input}
+            stylesField={styles.loginFormField}
+            stylesError={styles.loginFormError}
+            stylesInput={styles.loginFormInput}
             isRequired={true}
             formik={formik}
             labelText="City"
@@ -479,9 +479,9 @@ export const RegistrationForm = () => {
           ></FormField>
 
           <FormField
-            stylesField={styles.login__form__field}
-            stylesError={styles.login__form__error}
-            stylesInput={styles.login__form__input}
+            stylesField={styles.loginFormField}
+            stylesError={styles.loginFormError}
+            stylesInput={styles.loginFormInput}
             isRequired={true}
             formik={formik}
             labelText="Postal Code"
@@ -492,19 +492,19 @@ export const RegistrationForm = () => {
           ></FormField>
 
           <SelectField
-            login__form__field={styles.login__form__field}
-            style__label={styles.label}
-            login__form__input={styles.login__form__input}
+            loginFormField={styles.loginFormField}
+            styleLabel={styles.label}
+            loginFormInput={styles.loginFormInput}
             name={'country2'}
-            label__text={'Select a country: '}
+            labelText={'Select a country: '}
             formik={formik}
             selectList={selectList}
           />
 
           <FormField
-            stylesField={styles.login__form__field__checkbox}
-            stylesError={styles.login__form__error}
-            stylesInput={styles.login__form__input__checkbox}
+            stylesField={styles.loginFormFieldCheckbox}
+            stylesError={styles.loginFormError}
+            stylesInput={styles.loginFormInputCheckbox}
             isRequired={true}
             formik={formik}
             labelText="Use this as the default billing address?"
@@ -516,7 +516,7 @@ export const RegistrationForm = () => {
         </div>
 
         <Button
-          style={styles.login__form__btn}
+          style={styles.loginFormBtn}
           title="Sign up"
           type="submit"
           disabled={!formik.isValid || formik.isSubmitting}
@@ -524,7 +524,7 @@ export const RegistrationForm = () => {
 
         <div className={styles.loginPrompt}>
           <span>Have an account?</span>
-          <Button style={styles.nav__btn__login} title="Login page" type="button" onClick={() => navigate('/login')} />
+          <Button style={styles.navBtnLogin} title="Login page" type="button" onClick={() => navigate('/login')} />
         </div>
         {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
 
