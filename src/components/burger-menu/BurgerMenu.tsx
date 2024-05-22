@@ -1,9 +1,9 @@
-import styles from './burger-menu.module.scss';
+import styles from './burgerMenu.module.scss';
 
-interface BurgerMenuProps {
+type BurgerMenuProps = {
   isOpen: boolean;
   onClick: () => void;
-}
+};
 
 export const BurgerMenu = ({ isOpen, onClick }: BurgerMenuProps) => {
   return (

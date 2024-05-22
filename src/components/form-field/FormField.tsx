@@ -1,9 +1,9 @@
 import { FormikProps } from 'formik';
 import { FormValues } from '../../interfaces/interfaces';
 
-import styles from './form-field.module.scss';
+import styles from './formField.module.scss';
 
-interface FormFieldProps<T extends FormValues> {
+type FormFieldProps<T extends FormValues> = {
   stylesField?: string;
   stylesError?: string;
   stylesInput?: string;
@@ -21,9 +21,9 @@ interface FormFieldProps<T extends FormValues> {
   value?: string;
   min?: string;
   max?: string;
-}
+};
 
-const FormField = <T extends FormValues>({
+export const FormField = <T extends FormValues>({
   stylesField,
   stylesError,
   stylesInput,
@@ -85,5 +85,3 @@ const FormField = <T extends FormValues>({
     </div>
   );
 };
-
-export default FormField;

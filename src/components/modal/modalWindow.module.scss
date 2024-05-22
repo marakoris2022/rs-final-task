@@ -1,4 +1,4 @@
-.modal__error {
+.modalError {
   padding: 40px;
   z-index: 5;
   position: fixed;
@@ -10,7 +10,7 @@
     margin-bottom: 50px;
   }
 
-  .modal__error__btn {
+  .modalErrorBtn {
     background-color: #4396dd;
     display: flex;
     margin: 0 auto;

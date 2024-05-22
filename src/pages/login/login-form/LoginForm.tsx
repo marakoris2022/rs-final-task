@@ -1,12 +1,12 @@
 import { useFormik } from 'formik';
-import styles from './login-form.module.scss';
+import styles from './loginForm.module.scss';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useState } from 'react';
-import Button from '../../../components/button/Button.tsx';
+import { Button } from '../../../components/button/Button.tsx';
 import { FormValues } from '../../../interfaces/interfaces.ts';
-import FormField from '../../../components/form-field/form-field.tsx';
+import { FormField } from '../../../components/form-field/FormField.tsx';
 import { login } from '../../../api/commers-tools-api.ts';
-import { ModalWindow } from '../../../components/modal/modal-window.tsx';
+import { ModalWindow } from '../../../components/modal/ModalWindow.tsx';
 import { useStore } from '../../../store/useStore.ts';
 
 const validate = (values: FormValues) => {
@@ -70,12 +70,12 @@ export const LoginForm = () => {
   });
 
   return (
-    <form className={styles.login__form} onSubmit={formik.handleSubmit}>
+    <form className={styles.loginForm} onSubmit={formik.handleSubmit}>
       <FormField
-        stylesField={styles.login__form__field}
-        stylesError={styles.login__form__error}
-        stylesInput={styles.login__form__input}
-        stylesInputWrapper={styles.login__form__inputWrapper}
+        stylesField={styles.loginFormField}
+        stylesError={styles.loginFormError}
+        stylesInput={styles.loginFormInput}
+        stylesInputWrapper={styles.loginFormInputWrapper}
         isRequired={true}
         formik={formik}
         labelText="Email"
@@ -87,10 +87,10 @@ export const LoginForm = () => {
       ></FormField>
 
       <FormField
-        stylesField={styles.login__form__field}
-        stylesError={styles.login__form__error}
-        stylesInput={styles.login__form__input}
-        stylesInputWrapper={styles.login__form__inputWrapper}
+        stylesField={styles.loginFormField}
+        stylesError={styles.loginFormError}
+        stylesInput={styles.loginFormInput}
+        stylesInputWrapper={styles.loginFormInputWrapper}
         isRequired={true}
         formik={formik}
         labelText="Password"
@@ -99,13 +99,13 @@ export const LoginForm = () => {
         type={showPassword ? 'text' : 'password'}
         autoComplete="current-password"
       >
-        <span className={styles.login__form__pass__ico} onClick={togglePasswordVisibility}>
+        <span className={styles.loginFormPassIco} onClick={togglePasswordVisibility}>
           {showPassword ? <FaEye /> : <FaEyeSlash />}
         </span>
       </FormField>
 
       <Button
-        style={styles.login__form__btn}
+        style={styles.loginFormBtn}
         title="Login"
         type="submit"
         disabled={!formik.isValid || formik.isSubmitting}

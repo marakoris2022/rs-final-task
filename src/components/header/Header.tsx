@@ -1,11 +1,11 @@
-import './header.scss';
-import Navigation from '../navigation/Navigation';
+import styles from './header.module.scss';
+import { Navigation } from '../navigation/Navigation';
 
-export default function Header() {
+export const Header = () => {
   return (
-    <header>
+    <header className={styles.header}>
       <h2>Header</h2>
       <Navigation />
     </header>
   );
-}
+};

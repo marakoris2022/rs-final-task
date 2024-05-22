@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
 
-  .nav__btn {
+  .navBtn {
     border: none;
     background-color: white;
     border-radius: 5px;
@@ -12,7 +12,7 @@
     cursor: pointer;
   }
 
-  .main__section {
+  .mainSection {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,7 +21,7 @@
   }
 
   @media (any-hover: hover) {
-    .nav__btn:hover {
+    .navBtn:hover {
       background-color: lightgray;
     }
   }
