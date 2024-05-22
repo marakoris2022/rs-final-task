@@ -24,6 +24,12 @@ type FormFieldProps<T extends FormValues> = {
   max?: string;
 };
 
+enum FieldColors {
+  RED = '#D20062',
+  GREEN = '#AFD198',
+  BLUE = '#8B93FF',
+}
+
 export const FormField = <T extends FormValues>({
   stylesField,
   stylesError,
@@ -50,9 +56,21 @@ export const FormField = <T extends FormValues>({
     [formik, name],
   );
 
+  const getFieldStyle = () => {
+    if (formik.touched[name] && formik.errors[name]) {
+      return { borderColor: FieldColors.RED, outlineColor: FieldColors.RED };
+    }
+
+    if (formik.values[name]) {
+      return { borderColor: FieldColors.GREEN, outlineColor: FieldColors.GREEN };
+    }
+
+    return { outlineColor: FieldColors.BLUE };
+  };
+
   return (
     <div className={stylesField}>
-      <div className={stylesInputWrapper ? stylesInputWrapper : ''}>
+      <div className={stylesInputWrapper ?? ''}>
         <label className={styles.label} htmlFor={id}>
           {labelText}
           {isRequired ? <span>*</span> : ''}
@@ -60,13 +78,7 @@ export const FormField = <T extends FormValues>({
         <div>
           <input
             className={stylesInput}
-            style={
-              formik.touched[name] && formik.errors[name]
-                ? { borderColor: '#D20062', outlineColor: '#D20062' }
-                : formik.values[name]
-                  ? { borderColor: '#AFD198', outlineColor: '#AFD198' }
-                  : { outlineColor: '#8B93FF' }
-            }
+            style={getFieldStyle()}
             min={min}
             max={max}
             id={id}
