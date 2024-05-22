@@ -1,12 +1,6 @@
 import { create } from 'zustand';
 import { UserProps } from '../interfaces/interfaces';
 
-// interface CustomerData {
-//   id: string;
-//   name: string;
-//   email: string;
-// }
-
 type CustomerStore = {
   customer: UserProps | null;
   setCustomer: (data: UserProps) => void;

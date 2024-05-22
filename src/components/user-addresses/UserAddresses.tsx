@@ -1,6 +1,7 @@
 import { UserProps } from '../../interfaces/interfaces';
 
 export const UserAddresses = ({ userData }: { userData: UserProps }) => {
+  console.log(userData);
   return (
     <div>
       {userData.addresses?.map((item, index) => {

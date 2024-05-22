@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useStore } from '../../../store/useStore.ts';
 import { FormField } from '../../../components/form-field/FormField.tsx';
 import { Button } from '../../../components/button/Button.tsx';
-import { SelectField } from '../../../components/select-field/Selectfield.tsx';
+import { SelectField } from '../../../components/select-field/SelectField.tsx';
 import { FormValues, CountryPostalCode } from '../../../interfaces/interfaces.ts';
 import { ModalWindow } from '../../../components/modal/ModalWindow.tsx';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';

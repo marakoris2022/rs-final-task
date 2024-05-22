@@ -1,9 +1,3 @@
-// type UserPersonalInfoProps = {
-//   firstName: string;
-//   lastName: string;
-//   dateOfBirth: string;
-// };
-
 import { UserProps } from '../../interfaces/interfaces';
 
 export const UserPersonalInfo = ({ userData }: { userData: UserProps }) => {
