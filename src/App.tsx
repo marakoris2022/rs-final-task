@@ -4,7 +4,7 @@ import { Login } from './pages/login/Login';
 import { Main } from './pages/main/Main';
 import { Profile } from './pages/profile/Profile';
 import { Registration } from './pages/registration/Registration';
-import { NotFoundPage } from './pages/notfoundpage/Notfoundpage';
+import { NotFoundPage } from './pages/notfoundpage/NotFoundPage';
 import { Header } from './components/header/Header';
 import { Footer } from './components/footer/Footer';
 import { useStore } from './store/useStore';
