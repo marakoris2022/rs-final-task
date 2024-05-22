@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { FormikProps } from 'formik';
 import { FormValues } from '../../interfaces/interfaces';
 
@@ -41,10 +42,13 @@ export const FormField = <T extends FormValues>({
   min,
   max,
 }: FormFieldProps<T>) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    formik.handleChange(e);
-    formik.setFieldTouched(name as string, true, false);
-  };
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      formik.handleChange(e);
+      formik.setFieldTouched(name as string, true, false);
+    },
+    [formik, name],
+  );
 
   return (
     <div className={stylesField}>
