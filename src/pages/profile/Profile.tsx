@@ -1,10 +1,10 @@
 // import './main.scss';
 
 import { useState } from 'react';
-import Button from '../../components/button/Button';
 import { UserAddresses } from '../../components/user-addresses/UserAddresses';
 import { UserPersonalInfo } from '../../components/user-personal-info/UserPersonalInfo';
 import { useCustomerStore } from '../../store/useCustomerStore';
+import { Button } from '../../components/button/Button';
 
 export default function Profile() {
   const customer = useCustomerStore((state) => state.customer);
@@ -34,4 +34,4 @@ export default function Profile() {
       </section>
     </main>
   );
-};
+}

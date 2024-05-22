@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { ECommerceLS, IntrospectionResponse, LoginProps, UserProps } from '../interfaces/interfaces';
+import { useCustomerStore } from '../store/useCustomerStore';
 
 const authHost = import.meta.env.VITE_AUTH_HOST;
 const api = import.meta.env.VITE_API;
