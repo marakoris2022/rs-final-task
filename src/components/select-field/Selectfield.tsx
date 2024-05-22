@@ -1,31 +1,31 @@
 import { FormikProps } from 'formik';
 import React from 'react';
 
-interface FormValues {
+type FormValues = {
   [key: string]: string | undefined;
-}
+};
 
-interface SelectFieldProps<T extends FormValues> {
-  login__form__field: string;
-  style__label: string;
-  login__form__input: string;
-  label__text: string;
+type SelectFieldProps<T extends FormValues> = {
+  loginFormField: string;
+  styleLabel: string;
+  loginFormInput: string;
+  labelText: string;
   name: keyof T;
   formik: FormikProps<T>;
   selectList: string[];
   value?: string;
-}
+};
 
-export default function SelectField<T extends FormValues>({
-  login__form__field,
-  style__label,
-  login__form__input,
-  label__text,
+export const SelectField = <T extends FormValues>({
+  loginFormField,
+  styleLabel,
+  loginFormInput,
+  labelText,
   name,
   formik,
   selectList,
   value,
-}: SelectFieldProps<T>) {
+}: SelectFieldProps<T>) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     formik.setFieldValue(name as string, selectedValue);
@@ -33,12 +33,12 @@ export default function SelectField<T extends FormValues>({
   };
 
   return (
-    <div className={login__form__field}>
-      <label className={style__label} htmlFor={name as string}>
-        {label__text}
+    <div className={loginFormField}>
+      <label className={styleLabel} htmlFor={name as string}>
+        {labelText}
       </label>
       <select
-        className={login__form__input}
+        className={loginFormInput}
         style={{ padding: '0 10px' }}
         name={name as string}
         id={name as string}
@@ -53,4 +53,4 @@ export default function SelectField<T extends FormValues>({
       </select>
     </div>
   );
-}
+};

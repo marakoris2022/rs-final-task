@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
-import Button from '../button/Button';
-import styles from './modal-window.module.scss';
+import { Button } from '../button/Button';
+import styles from './modalWindow.module.scss';
 
-interface ModalWindowProps {
+type ModalWindowProps = {
   message: string;
   onClose: () => void;
-}
+};
 
 export const ModalWindow = ({ message, onClose }: ModalWindowProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -52,9 +52,9 @@ export const ModalWindow = ({ message, onClose }: ModalWindowProps) => {
   };
 
   return (
-    <dialog className={styles.modal__error} ref={dialogRef} onClick={handleBackDropClose}>
+    <dialog className={styles.modalError} ref={dialogRef} onClick={handleBackDropClose}>
       <p>{message}</p>
-      <Button style={styles.modal__error__btn} title="Close" type="button" onClick={handleClose} />
+      <Button style={styles.modalErrorBtn} title="Close" type="button" onClick={handleClose} />
     </dialog>
   );
 };

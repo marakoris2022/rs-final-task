@@ -34,4 +34,4 @@ export default function Profile() {
       </section>
     </main>
   );
-}
+};

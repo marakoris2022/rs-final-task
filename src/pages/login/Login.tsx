@@ -1,8 +1,8 @@
-import { RegistrationPrompt } from '../../components/registration-prompt/registration-prompt';
-import { LoginForm } from './login-form/login-form';
+import { RegistrationPrompt } from '../../components/registration-prompt/RegistrationPrompt';
+import { LoginForm } from './login-form/LoginForm';
 import styles from './login.module.scss';
 
-export default function Login() {
+export const Login = () => {
   return (
     <main>
       <section>
@@ -12,4 +12,4 @@ export default function Login() {
       </section>
     </main>
   );
-}
+};

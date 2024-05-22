@@ -1,4 +1,4 @@
-.login__form {
+.loginForm {
   margin: 0 auto;
   padding: 20px;
   display: flex;
@@ -12,7 +12,7 @@
     }
   }
 
-  .login__form__field {
+  .loginFormField {
     margin-bottom: 26px;
     text-align: center;
 
@@ -20,7 +20,7 @@
     flex-direction: column;
     align-items: center;
 
-    .login__form__inputWrapper {
+    .loginFormInputWrapper {
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -42,12 +42,12 @@
       margin-right: 10px;
     }
 
-    .login__form__error {
+    .loginFormError {
       margin-top: 15px;
       color: red;
     }
 
-    .login__form__pass__ico {
+    .loginFormPassIco {
       display: inline-block;
       margin-left: -20px;
       transform: translate(30px, 5px);
@@ -59,7 +59,7 @@
     }
   }
 
-  .login__form__btn {
+  .loginFormBtn {
     transition: 0.2s ease;
 
     background-color: #1d4ae9;
@@ -77,22 +77,22 @@
     cursor: pointer;
   }
 
-  .login__form__btn:disabled {
+  .loginFormBtn:disabled {
     cursor: default;
     background-color: lightgray;
   }
 
-  .login__form__input {
+  .loginFormInput {
     padding: 5px;
     height: 30px;
   }
 
   @media (any-hover: hover) {
-    .login__form__btn:hover {
+    .loginFormBtn:hover {
       background: #5eabdd;
     }
 
-    .login__form__btn:hover:disabled {
+    .loginFormBtn:hover:disabled {
       cursor: default;
       background-color: lightgray;
     }
