@@ -95,9 +95,9 @@ export const FormField = <T extends FormValues>({
           {children}
         </div>
       </div>
-      {showError && formik.touched[name] && formik.errors[name] ? (
+      {showError && formik.touched[name] && formik.errors[name] && (
         <div className={stylesError}>{formik.errors[name] as string}</div>
-      ) : null}
+      )}
     </div>
   );
 };
