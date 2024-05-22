@@ -1,5 +1,3 @@
-// import './main.scss';
-
 export default function Profile() {
   return (
     <main>

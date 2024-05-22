@@ -231,9 +231,11 @@ export default function RegistrationForm() {
             },
           ],
         };
+
         if (values.defaultShippingAddress) {
           Object.assign(requestBody, { defaultShippingAddress: 0 });
         }
+
         if (values.defaultBillingAddress) {
           Object.assign(requestBody, { defaultBillingAddress: 1 });
         }
