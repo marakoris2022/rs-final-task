@@ -2,7 +2,7 @@ import './app.scss';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Login } from './pages/login/Login';
 import { Main } from './pages/main/Main';
-import Profile from './pages/profile/Profile';
+import { Profile } from './pages/profile/Profile';
 import { Registration } from './pages/registration/Registration';
 import { NotFoundPage } from './pages/notfoundpage/Notfoundpage';
 import { Header } from './components/header/Header';

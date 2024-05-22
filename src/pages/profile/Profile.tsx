@@ -6,7 +6,7 @@ import { UserPersonalInfo } from '../../components/user-personal-info/UserPerson
 import { useCustomerStore } from '../../store/useCustomerStore';
 import { Button } from '../../components/button/Button';
 
-export default function Profile() {
+export const Profile = () => {
   const customer = useCustomerStore((state) => state.customer);
   const [activeComponent, setActiveComponent] = useState<string>('personal');
 
@@ -34,4 +34,4 @@ export default function Profile() {
       </section>
     </main>
   );
-}
+};
