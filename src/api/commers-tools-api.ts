@@ -35,7 +35,7 @@ apiClient.interceptors.request.use(
     if (response) {
       const { active } = response;
       if (!active) {
-        refreshTokenInLocalStorage();
+        await refreshTokenInLocalStorage();
       }
     } else {
       await getBasicToken();
