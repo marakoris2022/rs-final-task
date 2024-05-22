@@ -1,49 +1,41 @@
 import axios, { AxiosInstance } from 'axios';
 import { ECommerceLS, IntrospectionResponse, LoginProps, UserProps } from '../interfaces/interfaces';
 
-const auth_host = 'https://auth.europe-west1.gcp.commercetools.com';
-const api = 'https://api.europe-west1.gcp.commercetools.com';
-const projectKey = 'rsteam-games-store';
-const clientId = 'wgPhvpiwHB8re0G4y3siwiJH';
-const clientSecret = 'WdEJqyDjvG6W-RL1o11Meoe16kCmE3kA';
-export const ECommerceKey = `commerce-tools-${projectKey}`;
+const authHost = import.meta.env.VITE_AUTH_HOST;
+const api = import.meta.env.VITE_API;
+const projectKey = import.meta.env.VITE_PROJECT_KEY;
+const clientId = import.meta.env.VITE_CLIENT_ID;
+const clientSecret = import.meta.env.VITE_CLIENT_SECRET;
+const ECommerceKey = import.meta.env.VITE_E_COMMERCE_KEY;
 
-const BASIC_CLIENT: AxiosInstance = axios.create({
-  baseURL: auth_host,
+const basicClient: AxiosInstance = axios.create({
+  baseURL: authHost,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
   },
 });
 
-const AUTH_CLIENT: AxiosInstance = axios.create({
-  baseURL: auth_host,
+const authClient: AxiosInstance = axios.create({
+  baseURL: authHost,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
   },
 });
 
-const API_CLIENT: AxiosInstance = axios.create({
+const apiClient: AxiosInstance = axios.create({
   baseURL: api,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-API_CLIENT.interceptors.request.use(
+apiClient.interceptors.request.use(
   async (config) => {
-    const response: IntrospectionResponse | null = await checkAccessTokenValidation();
+    const response: IntrospectionResponse | null = await validateAccessToken();
     if (response) {
       const { active } = response;
       if (!active) {
-        const commerceInfo = localStorage.getItem(ECommerceKey) as string | null;
-        if (commerceInfo) {
-          const { refreshToken } = JSON.parse(commerceInfo) as ECommerceLS;
-          if (refreshToken) {
-            await getAccessTokenWithRefreshToken(refreshToken);
-          } else {
-            await getBasicToken();
-          }
-        }
+        await refreshTokenInLocalStorage();
       }
     } else {
       await getBasicToken();
@@ -55,56 +47,25 @@ API_CLIENT.interceptors.request.use(
   },
 );
 
-/* API_CLIENT.interceptors.response.use(
-  (res) => {
-    if (res.status === 401) {
-      const commerceInfo = localStorage.getItem(ECommerceKey) as string | null;
-      if (commerceInfo) {
-        const { refreshToken } = JSON.parse(commerceInfo) as ECommerceLS;
-        if (refreshToken) {
-          getAccessTokenWithRefreshToken(refreshToken);
-        }
-      }
-    }
-    return res;
-  },
-  (error) => {
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data.message);
-    } else if (error instanceof Error) {
-      throw error;
-    }
-  },
-);
- */
 export async function getBasicToken() {
-  try {
-    const data = new URLSearchParams();
-    data.append('grant_type', 'client_credentials');
-    data.append('scope', `manage_project:${projectKey}`);
+  const data = new URLSearchParams();
+  data.append('grant_type', 'client_credentials');
+  data.append('scope', `manage_project:${projectKey}`);
 
-    const response = await BASIC_CLIENT.post(`/oauth/token`, data, {
-      auth: {
-        username: clientId,
-        password: clientSecret,
-      },
-    });
+  const response = await basicClient.post(`/oauth/token`, data, {
+    auth: {
+      username: clientId,
+      password: clientSecret,
+    },
+  });
 
-    const { access_token } = response.data;
-    console.log(access_token);
-    localStorage.setItem(
-      ECommerceKey,
-      JSON.stringify({
-        accessToken: access_token,
-      }),
-    );
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error(error.response?.data, error);
-    } else if (error instanceof Error) {
-      throw error;
-    }
-  }
+  const { access_token } = response.data;
+  localStorage.setItem(
+    ECommerceKey,
+    JSON.stringify({
+      accessToken: access_token,
+    }),
+  );
 }
 
 export async function login(email: string, password: string): Promise<LoginProps | undefined> {
@@ -114,7 +75,7 @@ export async function login(email: string, password: string): Promise<LoginProps
     data.append('username', email);
     data.append('password', password);
 
-    const response = await AUTH_CLIENT.post(`/oauth/${projectKey}/customers/token`, data, {
+    const response = await authClient.post(`/oauth/${projectKey}/customers/token`, data, {
       auth: {
         username: clientId,
         password: clientSecret,
@@ -135,33 +96,7 @@ export async function login(email: string, password: string): Promise<LoginProps
         }),
       );
       const customer = await getCustomerById(customer_id, access_token);
-      console.log(customer);
     }
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.log(error);
-      throw new Error(error.response?.data.message);
-    } else if (error instanceof Error) {
-      throw error;
-    }
-  }
-}
-
-/* export async function login(email: string, password: string): Promise<void> {
-  const token = await getUserTokens(email, password);
-
-  try {
-    const bodyRaw = {
-      email: email,
-      password: password,
-    };
-
-    const response = await API_CLIENT.post(`/${projectKey}/login`, bodyRaw, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -170,11 +105,9 @@ export async function login(email: string, password: string): Promise<LoginProps
       throw error;
     }
   }
-} */
+}
 
 export async function signUp(user: UserProps): Promise<void> {
-  /*  const token = await getBasicToken(); */
-
   try {
     const bodyRaw = {
       key: user.key,
@@ -195,7 +128,7 @@ export async function signUp(user: UserProps): Promise<void> {
     const commerceObj = localStorage.getItem(ECommerceKey);
     if (commerceObj) {
       const token = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
-      const response = await API_CLIENT.post(`/${projectKey}/customers`, bodyRaw, {
+      const response = await apiClient.post(`/${projectKey}/customers`, bodyRaw, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -221,60 +154,34 @@ export async function getCustomerById(id: string, accessToken: string) {
   });
 }
 
-async function getAccessTokenWithRefreshToken(refreshToken: string) {
-  try {
-    const data = new URLSearchParams();
-    data.append('grant_type', 'refresh_token');
-    data.append('refresh_token', `${refreshToken}`);
+async function refreshAccessToken(refreshToken: string) {
+  const data = new URLSearchParams();
+  data.append('grant_type', 'refresh_token');
+  data.append('refresh_token', `${refreshToken}`);
 
-    const response = await axios.post(`${auth_host}/oauth/token`, data, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      auth: {
-        username: clientId,
-        password: clientSecret,
-      },
-    });
-    console.log('New token: ', response.data);
-    //Check!!!!!!!!!!!!!!
-    const { access_token } = response.data;
-    const commersObj = localStorage.getItem(ECommerceKey);
-    if (commersObj) {
-      const commersObjpParsed = JSON.parse(commersObj) as ECommerceLS;
-      commersObjpParsed.accessToken = access_token;
-      localStorage.setItem(ECommerceKey, JSON.stringify(commersObjpParsed));
-    }
-  } catch (error) {
-    console.error('Error refreshing token:', error);
-    throw error;
+  const response = await axios.post(`${authHost}/oauth/token`, data, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    auth: {
+      username: clientId,
+      password: clientSecret,
+    },
+  });
+  const { access_token } = response.data;
+  const commerceObj = localStorage.getItem(ECommerceKey);
+  if (commerceObj) {
+    const commerceObjParsed = JSON.parse(commerceObj) as ECommerceLS;
+    commerceObjParsed.accessToken = access_token;
+    localStorage.setItem(ECommerceKey, JSON.stringify(commerceObjParsed));
   }
 }
 
-async function checkAccessTokenValidation(): Promise<IntrospectionResponse | null> {
+async function validateAccessToken(): Promise<IntrospectionResponse | null> {
   let response = null;
   const commerceInfo = localStorage.getItem(ECommerceKey) as string | null;
   if (commerceInfo) {
     const { accessToken } = JSON.parse(commerceInfo) as ECommerceLS;
-
-    /*     const data = new URLSearchParams();
-        data.append('token', `${accessToken}`);
-        console.log(accessToken);
-    
-        const INTRO_CLIENT: AxiosInstance = axios.create({
-          baseURL: auth_host,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-    
-        response = await INTRO_CLIENT.post(`/oauth/introspect`, data, {
-          auth: {
-            username: clientId,
-            password: clientSecret,
-          },
-        });
-      } */
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', 'Basic ' + btoa(`${clientId}:${clientSecret}`));
@@ -284,9 +191,20 @@ async function checkAccessTokenValidation(): Promise<IntrospectionResponse | nul
       headers: myHeaders,
     };
 
-    const res = await fetch(`${auth_host}/oauth/introspect?token=${accessToken}`, requestOptions);
+    const res = await fetch(`${authHost}/oauth/introspect?token=${accessToken}`, requestOptions);
     response = await res.json();
   }
-  console.log(response);
   return response;
+}
+
+async function refreshTokenInLocalStorage() {
+  const commerceInfo = localStorage.getItem(ECommerceKey) as string | null;
+  if (commerceInfo) {
+    const { refreshToken } = JSON.parse(commerceInfo) as ECommerceLS;
+    if (refreshToken) {
+      await refreshAccessToken(refreshToken);
+    } else {
+      await getBasicToken();
+    }
+  }
 }
