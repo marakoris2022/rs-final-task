@@ -9,28 +9,14 @@ import { Header } from './components/header/Header';
 import { Footer } from './components/footer/Footer';
 import { useStore } from './store/useStore';
 import { useEffect } from 'react';
-import { getBasicToken, getCustomerById } from './api/commers-tools-api';
-import { ECommerceLS } from './interfaces/interfaces';
-
-const ECommerceKey = import.meta.env.VITE_E_COMMERCE_KEY;
+import { initializeUserSession } from './services/initializeUserSession';
 
 export const App = () => {
   const isLogged = useStore((state) => state.isLogged);
 
-  async function initializeUserSession() {
-    !isLogged && (await getBasicToken());
-    if (isLogged) {
-      const commerceInfo = localStorage.getItem(ECommerceKey) as string | null;
-      if (commerceInfo) {
-        const { accessToken, customerId } = JSON.parse(commerceInfo) as ECommerceLS;
-        customerId && (await getCustomerById(customerId, accessToken));
-      }
-    }
-  }
-
   useEffect(() => {
-    initializeUserSession();
-  }, []);
+    initializeUserSession(isLogged);
+  }, [isLogged]);
 
   return (
     <>
