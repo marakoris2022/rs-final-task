@@ -1,4 +1,4 @@
-import styles from './notfoundpage.module.scss';
+import styles from './notFoundPage.module.scss';
 import { Button } from '../../components/button/Button';
 import { useNavigate } from 'react-router-dom';
 
