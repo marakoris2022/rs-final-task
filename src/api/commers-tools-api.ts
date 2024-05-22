@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { ECommerceLS, IntrospectionResponse, LoginProps, UserProps } from '../interfaces/interfaces';
+import { useCustomerStore } from '../store/useCustomerStore';
 
 const auth_host = 'https://auth.europe-west1.gcp.commercetools.com';
 const api = 'https://api.europe-west1.gcp.commercetools.com';
@@ -213,12 +214,14 @@ export async function signUp(user: UserProps): Promise<void> {
 }
 
 export async function getCustomerById(id: string, accessToken: string) {
-  return await axios.get(`${api}/${projectKey}/customers/${id}`, {
+  const userData = await axios.get(`${api}/${projectKey}/customers/${id}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
   });
+  const setCustomer = useCustomerStore.getState().setCustomer;
+  setCustomer(userData.data);
 }
 
 async function getAccessTokenWithRefreshToken(refreshToken: string) {
@@ -260,14 +263,14 @@ async function checkAccessTokenValidation(): Promise<IntrospectionResponse | nul
     /*     const data = new URLSearchParams();
         data.append('token', `${accessToken}`);
         console.log(accessToken);
-    
+
         const INTRO_CLIENT: AxiosInstance = axios.create({
           baseURL: auth_host,
           headers: {
             'Content-Type': 'application/json',
           },
         });
-    
+
         response = await INTRO_CLIENT.post(`/oauth/introspect`, data, {
           auth: {
             username: clientId,
