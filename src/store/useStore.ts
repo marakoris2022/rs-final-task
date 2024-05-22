@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { ECommerceKey } from '../api/commers-tools-api';
+
+const ECommerceKey = import.meta.env.VITE_E_COMMERCE_KEY;
 
 type Store = {
   isLogged: boolean;

@@ -9,8 +9,10 @@ import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import { useStore } from './store/useStore';
 import { useEffect } from 'react';
-import { ECommerceKey, getBasicToken, getCustomerById } from './api/commers-tools-api';
+import { getBasicToken, getCustomerById } from './api/commers-tools-api';
 import { ECommerceLS } from './interfaces/interfaces';
+
+const ECommerceKey = import.meta.env.VITE_E_COMMERCE_KEY;
 
 function App() {
   const isLogged = useStore((state) => state.isLogged);
