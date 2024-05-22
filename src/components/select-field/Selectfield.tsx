@@ -16,7 +16,7 @@ type SelectFieldProps<T extends FormValues> = {
   value?: string;
 };
 
-export default function SelectField<T extends FormValues>({
+export const SelectField = <T extends FormValues>({
   login__form__field,
   style__label,
   login__form__input,
@@ -25,7 +25,7 @@ export default function SelectField<T extends FormValues>({
   formik,
   selectList,
   value,
-}: SelectFieldProps<T>) {
+}: SelectFieldProps<T>) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     formik.setFieldValue(name as string, selectedValue);
@@ -53,4 +53,4 @@ export default function SelectField<T extends FormValues>({
       </select>
     </div>
   );
-}
+};

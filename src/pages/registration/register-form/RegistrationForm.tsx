@@ -1,13 +1,13 @@
-import styles from './register-form.module.scss';
+import styles from './registrationForm.module.scss';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useStore } from '../../../store/useStore.ts';
-import FormField from '../../../components/form-field/form-field.tsx';
-import Button from '../../../components/button/Button.tsx';
-import SelectField from '../../../components/select-field/Selectfield.tsx';
+import { FormField } from '../../../components/form-field/FormField.tsx';
+import { Button } from '../../../components/button/Button.tsx';
+import { SelectField } from '../../../components/select-field/SelectField.tsx';
 import { FormValues, CountryPostalCode } from '../../../interfaces/interfaces.ts';
-import { ModalWindow } from '../../../components/modal/modal-window.tsx';
+import { ModalWindow } from '../../../components/modal/ModalWindow.tsx';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { login, signUp } from '../../../api/commers-tools-api.ts';
 import postalCodesRegexCollection from '../../../data/json/postal-codes.json';
@@ -156,7 +156,7 @@ const validate = (values: FormValues) => {
   return errors;
 };
 
-export default function RegistrationForm() {
+export const RegistrationForm = () => {
   const setLogged = useStore((state) => state.setLogged);
 
   const navigate = useNavigate();
@@ -540,4 +540,4 @@ export default function RegistrationForm() {
       </form>
     </>
   );
-}
+};

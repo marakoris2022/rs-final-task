@@ -1,8 +1,8 @@
 import styles from './main.module.scss';
-import Button from '../../components/button/Button';
+import { Button } from '../../components/button/Button';
 import { useNavigate } from 'react-router-dom';
 
-export default function Main() {
+export const Main = () => {
   const navigate = useNavigate();
 
   return (
@@ -17,4 +17,4 @@ export default function Main() {
       </section>
     </main>
   );
-}
+};

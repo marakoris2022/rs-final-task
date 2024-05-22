@@ -1,12 +1,12 @@
 import { useFormik } from 'formik';
-import styles from './login-form.module.scss';
+import styles from './loginForm.module.scss';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useState } from 'react';
-import Button from '../../../components/button/Button.tsx';
+import { Button } from '../../../components/button/Button.tsx';
 import { FormValues } from '../../../interfaces/interfaces.ts';
-import FormField from '../../../components/form-field/form-field.tsx';
+import { FormField } from '../../../components/form-field/FormField.tsx';
 import { login } from '../../../api/commers-tools-api.ts';
-import { ModalWindow } from '../../../components/modal/modal-window.tsx';
+import { ModalWindow } from '../../../components/modal/ModalWindow.tsx';
 import { useStore } from '../../../store/useStore.ts';
 
 const validate = (values: FormValues) => {

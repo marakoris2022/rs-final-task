@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import Button from '../button/Button';
-import styles from './modal-window.module.scss';
+import { Button } from '../button/Button';
+import styles from './modalWindow.module.scss';
 
 type ModalWindowProps = {
   message: string;

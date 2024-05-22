@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import styles from './registration-prompt.module.scss';
+import styles from './registrationPrompt.module.scss';
 
 export const RegistrationPrompt = () => {
   const navigate = useNavigate();

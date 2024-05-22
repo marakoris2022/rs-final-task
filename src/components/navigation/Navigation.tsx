@@ -1,12 +1,12 @@
 import styles from './navigation.module.scss';
 import { useNavigate } from 'react-router-dom';
-import Button from '../button/Button';
+import { Button } from '../button/Button';
 import { useStore } from '../../store/useStore';
 import { useEffect, useState } from 'react';
-import { BurgerMenu } from '../burger-menu/burger-menu';
+import { BurgerMenu } from '../burger-menu/BurgerMenu';
 import { getBasicToken } from '../../api/commers-tools-api';
 
-export default function Navigation() {
+export const Navigation = () => {
   const navigate = useNavigate();
   const { isLogged, setLogged } = useStore((state) => ({
     isLogged: state.isLogged,
@@ -86,4 +86,4 @@ export default function Navigation() {
       <BurgerMenu isOpen={isOpenBurger} onClick={handleBurger} />
     </>
   );
-}
+};

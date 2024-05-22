@@ -8,7 +8,7 @@ type Button = {
   onClick?: (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
-export default function Button({ style, title, disabled, type, onClick }: Button) {
+export const Button = ({ style, title, disabled, type, onClick }: Button) => {
   return (
     <button
       className={`default__btn ${style}`}
@@ -19,4 +19,4 @@ export default function Button({ style, title, disabled, type, onClick }: Button
       {title}
     </button>
   );
-}
+};

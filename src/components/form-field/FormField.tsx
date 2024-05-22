@@ -1,7 +1,7 @@
 import { FormikProps } from 'formik';
 import { FormValues } from '../../interfaces/interfaces';
 
-import styles from './form-field.module.scss';
+import styles from './formField.module.scss';
 
 type FormFieldProps<T extends FormValues> = {
   stylesField?: string;
@@ -23,7 +23,7 @@ type FormFieldProps<T extends FormValues> = {
   max?: string;
 };
 
-const FormField = <T extends FormValues>({
+export const FormField = <T extends FormValues>({
   stylesField,
   stylesError,
   stylesInput,
@@ -85,5 +85,3 @@ const FormField = <T extends FormValues>({
     </div>
   );
 };
-
-export default FormField;

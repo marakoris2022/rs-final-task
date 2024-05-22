@@ -1,6 +1,6 @@
 import './footer.scss';
 
-export default function Footer() {
+export const Footer = () => {
   return (
     <footer>
       <section>
@@ -8,4 +8,4 @@ export default function Footer() {
       </section>
     </footer>
   );
-}
+};

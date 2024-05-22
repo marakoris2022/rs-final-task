@@ -1,7 +1,7 @@
 import styles from './registration.module.scss';
-import RegistrationForm from './register-form/register-form';
+import { RegistrationForm } from './register-form/RegistrationForm';
 
-export default function Registration() {
+export const Registration = () => {
   return (
     <main>
       <section>
@@ -10,4 +10,4 @@ export default function Registration() {
       </section>
     </main>
   );
-}
+};

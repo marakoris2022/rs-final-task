@@ -1,4 +1,4 @@
-export default function Profile() {
+export const Profile = () => {
   return (
     <main>
       <section>
@@ -6,4 +6,4 @@ export default function Profile() {
       </section>
     </main>
   );
-}
+};

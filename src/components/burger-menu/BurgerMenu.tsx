@@ -1,4 +1,4 @@
-import styles from './burger-menu.module.scss';
+import styles from './burgerMenu.module.scss';
 
 type BurgerMenuProps = {
   isOpen: boolean;
