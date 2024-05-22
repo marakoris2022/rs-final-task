@@ -40,7 +40,7 @@ export const ModalWindow = ({ message, onClose }: ModalWindowProps) => {
         clearTimeout(timerIdRef.current);
       }
     };
-  }, []);
+  }, [timerIdRef]);
 
   const handleClose = () => {
     if (dialogRef.current) {
