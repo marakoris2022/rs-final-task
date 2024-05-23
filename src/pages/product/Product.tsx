@@ -3,25 +3,36 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProductByKey } from '../../api/commers-tools-api';
 
-// productData - is 'any' -> Fix it!
+// fetchedData - is 'any' -> fix it?
 
 type ProductData = {
   title: string;
+  description: string;
+  imageTitle: string;
 };
 
 export const Product = () => {
   const navigate = useNavigate();
   const { key } = useParams();
   const [productData, setProductData] = useState<ProductData>({
-    title: 'No name',
+    title: 'No data',
+    description: 'No data',
+    imageTitle: 'No data',
   });
 
   async function renderProductData(productKey: string) {
     try {
       const fetchedData = await getProductByKey(productKey);
-      const gameName = fetchedData.masterData.current.name.en as string;
+      console.log(fetchedData);
+
+      const title = fetchedData.masterData.current.name.en as string;
+      const description = fetchedData.masterData.current.description['en-US'] as string;
+      const imageTitle = fetchedData.masterData.current.masterVariant.images[0].url as string;
+
       setProductData({
-        title: gameName,
+        title,
+        description,
+        imageTitle,
       });
     } catch {
       navigate('/NotFoundPage');
@@ -35,7 +46,11 @@ export const Product = () => {
   return (
     <div className={styles.productWrapper}>
       <p>Card Data</p>
+      <div>
+        <img src={productData.imageTitle} alt="Game Image" />
+      </div>
       <p>Product name: {productData.title}</p>
+      <p>Description: {productData.description}</p>
     </div>
   );
 };
