@@ -5,31 +5,99 @@
   justify-content: center;
   align-items: center;
 
-  .title {
-    font-size: 36px;
-    margin: 40px 0;
-  }
+  .contentWrapper {
+    display: flex;
+    flex-direction: row-reverse;
 
-  .imageTitleWrapper {
-    width: 100%;
+    margin-bottom: 20px;
+    padding: 20px 0;
 
-    .imageTitleBorder {
-      border-radius: 15px;
-      overflow: hidden;
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-      width: 80%;
-      min-width: 340px;
-      max-width: 700px;
-      margin: 0 auto;
+      padding: 10px;
+      width: 50%;
 
-      .imageTitle {
-        display: block;
+      .title {
+        font-size: 5vw;
+
+        margin: 10px auto;
+      }
+      .description {
+        font-size: 2vw;
+        line-height: 130%;
+      }
+    }
+
+    .imageTitleWrapper {
+      width: 50%;
+
+      display: flex;
+      align-items: center;
+
+      .imageTitleBorder {
+        border-radius: 15px;
+        overflow: hidden;
+
         width: 100%;
+
+        .imageTitle {
+          display: block;
+          width: 100%;
+        }
+      }
+    }
+
+    @media screen and (max-width: 800px) {
+      .imageTitleWrapper {
+        margin-bottom: 4vw;
+      }
+      & {
+        flex-direction: column-reverse;
+        align-items: center;
+      }
+
+      .content {
+        width: 100%;
+
+        .title {
+          font-size: 7vw;
+
+          margin: 10px auto;
+        }
+        .description {
+          font-size: 3vw;
+          line-height: 130%;
+        }
+      }
+
+      .imageTitleWrapper {
+        width: 100%;
+      }
+    }
+    @media screen and (max-width: 550px) {
+      .content {
+        .title {
+          font-size: 36px;
+        }
+        .description {
+          font-size: 16px;
+        }
       }
     }
   }
 
   .loadingPage {
     font-size: 36px;
+  }
+
+  .carouselWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    margin-bottom: 20px;
   }
 }

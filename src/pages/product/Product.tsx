@@ -2,6 +2,7 @@ import styles from './product.module.scss';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProductByKey } from '../../api/commers-tools-api';
+import { Carousel } from '../../components/carousel/Carousel';
 
 // fetchedData - is 'any' -> fix it?
 
@@ -34,8 +35,6 @@ export const Product = () => {
       const imagesJson = fetchedData.masterData.current.masterVariant.attributes[5].value as string;
       const images = JSON.parse(imagesJson) as Array<string>;
 
-      console.log('images', images);
-
       setProductData({
         title,
         description,
@@ -58,24 +57,20 @@ export const Product = () => {
     </div>
   ) : (
     <div className={styles.productWrapper}>
-      <p className={styles.title}>{productData.title}</p>
-
-      <div className={styles.imageTitleWrapper}>
-        <div className={styles.imageTitleBorder}>
-          <img className={styles.imageTitle} src={productData.imageTitle} alt="Game Image" />
+      <div className={styles.contentWrapper}>
+        <div className={styles.content}>
+          <p className={styles.title}>{productData.title}</p>
+          <p className={styles.description}>{productData.description}</p>
+        </div>
+        <div className={styles.imageTitleWrapper}>
+          <div className={styles.imageTitleBorder}>
+            <img className={styles.imageTitle} src={productData.imageTitle} alt="Game Image" />
+          </div>
         </div>
       </div>
 
-      <p>Description: {productData.description}</p>
-
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '15px' }}>
-        {productData.images.map((image) => {
-          return (
-            <div>
-              <img style={{ width: '340px' }} src={image} alt="game image" />
-            </div>
-          );
-        })}
+      <div className={styles.carouselWrapper}>
+        <Carousel images={productData.images} />
       </div>
     </div>
   );
