@@ -9,7 +9,7 @@ type ModalWindowProps = {
 
 export const ModalWindow = ({ message, onClose }: ModalWindowProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  let timerId: NodeJS.Timeout | null = null;
+  const timerIdRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleBackDropClose = (event: React.MouseEvent<HTMLDialogElement, MouseEvent>) => {
     if (!dialogRef.current) {
@@ -24,7 +24,7 @@ export const ModalWindow = ({ message, onClose }: ModalWindowProps) => {
       event.clientY > modalRect.bottom
     ) {
       dialogRef.current.close();
-      timerId = setTimeout(() => {
+      timerIdRef.current = setTimeout(() => {
         onClose();
       }, 400);
     }
@@ -36,17 +36,17 @@ export const ModalWindow = ({ message, onClose }: ModalWindowProps) => {
     }
 
     return () => {
-      if (timerId) {
-        clearTimeout(timerId);
+      if (timerIdRef.current) {
+        clearTimeout(timerIdRef.current);
       }
     };
-  }, []);
+  }, [timerIdRef]);
 
   const handleClose = () => {
     if (dialogRef.current) {
       dialogRef.current.close();
     }
-    timerId = setTimeout(() => {
+    timerIdRef.current = setTimeout(() => {
       onClose();
     }, 400);
   };

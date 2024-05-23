@@ -46,7 +46,7 @@ export const SelectField = <T extends FormValues>({
         value={formik.values[name as string] ?? value}
       >
         {selectList.map((item, index) => (
-          <option key={index} value={item} label={item}>
+          <option key={`${item}-${index}`} value={item} label={item}>
             {item}
           </option>
         ))}

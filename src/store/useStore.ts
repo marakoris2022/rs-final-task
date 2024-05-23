@@ -9,7 +9,7 @@ type Store = {
 
 function isUserInLS(): boolean {
   const data = JSON.parse(localStorage.getItem(ECommerceKey)!);
-  return data && data.customerId;
+  return !!data?.customerId;
 }
 
 const useStore = create<Store>()((set) => ({

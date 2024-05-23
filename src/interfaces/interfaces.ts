@@ -1,3 +1,19 @@
+type Address = {
+  id?: string;
+  title: string;
+  firstName: string;
+  lastName: string;
+  streetName: string;
+  streetNumber?: string;
+  additionalStreetInfo?: string;
+  postalCode: string;
+  city: string;
+  region?: string;
+  state?: string;
+  country: string;
+  phone?: string;
+};
+
 export type UserProps = {
   email: string;
   password: string;
@@ -11,21 +27,7 @@ export type UserProps = {
   shippingAddresses?: number[];
   billingAddresses?: number[];
   isEmailVerified?: boolean;
-  addresses?: Array<{
-    id?: string;
-    title: string;
-    firstName: string;
-    lastName: string;
-    streetName: string;
-    streetNumber?: string;
-    additionalStreetInfo?: string;
-    postalCode: string;
-    city: string;
-    region?: string;
-    state?: string;
-    country: string;
-    phone?: string;
-  }>;
+  addresses?: Array<Address>;
   defaultShippingAddressId?: string;
   defaultBillingAddressId?: string;
 };
