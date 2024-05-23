@@ -36,28 +36,43 @@ const countryCodes: { [key: string]: string } = {
   Germany: 'DE',
 };
 
+const EMAIL_WHITESPACE_REGEX = /^\s+|\s+$/;
+const EMAIL_FORMAT_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+
+const PASSWORD_WHITESPACE_REGEX = /^\s|\s$/;
+const PASSWORD_LOWERCASE_REGEX = /(?=.*[a-z])/;
+const PASSWORD_UPPERCASE_REGEX = /(?=.*[A-Z])/;
+const PASSWORD_DIGIT_REGEX = /(?=.*\d)/;
+const PASSWORD_SPECIAL_CHAR_REGEX = /(?=.*[!@#$%^&*])/;
+
+const NAME_UPPERCASE_REGEX = /(?=.*[A-Z])/;
+const NAME_LETTERS_ONLY_REGEX = /^[a-zA-Z]+$/;
+
+const CITY_UPPERCASE_REGEX = /(?=.*[A-Z])/;
+const CITY_LETTERS_ONLY_REGEX = /^[a-zA-Z]+$/;
+
 const validate = (values: FormValues) => {
   const errors: FormValues = {};
 
   if (!values.email) {
     errors.email = 'Required';
-  } else if (/^\s+|\s+$/.test(values.email)) {
+  } else if (EMAIL_WHITESPACE_REGEX.test(values.email)) {
     errors.email = 'Email must not contain leading or trailing whitespace';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+  } else if (!EMAIL_FORMAT_REGEX.test(values.email)) {
     errors.email = 'Invalid email address';
   }
 
   if (!values.password) {
     errors.password = 'Required';
-  } else if (/^\s|\s$/.test(values.password)) {
+  } else if (PASSWORD_WHITESPACE_REGEX.test(values.password)) {
     errors.password = 'Password must not contain leading or trailing whitespace';
-  } else if (!/(?=.*[a-z])/.test(values.password)) {
+  } else if (!PASSWORD_LOWERCASE_REGEX.test(values.password)) {
     errors.password = 'Password must contain at least one lowercase letter (a-z)';
-  } else if (!/(?=.*[A-Z])/.test(values.password)) {
+  } else if (!PASSWORD_UPPERCASE_REGEX.test(values.password)) {
     errors.password = 'Password must contain at least one uppercase letter (A-Z)';
-  } else if (!/(?=.*\d)/.test(values.password)) {
+  } else if (!PASSWORD_DIGIT_REGEX.test(values.password)) {
     errors.password = 'Password must contain at least one digit (0-9)';
-  } else if (!/(?=.*[!@#$%^&*])/.test(values.password)) {
+  } else if (!PASSWORD_SPECIAL_CHAR_REGEX.test(values.password)) {
     errors.password = 'Password must contain at least one special character !@#$%^&';
   } else if (values.password.length < 8) {
     errors.password = 'Must be at least 8 characters';
@@ -65,9 +80,9 @@ const validate = (values: FormValues) => {
 
   if (!values.firstName) {
     errors.firstName = 'Required';
-  } else if (!/(?=.*[A-Z])/.test(values.firstName)) {
+  } else if (!NAME_UPPERCASE_REGEX.test(values.firstName)) {
     errors.firstName = 'First name must contain at least one uppercase letter (A-Z)';
-  } else if (!/^[a-zA-Z]+$/.test(values.firstName)) {
+  } else if (!NAME_LETTERS_ONLY_REGEX.test(values.firstName)) {
     errors.firstName = 'First name must contain only letters';
   } else if (values.firstName.length < 1) {
     errors.firstName = 'First name must be at least 1 character';
@@ -75,12 +90,12 @@ const validate = (values: FormValues) => {
 
   if (!values.lastName) {
     errors.lastName = 'Required';
-  } else if (!/(?=.*[A-Z])/.test(values.lastName)) {
-    errors.lastName = 'Last must contain at least one uppercase letter (A-Z)';
-  } else if (!/^[a-zA-Z]+$/.test(values.lastName)) {
-    errors.lastName = 'Last must contain only letters';
+  } else if (!NAME_UPPERCASE_REGEX.test(values.lastName)) {
+    errors.lastName = 'Last name must contain at least one uppercase letter (A-Z)';
+  } else if (!NAME_LETTERS_ONLY_REGEX.test(values.lastName)) {
+    errors.lastName = 'Last name must contain only letters';
   } else if (values.lastName.length < 1) {
-    errors.lastName = 'Last must be at least 1 character';
+    errors.lastName = 'Last name must be at least 1 character';
   }
 
   if (!values.street) {
@@ -91,12 +106,12 @@ const validate = (values: FormValues) => {
 
   if (!values.city) {
     errors.city = 'Required';
-  } else if (!/(?=.*[A-Z])/.test(values.city)) {
+  } else if (!CITY_UPPERCASE_REGEX.test(values.city)) {
     errors.city = 'City must contain at least one uppercase letter (A-Z)';
-  } else if (!/^[a-zA-Z]+$/.test(values.city)) {
+  } else if (!CITY_LETTERS_ONLY_REGEX.test(values.city)) {
     errors.city = 'City must contain only letters';
   } else if (values.city.length < 4) {
-    errors.city = 'City must be at least 4 character';
+    errors.city = 'City must be at least 4 characters';
   }
 
   if (!values.country) {
@@ -108,7 +123,7 @@ const validate = (values: FormValues) => {
   if (!values.postal) {
     errors.postal = 'Required';
   } else if (values.country && values.postal) {
-    const countryInList: CountryPostalCode | undefined = getCountry(values.country);
+    const countryInList = getCountry(values.country);
 
     if (countryInList) {
       const rg = countryInList['Regex'];
@@ -126,18 +141,18 @@ const validate = (values: FormValues) => {
 
   if (!values.city2) {
     errors.city2 = 'Required';
-  } else if (!/(?=.*[A-Z])/.test(values.city2)) {
+  } else if (!CITY_UPPERCASE_REGEX.test(values.city2)) {
     errors.city2 = 'City must contain at least one uppercase letter (A-Z)';
-  } else if (!/^[a-zA-Z]+$/.test(values.city2)) {
+  } else if (!CITY_LETTERS_ONLY_REGEX.test(values.city2)) {
     errors.city2 = 'City must contain only letters';
   } else if (values.city2.length < 4) {
-    errors.city2 = 'City must be at least 4 character';
+    errors.city2 = 'City must be at least 4 characters';
   }
 
   if (!values.postal2) {
     errors.postal2 = 'Required';
   } else if (values.country2 && values.postal2) {
-    const countryInList2: CountryPostalCode | undefined = getCountry(values.country2);
+    const countryInList2 = getCountry(values.country2);
 
     if (countryInList2) {
       const rg = countryInList2['Regex'];

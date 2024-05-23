@@ -58,28 +58,48 @@ export const Navigation = () => {
             />
           </li>
           <li>
-            <Button
-              style={styles.navBtn}
-              onClick={() => {
-                isLogged ? navigate('/profile') : navigate('/login');
-                isOpenBurger && handleBurger();
-              }}
-              title={isLogged ? 'Profile' : 'Login'}
-            />
+            {isLogged ? (
+              <Button
+                style={styles.navBtn}
+                onClick={() => {
+                  navigate('/profile');
+                  isOpenBurger && handleBurger();
+                }}
+                title="Profile"
+              />
+            ) : (
+              <Button
+                style={styles.navBtn}
+                onClick={() => {
+                  navigate('/login');
+                  isOpenBurger && handleBurger();
+                }}
+                title="Login"
+              />
+            )}
           </li>
           <li>
-            <Button
-              style={styles.navBtn}
-              onClick={() => {
-                if (isLogged) {
+            {isLogged ? (
+              <Button
+                style={styles.navBtn}
+                onClick={() => {
                   localStorage.clear();
                   getBasicToken();
-                }
-                isLogged ? setLogged(false) : navigate('/registration');
-                isOpenBurger && handleBurger();
-              }}
-              title={isLogged ? 'Logout' : 'Registration'}
-            />
+                  setLogged(false);
+                  isOpenBurger && handleBurger();
+                }}
+                title="Logout"
+              />
+            ) : (
+              <Button
+                style={styles.navBtn}
+                onClick={() => {
+                  navigate('/registration');
+                  isOpenBurger && handleBurger();
+                }}
+                title="Registration"
+              />
+            )}
           </li>
         </ul>
       </nav>

@@ -61,12 +61,11 @@ export async function getBasicToken() {
   });
 
   const { access_token } = response.data;
-  localStorage.setItem(
-    ECommerceKey,
-    JSON.stringify({
-      accessToken: access_token,
-    }),
-  );
+
+  const jsonBody = { accessToken: access_token };
+
+  localStorage.setItem(ECommerceKey, JSON.stringify(jsonBody));
+  return JSON.stringify(jsonBody);
 }
 
 export async function login(email: string, password: string): Promise<LoginProps | undefined> {
@@ -96,7 +95,7 @@ export async function login(email: string, password: string): Promise<LoginProps
           accessToken: access_token,
         }),
       );
-      const customer = await getCustomerById(customer_id, access_token);
+      // const customer = await getCustomerById(customer_id, access_token); REMOVE OR USE IT !?
     }
     return response.data;
   } catch (error) {

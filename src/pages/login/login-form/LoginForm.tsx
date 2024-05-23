@@ -12,26 +12,33 @@ import { useStore } from '../../../store/useStore.ts';
 const validate = (values: FormValues) => {
   const errors: FormValues = {};
 
+  const REGEX_LEADING_TRAILING_WHITESPACE = /^\s+|\s+$/;
+  const REGEX_EMAIL_FORMAT = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+  const REGEX_PASSWORD_LOWERCASE = /(?=.*[a-z])/;
+  const REGEX_PASSWORD_UPPERCASE = /(?=.*[A-Z])/;
+  const REGEX_PASSWORD_DIGIT = /(?=.*\d)/;
+  const REGEX_PASSWORD_SPECIAL_CHARACTER = /(?=.*[!@#$%^&*])/;
+
   if (!values.email) {
     errors.email = 'Required';
-  } else if (/^\s+|\s+$/.test(values.email)) {
+  } else if (REGEX_LEADING_TRAILING_WHITESPACE.test(values.email)) {
     errors.email = 'Email must not contain leading or trailing whitespace';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+  } else if (!REGEX_EMAIL_FORMAT.test(values.email)) {
     errors.email = 'Invalid email address';
   }
 
   if (!values.password) {
     errors.password = 'Required';
-  } else if (/^\s|\s$/.test(values.password)) {
+  } else if (REGEX_LEADING_TRAILING_WHITESPACE.test(values.password)) {
     errors.password = 'Password must not contain leading or trailing whitespace';
-  } else if (!/(?=.*[a-z])/.test(values.password)) {
+  } else if (!REGEX_PASSWORD_LOWERCASE.test(values.password)) {
     errors.password = 'Password must contain at least one lowercase letter (a-z)';
-  } else if (!/(?=.*[A-Z])/.test(values.password)) {
+  } else if (!REGEX_PASSWORD_UPPERCASE.test(values.password)) {
     errors.password = 'Password must contain at least one uppercase letter (A-Z)';
-  } else if (!/(?=.*\d)/.test(values.password)) {
+  } else if (!REGEX_PASSWORD_DIGIT.test(values.password)) {
     errors.password = 'Password must contain at least one digit (0-9)';
-  } else if (!/(?=.*[!@#$%^&*])/.test(values.password)) {
-    errors.password = 'Password must contain at least one special character !@#$%^&';
+  } else if (!REGEX_PASSWORD_SPECIAL_CHARACTER.test(values.password)) {
+    errors.password = 'Password must contain at least one special character !@#$%^&*';
   } else if (values.password.length < 8) {
     errors.password = 'Must be at least 8 characters';
   }
