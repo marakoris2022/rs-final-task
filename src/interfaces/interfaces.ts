@@ -30,7 +30,8 @@ export type UserProps = {
   addresses?: Array<Address>;
   defaultShippingAddressId?: string;
   defaultBillingAddressId?: string;
-  version: number;
+  version?: number;
+  id?: string;
 };
 
 export type LoginProps = {

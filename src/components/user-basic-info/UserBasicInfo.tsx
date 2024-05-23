@@ -1,10 +1,12 @@
 import styles from './userBasicInfo.module.scss';
 import { useFormik } from 'formik';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Button } from '../button/Button';
 import { FormField } from '../form-field/FormField';
 import { useCustomerStore } from '../../store/useCustomerStore';
 import { FormValues } from '../../interfaces/interfaces';
+import { ModalWindow } from '../modal/ModalWindow';
+import { updateBasicUserData } from '../../api/commerce-tools-api-profile';
 
 const EMAIL_WHITESPACE_REGEX = /^\s+|\s+$/;
 const EMAIL_FORMAT_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -52,6 +54,7 @@ const validate = (values: FormValues) => {
 export const UserBasicInfo = () => {
   const customer = useCustomerStore((state) => state.customer);
   const updateCustomer = useCustomerStore((state) => state.updateCustomer);
+  const [message, setMessage] = useState('');
 
   const initialValues: FormValues = {
     email: customer?.email || '',
@@ -66,12 +69,17 @@ export const UserBasicInfo = () => {
     // enableReinitialize: true,
     onSubmit: async (values) => {
       try {
-        const valuesWithVersion = { ...values, version: (customer!.version += 1) };
-        updateCustomer(valuesWithVersion);
+        const valuesWithVersion = { ...values, version: customer?.version ? customer.version : 1 };
+
+        if (customer!.id) {
+          const { version } = await updateBasicUserData(customer!.id, valuesWithVersion);
+          updateCustomer({ ...values, version });
+          setMessage(() => 'Changes saved');
+        }
       } catch (err: unknown) {
         if (err instanceof Error) {
           const errMsg = err.message;
-          console.log(errMsg);
+          setMessage(() => errMsg);
         }
       }
     },
@@ -137,6 +145,8 @@ export const UserBasicInfo = () => {
         type="submit"
         disabled={!formik.isValid || formik.isSubmitting || !isModified}
       />
+
+      {message && <ModalWindow message={message} onClose={() => setMessage(() => '')} />}
     </form>
   );
 };

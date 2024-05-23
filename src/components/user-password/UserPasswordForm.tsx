@@ -6,6 +6,8 @@ import { FormField } from '../form-field/FormField';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Button } from '../button/Button';
 import { ModalWindow } from '../modal/ModalWindow';
+import { useCustomerStore } from '../../store/useCustomerStore';
+import { updateUserPassword } from '../../api/commerce-tools-api-profile';
 
 const validate = (values: FormValues) => {
   const errors: FormValues = {};
@@ -52,9 +54,11 @@ const validate = (values: FormValues) => {
 };
 
 export const UserPasswordForm = () => {
+  const customer = useCustomerStore((state) => state.customer);
+  const updateCustomer = useCustomerStore((state) => state.updateCustomer);
   const [showPassword, setShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -72,12 +76,19 @@ export const UserPasswordForm = () => {
     validate,
     onSubmit: async (values) => {
       try {
-        console.log(values);
+        const valuesWithVersion = { ...values, version: customer?.version ? customer.version : 1 };
+
+        if (customer!.id) {
+          const { version } = await updateUserPassword(customer!.id, valuesWithVersion);
+          updateCustomer({ ...values, version });
+          setMessage(() => 'Password successfully changed');
+          formik.resetForm();
+        }
       } catch (err: unknown) {
         if (err instanceof Error) {
           const errMsg = err.message;
-          setError(() => errMsg);
-          formik.setFieldValue('password', '');
+          setMessage(() => errMsg);
+          formik.setFieldValue('currentPassword', '');
         }
       }
     },
@@ -126,7 +137,7 @@ export const UserPasswordForm = () => {
         disabled={!formik.isValid || formik.isSubmitting || !formik.dirty}
       />
 
-      {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
+      {message && <ModalWindow message={message} onClose={() => setMessage(() => '')} />}
     </form>
   );
 };
