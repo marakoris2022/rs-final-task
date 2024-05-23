@@ -37,7 +37,7 @@ export const App = () => {
           <Route path="/login" element={isLogged ? <Navigate to="/" replace /> : <Login />} />
           <Route path="/registration" element={isLogged ? <Navigate to="/" replace /> : <Registration />} />
           <Route path="/profile" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />
-          <Route path="/products/:key" element={<Product />} />
+          <Route path="/catalog/:key" element={<Product />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

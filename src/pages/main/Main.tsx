@@ -22,7 +22,7 @@ export const Main = () => {
         >
           <Button
             style={styles.navBtn}
-            onClick={() => navigate('/products/EvilQuest904381')}
+            onClick={() => navigate('/catalog/EvilQuest904381')}
             title={'Test Card : EvilQuest904381'}
           />
         </div>
@@ -37,7 +37,7 @@ export const Main = () => {
         >
           <Button
             style={styles.navBtn}
-            onClick={() => navigate('/products/Real688610')}
+            onClick={() => navigate('/catalog/Real688610')}
             title={'Test Card : Real688610'}
           />
         </div>
