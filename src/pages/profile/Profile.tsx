@@ -1,5 +1,3 @@
-// import './main.scss';
-
 import { useState } from 'react';
 import { UserAddresses } from '../../components/user-addresses/UserAddresses';
 import { UserPersonalInfo } from '../../components/user-personal-info/UserPersonalInfo';
@@ -28,8 +26,8 @@ export const Profile = () => {
           <Button style="sadsa" title="Addresses" type="button" onClick={() => setActiveComponent('addresses')} />
         </div>
         <div>
-          {activeComponent === 'personal' && <UserPersonalInfo userData={customer} />}
-          {activeComponent === 'addresses' && <UserAddresses userData={customer} />}
+          {activeComponent === 'personal' && <UserPersonalInfo />}
+          {activeComponent === 'addresses' && <UserAddresses />}
         </div>
       </section>
     </main>

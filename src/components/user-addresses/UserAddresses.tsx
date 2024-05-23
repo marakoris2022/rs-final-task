@@ -1,10 +1,11 @@
-import { UserProps } from '../../interfaces/interfaces';
+import { useCustomerStore } from '../../store/useCustomerStore';
 
-export const UserAddresses = ({ userData }: { userData: UserProps }) => {
-  console.log(userData);
+export const UserAddresses = () => {
+  const customer = useCustomerStore((state) => state.customer);
+
   return (
     <div>
-      {userData.addresses?.map((item, index) => {
+      {customer?.addresses?.map((item, index) => {
         return (
           <div key={index}>
             <p>Address:</p>

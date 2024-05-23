@@ -1,14 +1,5 @@
-import { UserProps } from '../../interfaces/interfaces';
+import { UserBasicInfo } from '../user-basic-info/UserBasicInfo';
 
-export const UserPersonalInfo = ({ userData }: { userData: UserProps }) => {
-  return (
-    <div>
-      <p>First Name:</p>
-      <p>{userData.firstName}</p>
-      <p>Last Name:</p>
-      <p>{userData.lastName}</p>
-      <p>Date of Birth:</p>
-      <p>{userData.dateOfBirth}</p>
-    </div>
-  );
+export const UserPersonalInfo = () => {
+  return <UserBasicInfo />;
 };
