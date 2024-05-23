@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProductByKey } from '../../api/commers-tools-api';
 import { Carousel } from '../../components/carousel/Carousel';
+import { ModalWindow } from '../../components/modal/ModalWindow';
 
 // fetchedData - is 'any' -> fix it?
 
@@ -11,17 +12,20 @@ type ProductData = {
   description: string;
   imageTitle: string;
   images: Array<string>;
+  modalImages: Array<string>;
 };
 
 export const Product = () => {
   const navigate = useNavigate();
   const { key } = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const [isModal, setIsModal] = useState(false);
   const [productData, setProductData] = useState<ProductData>({
     title: '',
     description: '',
     imageTitle: '',
     images: [],
+    modalImages: [],
   });
 
   async function renderProductData(productKey: string) {
@@ -34,12 +38,14 @@ export const Product = () => {
       const imageTitle = fetchedData.masterData.current.masterVariant.images[0].url as string;
       const imagesJson = fetchedData.masterData.current.masterVariant.attributes[5].value as string;
       const images = JSON.parse(imagesJson) as Array<string>;
+      const modalImages = [imageTitle, ...images];
 
       setProductData({
         title,
         description,
         imageTitle,
         images,
+        modalImages,
       });
       setIsLoading(false);
     } catch {
@@ -62,7 +68,7 @@ export const Product = () => {
           <p className={styles.title}>{productData.title}</p>
           <p className={styles.description}>{productData.description}</p>
         </div>
-        <div className={styles.imageTitleWrapper}>
+        <div onClick={() => setIsModal(true)} className={styles.imageTitleWrapper}>
           <div className={styles.imageTitleBorder}>
             <img className={styles.imageTitle} src={productData.imageTitle} alt="Game Image" />
           </div>
@@ -72,6 +78,19 @@ export const Product = () => {
       <div className={styles.carouselWrapper}>
         <Carousel images={productData.images} />
       </div>
+
+      {isModal && (
+        <ModalWindow
+          message={
+            <div style={{ maxHeight: '75vh' }} className={styles.carouselWrapper}>
+              <Carousel images={productData.modalImages} />
+            </div>
+          }
+          onClose={() => {
+            setIsModal(false);
+          }}
+        />
+      )}
     </div>
   );
 };
