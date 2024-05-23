@@ -11,36 +11,6 @@ export const Main = () => {
         <Button style={styles.navBtn} onClick={() => navigate('/')} title={'Main'} />
         <Button style={styles.navBtn} onClick={() => navigate('/login')} title={'Login'} />
         <Button style={styles.navBtn} onClick={() => navigate('/registration')} title={'Registration'} />
-        <div
-          style={{
-            padding: '40px',
-            margin: '15px',
-            border: '1px solid black',
-            width: 'fit-content',
-            borderRadius: '15px',
-          }}
-        >
-          <Button
-            style={styles.navBtn}
-            onClick={() => navigate('/catalog/EvilQuest904381')}
-            title={'Test Card : EvilQuest904381'}
-          />
-        </div>
-        <div
-          style={{
-            padding: '40px',
-            margin: '15px',
-            border: '1px solid black',
-            width: 'fit-content',
-            borderRadius: '15px',
-          }}
-        >
-          <Button
-            style={styles.navBtn}
-            onClick={() => navigate('/catalog/Real688610')}
-            title={'Test Card : Real688610'}
-          />
-        </div>
       </nav>
       <section className={styles.mainSection}>
         <h2>Main Page</h2>
