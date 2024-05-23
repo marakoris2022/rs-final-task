@@ -3,10 +3,10 @@ const projectKey = import.meta.env.VITE_PROJECT_KEY;
 
 export interface UserDataBasic {
   version: number;
-  email?: string;
-  firstName?: string;
-  lastName?: string;
-  dateOfBirth?: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
 }
 
 interface UserDataPassword {

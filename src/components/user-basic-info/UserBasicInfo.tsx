@@ -56,7 +56,7 @@ export const UserBasicInfo = () => {
   const updateCustomer = useCustomerStore((state) => state.updateCustomer);
   const [message, setMessage] = useState('');
 
-  const initialValues: FormValues = {
+  const initialValues = {
     email: customer?.email || '',
     firstName: customer?.firstName || '',
     lastName: customer?.lastName || '',
