@@ -12,24 +12,22 @@ import { Pagination, Navigation } from 'swiper/modules';
 
 export const Carousel = ({ images }: { images: Array<string> }) => {
   return (
-    <>
-      <Swiper
-        slidesPerView={1}
-        spaceBetween={30}
-        loop={true}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={true}
-        modules={[Pagination, Navigation]}
-        className="mySwiper"
-      >
-        {images.map((image, index) => (
-          <SwiperSlide key={`${index}_carousel_image`}>
-            <img src={image} alt="img" />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </>
+    <Swiper
+      slidesPerView={1}
+      spaceBetween={30}
+      loop={true}
+      pagination={{
+        clickable: true,
+      }}
+      navigation={true}
+      modules={[Pagination, Navigation]}
+      className="mySwiper"
+    >
+      {images.map((image, index) => (
+        <SwiperSlide key={`${index}_carousel_image`}>
+          <img src={image} alt="img" />
+        </SwiperSlide>
+      ))}
+    </Swiper>
   );
 };
