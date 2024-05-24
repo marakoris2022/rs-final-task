@@ -44,24 +44,26 @@ export const Product = () => {
   async function renderProductData(productKey: string) {
     try {
       const fetchedData = await getProductByKey(productKey);
-      console.log(fetchedData);
 
-      const title = fetchedData.masterData.current.name.en as string;
-      const description = fetchedData.masterData.current.description['en-US'] as string;
-      const imageTitle = fetchedData.masterData.current.masterVariant.images[0].url as string;
-      const imagesJson = fetchedData.masterData.current.masterVariant.attributes[5].value as string;
-      const images = JSON.parse(imagesJson) as Array<string>;
+      const masterData = fetchedData.masterData.current;
+      const masterVariant = masterData.masterVariant;
+      const attributes = masterVariant.attributes;
+
+      const getStringAttribute = (index: number) => attributes[index].value as string;
+
+      const title = masterData.name.en as string;
+      const description = masterData.description['en-US'] as string;
+      const imageTitle = masterVariant.images[0].url as string;
+      const images = JSON.parse(getStringAttribute(5)) as Array<string>;
       const modalImages = [imageTitle, ...images];
-      const price = fetchedData.masterData.current.masterVariant.prices[0].value.centAmount;
+      const price = masterVariant.prices[0].value.centAmount;
 
-      const releaseDate = fetchedData.masterData.current.masterVariant.attributes[4].value as string;
-      const positive = fetchedData.masterData.current.masterVariant.attributes[7].value as string;
-      const userScore = fetchedData.masterData.current.masterVariant.attributes[0].value as string;
-      const categoriesJson = fetchedData.masterData.current.masterVariant.attributes[2].value as string;
-      const categoriesAdd = JSON.parse(categoriesJson);
+      const releaseDate = getStringAttribute(4);
+      const positive = getStringAttribute(7);
+      const userScore = getStringAttribute(0);
+      const categoriesAdd = JSON.parse(getStringAttribute(2));
 
-      const movieJson = fetchedData.masterData.current.masterVariant.attributes[3].value as string;
-      const movie = JSON.parse(movieJson);
+      const movie = JSON.parse(getStringAttribute(3));
 
       setProductData({
         title,
