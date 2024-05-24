@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { ECommerceLS, IntrospectionResponse, LoginProps, UserProps } from '../interfaces/interfaces';
+import { useCustomerStore } from '../store/useCustomerStore';
 
 const authHost = import.meta.env.VITE_AUTH_HOST;
 const api = import.meta.env.VITE_API;
@@ -145,12 +146,14 @@ export async function signUp(user: UserProps): Promise<void> {
 }
 
 export async function getCustomerById(id: string, accessToken: string) {
-  return await axios.get(`${api}/${projectKey}/customers/${id}`, {
+  const userData = await axios.get(`${api}/${projectKey}/customers/${id}`, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
   });
+  const setCustomer = useCustomerStore.getState().setCustomer;
+  setCustomer(userData.data);
 }
 
 // return await axios.get(`${api}/${projectKey}products/key=${productKey}`, {
