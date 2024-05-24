@@ -8,6 +8,7 @@ import { Button } from '../button/Button';
 import { ModalWindow } from '../modal/ModalWindow';
 import { useCustomerStore } from '../../store/useCustomerStore';
 import { updateUserPassword } from '../../api/commerce-tools-api-profile';
+import { login } from '../../api/commers-tools-api';
 
 const validate = (values: FormValues) => {
   const errors: FormValues = {};
@@ -82,6 +83,7 @@ export const UserPasswordForm = () => {
           const { version } = await updateUserPassword(customer!.id, valuesWithVersion);
           updateCustomer({ ...values, version });
           setMessage(() => 'Password successfully changed');
+          await login(customer!.email, values.newPassword);
           formik.resetForm();
         }
       } catch (err: unknown) {

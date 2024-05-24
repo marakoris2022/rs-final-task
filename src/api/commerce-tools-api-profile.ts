@@ -1,5 +1,8 @@
+import { ECommerceLS } from '../interfaces/interfaces';
+
 const api = import.meta.env.VITE_API;
 const projectKey = import.meta.env.VITE_PROJECT_KEY;
+const ECommerceKey = import.meta.env.VITE_E_COMMERCE_KEY;
 
 export interface UserDataBasic {
   version: number;
@@ -17,7 +20,11 @@ interface UserDataPassword {
 
 export const updateBasicUserData = async (userId: string, updatedUserData: UserDataBasic) => {
   const apiUrl = `${api}/${projectKey}/customers/${userId}`;
-  const accessToken = 'vqMKk2sT2CXMGnuKf4adI4mgFPGJF7MJ';
+  const commerceObj = localStorage.getItem(ECommerceKey);
+  let accessToken;
+  if (commerceObj) {
+    accessToken = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
+  }
 
   const requestBody = {
     version: updatedUserData.version,
@@ -50,7 +57,11 @@ export const updateBasicUserData = async (userId: string, updatedUserData: UserD
 
 export const updateUserPassword = async (userId: string, updatedUserData: UserDataPassword) => {
   const apiUrl = `${api}/${projectKey}/customers/password`;
-  const accessToken = 'vqMKk2sT2CXMGnuKf4adI4mgFPGJF7MJ';
+  const commerceObj = localStorage.getItem(ECommerceKey);
+  let accessToken;
+  if (commerceObj) {
+    accessToken = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
+  }
 
   const requestBody = {
     id: userId,
