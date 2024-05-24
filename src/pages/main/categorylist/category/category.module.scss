@@ -1,0 +1,44 @@
+.boxContainer {
+    display: block;
+    position: relative;
+    margin: 8px 0;
+    width: 100%;
+    padding-left: 26px;
+}
+
+.categoryInput {
+    appearance: none;
+    position: absolute;
+    top: 2px;
+    left: 0;
+    margin: 0;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #fff;
+    border-radius: 3px;
+}
+
+.categoryInput:checked {
+    background-color: #2b60d2;
+}
+
+.categoryInput:checked::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 5px;
+    height: 8px;
+    border: 2px solid transparent;
+    border-bottom-color: #fff;
+    border-right-color: #fff;
+    transform-origin: 50% 50%;
+    transform: rotate(35deg);
+}
+
+.boxContainer p {
+    font-size: 16px;
+    line-height: 1.2;
+    color: #000;
+}
