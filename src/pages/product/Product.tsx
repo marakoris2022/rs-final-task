@@ -96,7 +96,7 @@ export const Product = () => {
     <div className={styles.productWrapper}>
       <div className={styles.contentWrapper}>
         <div className={styles.content}>
-          <p className={styles.title}>{productData.title}</p>
+          <h1 className={styles.title}>{productData.title}</h1>
           <p className={styles.description}>{productData.description}</p>
         </div>
         <div onClick={() => setIsModal(true)} className={styles.imageTitleWrapper}>
@@ -106,7 +106,7 @@ export const Product = () => {
         </div>
       </div>
       <div className={styles.buyWrapper}>
-        <p className={styles.buyPromo}>Buy it now! </p>
+        <h3 className={styles.buyPromo}>Buy it now! </h3>
         <Button style={styles.buyBtn} title={`${productData.price / 100} USD`} />
       </div>
 
@@ -114,9 +114,9 @@ export const Product = () => {
         <Carousel images={productData.images} />
       </div>
 
-      <div>
-        <h2 className={styles.addTitle}>Additional game data:</h2>
-        <ul className={styles.addWrapper}>
+      <div className={styles.addWrapper}>
+        <h3 className={styles.addTitle}>Additional game data:</h3>
+        <ul className={styles.addList}>
           <li>Game released: {productData.releaseDate}</li>
           <li>Positive: {productData.positive}</li>
           <li>User score: {productData.userScore}</li>
@@ -135,7 +135,7 @@ export const Product = () => {
 
       {productData.movie.length > 0 && (
         <div>
-          <h2 className={styles.addTitle}>Game Movie</h2>
+          <h3 className={styles.addTitle}>Game Movie</h3>
           {productData.movie.map((video, index) => {
             return (
               <div key={`${index}_video`} className={styles.videoWrapper}>

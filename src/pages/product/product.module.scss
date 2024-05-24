@@ -177,42 +177,46 @@
     }
   }
 
+  .addWrapper {
+    margin: 2vw 0;
+  }
+
+  .addList li {
+    font-size: 2vw;
+    line-height: 140%;
+    margin: 15px 0;
+  }
   .addTitle {
     font-size: 4vw;
     line-height: 100%;
     text-align: center;
-
-    margin: 10px auto;
-  }
-  .addWrapper li {
-    font-size: 2vw;
-    line-height: 140%;
   }
 
   @media screen and (max-width: 800px) {
     .addTitle {
-      font-size: 36px;
+      font-size: 30px;
       line-height: 100%;
       text-align: center;
 
       margin: 10px auto;
     }
-    .addWrapper li {
+    .addList li {
       font-size: 16px;
-      line-height: 140%;
+      margin: 10px 0;
+      line-height: 130%;
     }
   }
 
   .videoWrapper {
     margin: 15px 0;
 
-    width: 100%;
-
     border-radius: 10px;
     overflow: hidden;
 
     .video {
-      width: 100%;
+      display: block;
+      width: 90%;
+      margin: 0 auto;
     }
   }
 
