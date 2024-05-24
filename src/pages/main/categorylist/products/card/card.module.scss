@@ -1,0 +1,84 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  justify-content: start;
+  border: 1px solid rgb(3, 3, 44);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.cardContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  aspect-ratio: 16/9;
+  padding: 5px;
+  min-width: 100px;
+  justify-content: start;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+
+.cardTitle {
+  text-align: center;
+  line-height: 110%;
+  background: radial-gradient(brown, rgb(70, 52, 1), );
+  padding: 5px;
+  margin: 0;
+  width: 100%;
+  color: #fff;
+}
+
+.cardDescriptionContainer {
+  flex: 1;
+  border-radius: 5px;
+}
+
+.cardDescription {
+  text-align: start;
+  overflow: hidden;
+  border-radius: 5px;
+  padding: 5px;
+  line-height: 110%;
+  background-color: rgba(4, 4, 51, 0.5);
+  transition: all 0.5s linear;
+  cursor: pointer;
+}
+
+.cardBtn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: none;
+  background: radial-gradient(#cde17d, rgb(125, 142, 16));
+  border-radius: 5px;
+  color: #fff;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+
+.priceInfo {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 5px;
+  background: linear-gradient(to right, #e6dedf, rgb(125, 142, 16));
+  color: #fff;
+  font-weight: 700;
+}
+
+@media (hover: hover) {
+  .cardBtn:hover {
+    background-color: lightgray;
+  }
+
+  .cardDescription:hover {
+    background-color: rgb(4, 4, 51);
+  }
+}
