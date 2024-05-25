@@ -1,19 +1,42 @@
 .modalError {
-  padding: 40px;
+  padding: 20px;
   z-index: 5;
   position: fixed;
   border-radius: 10px;
   background-color: #ddecf9;
 
-  p {
+  .p {
     font-size: 1.2rem;
-    margin-bottom: 50px;
+    margin-bottom: 1.5vw;
+
+    text-align: center;
   }
 
   .modalErrorBtn {
-    background-color: #4396dd;
-    display: flex;
+    display: block;
+    transition: 0.2s ease;
+
+    background-color: #1d4ae9;
+    color: #ffffff;
+
     margin: 0 auto;
+
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: none;
+    line-height: 1em;
+    letter-spacing: 0.32px;
+
+    border-radius: 5px;
+    border: none;
+
+    cursor: pointer;
+  }
+
+  @media (any-hover: hover) {
+    .modalErrorBtn:hover {
+      background: #5eabdd;
+    }
   }
 }
 

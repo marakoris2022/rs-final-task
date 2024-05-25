@@ -34,13 +34,57 @@ type CategoryObj = {
   total: number;
 };
 
-type ImagesType = {
-  dimensions: {
-    h: number;
-    w: number;
-  };
+type Dimension = {
+  w: number;
+  h: number;
+};
+
+type Image = {
+  dimensions: Dimension;
   label: string;
   url: string;
+};
+
+type Price = {
+  type: string;
+  currencyCode: string;
+  centAmount: number;
+  fractionDigits: number;
+};
+
+type Attribute = {
+  name: string;
+  value: string | number;
+};
+
+type Category = {
+  typeId: string;
+  id: string;
+};
+
+type MasterVariant = {
+  attributes: Attribute[];
+
+  images: Image[];
+  prices: {
+    id: string;
+    value: Price;
+  }[];
+};
+
+type MasterData = {
+  current: {
+    categories: Category[];
+    description: Record<string, string>;
+    masterVariant: MasterVariant;
+    name: Record<string, string>;
+  };
+};
+
+export type ProductTypeByKey = {
+  masterData: MasterData;
+  id: number;
+  key: string;
 };
 
 export type ProductType = {
@@ -49,9 +93,7 @@ export type ProductType = {
   description: {
     ['en-US']: string;
   };
-  masterVariant: {
-    images: ImagesType[];
-  };
+  masterVariant: MasterVariant;
   name: {
     en: string;
     ['en-US']: string;
@@ -110,7 +152,7 @@ export async function getProductsByCategory(
   return selectedProducts;
 }
 
-export async function getProductByKey(key: string): Promise<ProductType | null> {
+export async function getProductByKey(key: string): Promise<ProductTypeByKey | null> {
   let selectedProduct = null;
   const commerceObj = localStorage.getItem(ECommerceKey);
   if (commerceObj) {
