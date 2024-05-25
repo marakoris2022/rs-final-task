@@ -90,6 +90,7 @@ export const UserBasicInfo = () => {
   const formik = useFormik({
     initialValues,
     validate,
+    enableReinitialize: true,
     onSubmit: async (values) => {
       try {
         const valuesWithVersion = { ...values, version: customer?.version ? customer.version : 1 };
