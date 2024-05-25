@@ -57,6 +57,13 @@ export const FormField = <T extends FormValues>({
   );
 
   const getFieldStyle = () => {
+    const initialValue = formik.initialValues[name];
+    const currValue = formik.values[name];
+
+    if (!formik.touched[name] || (initialValue === currValue && currValue !== '')) {
+      return { outlineColor: FieldColors.BLUE };
+    }
+
     if (formik.touched[name] && formik.errors[name]) {
       return { borderColor: FieldColors.RED, outlineColor: FieldColors.RED };
     }

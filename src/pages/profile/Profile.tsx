@@ -1,3 +1,4 @@
+import styles from './profile.module.scss';
 import { useState } from 'react';
 import { UserAddresses } from '../../components/user-addresses/UserAddresses';
 import { UserPersonalInfo } from '../../components/user-personal-info/UserPersonalInfo';
@@ -15,15 +16,20 @@ export const Profile = () => {
   return (
     <main>
       <section>
-        <h2>Profile Page</h2>
-        <div>
+        <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>Profile</h2>
+        <div className={styles.profileSectionBtnsContainer}>
           <Button
-            style="sadsa"
-            title="Personal Information"
+            style={`${styles.profileSectionBtn} ${activeComponent === 'personal' ? styles.active : ''}`}
+            title="Personal Info"
             type="button"
             onClick={() => setActiveComponent('personal')}
           />
-          <Button style="sadsa" title="Addresses" type="button" onClick={() => setActiveComponent('addresses')} />
+          <Button
+            style={`${styles.profileSectionBtn} ${activeComponent === 'addresses' ? styles.active : ''}`}
+            title="Addresses"
+            type="button"
+            onClick={() => setActiveComponent('addresses')}
+          />
         </div>
         <div>
           {activeComponent === 'personal' && <UserPersonalInfo />}

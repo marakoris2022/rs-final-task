@@ -1,0 +1,26 @@
+
+.profileSectionBtnsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.profileSectionBtn {
+  background-color: #bcbcbc;
+  border: none;
+  min-width: 155px;
+
+  @media (any-hover: hover) {
+    &:hover {
+      background-color: #b1cbff;
+    }
+  }
+  &.active {
+    background-color: #1d4ae9;
+    color: white;
+    cursor: default;
+  }
+}

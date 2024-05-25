@@ -13,6 +13,30 @@ const EMAIL_FORMAT_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 const NAME_UPPERCASE_REGEX = /(?=.*[A-Z])/;
 const NAME_LETTERS_ONLY_REGEX = /^[a-zA-Z]+$/;
 
+function convertDateToReadableFormat(dateString: string | undefined) {
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  if (dateString) {
+    const [year, month, day] = dateString.split('-');
+    const monthName = months[parseInt(month, 10) - 1];
+
+    return `${monthName} ${parseInt(day, 10)}, ${year}`;
+  }
+}
+
 const areValuesEqual = (initialValues: FormValues, currentValues: FormValues): boolean => {
   return Object.keys(initialValues).every((key) => initialValues[key] === currentValues[key]);
 };
@@ -66,7 +90,6 @@ export const UserBasicInfo = () => {
   const formik = useFormik({
     initialValues,
     validate,
-    // enableReinitialize: true,
     onSubmit: async (values) => {
       try {
         const valuesWithVersion = { ...values, version: customer?.version ? customer.version : 1 };
@@ -75,6 +98,7 @@ export const UserBasicInfo = () => {
           const { version } = await updateBasicUserData(customer!.id, valuesWithVersion);
           updateCustomer({ ...values, version });
           setMessage(() => 'Changes saved');
+          formik.setTouched({}, false);
         }
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -88,65 +112,91 @@ export const UserBasicInfo = () => {
   const isModified = useMemo(() => !areValuesEqual(initialValues, formik.values), [formik.values, initialValues]);
 
   return (
-    <form className={styles.userForm} onSubmit={formik.handleSubmit}>
-      <FormField
-        stylesField={styles.loginFormField}
-        stylesError={styles.loginFormError}
-        stylesInput={styles.loginFormInput}
-        stylesInputWrapper={styles.loginFormInputWrapper}
-        formik={formik}
-        labelText="Email:"
-        placeholder="example@gmail.com"
-        id="email"
-        name="email"
-        type="text"
-        autoComplete="email"
-      ></FormField>
+    <div>
+      <div className={styles.basicInfoContainer}>
+        <h3>Your Personal Information</h3>
+        <hr />
+        <div className={styles.basicInfoItemContainer}>
+          <h4>Your email:</h4>
+          <p className={styles.basicInfoItem}>{customer?.email}</p>
+        </div>
+        <div className={styles.basicInfoItemContainer}>
+          <h4>Your name:</h4>
+          <p className={styles.basicInfoItem}>{customer?.firstName}</p>
+        </div>
+        <div className={styles.basicInfoItemContainer}>
+          <h4>Your last name:</h4>
+          <p className={styles.basicInfoItem}>{customer?.lastName}</p>
+        </div>
+        <div className={styles.basicInfoItemContainer}>
+          <h4>Your date of birth:</h4>
+          <p className={styles.basicInfoItem}>{convertDateToReadableFormat(customer?.dateOfBirth)}</p>
+        </div>
+      </div>
+      <form className={styles.userForm} onSubmit={formik.handleSubmit}>
+        <div className={styles.basicInfoContainer}>
+          <h3>Change Your Personal Information</h3>
+          <hr />
 
-      <FormField
-        stylesField={styles.loginFormField}
-        stylesError={styles.loginFormError}
-        stylesInput={styles.loginFormInput}
-        formik={formik}
-        labelText="First name:"
-        placeholder="First name"
-        id="firstName"
-        name="firstName"
-        type="text"
-      ></FormField>
+          <FormField
+            stylesError={styles.profileFormError}
+            stylesInput={styles.profileFormInput}
+            stylesInputWrapper={styles.labelInputContainer}
+            formik={formik}
+            labelText="Email:"
+            placeholder="example@gmail.com"
+            id="email"
+            name="email"
+            type="text"
+            autoComplete="email"
+          ></FormField>
 
-      <FormField
-        stylesField={styles.loginFormField}
-        stylesError={styles.loginFormError}
-        stylesInput={styles.loginFormInput}
-        formik={formik}
-        labelText="Last name:"
-        placeholder="Last name"
-        id="lastName"
-        name="lastName"
-        type="text"
-      ></FormField>
+          <FormField
+            stylesError={styles.profileFormError}
+            stylesInput={styles.profileFormInput}
+            stylesInputWrapper={styles.labelInputContainer}
+            formik={formik}
+            labelText="First name:"
+            placeholder="First name"
+            id="firstName"
+            name="firstName"
+            type="text"
+          ></FormField>
 
-      <FormField
-        stylesField={styles.loginFormField}
-        stylesError={styles.loginFormError}
-        stylesInput={styles.loginFormInput}
-        formik={formik}
-        labelText="Date of Birth:"
-        id="dateOfBirth"
-        name="dateOfBirth"
-        type="date"
-        max="2010-01-01"
-      ></FormField>
+          <FormField
+            stylesError={styles.profileFormError}
+            stylesInput={styles.profileFormInput}
+            stylesInputWrapper={styles.labelInputContainer}
+            formik={formik}
+            labelText="Last name:"
+            placeholder="Last name"
+            id="lastName"
+            name="lastName"
+            type="text"
+          ></FormField>
 
-      <Button
-        style={styles.loginFormBtn}
-        title="Save"
-        type="submit"
-        disabled={!formik.isValid || formik.isSubmitting || !isModified}
-      />
+          <FormField
+            stylesError={styles.profileFormError}
+            stylesInput={styles.profileFormInput}
+            stylesInputWrapper={styles.labelInputContainer}
+            formik={formik}
+            labelText="Date of birth:"
+            id="dateOfBirth"
+            name="dateOfBirth"
+            type="date"
+            max="2010-01-01"
+          ></FormField>
 
-      {message && <ModalWindow message={message} onClose={() => setMessage(() => '')} />}
-    </form>
+          <Button
+            style={styles.profileFormBtn}
+            title="Save"
+            type="submit"
+            disabled={!formik.isValid || formik.isSubmitting || !isModified}
+          />
+
+          {message && <ModalWindow message={message} onClose={() => setMessage(() => '')} />}
+        </div>
+      </form>
+    </div>
   );
 };

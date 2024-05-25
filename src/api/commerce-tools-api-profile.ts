@@ -22,6 +22,7 @@ export const updateBasicUserData = async (userId: string, updatedUserData: UserD
   const apiUrl = `${api}/${projectKey}/customers/${userId}`;
   const commerceObj = localStorage.getItem(ECommerceKey);
   let accessToken;
+
   if (commerceObj) {
     accessToken = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
   }
@@ -59,6 +60,7 @@ export const updateUserPassword = async (userId: string, updatedUserData: UserDa
   const apiUrl = `${api}/${projectKey}/customers/password`;
   const commerceObj = localStorage.getItem(ECommerceKey);
   let accessToken;
+
   if (commerceObj) {
     accessToken = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
   }
