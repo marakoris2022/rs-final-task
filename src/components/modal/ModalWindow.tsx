@@ -3,7 +3,7 @@ import { Button } from '../button/Button';
 import styles from './modalWindow.module.scss';
 
 type ModalWindowProps = {
-  message: string;
+  message: string | JSX.Element;
   onClose: () => void;
 };
 
@@ -53,7 +53,7 @@ export const ModalWindow = ({ message, onClose }: ModalWindowProps) => {
 
   return (
     <dialog className={styles.modalError} ref={dialogRef} onClick={handleBackDropClose}>
-      <p>{message}</p>
+      <div className={styles.p}>{message}</div>
       <Button style={styles.modalErrorBtn} title="Close" type="button" onClick={handleClose} />
     </dialog>
   );

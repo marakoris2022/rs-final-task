@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { CategoryResults, ProductType, getCategories, getProductsByCategory } from '../../api/catalogue-api';
 import { CategoryList } from './categorylist/CategoryList';
 import { ProductList } from './categorylist/products/ProductsList';
-import { useStore } from 'zustand';
 
 const getCategoryList = async (): Promise<CategoryResults[] | null> => {
   return await getCategories('key asc');
