@@ -120,7 +120,7 @@ export const Product = () => {
           <li>Game released: {productData.releaseDate}</li>
           <li>Positive: {productData.positive}</li>
           <li>User score: {productData.userScore}</li>
-          {productData.categoriesAdd.length && (
+          {productData.categoriesAdd.length > 0 && (
             <li>
               Steam categories:
               <ul>
