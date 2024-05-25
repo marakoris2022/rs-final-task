@@ -117,19 +117,19 @@ export const UserBasicInfo = () => {
         <h3>Your Personal Information</h3>
         <hr />
         <div className={styles.basicInfoItemContainer}>
-          <h4>Your email:</h4>
+          <h4>Your Email:</h4>
           <p className={styles.basicInfoItem}>{customer?.email}</p>
         </div>
         <div className={styles.basicInfoItemContainer}>
-          <h4>Your name:</h4>
+          <h4>Your First Name:</h4>
           <p className={styles.basicInfoItem}>{customer?.firstName}</p>
         </div>
         <div className={styles.basicInfoItemContainer}>
-          <h4>Your last name:</h4>
+          <h4>Your Last Name:</h4>
           <p className={styles.basicInfoItem}>{customer?.lastName}</p>
         </div>
         <div className={styles.basicInfoItemContainer}>
-          <h4>Your date of birth:</h4>
+          <h4>Your Date of Birth:</h4>
           <p className={styles.basicInfoItem}>{convertDateToReadableFormat(customer?.dateOfBirth)}</p>
         </div>
       </div>
@@ -156,7 +156,7 @@ export const UserBasicInfo = () => {
             stylesInput={styles.profileFormInput}
             stylesInputWrapper={styles.labelInputContainer}
             formik={formik}
-            labelText="First name:"
+            labelText="First Name:"
             placeholder="First name"
             id="firstName"
             name="firstName"
@@ -168,7 +168,7 @@ export const UserBasicInfo = () => {
             stylesInput={styles.profileFormInput}
             stylesInputWrapper={styles.labelInputContainer}
             formik={formik}
-            labelText="Last name:"
+            labelText="Last Name:"
             placeholder="Last name"
             id="lastName"
             name="lastName"
@@ -180,7 +180,7 @@ export const UserBasicInfo = () => {
             stylesInput={styles.profileFormInput}
             stylesInputWrapper={styles.labelInputContainer}
             formik={formik}
-            labelText="Date of birth:"
+            labelText="Date of Birth:"
             id="dateOfBirth"
             name="dateOfBirth"
             type="date"
