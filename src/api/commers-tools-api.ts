@@ -156,29 +156,6 @@ export async function getCustomerById(id: string, accessToken: string) {
   setCustomer(userData.data);
 }
 
-// return await axios.get(`${api}/${projectKey}products/key=${productKey}`, {
-
-export async function getProductByKey(productKey: string): Promise<any> {
-  try {
-    const commerceObj = localStorage.getItem(ECommerceKey);
-    if (commerceObj) {
-      const token = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
-      const response = await apiClient.get(`/${projectKey}/products/key=${productKey}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    }
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data.message);
-    } else if (error instanceof Error) {
-      throw error;
-    }
-  }
-}
-
 async function refreshAccessToken(refreshToken: string) {
   const data = new URLSearchParams();
   data.append('grant_type', 'refresh_token');

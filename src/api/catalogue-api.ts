@@ -34,46 +34,58 @@ type CategoryObj = {
   total: number;
 };
 
-type AttributesType = {
-  name: string;
-  value: number | string;
+type Dimension = {
+  w: number;
+  h: number;
 };
 
-type PricesType = {
-  id: string;
-  value: { type: string; currencyCode: string; centAmount: number; fractionDigits: number };
-};
-
-type ImagesType = {
-  dimensions: {
-    h: number;
-    w: number;
-  };
+type Image = {
+  dimensions: Dimension;
   label: string;
   url: string;
 };
 
-/* type CurrentType = {
-  categories: { typeId: string; id: string }[];
-  description: {
-    ['en-US']: string;
+type Price = {
+  type: string;
+  currencyCode: string;
+  centAmount: number;
+  fractionDigits: number;
+};
+
+type Attribute = {
+  name: string;
+  value: string | number;
+};
+
+type Category = {
+  typeId: string;
+  id: string;
+};
+
+type MasterVariant = {
+  attributes: Attribute[];
+
+  images: Image[];
+  prices: {
+    id: string;
+    value: Price;
+  }[];
+};
+
+type MasterData = {
+  current: {
+    categories: Category[];
+    description: Record<string, string>;
+    masterVariant: MasterVariant;
+    name: Record<string, string>;
   };
-  masterVariant: {
-    id: number;
-    sku: string;
-    key: string;
-    attributes: AttributesType[];
-    prices: PricesType[];
-    images: ImagesType[];
-  };
-  name: {
-    en: string;
-    ['en-US']: string;
-  };
-  slug: {
-    en: string;
-  };
-}; */
+};
+
+export type ProductTypeByKey = {
+  masterData: MasterData;
+  id: number;
+  key: string;
+};
 
 export type ProductType = {
   id: string;
@@ -81,9 +93,7 @@ export type ProductType = {
   description: {
     ['en-US']: string;
   };
-  masterVariant: {
-    images: ImagesType[];
-  };
+  masterVariant: MasterVariant;
   name: {
     en: string;
     ['en-US']: string;
@@ -137,12 +147,11 @@ export async function getProductsByCategory(
     );
     const { results } = response.data;
     selectedProducts = results;
-    console.log('Here: ', selectedProducts);
   }
   return selectedProducts;
 }
 
-export async function getProductByKey(key: string): Promise<ProductType | null> {
+export async function getProductByKey(key: string): Promise<ProductTypeByKey | null> {
   let selectedProduct = null;
   const commerceObj = localStorage.getItem(ECommerceKey);
   if (commerceObj) {

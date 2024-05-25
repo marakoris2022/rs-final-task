@@ -1,12 +1,10 @@
 import styles from './product.module.scss';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getProductByKey } from '../../api/commers-tools-api';
+import { getProductByKey } from '../../api/catalogue-api';
 import { Carousel } from '../../components/carousel/Carousel';
 import { ModalWindow } from '../../components/modal/ModalWindow';
 import { Button } from '../../components/button/Button';
-
-// fetchedData - is 'any' -> fix it?
 
 type ProductData = {
   title: string;
@@ -16,8 +14,8 @@ type ProductData = {
   modalImages: Array<string>;
   price: number;
   releaseDate: string;
-  positive: string;
-  userScore: string;
+  positive: number;
+  userScore: number;
   categoriesAdd: Array<string>;
   movie: Array<string>;
 };
@@ -35,8 +33,8 @@ export const Product = () => {
     modalImages: [],
     price: 0,
     releaseDate: '',
-    positive: '',
-    userScore: '',
+    positive: 0,
+    userScore: 0,
     categoriesAdd: [],
     movie: [],
   });
@@ -45,40 +43,42 @@ export const Product = () => {
     try {
       const fetchedData = await getProductByKey(productKey);
 
-      const masterData = fetchedData.masterData.current;
-      const masterVariant = masterData.masterVariant;
-      const attributes = masterVariant.attributes;
+      if (fetchedData) {
+        const masterData = fetchedData.masterData.current;
+        const masterVariant = masterData.masterVariant;
+        const attributes = masterVariant.attributes;
 
-      const getStringAttribute = (index: number) => attributes[index].value as string;
+        const getStringAttribute = (index: number) => attributes[index].value;
 
-      const title = masterData.name.en as string;
-      const description = masterData.description['en-US'] as string;
-      const imageTitle = masterVariant.images[0].url as string;
-      const images = JSON.parse(getStringAttribute(5)) as Array<string>;
-      const modalImages = [imageTitle, ...images];
-      const price = masterVariant.prices[0].value.centAmount;
+        const title = masterData.name.en;
+        const description = masterData.description['en-US'];
+        const imageTitle = masterVariant.images[0].url;
+        const images = JSON.parse(getStringAttribute(5) as string);
+        const modalImages = [imageTitle, ...images];
+        const price = masterVariant.prices[0].value.centAmount;
 
-      const releaseDate = getStringAttribute(4);
-      const positive = getStringAttribute(7);
-      const userScore = getStringAttribute(0);
-      const categoriesAdd = JSON.parse(getStringAttribute(2));
+        const releaseDate = String(getStringAttribute(4));
+        const positive = Number(getStringAttribute(7));
+        const userScore = Number(getStringAttribute(0));
+        const categoriesAdd = JSON.parse(getStringAttribute(2) as string);
 
-      const movie = JSON.parse(getStringAttribute(3));
+        const movie = JSON.parse(getStringAttribute(3) as string);
 
-      setProductData({
-        title,
-        description,
-        imageTitle,
-        images,
-        modalImages,
-        price,
-        releaseDate,
-        positive,
-        userScore,
-        categoriesAdd,
-        movie,
-      });
-      setIsLoading(false);
+        setProductData({
+          title,
+          description,
+          imageTitle,
+          images,
+          modalImages,
+          price,
+          releaseDate,
+          positive,
+          userScore,
+          categoriesAdd,
+          movie,
+        });
+        setIsLoading(false);
+      }
     } catch {
       navigate('/NotFoundPage');
     }
