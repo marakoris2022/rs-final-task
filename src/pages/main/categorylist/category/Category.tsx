@@ -9,8 +9,8 @@ type CategoryType = {
 
 export const Category = ({ value, children }: CategoryType) => {
   return (
-    <label className={styles.boxContainer} htmlFor="categoryBox">
-      <input type="checkbox" className={styles.categoryInput} name="categoryBox" value={value} />
+    <label className={styles.boxContainer} htmlFor={value}>
+      <input type="checkbox" className={styles.categoryInput} id={value} name="categoryBox" value={value} />
       <p>{children}</p>
     </label>
   );

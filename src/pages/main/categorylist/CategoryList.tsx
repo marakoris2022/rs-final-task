@@ -3,6 +3,7 @@ import styles from './categories.module.scss';
 import { Category } from './category/Category';
 import { CategoryResults } from '../../../api/catalogue-api';
 import { useCategoryStore } from '../../../store/useCategoryStore';
+import { DoubleSlider } from '../../../components/slider/DoubleSlider';
 
 type CategoryListType = {
   categoryList: CategoryResults[];
@@ -31,11 +32,16 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         <h2 className={styles.categoryTitle}>Categories</h2>
         <input type="submit" className={styles.submitBtn} value="submit" />
       </div>
-      {categoryList.map((category) => (
-        <Category key={category.id} value={category.id}>
-          {category.name['en-US']}
-        </Category>
-      ))}
+      <fieldset className={styles.categoryWrapper} name="categoryFieldSet">
+        {categoryList.map((category) => (
+          <Category key={category.id} value={category.id}>
+            {category.name['en-US']}
+          </Category>
+        ))}
+      </fieldset>
+      <fieldset className={styles.filterWrapper} name="filterFieldSet">
+        <DoubleSlider></DoubleSlider>
+      </fieldset>
     </form>
   );
 };
