@@ -2,29 +2,28 @@ import { FormEvent, useCallback } from 'react';
 import styles from './categories.module.scss';
 import { Category } from './category/Category';
 import { CategoryResults } from '../../../api/catalogue-api';
-import { useStore } from 'zustand';
+import { useCategoryStore } from '../../../store/useCategoryStore';
 
 type CategoryListType = {
   categoryList: CategoryResults[];
 };
 
 export const CategoryList = ({ categoryList }: CategoryListType) => {
-  /* const addCategories = useStore(state => state.addSelectedCategories); */
+  const addCategories = useCategoryStore((state) => state.addCategories);
 
-  const submitHandler = useCallback((event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    /*  if (event.currentTarget instanceof HTMLFormElement) {
-       const form = event.currentTarget;
-       const selectedCategories = Array.from(form.elements)
-         .filter((elem) => elem instanceof HTMLInputElement && elem.hasAttribute('checked') && elem.checked === true)
-         .map((box) => {
-           if (box instanceof HTMLInputElement) {
-             return box.value;
-           }
-         });
-       addCategories(selectedCategories);
-     } */
-  }, []);
+  const submitHandler = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (event.target instanceof HTMLFormElement) {
+        const form = event.target;
+        const formElements = Array.from(form.elements) as HTMLInputElement[];
+        const filtered = formElements.filter((elem) => elem.type === 'checkbox' && elem.checked);
+        const mapped = filtered.map((box) => box.value);
+        addCategories(mapped);
+      }
+    },
+    [addCategories],
+  );
 
   return (
     <form onSubmit={submitHandler} className={styles.form}>

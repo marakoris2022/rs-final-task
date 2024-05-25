@@ -5,21 +5,21 @@ import { useEffect, useState } from 'react';
 import { CategoryResults, ProductType, getCategories, getProductsByCategory } from '../../api/catalogue-api';
 import { CategoryList } from './categorylist/CategoryList';
 import { ProductList } from './categorylist/products/ProductsList';
-import { useStore } from 'zustand';
+import { useCategoryStore } from '../../store/useCategoryStore';
 
 const getCategoryList = async (): Promise<CategoryResults[] | null> => {
   return await getCategories('key asc');
 };
 
-const getProductList = async (): Promise<ProductType[] | null> => {
-  return await getProductsByCategory();
+const getProductList = async (categories: string[]): Promise<ProductType[] | null> => {
+  return await getProductsByCategory(categories);
 };
 
 export const Main = () => {
   const navigate = useNavigate();
   const [ctgList, setCtgList] = useState<CategoryResults[] | null>(null);
   const [products, setProducts] = useState<ProductType[] | null>(null);
-  /*  const storedCategories = useStore((state) => state.categories); */
+  const selectedCategories = useCategoryStore((state) => state.categories);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -32,12 +32,12 @@ export const Main = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const productList = await getProductList();
+      const productList = await getProductList(selectedCategories);
       setProducts(productList);
     };
 
     fetchProducts();
-  }, []);
+  }, [selectedCategories]);
 
   return (
     <main className={styles.catalog}>
