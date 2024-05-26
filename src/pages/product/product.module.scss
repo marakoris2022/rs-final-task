@@ -478,4 +478,13 @@
 
     margin-bottom: 20px;
   }
+
+  .contentWrapper:hover,
+  .buyWrapper:hover,
+  .carouselWrapper:hover,
+  .categoryWrapper:hover,
+  .addWrapper:hover,
+  .videoBlockWrapper:hover {
+    background-color: rgba(211, 211, 211, 0.2);
+  }
 }
