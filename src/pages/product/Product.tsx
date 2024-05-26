@@ -5,6 +5,7 @@ import { getProductByKey } from '../../api/catalogue-api';
 import { Carousel } from '../../components/carousel/Carousel';
 import { ModalWindow } from '../../components/modal/ModalWindow';
 import { Button } from '../../components/button/Button';
+import { getCategoryNameById } from '../../services/getCategoryNameById';
 
 type ProductData = {
   title: string;
@@ -17,6 +18,7 @@ type ProductData = {
   positive: number;
   userScore: number;
   categoriesAdd: Array<string>;
+  categories: { id: string }[];
   movie: Array<string>;
 };
 
@@ -35,6 +37,7 @@ export const Product = () => {
     releaseDate: '',
     positive: 0,
     userScore: 0,
+    categories: [],
     categoriesAdd: [],
     movie: [],
   });
@@ -60,7 +63,10 @@ export const Product = () => {
         const releaseDate = String(getStringAttribute(4));
         const positive = Number(getStringAttribute(7));
         const userScore = Number(getStringAttribute(0));
+        const categories = fetchedData.masterData.current.categories;
         const categoriesAdd = JSON.parse(getStringAttribute(2) as string);
+
+        console.log('categories', categories);
 
         const movie = JSON.parse(getStringAttribute(3) as string);
 
@@ -76,6 +82,7 @@ export const Product = () => {
           userScore,
           categoriesAdd,
           movie,
+          categories,
         });
         setIsLoading(false);
       }
@@ -114,28 +121,31 @@ export const Product = () => {
         <Carousel images={productData.images} />
       </div>
 
+      <div className={styles.categoryWrapper}>
+        <h3 className={styles.categoryTitle}>Game Categories:</h3>
+        <ul className={styles.listWrapper}>
+          {productData.categories.map((item, index) => {
+            return (
+              <li className={styles.categoryItem} key={`${index}_cat`}>
+                <Button style={styles.categoryBtn} title={getCategoryNameById(item.id)!} />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
       <div className={styles.addWrapper}>
         <h3 className={styles.addTitle}>Additional game data:</h3>
         <ul className={styles.addList}>
           <li>Game released: {productData.releaseDate}</li>
           <li>Positive: {productData.positive}</li>
           <li>User score: {productData.userScore}</li>
-          {productData.categoriesAdd.length > 0 && (
-            <li>
-              Steam categories:
-              <ul>
-                {productData.categoriesAdd.map((item, index) => {
-                  return <li key={`${index}_steam_cat`}>{item}</li>;
-                })}
-              </ul>
-            </li>
-          )}
         </ul>
       </div>
 
       {productData.movie.length > 0 && (
-        <div>
-          <h3 className={styles.addTitle}>Game Movie</h3>
+        <div className={styles.videoBlockWrapper}>
+          <h3 className={styles.videoTitle}>Game Movie</h3>
           {productData.movie.map((video, index) => {
             return (
               <div key={`${index}_video`} className={styles.videoWrapper}>
