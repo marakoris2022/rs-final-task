@@ -4,6 +4,7 @@ import { Category } from './category/Category';
 import { CategoryResults } from '../../../api/catalogue-api';
 import { useCategoryStore } from '../../../store/useCategoryStore';
 import { DoubleSlider } from '../../../components/slider/DoubleSlider';
+import { YearPicker } from './year-picker/YearPicker';
 
 type CategoryListType = {
   categoryList: CategoryResults[];
@@ -29,8 +30,8 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
   return (
     <form onSubmit={submitHandler} className={styles.form}>
       <div className={styles.btnsContainer}>
-        <input type="submit" className={styles.submitBtn} value="submit" />
-        <input type="reset" className={styles.submitBtn} value="reset" />
+        <input type="submit" className={styles.formBtn} value="submit" />
+        <input type="reset" className={styles.formBtn} value="reset" />
       </div>
       <div className={styles.titleContainer}>{<h2 className={styles.categoryTitle}>Categories</h2>}</div>
       <fieldset className={styles.categoryWrapper} name="categoryFieldSet">
@@ -40,8 +41,11 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           </Category>
         ))}
       </fieldset>
-      <fieldset className={styles.filterWrapper} name="filterFieldSet">
+      <fieldset className={styles.priceFilterWrapper} name="price-filter">
         <DoubleSlider></DoubleSlider>
+      </fieldset>
+      <fieldset className={styles.yearFilterWrapper} name="release-year-filter">
+        <YearPicker></YearPicker>
       </fieldset>
     </form>
   );

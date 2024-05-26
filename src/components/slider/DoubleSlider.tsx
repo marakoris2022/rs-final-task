@@ -3,7 +3,7 @@ import styles from './doubleSlider.module.scss';
 import './slider.scss';
 import Slider from 'react-slider';
 
-const MIN = 2;
+const MIN = 0;
 const MAX = 1000;
 
 export const DoubleSlider = () => {

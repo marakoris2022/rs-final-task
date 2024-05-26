@@ -1,5 +1,4 @@
 import styles from './main.module.scss';
-import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { CategoryResults, ProductType, getCategories, getProductsByCategory } from '../../api/catalogue-api';
 import { CategoryList } from './categorylist/CategoryList';
@@ -16,7 +15,6 @@ const getProductList = async (categories: string[]): Promise<ProductType[] | nul
 };
 
 export const Catalog = () => {
-  const navigate = useNavigate();
   const [ctgList, setCtgList] = useState<CategoryResults[] | null>(null);
   const [products, setProducts] = useState<ProductType[] | null>(null);
   const selectedCategories = useCategoryStore((state) => state.categories);

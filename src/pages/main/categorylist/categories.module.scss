@@ -34,12 +34,12 @@
   margin-right: 10px;
 }
 
-.submitBtn {
+.formBtn {
   font-size: 1.2rem;
   font-weight: 700;
   padding: 5px;
   border-radius: 10px;
-  background: transparent;
+  background: rgb(160, 160, 160);
   cursor: pointer;
   transition: 0.2s ease;
   height: fit-content;
@@ -50,7 +50,8 @@
   overflow: auto;
 }
 
-.filterWrapper {
+.priceFilterWrapper,
+.yearFilterWrapper {
   display: flex;
   flex-direction: column;
 }
@@ -76,7 +77,7 @@ form::-webkit-scrollbar-thumb,
 }
 
 @media (hover: hover) {
-  .submitBtn:hover {
+  .formBtn:hover {
     background: lightgray;
   }
 }

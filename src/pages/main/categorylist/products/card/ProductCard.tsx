@@ -15,25 +15,25 @@ export const ProductCard = ({ product }: CardType) => {
   const [imageURL, setImageUrl] = useState('');
   const [price, setPrice] = useState(0);
   const [currency, setCurrency] = useState('USD');
-  const [discount, setDiscount] = useState(0);
-  const [priceWithDiscount, setPriceWithDiscount] = useState('');
+  const [discount, setDiscount] = useState('');
+  const [priceWithDiscount, setPriceWithDiscount] = useState(0);
 
   useEffect(() => {
-    console.log(product)
+    console.log(product);
     const { url } = product.masterVariant.images[0];
     if (url) {
       setImageUrl(url);
     } else {
       setImageUrl('./default-card-background.jpg');
     }
-    const { value } = product.masterVariant.prices[0];
+    const { value, discounted } = product.masterVariant.prices[0];
     const priceValue = value.centAmount / 10 ** value.fractionDigits;
     setPrice(priceValue);
     setCurrency(value.currencyCode);
-    const rand = Math.floor(Math.random() * 10);
-    if (rand < 6 && rand > 3) {
-      setDiscount(Math.floor(rand * 10));
-      setPriceWithDiscount(((priceValue * rand) / 100).toFixed(2));
+    if (discounted) {
+      const priceDiscounted = discounted.value.centAmount / 10 ** discounted.value.fractionDigits;
+      setDiscount(((1 - discounted.value.centAmount / value.centAmount) * 100).toFixed(0));
+      setPriceWithDiscount(priceDiscounted);
     }
   }, [product]);
 

@@ -1,5 +1,6 @@
 $slider-color: #275efe;
 $range-background-color: #cdb7b7;
+$legend-color: #3f4656;
 
 .box {
     width: 100%;
@@ -23,10 +24,10 @@ small {
     color: #343537;
 }
 
-h3 {
+h3.title {
     font-weight: 700;
     margin: 0 0 20px 0;
-    color: #3f4656;
+    color: $legend-color;
 
     span {
         font-weight: 400;

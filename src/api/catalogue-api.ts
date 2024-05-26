@@ -64,9 +64,11 @@ type Category = {
 
 type MasterVariant = {
   attributes: Attribute[];
-
   images: Image[];
   prices: {
+    discounted?: {
+      value: Price;
+    };
     id: string;
     value: Price;
   }[];
