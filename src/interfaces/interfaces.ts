@@ -22,10 +22,10 @@ export type UserProps = {
   key?: string;
   dateOfBirth?: string;
   title?: string;
-  defaultShippingAddress?: number;
-  defaultBillingAddress?: number;
-  shippingAddresses?: number[];
-  billingAddresses?: number[];
+  // defaultShippingAddress?: number;
+  // defaultBillingAddress?: number;
+  shippingAddressIds?: string[];
+  billingAddressIds?: string[];
   isEmailVerified?: boolean;
   addresses?: Array<Address>;
   defaultShippingAddressId?: string;
