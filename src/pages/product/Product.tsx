@@ -65,10 +65,9 @@ export const Product = () => {
         const userScore = Number(getStringAttribute(0));
         const categories = fetchedData.masterData.current.categories;
         const categoriesAdd = JSON.parse(getStringAttribute(2) as string);
-
-        console.log('categories', categories);
-
         const movie = JSON.parse(getStringAttribute(3) as string);
+
+        console.log('fetchedData', fetchedData);
 
         setProductData({
           title,
@@ -127,7 +126,13 @@ export const Product = () => {
           {productData.categories.map((item, index) => {
             return (
               <li className={styles.categoryItem} key={`${index}_cat`}>
-                <Button style={styles.categoryBtn} title={getCategoryNameById(item.id)!} />
+                <Button
+                  onClick={() => {
+                    navigate(`/?category=${item.id}`);
+                  }}
+                  style={styles.categoryBtn}
+                  title={getCategoryNameById(item.id)!}
+                />
               </li>
             );
           })}
