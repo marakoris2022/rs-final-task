@@ -14,6 +14,7 @@ type ProductData = {
   images: Array<string>;
   modalImages: Array<string>;
   price: number;
+  discountPrice: number | undefined;
   releaseDate: string;
   positive: number;
   userScore: number;
@@ -21,6 +22,11 @@ type ProductData = {
   categories: { id: string }[];
   movie: Array<string>;
 };
+
+function calculateDiscount(oldPrice: number, newPrice: number) {
+  const discountPercentage = ((oldPrice - newPrice) / oldPrice) * 100;
+  return Math.round(discountPercentage);
+}
 
 export const Product = () => {
   const navigate = useNavigate();
@@ -34,6 +40,7 @@ export const Product = () => {
     images: [],
     modalImages: [],
     price: 0,
+    discountPrice: undefined,
     releaseDate: '',
     positive: 0,
     userScore: 0,
@@ -50,6 +57,7 @@ export const Product = () => {
         const masterData = fetchedData.masterData.current;
         const masterVariant = masterData.masterVariant;
         const attributes = masterVariant.attributes;
+        const prices = masterVariant.prices[0];
 
         const getStringAttribute = (index: number) => attributes[index].value;
 
@@ -58,16 +66,15 @@ export const Product = () => {
         const imageTitle = masterVariant.images[0].url;
         const images = JSON.parse(getStringAttribute(5) as string);
         const modalImages = [imageTitle, ...images];
-        const price = masterVariant.prices[0].value.centAmount;
+        const price = prices.value.centAmount;
+        const discountPrice = prices.discounted?.value.centAmount;
 
         const releaseDate = String(getStringAttribute(4));
         const positive = Number(getStringAttribute(7));
         const userScore = Number(getStringAttribute(0));
-        const categories = fetchedData.masterData.current.categories;
+        const categories = masterData.categories;
         const categoriesAdd = JSON.parse(getStringAttribute(2) as string);
         const movie = JSON.parse(getStringAttribute(3) as string);
-
-        console.log('fetchedData', fetchedData);
 
         setProductData({
           title,
@@ -76,6 +83,7 @@ export const Product = () => {
           images,
           modalImages,
           price,
+          discountPrice,
           releaseDate,
           positive,
           userScore,
@@ -112,8 +120,28 @@ export const Product = () => {
         </div>
       </div>
       <div className={styles.buyWrapper}>
-        <h3 className={styles.buyPromo}>Buy it now! </h3>
-        <Button style={styles.buyBtn} title={`${productData.price / 100} USD`} />
+        {productData.discountPrice ? (
+          <>
+            <h3 className={styles.buyPromo}>
+              Buy with Discount{' '}
+              <span className={styles.discountPercent}>
+                {calculateDiscount(productData.price, productData.discountPrice)}%
+              </span>{' '}
+              !{' '}
+            </h3>
+            <div className={styles.discountWrapper}>
+              <p className={styles.oldPrice}>{`${(productData.price / 100).toFixed(2)} USD`}</p>
+              <div className={styles.discountBtnContainer}>
+                <Button style={styles.discountBtn} title={`${(productData.discountPrice / 100).toFixed(2)} USD`} />
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <h3 className={styles.buyPromo}>Buy it now! </h3>
+            <Button style={styles.buyBtn} title={`${(productData.price / 100).toFixed(2)} USD`} />
+          </>
+        )}
       </div>
 
       <div className={styles.carouselWrapper}>

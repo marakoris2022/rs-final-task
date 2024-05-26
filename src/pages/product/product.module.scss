@@ -11,6 +11,8 @@
 
     padding: 10px 0;
 
+    gap: 1vw;
+
     .content {
       display: flex;
       flex-direction: column;
@@ -45,6 +47,10 @@
       .imageTitleBorder {
         border-radius: 15px;
         overflow: hidden;
+
+        box-shadow:
+          0 3px 6px rgba(0, 0, 0, 0.18),
+          0 3px 6px rgba(0, 0, 0, 0.23);
 
         width: 100%;
 
@@ -94,7 +100,7 @@
           font-size: 36px;
         }
         .description {
-          font-size: 16px;
+          font-size: 18px;
         }
       }
     }
@@ -106,15 +112,30 @@
     justify-content: center;
     align-items: center;
 
+    box-shadow:
+      0 3px 6px rgba(0, 0, 0, 0.18),
+      0 3px 6px rgba(0, 0, 0, 0.23);
+
     width: 100%;
 
-    padding: 10px 0;
+    gap: 10px;
+    padding: 20px 10px 0;
+    margin-bottom: 15px;
 
     .buyPromo {
       font-size: 30px;
       width: fit-content;
 
       margin-right: 20px;
+
+      .discountPercent {
+        padding: 5px;
+        background-color: rgb(0, 0, 0);
+        color: gold;
+        border-radius: 5px;
+
+        font-weight: 400;
+      }
     }
 
     .buyBtn {
@@ -175,16 +196,136 @@
       bottom: 2px;
       left: 2px;
     }
+
+    .discountWrapper {
+      position: relative;
+
+      .oldPrice {
+        border: 1px solid black;
+        padding: 7px 15px;
+        border-radius: 5px;
+        text-decoration: line-through;
+      }
+
+      .discountBtnContainer {
+        position: absolute;
+        top: -6px;
+        left: 10px;
+
+        animation: rotateDiscountBtn 1s linear infinite;
+
+        .discountBtn {
+          padding: 5px 10px;
+          width: 130px;
+          border: none;
+          outline: none;
+          color: gold;
+          background: #111;
+          cursor: pointer;
+          position: relative;
+          z-index: 0;
+          border-radius: 10px;
+          user-select: none;
+          -webkit-user-select: none;
+          touch-action: manipulation;
+        }
+
+        .discountBtn:before {
+          content: '';
+          background: linear-gradient(
+            45deg,
+            #ff0000,
+            #ff7300,
+            #fffb00,
+            #48ff00,
+            #00ffd5,
+            #002bff,
+            #7a00ff,
+            #ff00c8,
+            #ff0000
+          );
+          position: absolute;
+          top: -2px;
+          left: -2px;
+          background-size: 400%;
+          z-index: -1;
+          filter: blur(5px);
+          -webkit-filter: blur(5px);
+          width: calc(100% + 4px);
+          height: calc(100% + 4px);
+          animation: glowing-discountBtn 20s linear infinite;
+          transition: opacity 0.3s ease-in-out;
+          border-radius: 10px;
+        }
+
+        @keyframes glowing-discountBtn {
+          0% {
+            background-position: 0 0;
+          }
+          50% {
+            background-position: 400% 0;
+          }
+          100% {
+            background-position: 0 0;
+          }
+        }
+
+        .discountBtn:after {
+          z-index: -1;
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: #222;
+          left: 0;
+          top: 0;
+          border-radius: 10px;
+        }
+      }
+
+      @keyframes rotateDiscountBtn {
+        0% {
+          transform: rotateZ(10deg);
+        }
+        50% {
+          transform: rotateZ(13deg);
+        }
+        100% {
+          transform: rotateZ(10deg);
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .buyWrapper {
+      flex-direction: column;
+      gap: 15px;
+
+      padding: 6px 0;
+
+      .buyPromo {
+        font-size: 26px;
+        margin-right: 0;
+      }
+    }
   }
 
   .categoryWrapper {
     display: flex;
     flex-direction: column;
 
+    width: 100%;
+
     .categoryTitle {
       font-size: 4vw;
       line-height: 100%;
       text-align: center;
+
+      background-color: rgba(211, 211, 211, 0.3);
+      padding: 20px;
+
+      margin: 20px;
     }
 
     .listWrapper {
@@ -249,13 +390,18 @@
         margin: 10px auto;
       }
       .categoryBtn {
-        font-size: 16px;
+        font-size: 18px;
       }
     }
   }
 
   .addWrapper {
     margin: 2vw 0;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     .addList li {
       font-size: 2vw;
@@ -277,7 +423,7 @@
         margin: 10px auto;
       }
       .addList li {
-        font-size: 16px;
+        font-size: 18px;
         margin: 10px 0;
         line-height: 130%;
       }
@@ -312,7 +458,7 @@
         margin: 10px auto;
       }
       .addList li {
-        font-size: 16px;
+        font-size: 18px;
         margin: 10px 0;
         line-height: 130%;
       }
