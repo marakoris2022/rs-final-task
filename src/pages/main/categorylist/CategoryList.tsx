@@ -28,10 +28,11 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
 
   return (
     <form onSubmit={submitHandler} className={styles.form}>
-      <div className={styles.titleContainer}>
-        <h2 className={styles.categoryTitle}>Categories</h2>
+      <div className={styles.btnsContainer}>
         <input type="submit" className={styles.submitBtn} value="submit" />
+        <input type="reset" className={styles.submitBtn} value="reset" />
       </div>
+      <div className={styles.titleContainer}>{<h2 className={styles.categoryTitle}>Categories</h2>}</div>
       <fieldset className={styles.categoryWrapper} name="categoryFieldSet">
         {categoryList.map((category) => (
           <Category key={category.id} value={category.id}>

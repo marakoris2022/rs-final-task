@@ -8,16 +8,25 @@
 
 }
 
-.titleContainer {
+.btnsContainer {
   position: sticky;
   top: 0;
   left: 0;
+  z-index: 10;
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  justify-content: start;
   padding: 5px;
   width: 100%;
-  z-index: 10;
+
+  >* {
+    margin-right: 10px;
+    margin-bottom: 5px;
+  }
+}
+
+.titleContainer {
+  padding: 0px 5px;
+  width: 100%;
 }
 
 .categoryTitle {

@@ -127,7 +127,7 @@ export async function getCategories(sort: string = '', limit: number = 0): Promi
 }
 
 export async function getProductsByCategory(
-  categoryID: string[] = ['c1dbe964-d17a-4600-b63c-3a69a095668a', 'ded52f2e-0d4d-4015-bbde-70c0142c61f0'],
+  categoryID: string[] = ['c93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b', 'ded52f2e-0d4d-4015-bbde-70c0142c61f0'],
   limit: number = 15,
 ): Promise<ProductType[] | null> {
   let selectedProducts = null;
@@ -141,7 +141,7 @@ export async function getProductsByCategory(
     };
     const arr: string[] = categoryID;
     const categoryIDJoined =
-      arr.length === 0 ? 'c1dbe964-d17a-4600-b63c-3a69a095668a' : arr.length === 1 ? arr[0] : arr.join('","');
+      arr.length === 0 ? '93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b' : arr.length === 1 ? arr[0] : arr.join('","');
     const response = await apiClient.get(
       `/${projectKey}/product-projections/search?filter=categories.id:"${categoryIDJoined}"&limit=${limit}`,
       config,
