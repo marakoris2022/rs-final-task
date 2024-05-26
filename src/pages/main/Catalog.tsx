@@ -1,11 +1,11 @@
 import styles from './main.module.scss';
-import { Button } from '../../components/button/Button';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { CategoryResults, ProductType, getCategories, getProductsByCategory } from '../../api/catalogue-api';
 import { CategoryList } from './categorylist/CategoryList';
 import { ProductList } from './categorylist/products/ProductsList';
 import { useCategoryStore } from '../../store/useCategoryStore';
+import { Breadcrumbs } from './breadcrumbs/Breadcrumbs';
 
 const getCategoryList = async (): Promise<CategoryResults[] | null> => {
   return await getCategories('key asc');
@@ -15,7 +15,7 @@ const getProductList = async (categories: string[]): Promise<ProductType[] | nul
   return await getProductsByCategory(categories);
 };
 
-export const Main = () => {
+export const Catalog = () => {
   const navigate = useNavigate();
   const [ctgList, setCtgList] = useState<CategoryResults[] | null>(null);
   const [products, setProducts] = useState<ProductType[] | null>(null);
@@ -41,11 +41,7 @@ export const Main = () => {
 
   return (
     <main className={styles.catalog}>
-      <nav className={styles.navigate}>
-        <Button style={styles.navBtn} onClick={() => navigate('/')} title={'Main'} />
-        <Button style={styles.navBtn} onClick={() => navigate('/login')} title={'Login'} />
-        <Button style={styles.navBtn} onClick={() => navigate('/registration')} title={'Registration'} />
-      </nav>
+      <Breadcrumbs></Breadcrumbs>
       <section className={styles.mainSection}>
         <article className={styles.formWrapper}>
           {ctgList ? <CategoryList categoryList={ctgList} /> : <p>Loading...</p>}

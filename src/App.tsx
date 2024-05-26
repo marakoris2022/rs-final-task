@@ -1,7 +1,7 @@
 import './app.scss';
 import { Navigate, Route, Routes, Outlet } from 'react-router-dom';
 import { Login } from './pages/login/Login';
-import { Main } from './pages/main/Main';
+import { Catalog } from './pages/main/Catalog';
 import { Profile } from './pages/profile/Profile';
 import { Registration } from './pages/registration/Registration';
 import { NotFoundPage } from './pages/notfoundpage/NotFoundPage';
@@ -33,7 +33,7 @@ export const App = () => {
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Main />} />
+          <Route index element={<Catalog />} />
           <Route path="/login" element={isLogged ? <Navigate to="/" replace /> : <Login />} />
           <Route path="/registration" element={isLogged ? <Navigate to="/" replace /> : <Registration />} />
           <Route path="/profile" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />

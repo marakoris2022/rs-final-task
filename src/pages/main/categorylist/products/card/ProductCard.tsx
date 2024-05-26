@@ -19,6 +19,7 @@ export const ProductCard = ({ product }: CardType) => {
   const [priceWithDiscount, setPriceWithDiscount] = useState('');
 
   useEffect(() => {
+    console.log(product)
     const { url } = product.masterVariant.images[0];
     if (url) {
       setImageUrl(url);

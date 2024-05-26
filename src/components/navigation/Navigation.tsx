@@ -54,7 +54,7 @@ export const Navigation = () => {
                 navigate('/');
                 isOpenBurger && handleBurger();
               }}
-              title="Main"
+              title="Catalog"
             />
           </li>
           <li>

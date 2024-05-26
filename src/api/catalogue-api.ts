@@ -127,7 +127,7 @@ export async function getCategories(sort: string = '', limit: number = 0): Promi
 }
 
 export async function getProductsByCategory(
-  categoryID: string[] = ['c93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b', 'ded52f2e-0d4d-4015-bbde-70c0142c61f0'],
+  categoryID: string[] = ['93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b', 'ded52f2e-0d4d-4015-bbde-70c0142c61f0'],
   limit: number = 15,
 ): Promise<ProductType[] | null> {
   let selectedProducts = null;
