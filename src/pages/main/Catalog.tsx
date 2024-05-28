@@ -39,7 +39,7 @@ export const Catalog = () => {
 
   return (
     <main className={styles.catalog}>
-      <Breadcrumbs></Breadcrumbs>
+      <Breadcrumbs />
       <section className={styles.mainSection}>
         <article className={styles.formWrapper}>
           {ctgList ? <CategoryList categoryList={ctgList} /> : <p>Loading...</p>}
