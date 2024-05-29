@@ -146,9 +146,8 @@ export async function signUp(user: UserProps): Promise<void> {
 }
 
 export async function getCustomerById(id: string, accessToken: string) {
-  const userData = await axios.get(`${api}/${projectKey}/customers/${id}`, {
+  const userData = await apiClient.get(`/${projectKey}/customers/${id}`, {
     headers: {
-      'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
   });

@@ -1,4 +1,4 @@
-type Address = {
+export type Address = {
   id?: string;
   title: string;
   firstName: string;
@@ -12,9 +12,10 @@ type Address = {
   state?: string;
   country: string;
   phone?: string;
+  additionalAddressInfo?: string;
 };
 
-export type UserProps = {
+export interface UserProps {
   email: string;
   password: string;
   firstName: string;
@@ -22,8 +23,10 @@ export type UserProps = {
   key?: string;
   dateOfBirth?: string;
   title?: string;
-  // defaultShippingAddress?: number;
-  // defaultBillingAddress?: number;
+  defaultShippingAddress?: number;
+  defaultBillingAddress?: number;
+  shippingAddresses?: number[];
+  billingAddresses?: number[];
   shippingAddressIds?: string[];
   billingAddressIds?: string[];
   isEmailVerified?: boolean;
@@ -32,7 +35,13 @@ export type UserProps = {
   defaultBillingAddressId?: string;
   version?: number;
   id?: string;
-};
+}
+export interface UserPropsExtended extends UserProps {
+  id: string;
+  shippingAddresses: number[];
+  shippingAddressIds?: string[];
+  billingAddressIds?: string[];
+}
 
 export type LoginProps = {
   access_token: string;

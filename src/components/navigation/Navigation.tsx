@@ -62,7 +62,7 @@ export const Navigation = () => {
               <Button
                 style={styles.navBtn}
                 onClick={() => {
-                  navigate('/profile');
+                  navigate('/profile/personal-info');
                   isOpenBurger && handleBurger();
                 }}
                 title="Profile"

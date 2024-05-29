@@ -2,15 +2,26 @@ import styles from './userAddresses.module.scss';
 import { useCustomerStore } from '../../store/useCustomerStore';
 import { Button } from '../button/Button';
 import { useNavigate } from 'react-router-dom';
+import { FaTrash, FaEdit } from 'react-icons/fa';
+import { useState } from 'react';
+import { ModalWindow } from '../modal/ModalWindow';
+import { DefaultAddressTypes, removeAddress, setDefaultAddressType } from '../../api/commerce-tools-api-profile';
+
+const CountryCodes: Record<string, string> = {
+  US: 'USA',
+  CA: 'Canada',
+  GB: 'UK',
+  AU: 'Australia',
+  DE: 'Germany',
+};
 
 export const UserAddresses = () => {
   const customer = useCustomerStore((state) => state.customer);
+  const setCustomer = useCustomerStore((state) => state.setCustomer);
   const navigate = useNavigate();
-  console.log(customer);
-
-  const handleAddAddress = () => {
-    navigate('/profile/addresses/add-address');
-  };
+  const [showModal, setShowModal] = useState(false);
+  const [addressToDelete, setAddressToDelete] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const shippingAddresses = customer?.addresses?.filter((address) =>
     customer.shippingAddressIds?.includes(address.id || ''),
@@ -20,40 +31,163 @@ export const UserAddresses = () => {
     customer.billingAddressIds?.includes(address.id || ''),
   );
 
+  const handleDeleteAddress = async () => {
+    setIsLoading(() => true);
+
+    const updatedUser = await removeAddress(customer!.id, customer, addressToDelete);
+
+    setCustomer(updatedUser);
+
+    setShowModal(false);
+
+    setIsLoading(() => false);
+  };
+
+  const openDeleteModal = (address: string | undefined) => {
+    setAddressToDelete(address!);
+    setShowModal(true);
+  };
+
+  const handleSetDefaultAddress = async (addressId: string | undefined, type: DefaultAddressTypes) => {
+    setIsLoading(() => true);
+
+    const updatedUser = await setDefaultAddressType(customer!.id, customer!, type, addressId);
+
+    setCustomer(updatedUser);
+
+    setIsLoading(() => false);
+  };
+
   return (
     <div>
-      <Button style="dsd" title="Add Address" type="button" onClick={handleAddAddress} />
-      <h4>Shipping Addresses</h4>
-      {shippingAddresses?.map((item, index) => {
-        const isDefaultAddress =
-          customer?.defaultBillingAddressId === item.id || customer?.defaultShippingAddressId === item.id;
+      <Button
+        style={styles.newAddressBtn}
+        title="Add new address"
+        type="button"
+        onClick={() => navigate('/profile/addresses/add-address')}
+      />
+      <div className={styles.shippingAddressesContainer}>
+        <h3 className={styles.addressesTitle}>Shipping Addresses</h3>
 
-        return (
-          <div className={styles.dd} key={index}>
-            <p>Country: {item.country}</p>
-            <p>Postal Code: {item.postalCode}</p>
-            <p>City: {item.city}</p>
-            <p>Street: {item.streetName}</p>
-            {isDefaultAddress && <p>Default Address</p>}
-          </div>
-        );
-      })}
+        {shippingAddresses?.map((currAddress) => {
+          const isDefaultAddress = customer?.defaultShippingAddressId === currAddress.id;
 
-      <h4>Billing Addresses</h4>
-      {billingAddresses?.map((item, index) => {
-        const isDefaultAddress =
-          customer?.defaultBillingAddressId === item.id || customer?.defaultShippingAddressId === item.id;
+          return (
+            <div className={styles.addressContainer} key={currAddress.id}>
+              <div className={styles.addressWrapper}>
+                <div className={styles.addressItemContainer}>
+                  <h4>First name:</h4>
+                  <div className={styles.addressValue}>{currAddress.firstName}</div>
+                </div>
+                <div className={styles.addressItemContainer}>
+                  <h4>Last name:</h4>
+                  <div className={styles.addressValue}>{currAddress.lastName}</div>
+                </div>
+                <div className={styles.addressItemContainer}>
+                  <h4>Country:</h4>
+                  <div className={styles.addressValue}>{CountryCodes[currAddress.country]}</div>
+                </div>
+                <div className={styles.addressItemContainer}>
+                  <h4>Postal Code:</h4>
+                  <div className={styles.addressValue}>{currAddress.postalCode}</div>
+                </div>
+                <div className={styles.addressItemContainer}>
+                  <h4>City:</h4>
+                  <div className={styles.addressValue}>{currAddress.city}</div>
+                </div>
+                <div className={styles.addressItemContainer}>
+                  <h4>Street:</h4>
+                  <div className={styles.addressValue}>{currAddress.streetName}</div>
+                </div>
+              </div>
+              <div className={styles.addressManageContainer}>
+                {isDefaultAddress && <div className={styles.addressDefault}>Default shipping</div>}
+                {!isDefaultAddress && (
+                  <Button
+                    style={styles.setDefaultAddressBtn}
+                    title="Set as default"
+                    type="button"
+                    onClick={async () => {
+                      await handleSetDefaultAddress(currAddress!.id, DefaultAddressTypes.SHIPPING);
+                    }}
+                    disabled={isLoading}
+                  />
+                )}
+                <div className={styles.addressIconsContainer}>
+                  <FaEdit />
+                  <FaTrash onClick={() => !isLoading && openDeleteModal(currAddress.id)} />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
 
-        return (
-          <div className={styles.dd} key={index}>
-            <p>Country: {item.country}</p>
-            <p>Postal Code: {item.postalCode}</p>
-            <p>City: {item.city}</p>
-            <p>Street: {item.streetName}</p>
-            {isDefaultAddress && <p>Default Address</p>}
-          </div>
-        );
-      })}
+      <div className={styles.shippingAddressesContainer}>
+        <h3 className={styles.addressesTitle}>Billing Addresses</h3>
+
+        {billingAddresses?.map((currAddress) => {
+          const isDefaultAddress = customer?.defaultBillingAddressId === currAddress.id;
+
+          return (
+            <div className={styles.addressContainer} key={currAddress.id}>
+              <div className={styles.addressWrapper}>
+                <div className={styles.addressItemContainer}>
+                  <h4>First name:</h4>
+                  <div className={styles.addressValue}>{currAddress.firstName}</div>
+                </div>
+                <div className={styles.addressItemContainer}>
+                  <h4>Last name:</h4>
+                  <div className={styles.addressValue}>{currAddress.lastName}</div>
+                </div>
+                <div className={styles.addressItemContainer}>
+                  <h4>Country:</h4>
+                  <div className={styles.addressValue}>{CountryCodes[currAddress.country]}</div>
+                </div>
+                <div className={styles.addressItemContainer}>
+                  <h4>Postal Code:</h4>
+                  <div className={styles.addressValue}>{currAddress.postalCode}</div>
+                </div>
+                <div className={styles.addressItemContainer}>
+                  <h4>City:</h4>
+                  <div className={styles.addressValue}>{currAddress.city}</div>
+                </div>
+                <div className={styles.addressItemContainer}>
+                  <h4>Street:</h4>
+                  <div className={styles.addressValue}>{currAddress.streetName}</div>
+                </div>
+              </div>
+              <div className={styles.addressManageContainer}>
+                {isDefaultAddress && <div className={styles.addressDefault}>Default billing</div>}
+                {!isDefaultAddress && (
+                  <Button
+                    style={styles.setDefaultAddressBtn}
+                    title="Set as default"
+                    type="button"
+                    onClick={async () => {
+                      await handleSetDefaultAddress(currAddress!.id, DefaultAddressTypes.BILLING);
+                    }}
+                    disabled={isLoading}
+                  />
+                )}
+                <div className={styles.addressIconsContainer}>
+                  <FaEdit />
+                  <FaTrash onClick={() => !isLoading && openDeleteModal(currAddress.id)} />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {showModal && (
+        <ModalWindow
+          message="Are you sure you want to delete this address?"
+          onClose={() => setShowModal(false)}
+          secondBtn="Confirm"
+          onConfirm={() => handleDeleteAddress()}
+        />
+      )}
     </div>
   );
 };

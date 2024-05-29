@@ -5,6 +5,11 @@
   border-radius: 10px;
   background-color: #ddecf9;
 
+  .modalBtnsContainer {
+    display: flex;
+    gap: 10px;
+  }
+
   p {
     font-size: 1.2rem;
     margin-bottom: 50px;

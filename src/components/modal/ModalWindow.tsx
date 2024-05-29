@@ -5,9 +5,11 @@ import styles from './modalWindow.module.scss';
 type ModalWindowProps = {
   message: string;
   onClose: () => void;
+  secondBtn?: string;
+  onConfirm?: () => void;
 };
 
-export const ModalWindow = ({ message, onClose }: ModalWindowProps) => {
+export const ModalWindow = ({ message, onClose, secondBtn, onConfirm }: ModalWindowProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const timerIdRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -51,10 +53,22 @@ export const ModalWindow = ({ message, onClose }: ModalWindowProps) => {
     }, 400);
   };
 
+  const handleConfirm = () => {
+    if (onConfirm) {
+      timerIdRef.current = setTimeout(() => {
+        onConfirm();
+      }, 400);
+    }
+    handleClose();
+  };
+
   return (
     <dialog className={styles.modalError} ref={dialogRef} onClick={handleBackDropClose}>
       <p>{message}</p>
-      <Button style={styles.modalErrorBtn} title="Close" type="button" onClick={handleClose} />
+      <div className={styles.modalBtnsContainer}>
+        <Button style={styles.modalErrorBtn} title="Close" type="button" onClick={handleClose} />
+        {secondBtn && <Button style={styles.modalErrorBtn} title={secondBtn} type="button" onClick={handleConfirm} />}
+      </div>
     </dialog>
   );
 };

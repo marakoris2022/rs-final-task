@@ -1,3 +1,118 @@
-.dd {
+.addressesTitle {
+  text-align: center;
+  background-color: #e29c38;
+  padding: 20px 0;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.newAddressBtn {
+  border: none;
+  display: block;
+  margin: 0 auto;
+  background-color: aqua;
+
+  @media screen and (any-hover: hover) {
+    &:hover {
+      background-color: #9ffff4;
+    }
+  }
+}
+
+.shippingAddressesContainer {
+  background-color: #a9aaea;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.addressContainer {
   background-color: #eee;
+  gap: 10px;
+  padding: 20px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  justify-content: center;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .addressWrapper {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .addressItemContainer {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+    align-items: center;
+    background-color: aliceblue;
+    padding: 10px;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    border-radius: 10px;
+
+    h4 {
+      margin: 0;
+      // min-width: 100px;
+      text-align: center;
+    }
+  }
+
+  .addressManageContainer {
+    display: flex;
+    justify-content: end;
+
+    .setDefaultAddressBtn {
+      border: none;
+      background-color: #bcbcbc;
+      margin-right: auto;
+      padding: 10px;
+
+      @media screen and (any-hover: hover) {
+        &:hover {
+          background-color: #a9aaea;
+        }
+      }
+    }
+  }
+
+  .addressValue {
+    padding: 5px;
+    background-color: antiquewhite;
+    border-radius: 10px;
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+
+  .addressDefault {
+    background-color: #a9aaea;
+    font-weight: 600;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    margin-right: auto;
+
+  }
+
+  .addressIconsContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-right: 10px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+  }
 }

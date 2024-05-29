@@ -22,6 +22,7 @@ type FormFieldProps<T extends FormValues> = {
   value?: string;
   min?: string;
   max?: string;
+  disabled?: boolean;
 };
 
 enum FieldColors {
@@ -47,6 +48,7 @@ export const FormField = <T extends FormValues>({
   children,
   min,
   max,
+  disabled = false,
 }: FormFieldProps<T>) => {
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,6 +100,7 @@ export const FormField = <T extends FormValues>({
               formik.handleBlur(name);
             }}
             value={formik.values[name]}
+            disabled={disabled}
           />
           {children}
         </div>
