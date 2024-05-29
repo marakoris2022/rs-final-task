@@ -4,7 +4,7 @@ import { CategoryResults, ProductType, getCategories, getProductsByCategory } fr
 import { CategoryList } from './categorylist/CategoryList';
 import { ProductList } from './categorylist/products/ProductsList';
 import { useCategoryStore } from '../../store/useCategoryStore';
-import { Breadcrumbs } from './breadcrumbs/Breadcrumbs';
+import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
 
 const getCategoryList = async (): Promise<CategoryResults[] | null> => {
   return await getCategories('key asc');

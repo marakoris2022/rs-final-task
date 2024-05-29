@@ -14,10 +14,19 @@ export const Breadcrumbs = () => {
 
       return (
         <div className={styles.crumb} key={crumb}>
-          <Link to={currentLink}>{crumb}</Link>
+          <Link className={styles.crumbLink} to={currentLink}>
+            {crumb}
+          </Link>
         </div>
       );
     });
+  crumbs.unshift(
+    <div className={styles.crumb} key={'Catalog'}>
+      <Link className={styles.crumbLink} to={'/'}>
+        <span className={styles.homeImage}></span>
+      </Link>
+    </div>,
+  );
 
   return <div className={styles.breadcrumbs}>{crumbs}</div>;
 };
