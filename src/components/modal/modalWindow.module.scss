@@ -8,6 +8,8 @@
   .modalBtnsContainer {
     display: flex;
     gap: 10px;
+    justify-content: center;
+    gap: 30px;
   }
 
   p {
@@ -18,7 +20,7 @@
   .modalErrorBtn {
     background-color: #4396dd;
     display: flex;
-    margin: 0 auto;
+    justify-content: center;
   }
 }
 

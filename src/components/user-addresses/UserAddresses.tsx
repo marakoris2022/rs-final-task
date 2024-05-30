@@ -14,6 +14,8 @@ import {
   addAddressType,
   AddressTypes,
 } from '../../api/commerce-tools-api-profile';
+import { EditAddress } from './edit-address/EditAddress';
+import { Address } from '../../interfaces/interfaces';
 
 const CountryCodes: Record<string, string> = {
   US: 'USA',
@@ -28,6 +30,8 @@ export const UserAddresses = () => {
   const setCustomer = useCustomerStore((state) => state.setCustomer);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [showChangeModal, setShowChangeModal] = useState(false);
+  const [currentAddress, setCurrentAddress] = useState<Address | null>(null);
   const [addressToDelete, setAddressToDelete] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -40,20 +44,27 @@ export const UserAddresses = () => {
   );
 
   const handleDeleteAddress = async () => {
-    setIsLoading(() => true);
-
     const updatedUser = await removeAddress(customer!.id, customer, addressToDelete);
 
     setCustomer(updatedUser);
 
     setShowModal(false);
-
-    setIsLoading(() => false);
   };
 
-  const openDeleteModal = (address: string | undefined) => {
-    setAddressToDelete(address!);
+  const openDeleteModal = (addressId: string | undefined) => {
+    setIsLoading(() => true);
+
+    setAddressToDelete(addressId!);
+
     setShowModal(true);
+  };
+
+  const openEditModal = (address: Address) => {
+    setIsLoading(() => true);
+
+    setCurrentAddress(address);
+
+    setShowChangeModal(true);
   };
 
   const handleSetDefaultAddress = async (addressId: string | undefined, type: DefaultAddressTypes) => {
@@ -152,7 +163,7 @@ export const UserAddresses = () => {
                     )}
                   </div>
                   <div className={styles.addressIconsContainer}>
-                    <FaEdit />
+                    <FaEdit onClick={() => !isLoading && openEditModal(currAddress)} />
                     <FaTrash onClick={() => !isLoading && openDeleteModal(currAddress.id)} />
                   </div>
                 </div>
@@ -161,7 +172,7 @@ export const UserAddresses = () => {
           })}
         </div>
 
-        <div className={styles.shippingAddressesContainer}>
+        <div className={styles.billingAddressesContainer}>
           <h3 className={styles.addressesTitle}>Billing Addresses</h3>
 
           {billingAddresses?.map((currAddress) => {
@@ -223,7 +234,7 @@ export const UserAddresses = () => {
                   </div>
 
                   <div className={styles.addressIconsContainer}>
-                    <FaEdit />
+                    <FaEdit onClick={() => !isLoading && openEditModal(currAddress)} />
                     <FaTrash onClick={() => !isLoading && openDeleteModal(currAddress.id)} />
                   </div>
                 </div>
@@ -233,12 +244,36 @@ export const UserAddresses = () => {
         </div>
       </div>
 
+      {showChangeModal && (
+        <ModalWindow
+          onClose={() => {
+            setShowChangeModal(false);
+            setIsLoading(() => false);
+          }}
+          children={
+            <EditAddress
+              onClose={() => {
+                setShowChangeModal(false);
+                setIsLoading(() => false);
+              }}
+              address={currentAddress}
+            />
+          }
+        />
+      )}
+
       {showModal && (
         <ModalWindow
           message="Are you sure you want to delete this address?"
-          onClose={() => setShowModal(false)}
+          onClose={() => {
+            setShowModal(false);
+            setIsLoading(() => false);
+          }}
           secondBtn="Confirm"
-          onConfirm={() => handleDeleteAddress()}
+          onConfirm={() => {
+            handleDeleteAddress();
+            setIsLoading(() => false);
+          }}
         />
       )}
     </>

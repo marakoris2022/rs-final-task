@@ -321,44 +321,46 @@ export const removeAddressType = async (
   return resp;
 };
 
-// const addBillingAddressId = async (userId: string, data) => {
-//   const apiUrl = `${api}/${projectKey}/customers/${userId}`;
-//   const commerceObj = localStorage.getItem(ECommerceKey);
-//   let accessToken;
+export const changeAddress = async (
+  userId: string,
+  userData: UserPropsExtended,
+  addressData: Address,
+  addressId: string | undefined,
+) => {
+  const apiUrl = `${api}/${projectKey}/customers/${userId}`;
+  const commerceObj = localStorage.getItem(ECommerceKey);
+  let accessToken;
 
-//   if (commerceObj) {
-//     accessToken = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
+  if (commerceObj) {
+    accessToken = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
+  }
 
-//     const requestBody = {
-//       version: data.version,
-//       actions: [
-//         {
-//           action: 'addBillingAddressId',
-//           addressId: data.addresses[data.addresses.length - 1].id,
-//         },
-//       ],
-//     };
+  const requestBody = {
+    version: userData!.version,
+    actions: [
+      {
+        action: 'changeAddress',
+        addressId,
+        address: addressData,
+      },
+    ],
+  };
 
-//     const response = await fetch(apiUrl, {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         Authorization: `Bearer ${accessToken}`,
-//       },
-//       body: JSON.stringify(requestBody),
-//     });
+  const response = await fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(requestBody),
+  });
 
-//     if (!response.ok) {
-//       const errorData = await response.json();
-//       throw new Error(errorData.message || 'Failed to create address');
-//     }
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to create address');
+  }
 
-//     return response.json();
-//   }
-// };
+  const resp: UserPropsExtended = await response.json();
 
-// const requestBody = {
-//   version: newAddressData.version,
-//   action: 'addAddress',
-//   address: newAddressData.data,
-// };
+  return resp;
+};

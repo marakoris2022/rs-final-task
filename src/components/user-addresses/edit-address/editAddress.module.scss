@@ -1,20 +1,18 @@
 
 .addAddressForm {
 
-
-  background-color: #eee;
-  padding: 30px 20px 20px 20px;
   margin-bottom: 20px;
   border-radius: 10px;
-
-  @media screen and (max-width: 470px) {
-    & {
-      padding: 20px 10px;
-    }
-  }
+  padding-top: 10px;
 
   select {
     margin-left: 11px;
+  }
+
+  @media screen and (max-width: 470px) {
+    select {
+      margin-left: 0;
+    }
   }
 
   .addAddressFormTypeError {
@@ -79,6 +77,16 @@
       text-align: center;
     }
 
+    @media screen and (max-width: 450px) {
+      & label {
+        min-width: auto;
+      }
+
+      & {
+        justify-content: center;
+      }
+    }
+
     .addAddressFormInput {
       padding: 5px 10px;
       border-radius: 10px;
@@ -115,7 +123,7 @@
 
   .addAddressBtnsContainer {
     display: flex;
-    gap: 20px;
+    justify-content: center;
 
     .addAddressBtn {
       border: none;
@@ -124,7 +132,7 @@
       @media screen and (any-hover: hover) {
 
         &:hover {
-          background-color: #a9aaea;
+          background-color: #1f639a;
         }
 
       }

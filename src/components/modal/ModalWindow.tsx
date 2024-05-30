@@ -1,15 +1,16 @@
-import { useEffect, useRef } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
 import { Button } from '../button/Button';
 import styles from './modalWindow.module.scss';
 
 type ModalWindowProps = {
-  message: string;
   onClose: () => void;
+  message?: string;
   secondBtn?: string;
   onConfirm?: () => void;
+  children?: ReactNode;
 };
 
-export const ModalWindow = ({ message, onClose, secondBtn, onConfirm }: ModalWindowProps) => {
+export const ModalWindow = ({ message, onClose, secondBtn, onConfirm, children }: ModalWindowProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const timerIdRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -65,6 +66,7 @@ export const ModalWindow = ({ message, onClose, secondBtn, onConfirm }: ModalWin
   return (
     <dialog className={styles.modalError} ref={dialogRef} onClick={handleBackDropClose}>
       <p>{message}</p>
+      {children}
       <div className={styles.modalBtnsContainer}>
         <Button style={styles.modalErrorBtn} title="Close" type="button" onClick={handleClose} />
         {secondBtn && <Button style={styles.modalErrorBtn} title={secondBtn} type="button" onClick={handleConfirm} />}

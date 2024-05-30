@@ -1,20 +1,14 @@
-import styles from './addAddress.module.scss';
-import { useNavigate } from 'react-router-dom';
+import styles from './editAddress.module.scss';
 import { Button } from '../../button/Button';
 import { useState } from 'react';
 import { useFormik } from 'formik';
-import { CountryPostalCode, FormValues } from '../../../interfaces/interfaces';
+import { Address, CountryPostalCode, FormValues } from '../../../interfaces/interfaces';
 import postalCodesRegexCollection from '../../../data/json/postal-codes.json';
 import { FormField } from '../../form-field/FormField';
 import { SelectField } from '../../select-field/SelectField';
 import { ModalWindow } from '../../modal/ModalWindow';
 import { useCustomerStore } from '../../../store/useCustomerStore';
-import {
-  AddressTypes,
-  DefaultAddressTypes,
-  addNewAddress,
-  setDefaultAddressType,
-} from '../../../api/commerce-tools-api-profile';
+import { changeAddress } from '../../../api/commerce-tools-api-profile';
 
 const selectList = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
 
@@ -24,6 +18,14 @@ const countryCodes: { [key: string]: string } = {
   UK: 'GB',
   Australia: 'AU',
   Germany: 'DE',
+};
+
+const countries: Record<'US' | 'CA' | 'GB' | 'AU' | 'DE', string> = {
+  US: 'USA',
+  CA: 'Canada',
+  GB: 'UK',
+  AU: 'Australia',
+  DE: 'Germany',
 };
 
 const getCountry = (countryName: string): CountryPostalCode | undefined => {
@@ -96,8 +98,12 @@ const validate = (values: FormValues) => {
   return errors;
 };
 
-export const AddAddress = () => {
-  const navigate = useNavigate();
+type EditAddressProps = {
+  onClose: () => void;
+  address: Address | null;
+};
+
+export const EditAddress = ({ onClose, address }: EditAddressProps) => {
   const customer = useCustomerStore((state) => state.customer);
   const setCustomer = useCustomerStore((state) => state.setCustomer);
 
@@ -105,17 +111,13 @@ export const AddAddress = () => {
 
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      street: '',
-      city: '',
-      postal: '',
+      firstName: address!.firstName,
+      lastName: address!.lastName,
+      street: address!.streetName,
+      city: address!.city,
+      postal: address!.postalCode,
       title: '',
-      country: selectList[0],
-      isShipping: '',
-      isBilling: '',
-      defaultShippingAddress: '',
-      defaultBillingAddress: '',
+      country: countries[address!.country as keyof typeof countries],
     },
     validate,
     onSubmit: async function (values) {
@@ -130,63 +132,11 @@ export const AddAddress = () => {
           country: countryCodes[values.country],
         };
 
-        const shippingAddress = { ...requestBody, additionalAddressInfo: AddressTypes.SHIPPING };
-        const billingAddress = { ...requestBody, additionalAddressInfo: AddressTypes.BILLING };
+        const updatedUser = await changeAddress(customer!.id, customer!, requestBody, address!.id);
 
-        if (values.isShipping && values.isBilling) {
-          let shippingAddressAdded = await addNewAddress(customer!.id, customer!, shippingAddress);
+        setCustomer(updatedUser);
 
-          if (values.defaultShippingAddress && shippingAddressAdded?.addresses) {
-            shippingAddressAdded = await setDefaultAddressType(
-              customer!.id,
-              shippingAddressAdded,
-              DefaultAddressTypes.SHIPPING,
-              shippingAddressAdded.addresses[shippingAddressAdded.addresses.length - 1].id,
-            );
-          }
-
-          let billingAddressAdded = await addNewAddress(customer!.id, shippingAddressAdded!, billingAddress);
-
-          if (values.defaultBillingAddress && billingAddressAdded?.addresses) {
-            billingAddressAdded = await setDefaultAddressType(
-              customer!.id,
-              billingAddressAdded,
-              DefaultAddressTypes.BILLING,
-              billingAddressAdded.addresses[billingAddressAdded.addresses.length - 1].id,
-            );
-          }
-
-          setCustomer(billingAddressAdded!);
-        } else if (values.isShipping) {
-          let shippingAddressAdded = await addNewAddress(customer!.id, customer!, shippingAddress);
-
-          if (values.defaultShippingAddress && shippingAddressAdded?.addresses) {
-            shippingAddressAdded = await setDefaultAddressType(
-              customer!.id,
-              shippingAddressAdded,
-              DefaultAddressTypes.SHIPPING,
-              shippingAddressAdded.addresses[shippingAddressAdded.addresses.length - 1].id,
-            );
-          }
-
-          setCustomer(shippingAddressAdded!);
-        } else {
-          let billingAddressAdded = await addNewAddress(customer!.id, customer!, billingAddress);
-
-          if (values.defaultBillingAddress && billingAddressAdded?.addresses) {
-            billingAddressAdded = await setDefaultAddressType(
-              customer!.id,
-              billingAddressAdded,
-              DefaultAddressTypes.BILLING,
-              billingAddressAdded.addresses[billingAddressAdded.addresses.length - 1].id,
-            );
-          }
-
-          setCustomer(billingAddressAdded!);
-        }
-
-        formik.resetForm();
-        setMessage('Address successfully added!');
+        setMessage(() => 'Address Changed');
       } catch (err: unknown) {
         if (err instanceof Error) {
           const errMsg = err.message;
@@ -198,36 +148,8 @@ export const AddAddress = () => {
 
   return (
     <>
-      <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>Add new address</h2>
+      <h2 style={{ textAlign: 'center', marginBottom: '30px', marginTop: 0 }}>Change your Address</h2>
       <form className={styles.addAddressForm} onSubmit={formik.handleSubmit}>
-        <div className={styles.addressTypeContainer}>
-          <b>
-            Address type:<span>*</span>
-          </b>
-          <FormField
-            stylesInputWrapper={styles.checkboxWrapper}
-            formik={formik}
-            labelText="Shipping"
-            placeholder=""
-            id="isShipping"
-            name="isShipping"
-            type="checkbox"
-          ></FormField>
-          <FormField
-            stylesInputWrapper={styles.checkboxWrapper}
-            formik={formik}
-            labelText="Billing"
-            placeholder=""
-            id="isBilling"
-            name="isBilling"
-            type="checkbox"
-          ></FormField>
-        </div>
-
-        {!formik.values.isShipping && !formik.values.isBilling && formik.dirty && (
-          <div className={styles.addAddressFormTypeError}>You need to choose type of address</div>
-        )}
-
         <FormField
           stylesField={styles.addAddressFormField}
           stylesError={styles.addAddressFormError}
@@ -312,47 +234,12 @@ export const AddAddress = () => {
           type="text"
         ></FormField>
 
-        <FormField
-          stylesInputWrapper={styles.checkboxDefaultWrapper}
-          stylesError={styles.addAddressFormError}
-          formik={formik}
-          labelText="Use this as the default shipping address?"
-          placeholder=""
-          id="defaultShippingAddress"
-          name="defaultShippingAddress"
-          type="checkbox"
-          disabled={Boolean(!formik.values.isShipping)}
-        ></FormField>
-
-        <FormField
-          stylesInputWrapper={styles.checkboxDefaultWrapper}
-          stylesError={styles.addAddressFormError}
-          formik={formik}
-          labelText="Use this as the default billing address?"
-          placeholder=""
-          id="defaultBillingAddress"
-          name="defaultBillingAddress"
-          type="checkbox"
-          disabled={Boolean(!formik.values.isBilling)}
-        ></FormField>
-
         <div className={styles.addAddressBtnsContainer}>
-          <Button
-            style={styles.addAddressBtn}
-            title="Back"
-            type="button"
-            onClick={() => navigate('/profile/addresses')}
-          />
           <Button
             style={styles.addAddressBtn}
             title="Confirm"
             type="submit"
-            disabled={
-              !formik.isValid ||
-              formik.isSubmitting ||
-              !formik.dirty ||
-              (!formik.values.isShipping && !formik.values.isBilling)
-            }
+            disabled={!formik.isValid || formik.isSubmitting || !formik.dirty}
           />
         </div>
 
@@ -361,7 +248,7 @@ export const AddAddress = () => {
             message={message}
             onClose={() => {
               setMessage('');
-              navigate('/profile/addresses');
+              onClose();
             }}
           />
         )}
