@@ -1,3 +1,17 @@
+.addressesWrapper {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: baseline;
+
+  @media screen and (max-width: 1280px) {
+    & {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+}
+
 .addressesTitle {
   text-align: center;
   background-color: #e29c38;
@@ -11,11 +25,11 @@
   border: none;
   display: block;
   margin: 0 auto;
-  background-color: aqua;
+  background-color: #7fcb47;
 
   @media screen and (any-hover: hover) {
     &:hover {
-      background-color: #9ffff4;
+      background-color: #a9aaea;
     }
   }
 }
@@ -25,7 +39,6 @@
   padding: 10px;
   border-radius: 10px;
   margin-top: 20px;
-  margin-bottom: 20px;
 }
 
 .addressContainer {
@@ -59,6 +72,9 @@
     flex-wrap: wrap;
     border-radius: 10px;
     justify-content: center;
+    width: 45%;
+    word-break: break-all;
+    flex-direction: column;
 
     h4 {
       margin: 0;
@@ -80,6 +96,7 @@
       border: none;
       background-color: #bcbcbc;
       padding: 10px;
+      font-size: 1.1rem;
 
       @media screen and (any-hover: hover) {
         &:hover {
@@ -87,6 +104,18 @@
         }
       }
     }
+
+    @media screen and (max-width: 540px) {
+      & {
+       flex-direction: column;
+       justify-content: center;
+      }
+
+      .addressManageBtnsContainer {
+        margin: 0;
+        justify-content: center;
+      }
+     }
   }
 
   .addressValue {
@@ -104,7 +133,12 @@
     border-radius: 10px;
     text-align: center;
     margin-right: auto;
+    line-height: 1.15;
+    font-size: 1.1rem;
 
+    @media screen and (max-width: 540px) {
+      margin: 0 auto;
+    }
   }
 
   .addressIconsContainer {
@@ -118,6 +152,12 @@
       width: 20px;
       height: 20px;
       cursor: pointer;
+    }
+
+    @media screen and (max-width: 540px) {
+      & {
+        margin-top: 20px;
+      }
     }
   }
 }
