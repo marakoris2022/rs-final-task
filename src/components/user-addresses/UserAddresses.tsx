@@ -5,7 +5,15 @@ import { useNavigate } from 'react-router-dom';
 import { FaTrash, FaEdit } from 'react-icons/fa';
 import { useState } from 'react';
 import { ModalWindow } from '../modal/ModalWindow';
-import { DefaultAddressTypes, removeAddress, setDefaultAddressType } from '../../api/commerce-tools-api-profile';
+import {
+  DefaultAddressTypes,
+  RemoveAddressTypes,
+  removeAddress,
+  removeAddressType,
+  setDefaultAddressType,
+  addAddressType,
+  AddressTypes,
+} from '../../api/commerce-tools-api-profile';
 
 const CountryCodes: Record<string, string> = {
   US: 'USA',
@@ -58,6 +66,24 @@ export const UserAddresses = () => {
     setIsLoading(() => false);
   };
 
+  const handleChangeAddressType = async (
+    addressId: string | undefined,
+    typeToRemove: RemoveAddressTypes,
+    typeToAdd: AddressTypes,
+  ) => {
+    setIsLoading(() => true);
+
+    const updatedUser = await addAddressType(customer!.id, customer!, typeToAdd, addressId);
+
+    const updatedUserSecond = await removeAddressType(customer!.id, updatedUser!, typeToRemove, addressId);
+
+    setCustomer(updatedUserSecond);
+
+    setIsLoading(() => false);
+  };
+
+  console.log(customer);
+
   return (
     <div>
       <Button
@@ -102,17 +128,30 @@ export const UserAddresses = () => {
               </div>
               <div className={styles.addressManageContainer}>
                 {isDefaultAddress && <div className={styles.addressDefault}>Default shipping</div>}
-                {!isDefaultAddress && (
-                  <Button
-                    style={styles.setDefaultAddressBtn}
-                    title="Set as default"
-                    type="button"
-                    onClick={async () => {
-                      await handleSetDefaultAddress(currAddress!.id, DefaultAddressTypes.SHIPPING);
-                    }}
-                    disabled={isLoading}
-                  />
-                )}
+                <div className={styles.addressManageBtnsContainer}>
+                  {!isDefaultAddress && (
+                    <Button
+                      style={styles.setDefaultAddressBtn}
+                      title="Set as default"
+                      type="button"
+                      onClick={async () => {
+                        await handleSetDefaultAddress(currAddress!.id, DefaultAddressTypes.SHIPPING);
+                      }}
+                      disabled={isLoading}
+                    />
+                  )}
+                  {!isDefaultAddress && (
+                    <Button
+                      style={styles.setDefaultAddressBtn}
+                      title="Set as billing"
+                      type="button"
+                      onClick={() => {
+                        handleChangeAddressType(currAddress.id, RemoveAddressTypes.SHIPPING, AddressTypes.BILLING);
+                      }}
+                      disabled={isLoading}
+                    />
+                  )}
+                </div>
                 <div className={styles.addressIconsContainer}>
                   <FaEdit />
                   <FaTrash onClick={() => !isLoading && openDeleteModal(currAddress.id)} />
@@ -159,17 +198,31 @@ export const UserAddresses = () => {
               </div>
               <div className={styles.addressManageContainer}>
                 {isDefaultAddress && <div className={styles.addressDefault}>Default billing</div>}
-                {!isDefaultAddress && (
-                  <Button
-                    style={styles.setDefaultAddressBtn}
-                    title="Set as default"
-                    type="button"
-                    onClick={async () => {
-                      await handleSetDefaultAddress(currAddress!.id, DefaultAddressTypes.BILLING);
-                    }}
-                    disabled={isLoading}
-                  />
-                )}
+                <div className={styles.addressManageBtnsContainer}>
+                  {!isDefaultAddress && (
+                    <Button
+                      style={styles.setDefaultAddressBtn}
+                      title="Set as default"
+                      type="button"
+                      onClick={async () => {
+                        await handleSetDefaultAddress(currAddress!.id, DefaultAddressTypes.BILLING);
+                      }}
+                      disabled={isLoading}
+                    />
+                  )}
+                  {!isDefaultAddress && (
+                    <Button
+                      style={styles.setDefaultAddressBtn}
+                      title="Set as shipping"
+                      type="button"
+                      onClick={() => {
+                        handleChangeAddressType(currAddress.id, RemoveAddressTypes.BILLING, AddressTypes.SHIPPING);
+                      }}
+                      disabled={isLoading}
+                    />
+                  )}
+                </div>
+
                 <div className={styles.addressIconsContainer}>
                   <FaEdit />
                   <FaTrash onClick={() => !isLoading && openDeleteModal(currAddress.id)} />
