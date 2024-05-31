@@ -132,7 +132,7 @@ export const EditAddress = ({ onClose, address }: EditAddressProps) => {
           country: countryCodes[values.country],
         };
 
-        const updatedUser = await changeAddress(customer!.id, customer!, requestBody, address!.id);
+        const updatedUser = await changeAddress(customer!, requestBody, address!.id);
 
         setCustomer(updatedUser);
 

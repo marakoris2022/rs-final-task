@@ -93,14 +93,13 @@ export const UserBasicInfo = () => {
     enableReinitialize: true,
     onSubmit: async (values) => {
       try {
-        const valuesWithVersion = { ...values, version: customer?.version ? customer.version : 1 };
+        const updatedUser = await updateBasicUserData(customer!, values);
 
-        if (customer!.id) {
-          const { version } = await updateBasicUserData(customer!.id, valuesWithVersion);
-          updateCustomer({ ...values, version });
-          setMessage(() => 'Changes saved');
-          formik.setTouched({}, false);
-        }
+        updateCustomer(updatedUser);
+
+        setMessage(() => 'Changes saved');
+
+        formik.setTouched({}, false);
       } catch (err: unknown) {
         if (err instanceof Error) {
           const errMsg = err.message;

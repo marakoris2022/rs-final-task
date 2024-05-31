@@ -77,15 +77,11 @@ export const UserPasswordForm = () => {
     validate,
     onSubmit: async (values) => {
       try {
-        const valuesWithVersion = { ...values, version: customer?.version ? customer.version : 1 };
-
-        if (customer!.id) {
-          const { version } = await updateUserPassword(customer!.id, valuesWithVersion);
-          updateCustomer({ ...values, version });
-          setMessage(() => 'Password successfully changed');
-          await login(customer!.email, values.newPassword);
-          formik.resetForm();
-        }
+        const updatedUser = await updateUserPassword(customer!, values);
+        updateCustomer(updatedUser);
+        setMessage(() => 'Password successfully changed');
+        await login(customer!.email, values.newPassword);
+        formik.resetForm();
       } catch (err: unknown) {
         if (err instanceof Error) {
           const errMsg = err.message;

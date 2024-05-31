@@ -20,7 +20,6 @@ export enum RemoveAddressTypes {
 }
 
 export interface UserDataBasic {
-  version: number;
   email: string;
   firstName: string;
   lastName: string;
@@ -28,13 +27,12 @@ export interface UserDataBasic {
 }
 
 interface UserDataPassword {
-  version: number;
   currentPassword: string;
   newPassword: string;
 }
 
-export const updateBasicUserData = async (userId: string, updatedUserData: UserDataBasic) => {
-  const apiUrl = `${api}/${projectKey}/customers/${userId}`;
+export const updateBasicUserData = async (user: UserPropsExtended, updatedUserData: UserDataBasic) => {
+  const apiUrl = `${api}/${projectKey}/customers/${user.id}`;
   const commerceObj = localStorage.getItem(ECommerceKey);
   let accessToken;
 
@@ -43,7 +41,7 @@ export const updateBasicUserData = async (userId: string, updatedUserData: UserD
   }
 
   const requestBody = {
-    version: updatedUserData.version,
+    version: user.version,
     actions: [
       { action: 'changeEmail', email: updatedUserData.email },
       { action: 'setFirstName', firstName: updatedUserData.firstName },
@@ -66,12 +64,12 @@ export const updateBasicUserData = async (userId: string, updatedUserData: UserD
     throw new Error(errorData.message || 'Failed to update user data');
   }
 
-  const updatedUserDataResponse = await response.json();
+  const updatedUserDataResponse: UserPropsExtended = await response.json();
 
   return updatedUserDataResponse;
 };
 
-export const updateUserPassword = async (userId: string, updatedUserData: UserDataPassword) => {
+export const updateUserPassword = async (user: UserPropsExtended, updatedUserData: UserDataPassword) => {
   const apiUrl = `${api}/${projectKey}/customers/password`;
   const commerceObj = localStorage.getItem(ECommerceKey);
   let accessToken;
@@ -81,8 +79,8 @@ export const updateUserPassword = async (userId: string, updatedUserData: UserDa
   }
 
   const requestBody = {
-    id: userId,
-    version: updatedUserData.version,
+    id: user.id,
+    version: user.version,
     currentPassword: updatedUserData.currentPassword,
     newPassword: updatedUserData.newPassword,
   };
@@ -101,13 +99,13 @@ export const updateUserPassword = async (userId: string, updatedUserData: UserDa
     throw new Error(errorData.message || 'Failed to update password');
   }
 
-  const updatedUserDataResponse = await response.json();
+  const updatedUserDataResponse: UserPropsExtended = await response.json();
 
   return updatedUserDataResponse;
 };
 
-export const addNewAddress = async (userId: string, userData: UserPropsExtended, newAddressData: Address) => {
-  const apiUrl = `${api}/${projectKey}/customers/${userId}`;
+export const addNewAddress = async (user: UserPropsExtended, newAddressData: Address) => {
+  const apiUrl = `${api}/${projectKey}/customers/${user.id}`;
   const commerceObj = localStorage.getItem(ECommerceKey);
   let accessToken;
 
@@ -116,7 +114,7 @@ export const addNewAddress = async (userId: string, userData: UserPropsExtended,
   }
 
   const requestBody = {
-    version: userData.version,
+    version: user.version,
     actions: [
       {
         action: 'addAddress',
@@ -147,9 +145,9 @@ export const addNewAddress = async (userId: string, userData: UserPropsExtended,
     let resp: UserPropsExtended;
 
     if (lastAddress.additionalAddressInfo === AddressTypes.SHIPPING) {
-      resp = await addAddressType(userId, addNewAddressResponse, AddressTypes.SHIPPING, lastAddress.id);
+      resp = await addAddressType(user.id, addNewAddressResponse, AddressTypes.SHIPPING, lastAddress.id);
     } else {
-      resp = await addAddressType(userId, addNewAddressResponse, AddressTypes.BILLING, lastAddress.id);
+      resp = await addAddressType(user.id, addNewAddressResponse, AddressTypes.BILLING, lastAddress.id);
     }
 
     return resp;
@@ -168,37 +166,39 @@ export const addAddressType = async (
 
   if (commerceObj) {
     accessToken = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
-
-    const requestBody = {
-      version: userData.version,
-      actions: [
-        {
-          action: type,
-          addressId,
-        },
-      ],
-    };
-
-    const response = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify(requestBody),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to create address');
-    }
-
-    return response.json();
   }
+
+  const requestBody = {
+    version: userData.version,
+    actions: [
+      {
+        action: type,
+        addressId,
+      },
+    ],
+  };
+
+  const response = await fetch(apiUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(requestBody),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to create address');
+  }
+
+  const updatedUserDataResponse: UserPropsExtended = await response.json();
+
+  return updatedUserDataResponse;
 };
 
-export const removeAddress = async (userId: string, userData: UserPropsExtended | null, addressId: string) => {
-  const apiUrl = `${api}/${projectKey}/customers/${userId}`;
+export const removeAddress = async (user: UserPropsExtended | null, addressId: string) => {
+  const apiUrl = `${api}/${projectKey}/customers/${user!.id}`;
   const commerceObj = localStorage.getItem(ECommerceKey);
   let accessToken;
 
@@ -207,7 +207,7 @@ export const removeAddress = async (userId: string, userData: UserPropsExtended 
   }
 
   const requestBody = {
-    version: userData!.version,
+    version: user!.version,
     actions: [
       {
         action: 'removeAddress',
@@ -236,12 +236,11 @@ export const removeAddress = async (userId: string, userData: UserPropsExtended 
 };
 
 export const setDefaultAddressType = async (
-  userId: string,
-  userData: UserPropsExtended,
+  user: UserPropsExtended,
   typeOfAddress: DefaultAddressTypes,
   addressId: string | undefined,
 ) => {
-  const apiUrl = `${api}/${projectKey}/customers/${userId}`;
+  const apiUrl = `${api}/${projectKey}/customers/${user.id}`;
   const commerceObj = localStorage.getItem(ECommerceKey);
   let accessToken;
 
@@ -250,7 +249,7 @@ export const setDefaultAddressType = async (
   }
 
   const requestBody = {
-    version: userData!.version,
+    version: user.version,
     actions: [
       {
         action: typeOfAddress,
@@ -279,12 +278,11 @@ export const setDefaultAddressType = async (
 };
 
 export const removeAddressType = async (
-  userId: string,
-  userData: UserPropsExtended | null,
+  user: UserPropsExtended | null,
   type: RemoveAddressTypes,
   addressId: string | undefined,
 ) => {
-  const apiUrl = `${api}/${projectKey}/customers/${userId}`;
+  const apiUrl = `${api}/${projectKey}/customers/${user!.id}`;
   const commerceObj = localStorage.getItem(ECommerceKey);
   let accessToken;
 
@@ -293,7 +291,7 @@ export const removeAddressType = async (
   }
 
   const requestBody = {
-    version: userData!.version,
+    version: user!.version,
     actions: [
       {
         action: type,
@@ -321,13 +319,8 @@ export const removeAddressType = async (
   return resp;
 };
 
-export const changeAddress = async (
-  userId: string,
-  userData: UserPropsExtended,
-  addressData: Address,
-  addressId: string | undefined,
-) => {
-  const apiUrl = `${api}/${projectKey}/customers/${userId}`;
+export const changeAddress = async (user: UserPropsExtended, addressData: Address, addressId: string | undefined) => {
+  const apiUrl = `${api}/${projectKey}/customers/${user.id}`;
   const commerceObj = localStorage.getItem(ECommerceKey);
   let accessToken;
 
@@ -336,7 +329,7 @@ export const changeAddress = async (
   }
 
   const requestBody = {
-    version: userData!.version,
+    version: user.version,
     actions: [
       {
         action: 'changeAddress',

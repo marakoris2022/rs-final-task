@@ -134,22 +134,20 @@ export const AddAddress = () => {
         const billingAddress = { ...requestBody, additionalAddressInfo: AddressTypes.BILLING };
 
         if (values.isShipping && values.isBilling) {
-          let shippingAddressAdded = await addNewAddress(customer!.id, customer!, shippingAddress);
+          let shippingAddressAdded = await addNewAddress(customer!, shippingAddress);
 
           if (values.defaultShippingAddress && shippingAddressAdded?.addresses) {
             shippingAddressAdded = await setDefaultAddressType(
-              customer!.id,
               shippingAddressAdded,
               DefaultAddressTypes.SHIPPING,
               shippingAddressAdded.addresses[shippingAddressAdded.addresses.length - 1].id,
             );
           }
 
-          let billingAddressAdded = await addNewAddress(customer!.id, shippingAddressAdded!, billingAddress);
+          let billingAddressAdded = await addNewAddress(shippingAddressAdded!, billingAddress);
 
           if (values.defaultBillingAddress && billingAddressAdded?.addresses) {
             billingAddressAdded = await setDefaultAddressType(
-              customer!.id,
               billingAddressAdded,
               DefaultAddressTypes.BILLING,
               billingAddressAdded.addresses[billingAddressAdded.addresses.length - 1].id,
@@ -158,11 +156,10 @@ export const AddAddress = () => {
 
           setCustomer(billingAddressAdded!);
         } else if (values.isShipping) {
-          let shippingAddressAdded = await addNewAddress(customer!.id, customer!, shippingAddress);
+          let shippingAddressAdded = await addNewAddress(customer!, shippingAddress);
 
           if (values.defaultShippingAddress && shippingAddressAdded?.addresses) {
             shippingAddressAdded = await setDefaultAddressType(
-              customer!.id,
               shippingAddressAdded,
               DefaultAddressTypes.SHIPPING,
               shippingAddressAdded.addresses[shippingAddressAdded.addresses.length - 1].id,
@@ -171,11 +168,10 @@ export const AddAddress = () => {
 
           setCustomer(shippingAddressAdded!);
         } else {
-          let billingAddressAdded = await addNewAddress(customer!.id, customer!, billingAddress);
+          let billingAddressAdded = await addNewAddress(customer!, billingAddress);
 
           if (values.defaultBillingAddress && billingAddressAdded?.addresses) {
             billingAddressAdded = await setDefaultAddressType(
-              customer!.id,
               billingAddressAdded,
               DefaultAddressTypes.BILLING,
               billingAddressAdded.addresses[billingAddressAdded.addresses.length - 1].id,

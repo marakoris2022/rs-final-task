@@ -44,7 +44,7 @@ export const UserAddresses = () => {
   );
 
   const handleDeleteAddress = async () => {
-    const updatedUser = await removeAddress(customer!.id, customer, addressToDelete);
+    const updatedUser = await removeAddress(customer, addressToDelete);
 
     setCustomer(updatedUser);
 
@@ -70,7 +70,7 @@ export const UserAddresses = () => {
   const handleSetDefaultAddress = async (addressId: string | undefined, type: DefaultAddressTypes) => {
     setIsLoading(() => true);
 
-    const updatedUser = await setDefaultAddressType(customer!.id, customer!, type, addressId);
+    const updatedUser = await setDefaultAddressType(customer!, type, addressId);
 
     setCustomer(updatedUser);
 
@@ -86,7 +86,7 @@ export const UserAddresses = () => {
 
     const updatedUser = await addAddressType(customer!.id, customer!, typeToAdd, addressId);
 
-    const updatedUserSecond = await removeAddressType(customer!.id, updatedUser!, typeToRemove, addressId);
+    const updatedUserSecond = await removeAddressType(updatedUser!, typeToRemove, addressId);
 
     setCustomer(updatedUserSecond);
 
