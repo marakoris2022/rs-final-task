@@ -130,7 +130,7 @@ export async function getCategories(sort: string = '', limit: number = 0): Promi
 
 export async function getProductsByCategory(
   categoryID: string[] = ['93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b', 'ded52f2e-0d4d-4015-bbde-70c0142c61f0'],
-  limit: number = 15,
+  limit: number = 30,
 ): Promise<ProductType[] | null> {
   let selectedProducts = null;
   const commerceObj = localStorage.getItem(ECommerceKey);
@@ -149,6 +149,74 @@ export async function getProductsByCategory(
       config,
     );
     const { results } = response.data;
+    selectedProducts = results;
+  }
+  return selectedProducts;
+}
+
+/* GET /{projectKey}/product-projections/search?staged=true&limit=10&text.en="simpsons" */
+export async function getProductsByText(searchWords: string, limit: number = 30): Promise<ProductType[] | null> {
+  let selectedProducts = null;
+  const commerceObj = localStorage.getItem(ECommerceKey);
+  if (commerceObj) {
+    const token = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
+    const config: CategoryConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await apiClient.get(
+      `/${projectKey}/product-projections/search?text.en="${searchWords}"&limit=${limit}`,
+      config,
+    );
+    const { results } = response.data;
+    selectedProducts = results;
+    console.log(selectedProducts);
+  }
+  return selectedProducts;
+}
+
+export async function getProductProjection(
+  categoryID: string[] = [],
+  releaseYears: string[] = [],
+  discount: boolean = false,
+  priceSorting: string = '',
+  nameSorting: string = '',
+  minPrice: string = '0',
+  maxPrice: string = '50',
+  minPositiveCalls: string = '0',
+  maxPositiveCalls: string = '500',
+  searchWords: string = '',
+  limit: number = 30,
+): Promise<ProductType[] | null> {
+  let selectedProducts = null;
+  const commerceObj = localStorage.getItem(ECommerceKey);
+  if (commerceObj) {
+    const token = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
+    const config: CategoryConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    let query = `/${projectKey}/product-projections/search?`;
+    /* const priceRange = `${Math.min(+minPrice, +maxPrice)} to ${Math.max(+minPrice, +maxPrice)}`; */
+    if (categoryID.length > 0) {
+      const arr: string[] = categoryID;
+      const categoryIDJoined = arr.length === 1 ? arr[0] : arr.join('","');
+      /*  query += `filter=categories.id:"${categoryIDJoined}"&filter=variants.price.centAmount:range(${priceRange})&limit=${limit}`; */
+      query += `filter=categories.id:"${categoryIDJoined}"`;
+    }
+    if (categoryID.length === 0 && !searchWords) {
+      const categoryIDJoined = '93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b';
+      /* query += `filter=categories.id:"${categoryIDJoined}"&filter=variants.price.centAmount:range(${priceRange})&limit=${limit}`; */
+      query += `filter=categories.id:"${categoryIDJoined}"`;
+    }
+    if (searchWords) query += `&text.en="${searchWords}"`;
+    query += `&limit=${limit}`;
+    const response = await apiClient.get(query, config);
+    const { results } = response.data;
+    console.log(results);
     selectedProducts = results;
   }
   return selectedProducts;

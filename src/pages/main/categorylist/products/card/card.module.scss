@@ -1,6 +1,7 @@
 .card {
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   width: 45%;
   justify-content: start;
@@ -17,6 +18,7 @@
   margin: 0;
   width: 100%;
   color: #fff;
+  border-radius: 10px;
 }
 
 .cardContainer {

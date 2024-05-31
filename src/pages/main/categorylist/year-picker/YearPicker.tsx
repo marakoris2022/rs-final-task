@@ -15,7 +15,7 @@ export const YearPicker = () => {
       >
         Year of release:
       </legend>
-      <select className={styles.yearSelect} name="year-select" multiple>
+      <select className={styles.yearSelect} name="yearSelect" multiple>
         {years.map((year) => (
           <option className={styles.yearOption} key={year} id={`release_${year}`} value={year}>
             {year}

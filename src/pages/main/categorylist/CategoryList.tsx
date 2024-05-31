@@ -13,21 +13,105 @@ type CategoryListType = {
 
 export const CategoryList = ({ categoryList }: CategoryListType) => {
   const addCategories = useCategoryStore((state) => state.addCategories);
+  const addYears = useCategoryStore((state) => state.addYears);
+  const isDiscounted = useCategoryStore((state) => state.isDiscounted);
+  const setPriceSorting = useCategoryStore((state) => state.setPriceSorting);
+  const setNameSorting = useCategoryStore((state) => state.setNameSorting);
+  const setPriceMin = useCategoryStore((state) => state.setPriceMin);
+  const setPriceMax = useCategoryStore((state) => state.setPriceMax);
+  const setPositiveCallsMin = useCategoryStore((state) => state.setPositiveCallsMin);
+  const setPositiveCallsMax = useCategoryStore((state) => state.setPositiveCallsMax);
+  const setSearchWords = useCategoryStore((state) => state.setSearchWords);
 
-  const searchHandler = useCallback(() => { }, []);
+  const searchHandler = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      const clicked = event.target as HTMLElement;
+      const searchedWordsInput = clicked.nextElementSibling as HTMLInputElement | null;
+      if (!searchedWordsInput) return;
+      setSearchWords(searchedWordsInput.value);
+    },
+    [setSearchWords],
+  );
 
   const submitHandler = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       if (event.target instanceof HTMLFormElement) {
         const form = event.target;
-        const formElements = Array.from(form.elements) as HTMLInputElement[];
-        const filtered = formElements.filter((elem) => elem.type === 'checkbox' && elem.checked);
-        const mapped = filtered.map((box) => box.value);
-        addCategories(mapped);
+        const searchedWordsInput = form.elements.namedItem('searchField') as HTMLInputElement;
+        if (searchedWordsInput && searchedWordsInput.value) setSearchWords(searchedWordsInput.value);
+        const categorySet = form.elements.namedItem('categoryFieldSet') as HTMLFieldSetElement | null;
+        if (categorySet) {
+          const formElements = Array.from(categorySet.elements) as HTMLInputElement[];
+          const filtered = formElements.filter((elem) => elem.type === 'checkbox' && elem.checked);
+          const mapped = filtered.map((box) => box.value);
+          addCategories(mapped);
+        }
+        const priceSet = form.elements.namedItem('priceFieldSet') as HTMLFieldSetElement | null;
+        if (priceSet) {
+          const priceRangeMin = priceSet.elements.namedItem('minValue') as HTMLInputElement | null;
+          const priceRangeMax = priceSet.elements.namedItem('maxValue') as HTMLInputElement | null;
+          priceRangeMin && setPriceMin(priceRangeMin.value);
+          priceRangeMax && setPriceMax(priceRangeMax.value);
+        }
+        const positiveCallsSet = form.elements.namedItem('positiveCallsFieldSet') as HTMLFieldSetElement | null;
+        if (positiveCallsSet) {
+          const callsRangMin = positiveCallsSet.elements.namedItem('minValue') as HTMLInputElement | null;
+          const callsRangeMax = positiveCallsSet.elements.namedItem('minValue') as HTMLInputElement | null;
+          callsRangMin && setPositiveCallsMin(callsRangMin.value);
+          callsRangeMax && setPositiveCallsMax(callsRangeMax.value);
+        }
+        const releaseSet = form.elements.namedItem('releaseFieldSet') as HTMLFieldSetElement | null;
+        if (releaseSet) {
+          const releaseYears = releaseSet.elements.namedItem('yearSelect') as HTMLSelectElement | null;
+          const yearValues = releaseYears
+            ? Array.from(releaseYears.options)
+              .filter((item) => item.selected)
+              .map((year) => year.value)
+            : [];
+          yearValues.length > 0 && addYears(yearValues);
+        }
+        const discountSet = form.elements.namedItem('discountFieldSet') as HTMLFieldSetElement | null;
+        if (discountSet) {
+          const productOptions = discountSet.elements.namedItem('discountedProducts') as HTMLInputElement[] | null;
+          const found =
+            productOptions && productOptions.length > 0
+              ? Array.from(productOptions).find((item) => item.checked)
+              : null;
+          found && found.value === 'discounted' && isDiscounted(true);
+        }
+        const priceSortingSet = form.elements.namedItem('priceSortingFieldSet') as HTMLFieldSetElement | null;
+        if (priceSortingSet) {
+          const priceSortingOptions = priceSortingSet.elements.namedItem('priceSorting') as HTMLInputElement[] | null;
+          const found =
+            priceSortingOptions && priceSortingOptions.length > 0
+              ? Array.from(priceSortingOptions).find((item) => item.checked)
+              : null;
+          found && setPriceSorting(found.value);
+        }
+        const nameSortingSet = form.elements.namedItem('nameSortingFieldSet') as HTMLFieldSetElement | null;
+        if (nameSortingSet) {
+          const nameSortingOptions = nameSortingSet.elements.namedItem('nameSorting') as HTMLInputElement[] | null;
+          const found =
+            nameSortingOptions && nameSortingOptions.length > 0
+              ? Array.from(nameSortingOptions).find((item) => item.checked)
+              : null;
+          found && setNameSorting(found.value);
+        }
       }
     },
-    [addCategories],
+    [
+      addCategories,
+      setPriceMin,
+      setPriceMax,
+      setPositiveCallsMin,
+      setPositiveCallsMax,
+      addYears,
+      isDiscounted,
+      setPriceSorting,
+      setNameSorting,
+      setSearchWords,
+    ],
   );
 
   return (
@@ -48,13 +132,13 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           </CheckboxComponent>
         ))}
       </fieldset>
-      <fieldset className={styles.priceFilterWrapper} name="price-filter">
-        <DoubleSlider title={'Price'} MIN={0} MAX={1000}></DoubleSlider>
+      <fieldset className={styles.priceFilterWrapper} name="priceFieldSet">
+        <DoubleSlider title={'Price'} MIN={0} MAX={50} signs={'$'}></DoubleSlider>
       </fieldset>
-      <fieldset className={styles.positiveCallbacksFilterWrapper} name="positive-callbacks-filter">
-        <DoubleSlider title={'Positive Callbacks'} MIN={0} MAX={5000}></DoubleSlider>
+      <fieldset className={styles.positiveCallbacksFilterWrapper} name="positiveCallsFieldSet">
+        <DoubleSlider title={'Positive Callbacks'} MIN={0} MAX={500}></DoubleSlider>
       </fieldset>
-      <fieldset className={styles.yearFilterWrapper} name="release-year-filter">
+      <fieldset className={styles.yearFilterWrapper} name="releaseFieldSet">
         <YearPicker></YearPicker>
       </fieldset>
       <SortOptions></SortOptions>

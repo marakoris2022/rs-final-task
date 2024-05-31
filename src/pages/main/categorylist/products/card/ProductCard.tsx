@@ -19,7 +19,6 @@ export const ProductCard = ({ product }: CardType) => {
   const [priceWithDiscount, setPriceWithDiscount] = useState(0);
 
   useEffect(() => {
-    console.log(product);
     const { url } = product.masterVariant.images[0];
     if (url) {
       setImageUrl(url);
@@ -56,10 +55,11 @@ export const ProductCard = ({ product }: CardType) => {
 
   return (
     <div className={styles.card} onClick={clickHandle}>
-      <Button style={styles.cardBtn} title="Info" type="button" onClick={clickHandle}></Button>
-      <h2 className={styles.cardTitle}>{product.name['en-US']}</h2>
+      {/* <Button style={styles.cardBtn} title="Info" type="button" onClick={clickHandle}></Button> */}
+      {/*       <h2 className={styles.cardTitle}>{product.name['en-US']}</h2> */}
       <div className={styles.cardContainer}>
         <div className={styles.cardDescriptionContainer} style={{ backgroundImage: `url(${imageURL})` }}>
+          <h2 className={styles.cardTitle}>{product.name['en-US']}</h2>
           <p className={styles.cardDescription}> {product.description['en-US']}</p>
         </div>
       </div>

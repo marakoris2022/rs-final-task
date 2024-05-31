@@ -3,7 +3,7 @@ import styles from './sortOptions.module.scss';
 export const SortOptions = () => {
   return (
     <>
-      <fieldset>
+      <fieldset className={styles.discountWrapper} name="discountFieldSet">
         <legend
           style={{
             color: '#fff',
@@ -25,7 +25,7 @@ export const SortOptions = () => {
           </label>
         </div>
       </fieldset>
-      <fieldset>
+      <fieldset className={styles.priceWrapper} name="priceSortingFieldSet">
         <legend
           style={{
             color: '#fff',
@@ -48,7 +48,7 @@ export const SortOptions = () => {
           </label>
         </div>
       </fieldset>
-      <fieldset>
+      <fieldset className={styles.nameWrapper} name="nameSortingFieldSet">
         <legend
           style={{
             color: '#fff',
@@ -57,13 +57,13 @@ export const SortOptions = () => {
           Sort by Name:
         </legend>
         <div className={styles.radioWrapper}>
-          <input type="radio" id="az" name="nameSorting" value="az" />
+          <input type="radio" id="az" name="nameSorting" value="asc" />
           <label className={styles.radioLabel} htmlFor="az">
             from A to Z
           </label>
         </div>
         <div className={styles.radioWrapper}>
-          <input type="radio" id="za" name="nameSorting" value="za" />
+          <input type="radio" id="za" name="nameSorting" value="desc" />
           <label className={styles.radioLabel} htmlFor="za">
             from Z to A
           </label>

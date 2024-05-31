@@ -1,6 +1,6 @@
 import styles from './main.module.scss';
 import { useEffect, useState } from 'react';
-import { CategoryResults, ProductType, getCategories, getProductsByCategory } from '../../api/catalogue-api';
+import { CategoryResults, ProductType, getCategories, getProductProjection } from '../../api/catalogue-api';
 import { CategoryList } from './categorylist/CategoryList';
 import { ProductList } from './categorylist/products/ProductsList';
 import { useCategoryStore } from '../../store/useCategoryStore';
@@ -10,14 +10,50 @@ const getCategoryList = async (): Promise<CategoryResults[] | null> => {
   return await getCategories('key asc');
 };
 
-const getProductList = async (categories: string[]): Promise<ProductType[] | null> => {
-  return await getProductsByCategory(categories);
+/* const getProductsBySearchWords = async (searchWords: string): Promise<ProductType[] | null> => {
+  return await getProductsByText(searchWords);
+}; */
+
+const getProductList = async (
+  categories: string[],
+  releaseYears: string[],
+  discount: boolean,
+  priceSorting: string,
+  nameSorting: string,
+  minPrice: string,
+  maxPrice: string,
+  minPositiveCalls: string,
+  maxPositiveCalls: string,
+  searchWords: string,
+): Promise<ProductType[] | null> => {
+  console.log('min: ', minPrice, 'max: ', maxPrice);
+  return await getProductProjection(
+    categories,
+    releaseYears,
+    discount,
+    priceSorting,
+    nameSorting,
+    minPrice,
+    maxPrice,
+    minPositiveCalls,
+    maxPositiveCalls,
+    searchWords,
+  );
 };
 
 export const Catalog = () => {
   const [ctgList, setCtgList] = useState<CategoryResults[] | null>(null);
   const [products, setProducts] = useState<ProductType[] | null>(null);
   const selectedCategories = useCategoryStore((state) => state.categories);
+  const selectedReleaseYears = useCategoryStore((state) => state.releaseYears);
+  const selectedDiscount = useCategoryStore((state) => state.discount);
+  const selectedPriceSorting = useCategoryStore((state) => state.priceSorting);
+  const selectedNameSorting = useCategoryStore((state) => state.nameSorting);
+  const selectedMinPrice = useCategoryStore((state) => state.minPrice);
+  const selectedMaxPrice = useCategoryStore((state) => state.maxPrice);
+  const selectedMinPositiveCalls = useCategoryStore((state) => state.minPositiveCalls);
+  const selectedMaxPositiveCalls = useCategoryStore((state) => state.maxPositiveCalls);
+  const searchWords = useCategoryStore((state) => state.searchWords);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -28,14 +64,45 @@ export const Catalog = () => {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchProducts = async () => {
-      const productList = await getProductList(selectedCategories);
+      const productList = await getProductsBySearchWords(searchWords);
       setProducts(productList);
     };
 
     fetchProducts();
-  }, [selectedCategories]);
+  }, [searchWords]); */
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const productList = await getProductList(
+        selectedCategories,
+        selectedReleaseYears,
+        selectedDiscount,
+        selectedPriceSorting,
+        selectedNameSorting,
+        selectedMinPrice,
+        selectedMaxPrice,
+        selectedMinPositiveCalls,
+        selectedMaxPositiveCalls,
+        searchWords,
+      );
+      setProducts(productList);
+    };
+
+    fetchProducts();
+  }, [
+    selectedCategories,
+    selectedReleaseYears,
+    selectedDiscount,
+    selectedPriceSorting,
+    selectedNameSorting,
+    selectedMinPrice,
+    selectedMaxPrice,
+    selectedMinPositiveCalls,
+    selectedMaxPositiveCalls,
+    searchWords,
+  ]);
 
   return (
     <main className={styles.catalog}>
