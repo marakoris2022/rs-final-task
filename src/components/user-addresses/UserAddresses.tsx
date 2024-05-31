@@ -84,7 +84,7 @@ export const UserAddresses = () => {
   ) => {
     setIsLoading(() => true);
 
-    const updatedUser = await addAddressType(customer!.id, customer!, typeToAdd, addressId);
+    const updatedUser = await addAddressType(customer!, typeToAdd, addressId);
 
     const updatedUserSecond = await removeAddressType(updatedUser!, typeToRemove, addressId);
 

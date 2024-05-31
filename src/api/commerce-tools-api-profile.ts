@@ -145,22 +145,17 @@ export const addNewAddress = async (user: UserPropsExtended, newAddressData: Add
     let resp: UserPropsExtended;
 
     if (lastAddress.additionalAddressInfo === AddressTypes.SHIPPING) {
-      resp = await addAddressType(user.id, addNewAddressResponse, AddressTypes.SHIPPING, lastAddress.id);
+      resp = await addAddressType(addNewAddressResponse, AddressTypes.SHIPPING, lastAddress.id);
     } else {
-      resp = await addAddressType(user.id, addNewAddressResponse, AddressTypes.BILLING, lastAddress.id);
+      resp = await addAddressType(addNewAddressResponse, AddressTypes.BILLING, lastAddress.id);
     }
 
     return resp;
   }
 };
 
-export const addAddressType = async (
-  userId: string,
-  userData: UserPropsExtended,
-  type: AddressTypes,
-  addressId: string | undefined,
-) => {
-  const apiUrl = `${api}/${projectKey}/customers/${userId}`;
+export const addAddressType = async (user: UserPropsExtended, type: AddressTypes, addressId: string | undefined) => {
+  const apiUrl = `${api}/${projectKey}/customers/${user.id}`;
   const commerceObj = localStorage.getItem(ECommerceKey);
   let accessToken;
 
@@ -169,7 +164,7 @@ export const addAddressType = async (
   }
 
   const requestBody = {
-    version: userData.version,
+    version: user.version,
     actions: [
       {
         action: type,
