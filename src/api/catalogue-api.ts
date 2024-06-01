@@ -200,16 +200,16 @@ export async function getProductProjection(
       },
     };
     let query = `/${projectKey}/product-projections/search?`;
-    /* const priceRange = `${Math.min(+minPrice, +maxPrice)} to ${Math.max(+minPrice, +maxPrice)}`; */
+    const priceRange = `${Math.min(+minPrice, +maxPrice)} to ${Math.max(+minPrice, +maxPrice)}`;
     if (categoryID.length > 0) {
       const arr: string[] = categoryID;
       const categoryIDJoined = arr.length === 1 ? arr[0] : arr.join('","');
-      /*  query += `filter=categories.id:"${categoryIDJoined}"&filter=variants.price.centAmount:range(${priceRange})&limit=${limit}`; */
+      query += `filter=categories.id:"${categoryIDJoined}"&filter=variants.price.centAmount:range(${priceRange})&limit=${limit}`;
       query += `filter=categories.id:"${categoryIDJoined}"`;
     }
     if (categoryID.length === 0 && !searchWords) {
       const categoryIDJoined = '93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b';
-      /* query += `filter=categories.id:"${categoryIDJoined}"&filter=variants.price.centAmount:range(${priceRange})&limit=${limit}`; */
+      /*  query += `filter=categories.id:"${categoryIDJoined}"&filter=variants.price.centAmount:range(${priceRange})&limit=${limit}`; */
       query += `filter=categories.id:"${categoryIDJoined}"`;
     }
     if (searchWords) query += `&text.en="${searchWords}"`;
