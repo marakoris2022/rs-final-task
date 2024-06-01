@@ -66,8 +66,8 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           const releaseYears = releaseSet.elements.namedItem('yearSelect') as HTMLSelectElement | null;
           const yearValues = releaseYears
             ? Array.from(releaseYears.options)
-              .filter((item) => item.selected)
-              .map((year) => year.value)
+                .filter((item) => item.selected)
+                .map((year) => year.value)
             : [];
           yearValues.length > 0 && addYears(yearValues);
         }

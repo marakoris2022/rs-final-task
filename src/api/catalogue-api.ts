@@ -172,7 +172,6 @@ export async function getProductsByText(searchWords: string, limit: number = 30)
     );
     const { results } = response.data;
     selectedProducts = results;
-    console.log(selectedProducts);
   }
   return selectedProducts;
 }
@@ -220,10 +219,8 @@ export async function getProductProjection(
     }
     query += `&limit=${limit}`;
     if (priceSorting) query += `&sort=price ${priceSorting}`;
-    console.log(query);
     const response = await apiClient.get(query, config);
     const { results } = response.data;
-    console.log(results);
     selectedProducts = results;
   }
   return selectedProducts;
