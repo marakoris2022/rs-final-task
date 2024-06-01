@@ -12,14 +12,14 @@ export const SortOptions = () => {
           Sort by discount:
         </legend>
         <div className={styles.radioWrapper}>
-          <input type="radio" id="allProducts" name="discountedProducts" value="all" checked />
+          <input className="discountSet" type="radio" id="allProducts" name="discountedProducts" value="false" />
           <label className={styles.radioLabel} htmlFor="allProducts">
             all products
           </label>
         </div>
 
         <div className={styles.radioWrapper}>
-          <input type="radio" id="discountedOnly" name="discountedProducts" value="discounted" />
+          <input className="discountSet" type="radio" id="discountedOnly" name="discountedProducts" value="true" />
           <label className={styles.radioLabel} htmlFor="discountedOnly">
             with discount
           </label>

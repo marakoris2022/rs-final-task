@@ -199,28 +199,29 @@ export async function getProductProjection(
         Authorization: `Bearer ${token}`,
       },
     };
-    let query = `/${projectKey}/product-projections/search?`;
+    let urlString = `/${projectKey}/product-projections/search?`
+    const query: string[] = [];
     const priceRange = `${Math.min(+minPrice, +maxPrice)} to ${Math.max(+minPrice, +maxPrice)}`;
     if (categoryID.length > 0) {
       const arr: string[] = categoryID;
       const categoryIDJoined = arr.length === 1 ? arr[0] : arr.join('","');
-      query += `filter=categories.id:"${categoryIDJoined}"`;
+      query.push(`filter=categories.id:"${categoryIDJoined}"`);
+    }
+    if (searchWords) {
+      query.push(`fuzzy=true&fuzzyLevel=1&text.en-us="${searchWords}"`);
     }
     if (categoryID.length === 0 && !searchWords) {
       const categoryIDJoined = '93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b';
-      query += `filter=categories.id:"${categoryIDJoined}"`;
+      query.push(`filter=categories.id:"${categoryIDJoined}"`);
     }
-    query += `&filter=variants.price.centAmount:range(${priceRange})`;
-    if (categoryID.length === 0 && searchWords) {
-      query += `fuzzy=true&fuzzyLevel=1&text.en-us="${searchWords}"`;
-    } else if (categoryID.length > 0 && searchWords) {
-      query += `&fuzzy=true&fuzzyLevel=1&text.en-us="${searchWords}"`;
-    }
-    query += `&limit=${limit}`;
-    if (sortingCriteria && sortingValue) query += `&sort=${sortingCriteria} ${sortingValue}`;
+    query.push(`&filter=variants.price.centAmount:range(${priceRange})`);
+    if (discount) query.push(`&filter=variants.scopedPriceDiscounted:true&priceCurrency=USD`);
+    query.push(`&limit=${limit}`);
+    if (sortingCriteria && sortingValue) query.push(`&sort=${sortingCriteria} ${sortingValue}`);
 
-    console.log(query);
-    const response = await apiClient.get(query, config);
+    urlString += query.join('&');
+    console.log(urlString);
+    const response = await apiClient.get(urlString, config);
     const { results } = response.data;
     if (results.length === 0) throw new Error('There is no product matching your query');
     selectedProducts = results;

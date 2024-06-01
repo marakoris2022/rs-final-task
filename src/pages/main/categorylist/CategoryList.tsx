@@ -73,19 +73,19 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         }
         const discountSet = form.elements.namedItem('discountFieldSet') as HTMLFieldSetElement | null;
         if (discountSet) {
-          const productOptions = discountSet.elements.namedItem('discountedProducts') as HTMLInputElement[] | null;
-          const found =
-            productOptions && productOptions.length > 0
-              ? Array.from(productOptions).find((item) => item.checked)
-              : null;
-          found && found.value === 'discounted' && isDiscounted(true);
+          const options = discountSet.getElementsByClassName(
+            'discountSet',
+          ) as HTMLCollectionOf<HTMLInputElement> | null;
+          const found = options ? Array.from(options).find((item) => item.checked) : null;
+          if (found && found.value === 'true') isDiscounted(true);
+          else isDiscounted(false);
         }
         const sortingSet = form.elements.namedItem('sortingFieldSet') as HTMLFieldSetElement | null;
         if (sortingSet) {
           const options = sortingSet.getElementsByClassName('sorting') as HTMLCollectionOf<HTMLInputElement> | null;
           const found = options ? Array.from(options).find((item) => item.checked) : null;
           found && setSortingValue(found.value);
-          found && setSortingCriteria(found.dataset.name);
+          found && found.dataset.name && setSortingCriteria(found.dataset.name);
         }
       }
     },
@@ -122,7 +122,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         ))}
       </fieldset>
       <fieldset className={styles.priceFilterWrapper} name="priceFieldSet">
-        <DoubleSlider title={'Price'} MIN={0} MAX={50000} signs={'$'}></DoubleSlider>
+        <DoubleSlider title={'Price'} MIN={0} MAX={50000} signs={'C'}></DoubleSlider>
       </fieldset>
       <fieldset className={styles.positiveCallbacksFilterWrapper} name="positiveCallsFieldSet">
         <DoubleSlider title={'Positive Callbacks'} MIN={0} MAX={500}></DoubleSlider>
