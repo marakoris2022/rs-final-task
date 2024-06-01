@@ -4,7 +4,7 @@ import styles from './modalWindow.module.scss';
 
 type ModalWindowProps = {
   onClose: () => void;
-  message?: string;
+  message?: string | JSX.Element;
   secondBtn?: string;
   onConfirm?: () => void;
   children?: ReactNode;
@@ -65,7 +65,7 @@ export const ModalWindow = ({ message, onClose, secondBtn, onConfirm, children }
 
   return (
     <dialog className={styles.modalError} ref={dialogRef} onClick={handleBackDropClose}>
-      <p>{message}</p>
+      <div className={styles.p}>{message}</div>
       {children}
       <div className={styles.modalBtnsContainer}>
         <Button style={styles.modalErrorBtn} title="Close" type="button" onClick={handleClose} />

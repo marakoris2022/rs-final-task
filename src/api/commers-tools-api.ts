@@ -9,21 +9,21 @@ const clientId = import.meta.env.VITE_CLIENT_ID;
 const clientSecret = import.meta.env.VITE_CLIENT_SECRET;
 const ECommerceKey = import.meta.env.VITE_E_COMMERCE_KEY;
 
-const basicClient: AxiosInstance = axios.create({
+export const basicClient: AxiosInstance = axios.create({
   baseURL: authHost,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
   },
 });
 
-const authClient: AxiosInstance = axios.create({
+export const authClient: AxiosInstance = axios.create({
   baseURL: authHost,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
   },
 });
 
-const apiClient: AxiosInstance = axios.create({
+export const apiClient: AxiosInstance = axios.create({
   baseURL: api,
   headers: {
     'Content-Type': 'application/json',

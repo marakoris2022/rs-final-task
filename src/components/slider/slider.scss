@@ -1,0 +1,24 @@
+$slider-color: #275efe;
+$range-background-color: #cdb7b7;
+
+.slider {
+    width: 100%;
+    height: 2px;
+    background-color: #cdd9ed;
+    margin-top: 30px;
+
+
+    .thumb {
+        width: 23px;
+        height: 23px;
+        cursor: grab;
+        background-color: $range-background-color;
+        border-radius: 50%;
+        border: 2px solid $slider-color;
+        top: -12px;
+    }
+
+    .track-1 {
+        background-color: $slider-color;
+    }
+}
