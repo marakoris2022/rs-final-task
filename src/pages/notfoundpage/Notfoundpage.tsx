@@ -7,7 +7,7 @@ export const NotFoundPage = () => {
 
   return (
     <main className={styles.notFound}>
-      <Button style={styles.backToMain} onClick={() => navigate('/')} title={'Main'} />
+      <Button style={styles.backToCatalog} onClick={() => navigate('/')} title={'Catalog'} />
     </main>
   );
 };

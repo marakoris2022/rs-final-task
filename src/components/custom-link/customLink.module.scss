@@ -1,0 +1,25 @@
+$color-inactive: #2C2C32;
+$color-active: #0f7dc6;
+
+.active {
+  color: $color-active;
+  cursor: default;
+}
+
+.inactive {
+  color: $color-inactive;
+  cursor: pointer;
+  transition: all 0.5s linear;
+}
+
+.active,
+.inactive {
+  text-decoration: none;
+}
+
+@media (hover:hover) {
+  .inactive:hover {
+    filter: drop-shadow(0 0 0.75rem crimson);
+    text-decoration: underline;
+  }
+}

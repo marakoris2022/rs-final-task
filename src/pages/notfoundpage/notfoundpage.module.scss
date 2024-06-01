@@ -6,7 +6,7 @@
 
   position: relative;
 
-  .backToMain {
+  .backToCatalog {
     position: absolute;
     bottom: 10%;
     left: calc(50% - 32px);
@@ -25,7 +25,7 @@
   }
 
   @media (any-hover: hover) {
-    .backToMain:hover {
+    .backToCatalog:hover {
       background-color: lightgray;
       color: black;
     }

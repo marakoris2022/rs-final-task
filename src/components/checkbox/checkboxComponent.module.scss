@@ -4,9 +4,10 @@
     margin: 8px 0;
     width: 100%;
     padding-left: 26px;
+    cursor: pointer;
 }
 
-.categoryInput {
+.checkboxInput {
     appearance: none;
     position: absolute;
     top: 2px;
@@ -18,11 +19,11 @@
     border-radius: 3px;
 }
 
-.categoryInput:checked {
+.checkboxInput:checked {
     background-color: #2b60d2;
 }
 
-.categoryInput:checked::before {
+.checkboxInput:checked::before {
     content: "";
     display: block;
     position: absolute;
@@ -40,5 +41,5 @@
 .boxContainer p {
     font-size: 16px;
     line-height: 1.2;
-    color: #000;
+    color: #fff;
 }
