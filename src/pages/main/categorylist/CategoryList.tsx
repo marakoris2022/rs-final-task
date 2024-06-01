@@ -122,7 +122,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         ))}
       </fieldset>
       <fieldset className={styles.priceFilterWrapper} name="priceFieldSet">
-        <DoubleSlider title={'Price'} MIN={0} MAX={500} signs={'$'}></DoubleSlider>
+        <DoubleSlider title={'Price'} MIN={0} MAX={50000} signs={'$'}></DoubleSlider>
       </fieldset>
       <fieldset className={styles.positiveCallbacksFilterWrapper} name="positiveCallsFieldSet">
         <DoubleSlider title={'Positive Callbacks'} MIN={0} MAX={500}></DoubleSlider>

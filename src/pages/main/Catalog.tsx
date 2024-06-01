@@ -5,14 +5,11 @@ import { CategoryList } from './categorylist/CategoryList';
 import { ProductList } from './categorylist/products/ProductsList';
 import { useCategoryStore } from '../../store/useCategoryStore';
 import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
+import { ModalWindow } from '../../components/modal/ModalWindow';
 
 const getCategoryList = async (): Promise<CategoryResults[] | null> => {
-  return await getCategories('key asc');
+  return await getCategories();
 };
-
-/* const getProductsBySearchWords = async (searchWords: string): Promise<ProductType[] | null> => {
-  return await getProductsByText(searchWords);
-}; */
 
 const getProductList = async (
   categories: string[],
@@ -26,7 +23,6 @@ const getProductList = async (
   maxPositiveCalls: string,
   searchWords: string,
 ): Promise<ProductType[] | null> => {
-  console.log('min: ', minPrice, 'max: ', maxPrice);
   return await getProductProjection(
     categories,
     releaseYears,
@@ -55,6 +51,8 @@ export const Catalog = () => {
   const selectedMaxPositiveCalls = useCategoryStore((state) => state.maxPositiveCalls);
   const searchWords = useCategoryStore((state) => state.searchWords);
 
+  const [error, setError] = useState('');
+
   useEffect(() => {
     const fetchCategories = async () => {
       const categories = await getCategoryList();
@@ -64,32 +62,29 @@ export const Catalog = () => {
     fetchCategories();
   }, []);
 
-  /* useEffect(() => {
-    const fetchProducts = async () => {
-      const productList = await getProductsBySearchWords(searchWords);
-      setProducts(productList);
-    };
-
-    fetchProducts();
-  }, [searchWords]); */
-
   useEffect(() => {
     const fetchProducts = async () => {
-      const productList = await getProductList(
-        selectedCategories,
-        selectedReleaseYears,
-        selectedDiscount,
-        selectedSortingCriteria,
-        selectedSortingValue,
-        selectedMinPrice,
-        selectedMaxPrice,
-        selectedMinPositiveCalls,
-        selectedMaxPositiveCalls,
-        searchWords,
-      );
-      setProducts(productList);
+      try {
+        const productList = await getProductList(
+          selectedCategories,
+          selectedReleaseYears,
+          selectedDiscount,
+          selectedSortingCriteria,
+          selectedSortingValue,
+          selectedMinPrice,
+          selectedMaxPrice,
+          selectedMinPositiveCalls,
+          selectedMaxPositiveCalls,
+          searchWords,
+        );
+        setProducts(productList);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          const errMsg = err.message;
+          setError(() => errMsg);
+        }
+      }
     };
-
     fetchProducts();
   }, [
     selectedCategories,
@@ -112,7 +107,8 @@ export const Catalog = () => {
           {ctgList ? <CategoryList categoryList={ctgList} /> : <p>Loading...</p>}
         </article>
         <article className={styles.cardsWrapper}>
-          {products ? <ProductList productList={products} /> : <p>Loading...</p>}
+          {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
+          {products && products.length > 0 ? <ProductList productList={products} /> : <p>Loading...</p>}
         </article>
       </section>
     </main>

@@ -184,7 +184,7 @@ export async function getProductProjection(
   sortingCriteria: string = '',
   sortingValue: string = '',
   minPrice: string = '0',
-  maxPrice: string = '500',
+  maxPrice: string = '50000',
   minPositiveCalls: string = '0',
   maxPositiveCalls: string = '500',
   searchWords: string = '',
@@ -222,7 +222,7 @@ export async function getProductProjection(
     console.log(query);
     const response = await apiClient.get(query, config);
     const { results } = response.data;
-    /*     console.log(results); */
+    if (results.length === 0) throw new Error('There is no product matching your query');
     selectedProducts = results;
   }
   return selectedProducts;

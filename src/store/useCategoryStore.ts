@@ -32,7 +32,7 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   sortingCriteria: '',
   sortingValue: '',
   minPrice: '0',
-  maxPrice: '500',
+  maxPrice: '50000',
   minPositiveCalls: '0',
   maxPositiveCalls: '500',
   searchWords: '',
