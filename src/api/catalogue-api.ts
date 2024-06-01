@@ -64,9 +64,11 @@ type Category = {
 
 type MasterVariant = {
   attributes: Attribute[];
-
   images: Image[];
   prices: {
+    discounted?: {
+      value: Price;
+    };
     id: string;
     value: Price;
   }[];
@@ -140,7 +142,8 @@ export async function getProductsByCategory(
       },
     };
     const arr: string[] = categoryID;
-    const categoryIDJoined = arr.length === 1 ? arr[0] : arr.join('","');
+    const categoryIDJoined =
+      arr.length === 0 ? 'c1dbe964-d17a-4600-b63c-3a69a095668a' : arr.length === 1 ? arr[0] : arr.join('","');
     const response = await apiClient.get(
       `/${projectKey}/product-projections/search?filter=categories.id:"${categoryIDJoined}"&limit=${limit}`,
       config,
