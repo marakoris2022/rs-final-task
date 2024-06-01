@@ -26,7 +26,6 @@ const getProductList = async (
   maxPositiveCalls: string,
   searchWords: string,
 ): Promise<ProductType[] | null> => {
-  console.log('min: ', minPrice, 'max: ', maxPrice);
   return await getProductProjection(
     categories,
     releaseYears,
