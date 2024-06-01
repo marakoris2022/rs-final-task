@@ -38,9 +38,8 @@ export interface UserProps {
 }
 export interface UserPropsExtended extends UserProps {
   id: string;
-  shippingAddresses: number[];
-  shippingAddressIds?: string[];
-  billingAddressIds?: string[];
+  version: number;
+  dateOfBirth: string;
 }
 
 export type LoginProps = {
