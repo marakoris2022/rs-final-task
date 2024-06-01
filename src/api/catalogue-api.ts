@@ -199,12 +199,13 @@ export async function getProductProjection(
         Authorization: `Bearer ${token}`,
       },
     };
+    /* filter=categories.id:"a21a59de-50b3-4a59-be3e-2a687afc5407"&text.en="Braveland"&limit=30 */
     let query = `/${projectKey}/product-projections/search?`;
-    const priceRange = `${Math.min(+minPrice, +maxPrice)} to ${Math.max(+minPrice, +maxPrice)}`;
+    /* const priceRange = `${Math.min(+minPrice, +maxPrice)} to ${Math.max(+minPrice, +maxPrice)}`; */
     if (categoryID.length > 0) {
       const arr: string[] = categoryID;
       const categoryIDJoined = arr.length === 1 ? arr[0] : arr.join('","');
-      query += `filter=categories.id:"${categoryIDJoined}"&filter=variants.price.centAmount:range(${priceRange})&limit=${limit}`;
+      /* query += `filter=categories.id:"${categoryIDJoined}"&filter=variants.price.centAmount:range(${priceRange})&limit=${limit}`; */
       query += `filter=categories.id:"${categoryIDJoined}"`;
     }
     if (categoryID.length === 0 && !searchWords) {
@@ -212,8 +213,14 @@ export async function getProductProjection(
       /*  query += `filter=categories.id:"${categoryIDJoined}"&filter=variants.price.centAmount:range(${priceRange})&limit=${limit}`; */
       query += `filter=categories.id:"${categoryIDJoined}"`;
     }
-    if (searchWords) query += `&text.en="${searchWords}"`;
+    if (categoryID.length === 0 && searchWords) {
+      query += `fuzzy=true&fuzzyLevel=1&text.en-us="${searchWords}"`;
+    } else if (categoryID.length > 0 && searchWords) {
+      query += `&fuzzy=true&fuzzyLevel=1&text.en-us="${searchWords}"`;
+    }
     query += `&limit=${limit}`;
+    if (priceSorting) query += `&sort=price ${priceSorting}`;
+    console.log(query);
     const response = await apiClient.get(query, config);
     const { results } = response.data;
     console.log(results);
