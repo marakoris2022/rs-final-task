@@ -6,6 +6,8 @@ import { Carousel } from '../../components/carousel/Carousel';
 import { ModalWindow } from '../../components/modal/ModalWindow';
 import { Button } from '../../components/button/Button';
 import { getCategoryNameById } from '../../services/getCategoryNameById';
+import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
+import { useCategoryStore } from '../../store/useCategoryStore';
 
 type ProductData = {
   title: string;
@@ -30,6 +32,8 @@ function calculateDiscount(oldPrice: number, newPrice: number) {
 
 export const Product = () => {
   const navigate = useNavigate();
+  const clearCategories = useCategoryStore((state) => state.clearCategories);
+  const addCategories = useCategoryStore((state) => state.addCategories);
   const { key } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [isModal, setIsModal] = useState(false);
@@ -48,6 +52,12 @@ export const Product = () => {
     categoriesAdd: [],
     movie: [],
   });
+
+  function categoryClick(id: string) {
+    clearCategories();
+    addCategories([id]);
+    navigate(`/`);
+  }
 
   async function renderProductData(productKey: string) {
     try {
@@ -108,6 +118,8 @@ export const Product = () => {
     </div>
   ) : (
     <div className={styles.productWrapper}>
+      <Breadcrumbs currantPage={productData.title} />
+
       <div className={styles.contentWrapper}>
         <div className={styles.content}>
           <h1 className={styles.title}>{productData.title}</h1>
@@ -119,6 +131,7 @@ export const Product = () => {
           </div>
         </div>
       </div>
+
       <div className={styles.buyWrapper}>
         {productData.discountPrice ? (
           <>
@@ -155,9 +168,7 @@ export const Product = () => {
             return (
               <li className={styles.categoryItem} key={`${index}_cat`}>
                 <Button
-                  onClick={() => {
-                    navigate(`/?category=${item.id}`);
-                  }}
+                  onClick={() => categoryClick(item.id)}
                   style={styles.categoryBtn}
                   title={getCategoryNameById(item.id)!}
                 />
@@ -190,6 +201,10 @@ export const Product = () => {
           })}
         </div>
       )}
+
+      <div style={{ width: '100%', marginBottom: '10px' }}>
+        <Breadcrumbs currantPage={productData.title} />
+      </div>
 
       {isModal && (
         <ModalWindow
