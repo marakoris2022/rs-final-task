@@ -34,10 +34,10 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Catalog />} />
-          <Route path="/login" element={isLogged ? <Navigate to="/" replace /> : <Login />} />
-          <Route path="/registration" element={isLogged ? <Navigate to="/" replace /> : <Registration />} />
-          <Route path="/profile" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />
-          <Route path="/catalog/:key" element={<Product />} />
+          <Route path="login" element={isLogged ? <Navigate to="/" replace /> : <Login />} />
+          <Route path="registration" element={isLogged ? <Navigate to="/" replace /> : <Registration />} />
+          <Route path="profile" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />
+          <Route path="catalog/:key" element={<Product />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

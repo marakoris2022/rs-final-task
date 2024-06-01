@@ -55,8 +55,6 @@ export const ProductCard = ({ product }: CardType) => {
 
   return (
     <div className={styles.card} onClick={clickHandle}>
-      {/* <Button style={styles.cardBtn} title="Info" type="button" onClick={clickHandle}></Button> */}
-      {/*       <h2 className={styles.cardTitle}>{product.name['en-US']}</h2> */}
       <div className={styles.cardContainer}>
         <div className={styles.cardDescriptionContainer} style={{ backgroundImage: `url(${imageURL})` }}>
           <h2 className={styles.cardTitle}>{product.name['en-US']}</h2>
@@ -84,16 +82,3 @@ export const ProductCard = ({ product }: CardType) => {
     </div>
   );
 };
-
-/* const { attributes } = product.masterData.current.masterVariant;
-   const found = attributes.find((attr) => attr.name === 'screenshots');
-   if (found && typeof found.value === 'string') {
-     const foundURL = found.value.match(/\bhttps:\/\/[^"\s]+/i);
-     if (foundURL && foundURL.length > 0) {
-       setImageUrl(foundURL[0]);
-     } else {
-       setImageUrl('./default-card-background.jpg');
-     }
-   } else {
-     setImageUrl('./default-card-background.jpg');
-   } */

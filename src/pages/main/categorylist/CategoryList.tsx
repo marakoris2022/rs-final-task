@@ -15,8 +15,8 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
   const addCategories = useCategoryStore((state) => state.addCategories);
   const addYears = useCategoryStore((state) => state.addYears);
   const isDiscounted = useCategoryStore((state) => state.isDiscounted);
-  const setPriceSorting = useCategoryStore((state) => state.setPriceSorting);
-  const setNameSorting = useCategoryStore((state) => state.setNameSorting);
+  const setSortingCriteria = useCategoryStore((state) => state.setSortingCriteria);
+  const setSortingValue = useCategoryStore((state) => state.setSortingValue);
   const setPriceMin = useCategoryStore((state) => state.setPriceMin);
   const setPriceMax = useCategoryStore((state) => state.setPriceMax);
   const setPositiveCallsMin = useCategoryStore((state) => state.setPositiveCallsMin);
@@ -80,27 +80,17 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
               : null;
           found && found.value === 'discounted' && isDiscounted(true);
         }
-        const priceSortingSet = form.elements.namedItem('priceSortingFieldSet') as HTMLFieldSetElement | null;
-        if (priceSortingSet) {
-          const priceSortingOptions = priceSortingSet.elements.namedItem('priceSorting') as HTMLInputElement[] | null;
-          const found =
-            priceSortingOptions && priceSortingOptions.length > 0
-              ? Array.from(priceSortingOptions).find((item) => item.checked)
-              : null;
-          found && setPriceSorting(found.value);
-        }
-        const nameSortingSet = form.elements.namedItem('nameSortingFieldSet') as HTMLFieldSetElement | null;
-        if (nameSortingSet) {
-          const nameSortingOptions = nameSortingSet.elements.namedItem('nameSorting') as HTMLInputElement[] | null;
-          const found =
-            nameSortingOptions && nameSortingOptions.length > 0
-              ? Array.from(nameSortingOptions).find((item) => item.checked)
-              : null;
-          found && setNameSorting(found.value);
+        const sortingSet = form.elements.namedItem('sortingFieldSet') as HTMLFieldSetElement | null;
+        if (sortingSet) {
+          const options = sortingSet.getElementsByClassName('sorting') as HTMLCollectionOf<HTMLInputElement> | null;
+          const found = options ? Array.from(options).find((item) => item.checked) : null;
+          found && setSortingValue(found.value);
+          found && setSortingCriteria(found.dataset.name);
         }
       }
     },
     [
+      setSearchWords,
       addCategories,
       setPriceMin,
       setPriceMax,
@@ -108,9 +98,8 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
       setPositiveCallsMax,
       addYears,
       isDiscounted,
-      setPriceSorting,
-      setNameSorting,
-      setSearchWords,
+      setSortingValue,
+      setSortingCriteria,
     ],
   );
 
@@ -133,7 +122,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         ))}
       </fieldset>
       <fieldset className={styles.priceFilterWrapper} name="priceFieldSet">
-        <DoubleSlider title={'Price'} MIN={0} MAX={50} signs={'$'}></DoubleSlider>
+        <DoubleSlider title={'Price'} MIN={0} MAX={500} signs={'$'}></DoubleSlider>
       </fieldset>
       <fieldset className={styles.positiveCallbacksFilterWrapper} name="positiveCallsFieldSet">
         <DoubleSlider title={'Positive Callbacks'} MIN={0} MAX={500}></DoubleSlider>

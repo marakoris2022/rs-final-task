@@ -18,8 +18,8 @@ const getProductList = async (
   categories: string[],
   releaseYears: string[],
   discount: boolean,
-  priceSorting: string,
-  nameSorting: string,
+  sortingCriteria: string,
+  selectedSortingValue: string,
   minPrice: string,
   maxPrice: string,
   minPositiveCalls: string,
@@ -31,8 +31,8 @@ const getProductList = async (
     categories,
     releaseYears,
     discount,
-    priceSorting,
-    nameSorting,
+    sortingCriteria,
+    selectedSortingValue,
     minPrice,
     maxPrice,
     minPositiveCalls,
@@ -47,8 +47,8 @@ export const Catalog = () => {
   const selectedCategories = useCategoryStore((state) => state.categories);
   const selectedReleaseYears = useCategoryStore((state) => state.releaseYears);
   const selectedDiscount = useCategoryStore((state) => state.discount);
-  const selectedPriceSorting = useCategoryStore((state) => state.priceSorting);
-  const selectedNameSorting = useCategoryStore((state) => state.nameSorting);
+  const selectedSortingCriteria = useCategoryStore((state) => state.sortingCriteria);
+  const selectedSortingValue = useCategoryStore((state) => state.sortingValue);
   const selectedMinPrice = useCategoryStore((state) => state.minPrice);
   const selectedMaxPrice = useCategoryStore((state) => state.maxPrice);
   const selectedMinPositiveCalls = useCategoryStore((state) => state.minPositiveCalls);
@@ -79,8 +79,8 @@ export const Catalog = () => {
         selectedCategories,
         selectedReleaseYears,
         selectedDiscount,
-        selectedPriceSorting,
-        selectedNameSorting,
+        selectedSortingCriteria,
+        selectedSortingValue,
         selectedMinPrice,
         selectedMaxPrice,
         selectedMinPositiveCalls,
@@ -95,13 +95,13 @@ export const Catalog = () => {
     selectedCategories,
     selectedReleaseYears,
     selectedDiscount,
-    selectedPriceSorting,
-    selectedNameSorting,
+    selectedSortingCriteria,
     selectedMinPrice,
     selectedMaxPrice,
     selectedMinPositiveCalls,
     selectedMaxPositiveCalls,
     searchWords,
+    selectedSortingValue,
   ]);
 
   return (
