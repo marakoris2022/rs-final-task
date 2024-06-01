@@ -202,6 +202,7 @@ export async function getProductProjection(
     let urlString = `/${projectKey}/product-projections/search?`
     const query: string[] = [];
     const priceRange = `${Math.min(+minPrice, +maxPrice)} to ${Math.max(+minPrice, +maxPrice)}`;
+    const positiveCalls = `${Math.min(+minPositiveCalls, +maxPositiveCalls)} to ${Math.max(+minPositiveCalls, +maxPositiveCalls)}`;
     if (categoryID.length > 0) {
       const arr: string[] = categoryID;
       const categoryIDJoined = arr.length === 1 ? arr[0] : arr.join('","');
@@ -214,10 +215,11 @@ export async function getProductProjection(
       const categoryIDJoined = '93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b';
       query.push(`filter=categories.id:"${categoryIDJoined}"`);
     }
-    query.push(`&filter=variants.price.centAmount:range(${priceRange})`);
+    query.push(`filter=variants.price.centAmount:range(${priceRange})`);
+    query.push(`filter=variants.attributes.positive:range(${positiveCalls})`);
     if (discount) query.push(`&filter=variants.scopedPriceDiscounted:true&priceCurrency=USD`);
-    query.push(`&limit=${limit}`);
-    if (sortingCriteria && sortingValue) query.push(`&sort=${sortingCriteria} ${sortingValue}`);
+    query.push(`limit=${limit}`);
+    if (sortingCriteria && sortingValue) query.push(`sort=${sortingCriteria} ${sortingValue}`);
 
     urlString += query.join('&');
     console.log(urlString);
@@ -225,6 +227,7 @@ export async function getProductProjection(
     const { results } = response.data;
     if (results.length === 0) throw new Error('There is no product matching your query');
     selectedProducts = results;
+    console.log(selectedProducts);
   }
   return selectedProducts;
 }
