@@ -32,6 +32,14 @@ export const Profile = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (location.pathname.includes('personal-info')) {
+      setActiveComponent('personal');
+    } else if (location.pathname.includes('addresses')) {
+      setActiveComponent('addresses');
+    }
+  }, [location]);
+
   if (!customer) {
     return <div>Loading...</div>;
   }
