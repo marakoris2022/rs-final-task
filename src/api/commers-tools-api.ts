@@ -37,6 +37,12 @@ apiClient.interceptors.request.use(
       const { active } = response;
       if (!active) {
         await refreshTokenInLocalStorage();
+        const commerceInfo = localStorage.getItem(ECommerceKey) as string | null;
+
+        if (commerceInfo) {
+          const { accessToken } = JSON.parse(commerceInfo) as ECommerceLS;
+          config.headers.Authorization = `Bearer ${accessToken}`;
+        }
       }
     } else {
       await getBasicToken();
