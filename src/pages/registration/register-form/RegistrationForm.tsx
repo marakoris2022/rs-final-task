@@ -343,26 +343,8 @@ export const RegistrationForm = () => {
           max="2010-01-01"
         ></FormField>
 
-        <div
-          style={{
-            padding: '10px',
-            border: '1px solid lightgray',
-            marginBottom: '15px',
-            borderRadius: '10px',
-            position: 'relative',
-          }}
-        >
-          <div
-            style={{
-              position: 'absolute',
-              left: '70px',
-              top: '-9px',
-              backgroundColor: 'white',
-              padding: '3px 5px',
-              fontSize: '14px',
-              color: '#C7B7A3',
-            }}
-          >
+        <div className={styles.addressWrapper}>
+          <div className={styles.addressWrapperTitle}>
             <span>Shipping Address</span>
           </div>
 
@@ -428,26 +410,9 @@ export const RegistrationForm = () => {
             type="checkbox"
           ></FormField>
         </div>
-        <div
-          style={{
-            padding: '10px',
-            border: '1px solid lightgray',
-            marginBottom: '15px',
-            borderRadius: '10px',
-            position: 'relative',
-          }}
-        >
-          <div
-            style={{
-              position: 'absolute',
-              left: '70px',
-              top: '-9px',
-              backgroundColor: 'white',
-              padding: '3px 5px',
-              fontSize: '14px',
-              color: '#C7B7A3',
-            }}
-          >
+
+        <div className={styles.addressWrapper}>
+          <div className={styles.addressWrapperTitle}>
             <span>Billing Address</span>
           </div>
 
