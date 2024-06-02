@@ -24,3 +24,22 @@
     cursor: default;
   }
 }
+
+.loadingDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  height: 80vh;
+}
+
+.spinner {
+  margin-right: 10px;
+  font-size: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

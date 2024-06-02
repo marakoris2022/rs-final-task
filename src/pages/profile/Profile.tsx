@@ -5,43 +5,54 @@ import { UserPersonalInfo } from '../../components/user-personal-info/UserPerson
 import { useCustomerStore } from '../../store/useCustomerStore';
 import { Button } from '../../components/button/Button';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { FaSpinner } from 'react-icons/fa';
+
+enum ProfilePaths {
+  PERSONAL_INFO = '/profile/personal-info',
+  ADDRESSES = '/profile/addresses',
+  PROFILE = '/profile',
+}
 
 export const Profile = () => {
   const customer = useCustomerStore((state) => state.customer);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const initialComponent = location.pathname.includes('addresses') ? 'addresses' : 'personal';
+  const initialComponent = location.pathname.includes(ProfilePaths.PERSONAL_INFO)
+    ? ProfilePaths.PERSONAL_INFO
+    : ProfilePaths.ADDRESSES;
+
   const [activeComponent, setActiveComponent] = useState<string>(initialComponent);
 
   const handleComponentChange = (component: string) => {
     if (activeComponent !== component) {
       setActiveComponent(() => component);
 
-      if (component === 'personal') {
-        navigate('/profile/personal-info');
-      } else if (component === 'addresses') {
-        navigate('/profile/addresses');
-      }
+      component === ProfilePaths.PERSONAL_INFO
+        ? navigate(ProfilePaths.PERSONAL_INFO)
+        : navigate(ProfilePaths.ADDRESSES);
     }
   };
 
   useEffect(() => {
-    if (location.pathname === '/profile') {
-      navigate('/profile/personal-info');
+    if (location.pathname === ProfilePaths.PROFILE) {
+      navigate(ProfilePaths.PERSONAL_INFO);
     }
   }, []);
 
   useEffect(() => {
-    if (location.pathname.includes('personal-info')) {
-      setActiveComponent('personal');
-    } else if (location.pathname.includes('addresses')) {
-      setActiveComponent('addresses');
-    }
+    location.pathname.includes(ProfilePaths.PERSONAL_INFO)
+      ? setActiveComponent(ProfilePaths.PERSONAL_INFO)
+      : setActiveComponent(ProfilePaths.ADDRESSES);
   }, [location]);
 
   if (!customer) {
-    return <div>Loading...</div>;
+    return (
+      <div className={styles.loadingDiv}>
+        <FaSpinner className={styles.spinner} />
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -50,21 +61,21 @@ export const Profile = () => {
         <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>Profile</h2>
         <div className={styles.profileSectionBtnsContainer}>
           <Button
-            style={`${styles.profileSectionBtn} ${activeComponent === 'personal' ? styles.active : ''}`}
+            style={`${styles.profileSectionBtn} ${activeComponent === ProfilePaths.PERSONAL_INFO ? styles.active : ''}`}
             title="Personal Info"
             type="button"
-            onClick={() => handleComponentChange('personal')}
+            onClick={() => handleComponentChange(ProfilePaths.PERSONAL_INFO)}
           />
           <Button
-            style={`${styles.profileSectionBtn} ${activeComponent === 'addresses' ? styles.active : ''}`}
+            style={`${styles.profileSectionBtn} ${activeComponent === ProfilePaths.ADDRESSES ? styles.active : ''}`}
             title="Addresses"
             type="button"
-            onClick={() => handleComponentChange('addresses')}
+            onClick={() => handleComponentChange(ProfilePaths.ADDRESSES)}
           />
         </div>
         <div>
-          {activeComponent === 'personal' && <UserPersonalInfo />}
-          {activeComponent === 'addresses' && <UserAddresses />}
+          {activeComponent === ProfilePaths.PERSONAL_INFO && <UserPersonalInfo />}
+          {activeComponent === ProfilePaths.ADDRESSES && <UserAddresses />}
         </div>
       </section>
     </main>

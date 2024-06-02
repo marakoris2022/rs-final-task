@@ -19,6 +19,16 @@ export enum RemoveAddressTypes {
   BILLING = 'removeBillingAddressId',
 }
 
+enum RequestActions {
+  CHANGE_EMAIL = 'changeEmail',
+  SET_FIRST_NAME = 'setFirstName',
+  SET_LAST_NAME = 'setLastName',
+  SET_DATE_OF_BIRTH = 'setDateOfBirth',
+  ADD_ADDRESS = 'addAddress',
+  REMOVE_ADDRESS = 'removeAddress',
+  CHANGE_ADDRESS = 'changeAddress',
+}
+
 export interface UserDataBasic {
   email: string;
   firstName: string;
@@ -43,10 +53,10 @@ export const updateBasicUserData = async (user: UserPropsExtended, updatedUserDa
   const requestBody = {
     version: user.version,
     actions: [
-      { action: 'changeEmail', email: updatedUserData.email },
-      { action: 'setFirstName', firstName: updatedUserData.firstName },
-      { action: 'setLastName', lastName: updatedUserData.lastName },
-      { action: 'setDateOfBirth', dateOfBirth: updatedUserData.dateOfBirth },
+      { action: RequestActions.CHANGE_EMAIL, email: updatedUserData.email },
+      { action: RequestActions.SET_FIRST_NAME, firstName: updatedUserData.firstName },
+      { action: RequestActions.SET_LAST_NAME, lastName: updatedUserData.lastName },
+      { action: RequestActions.SET_DATE_OF_BIRTH, dateOfBirth: updatedUserData.dateOfBirth },
     ],
   };
 
@@ -117,7 +127,7 @@ export const addNewAddress = async (user: UserPropsExtended, newAddressData: Add
     version: user.version,
     actions: [
       {
-        action: 'addAddress',
+        action: RequestActions.ADD_ADDRESS,
         address: newAddressData,
       },
     ],
@@ -205,7 +215,7 @@ export const removeAddress = async (user: UserPropsExtended | null, addressId: s
     version: user!.version,
     actions: [
       {
-        action: 'removeAddress',
+        action: RequestActions.REMOVE_ADDRESS,
         addressId,
       },
     ],
@@ -327,7 +337,7 @@ export const changeAddress = async (user: UserPropsExtended, addressData: Addres
     version: user.version,
     actions: [
       {
-        action: 'changeAddress',
+        action: RequestActions.CHANGE_ADDRESS,
         addressId,
         address: addressData,
       },
