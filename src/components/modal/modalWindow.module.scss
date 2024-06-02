@@ -47,13 +47,11 @@
   }
 }
 
-/*   Open state of the dialog  */
 dialog[open] {
   opacity: 1;
   transform: scaleY(1);
 }
 
-/*   Closed state of the dialog   */
 dialog {
   opacity: 0;
   transform: scaleY(0);

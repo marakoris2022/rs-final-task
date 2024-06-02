@@ -154,7 +154,6 @@ export async function getProductsByCategory(
   return selectedProducts;
 }
 
-/* GET /{projectKey}/product-projections/search?staged=true&limit=10&text.en="simpsons" */
 export async function getProductsByText(searchWords: string, limit: number = 30): Promise<ProductType[] | null> {
   let selectedProducts = null;
   const commerceObj = localStorage.getItem(ECommerceKey);

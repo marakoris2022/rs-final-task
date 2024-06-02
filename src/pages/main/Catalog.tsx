@@ -57,7 +57,6 @@ export const Catalog = () => {
   const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
 
   const handleBurger = () => {
-    /* setIsClosedBurger((prev) => !prev); */
     if (closeCatalog) setCloseCatalog(false);
     else setCloseCatalog(true);
   };
