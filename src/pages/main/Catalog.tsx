@@ -42,7 +42,6 @@ export const Catalog = () => {
   const [ctgList, setCtgList] = useState<CategoryResults[] | null>(null);
   const [products, setProducts] = useState<ProductType[] | null>(null);
   const [error, setError] = useState('');
-  const [isOpenBurger, setIsOpenBurger] = useState(false);
 
   const selectedCategories = useCategoryStore((state) => state.categories);
   const selectedMovie = useCategoryStore((state) => state.movie);
@@ -54,9 +53,13 @@ export const Catalog = () => {
   const selectedMinPositiveCalls = useCategoryStore((state) => state.minPositiveCalls);
   const selectedMaxPositiveCalls = useCategoryStore((state) => state.maxPositiveCalls);
   const searchWords = useCategoryStore((state) => state.searchWords);
+  const closeCatalog = useCategoryStore((state) => state.closeCatalog);
+  const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
 
   const handleBurger = () => {
-    setIsOpenBurger((prev) => !prev);
+    /* setIsClosedBurger((prev) => !prev); */
+    if (closeCatalog) setCloseCatalog(false);
+    else setCloseCatalog(true);
   };
 
   useEffect(() => {
@@ -108,11 +111,12 @@ export const Catalog = () => {
   return (
     <main className={styles.catalog}>
       <div className={styles.navElementsWrapper}>
-        <BurgerMenuCatalog isOpen={isOpenBurger} onClick={handleBurger} />
+        <BurgerMenuCatalog onClick={handleBurger} />
         <Breadcrumbs />
       </div>
       <section className={styles.mainSection}>
-        <article className={isOpenBurger ? styles.formWrapper : `${styles.formWrapper} ${styles.showForm}`}>
+        <div className={closeCatalog ? styles.blur : `${styles.blur} ${styles.showBlur}`} onClick={handleBurger} />
+        <article className={closeCatalog ? styles.formWrapper : `${styles.formWrapper} ${styles.showForm}`}>
           {ctgList ? <CategoryList categoryList={ctgList} /> : <p>Loading...</p>}
         </article>
         <article className={styles.cardsWrapper}>

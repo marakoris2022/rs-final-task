@@ -21,6 +21,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
   const setPositiveCallsMin = useCategoryStore((state) => state.setPositiveCallsMin);
   const setPositiveCallsMax = useCategoryStore((state) => state.setPositiveCallsMax);
   const setSearchWords = useCategoryStore((state) => state.setSearchWords);
+  const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
 
   const searchHandler = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
@@ -83,10 +84,12 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           found && setSortingValue(found.value);
           found && found.dataset.name && setSortingCriteria(found.dataset.name);
         }
+        setCloseCatalog(true);
       }
     },
     [
       setSearchWords,
+      setCloseCatalog,
       addCategories,
       setPriceMin,
       setPriceMax,

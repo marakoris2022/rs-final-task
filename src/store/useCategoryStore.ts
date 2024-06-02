@@ -11,6 +11,7 @@ type CategoryStore = {
   minPositiveCalls: string;
   maxPositiveCalls: string;
   searchWords: string;
+  closeCatalog: boolean;
   addCategories: (data: string[]) => void;
   updateCategories: (data: string[]) => void;
   clearCategories: () => void;
@@ -23,6 +24,7 @@ type CategoryStore = {
   setPositiveCallsMin: (data: string) => void;
   setPositiveCallsMax: (data: string) => void;
   setSearchWords: (data: string) => void;
+  setCloseCatalog: (data: boolean) => void;
 };
 
 export const useCategoryStore = create<CategoryStore>()((set) => ({
@@ -36,6 +38,7 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   minPositiveCalls: '0',
   maxPositiveCalls: '500',
   searchWords: '',
+  closeCatalog: true,
   addCategories: (data: string[]) => {
     set({ categories: data });
   },
@@ -71,5 +74,8 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   },
   setSearchWords: (data: string) => {
     set({ searchWords: data });
+  },
+  setCloseCatalog: (data: boolean) => {
+    set({ closeCatalog: data });
   },
 }));

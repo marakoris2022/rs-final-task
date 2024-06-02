@@ -172,7 +172,6 @@ export async function getProductsByText(searchWords: string, limit: number = 30)
     );
     const { results } = response.data;
     selectedProducts = results;
-    console.log(selectedProducts);
   }
   return selectedProducts;
 }
@@ -223,12 +222,10 @@ export async function getProductProjection(
     if (sortingCriteria && sortingValue) query.push(`sort=${sortingCriteria} ${sortingValue}`);
 
     urlString += query.join('&');
-    console.log(urlString);
     const response = await apiClient.get(urlString, config);
     const { results } = response.data;
     if (results.length === 0) throw new Error('There is no product matching your query');
     selectedProducts = results;
-    console.log(selectedProducts);
   }
   return selectedProducts;
 }
