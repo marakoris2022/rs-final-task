@@ -28,8 +28,24 @@
 }
 
 .mainSection {
+  position: relative;
   display: flex;
   flex: 1;
+}
+
+.blur {
+  display: none;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  backdrop-filter: blur(2px);
+  z-index: 4;
+}
+
+.formWrapper {
+  width: 20%;
+  position: relative;
+  z-index: 5;
 }
 
 .catalogPageTitle {
@@ -43,10 +59,34 @@
   }
 }
 
-.formWrapper {
-  width: 20%;
-}
-
 .cardsWrapper {
   width: 80%;
+}
+
+.navElementsWrapper {
+  display: flex;
+  padding: 5px 0;
+}
+
+@media screen and (max-width: 960px) {
+  .formWrapper {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    z-index: 5;
+    transition: all 0.5s ease-in-out;
+    width: 300px;
+  }
+
+  .showBlur {
+    display: block;
+  }
+
+  .showForm {
+    left: 0;
+  }
+
+  .cardsWrapper {
+    width: 100%;
+  }
 }

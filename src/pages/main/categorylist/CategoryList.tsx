@@ -4,7 +4,6 @@ import { CheckboxComponent } from '../../../components/checkbox/CheckboxComponen
 import { CategoryResults } from '../../../api/catalogue-api';
 import { useCategoryStore } from '../../../store/useCategoryStore';
 import { DoubleSlider } from '../../../components/slider/DoubleSlider';
-import { YearPicker } from './year-picker/YearPicker';
 import { SortOptions } from './sort-section/SortOptions';
 
 type CategoryListType = {
@@ -13,15 +12,16 @@ type CategoryListType = {
 
 export const CategoryList = ({ categoryList }: CategoryListType) => {
   const addCategories = useCategoryStore((state) => state.addCategories);
-  const addYears = useCategoryStore((state) => state.addYears);
+  const isMovie = useCategoryStore((state) => state.isMovie);
   const isDiscounted = useCategoryStore((state) => state.isDiscounted);
-  const setPriceSorting = useCategoryStore((state) => state.setPriceSorting);
-  const setNameSorting = useCategoryStore((state) => state.setNameSorting);
+  const setSortingCriteria = useCategoryStore((state) => state.setSortingCriteria);
+  const setSortingValue = useCategoryStore((state) => state.setSortingValue);
   const setPriceMin = useCategoryStore((state) => state.setPriceMin);
   const setPriceMax = useCategoryStore((state) => state.setPriceMax);
   const setPositiveCallsMin = useCategoryStore((state) => state.setPositiveCallsMin);
   const setPositiveCallsMax = useCategoryStore((state) => state.setPositiveCallsMax);
   const setSearchWords = useCategoryStore((state) => state.setSearchWords);
+  const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
 
   const searchHandler = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
@@ -61,56 +61,44 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           callsRangMin && setPositiveCallsMin(callsRangMin.value);
           callsRangeMax && setPositiveCallsMax(callsRangeMax.value);
         }
-        const releaseSet = form.elements.namedItem('releaseFieldSet') as HTMLFieldSetElement | null;
-        if (releaseSet) {
-          const releaseYears = releaseSet.elements.namedItem('yearSelect') as HTMLSelectElement | null;
-          const yearValues = releaseYears
-            ? Array.from(releaseYears.options)
-                .filter((item) => item.selected)
-                .map((year) => year.value)
-            : [];
-          yearValues.length > 0 && addYears(yearValues);
+        const movieSet = form.elements.namedItem('movieFieldSet') as HTMLFieldSetElement | null;
+        if (movieSet) {
+          const options = movieSet.getElementsByClassName('movieSet') as HTMLCollectionOf<HTMLInputElement> | null;
+          const found = options ? Array.from(options).find((item) => item.checked) : null;
+          if (found && found.value === 'true') isMovie(true);
+          else isMovie(false);
         }
         const discountSet = form.elements.namedItem('discountFieldSet') as HTMLFieldSetElement | null;
         if (discountSet) {
-          const productOptions = discountSet.elements.namedItem('discountedProducts') as HTMLInputElement[] | null;
-          const found =
-            productOptions && productOptions.length > 0
-              ? Array.from(productOptions).find((item) => item.checked)
-              : null;
-          found && found.value === 'discounted' && isDiscounted(true);
+          const options = discountSet.getElementsByClassName(
+            'discountSet',
+          ) as HTMLCollectionOf<HTMLInputElement> | null;
+          const found = options ? Array.from(options).find((item) => item.checked) : null;
+          if (found && found.value === 'true') isDiscounted(true);
+          else isDiscounted(false);
         }
-        const priceSortingSet = form.elements.namedItem('priceSortingFieldSet') as HTMLFieldSetElement | null;
-        if (priceSortingSet) {
-          const priceSortingOptions = priceSortingSet.elements.namedItem('priceSorting') as HTMLInputElement[] | null;
-          const found =
-            priceSortingOptions && priceSortingOptions.length > 0
-              ? Array.from(priceSortingOptions).find((item) => item.checked)
-              : null;
-          found && setPriceSorting(found.value);
+        const sortingSet = form.elements.namedItem('sortingFieldSet') as HTMLFieldSetElement | null;
+        if (sortingSet) {
+          const options = sortingSet.getElementsByClassName('sorting') as HTMLCollectionOf<HTMLInputElement> | null;
+          const found = options ? Array.from(options).find((item) => item.checked) : null;
+          found && setSortingValue(found.value);
+          found && found.dataset.name && setSortingCriteria(found.dataset.name);
         }
-        const nameSortingSet = form.elements.namedItem('nameSortingFieldSet') as HTMLFieldSetElement | null;
-        if (nameSortingSet) {
-          const nameSortingOptions = nameSortingSet.elements.namedItem('nameSorting') as HTMLInputElement[] | null;
-          const found =
-            nameSortingOptions && nameSortingOptions.length > 0
-              ? Array.from(nameSortingOptions).find((item) => item.checked)
-              : null;
-          found && setNameSorting(found.value);
-        }
+        setCloseCatalog(true);
       }
     },
     [
+      setSearchWords,
+      setCloseCatalog,
       addCategories,
       setPriceMin,
       setPriceMax,
       setPositiveCallsMin,
       setPositiveCallsMax,
-      addYears,
+      isMovie,
       isDiscounted,
-      setPriceSorting,
-      setNameSorting,
-      setSearchWords,
+      setSortingValue,
+      setSortingCriteria,
     ],
   );
 
@@ -133,13 +121,10 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         ))}
       </fieldset>
       <fieldset className={styles.priceFilterWrapper} name="priceFieldSet">
-        <DoubleSlider title={'Price'} MIN={0} MAX={50} signs={'$'}></DoubleSlider>
+        <DoubleSlider title={'Price'} MIN={0} MAX={50000} signs={'C'}></DoubleSlider>
       </fieldset>
       <fieldset className={styles.positiveCallbacksFilterWrapper} name="positiveCallsFieldSet">
         <DoubleSlider title={'Positive Callbacks'} MIN={0} MAX={500}></DoubleSlider>
-      </fieldset>
-      <fieldset className={styles.yearFilterWrapper} name="releaseFieldSet">
-        <YearPicker></YearPicker>
       </fieldset>
       <SortOptions></SortOptions>
     </form>

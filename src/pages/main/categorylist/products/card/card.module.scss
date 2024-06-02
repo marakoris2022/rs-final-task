@@ -4,6 +4,7 @@
   flex-wrap: wrap;
   flex-direction: column;
   width: 45%;
+  min-width: 250px;
   justify-content: start;
   border: 1px solid rgb(3, 3, 44);
   border-radius: 10px;
@@ -19,6 +20,7 @@
   width: 100%;
   color: #fff;
   border-radius: 10px;
+  font-size: 1.5rem;
 }
 
 .cardContainer {
@@ -116,5 +118,15 @@
 
   .cardDescription:hover {
     background-color: rgb(4, 4, 51);
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .card {
+    font-size: 0.8rem;
+  }
+
+  .cardTitle {
+    font-size: 1rem;
   }
 }

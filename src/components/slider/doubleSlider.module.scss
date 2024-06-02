@@ -12,6 +12,8 @@ $legend-color: #3f4656;
 }
 
 .values {
+    display: flex;
+    flex-wrap: wrap;
     margin: 0;
     font-weight: 500;
     color: $slider-color;
@@ -32,5 +34,16 @@ h3.title {
 
     span {
         font-weight: 400;
+    }
+}
+
+
+.rangeValue {
+    font-size: 0.6rem;
+}
+
+@media screen and (max-width: 1200px) {
+    .rangeValue {
+        font-size: 0.5rem;
     }
 }

@@ -5,21 +5,19 @@ import { CategoryList } from './categorylist/CategoryList';
 import { ProductList } from './categorylist/products/ProductsList';
 import { useCategoryStore } from '../../store/useCategoryStore';
 import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
+import { ModalWindow } from '../../components/modal/ModalWindow';
+import { BurgerMenuCatalog } from '../../components/burger-menu-catalog/burgerMenuCatalog';
 
 const getCategoryList = async (): Promise<CategoryResults[] | null> => {
-  return await getCategories('key asc');
+  return await getCategories();
 };
-
-/* const getProductsBySearchWords = async (searchWords: string): Promise<ProductType[] | null> => {
-  return await getProductsByText(searchWords);
-}; */
 
 const getProductList = async (
   categories: string[],
-  releaseYears: string[],
+  movie: boolean,
   discount: boolean,
-  priceSorting: string,
-  nameSorting: string,
+  sortingCriteria: string,
+  selectedSortingValue: string,
   minPrice: string,
   maxPrice: string,
   minPositiveCalls: string,
@@ -28,10 +26,10 @@ const getProductList = async (
 ): Promise<ProductType[] | null> => {
   return await getProductProjection(
     categories,
-    releaseYears,
+    movie,
     discount,
-    priceSorting,
-    nameSorting,
+    sortingCriteria,
+    selectedSortingValue,
     minPrice,
     maxPrice,
     minPositiveCalls,
@@ -43,16 +41,25 @@ const getProductList = async (
 export const Catalog = () => {
   const [ctgList, setCtgList] = useState<CategoryResults[] | null>(null);
   const [products, setProducts] = useState<ProductType[] | null>(null);
+  const [error, setError] = useState('');
+
   const selectedCategories = useCategoryStore((state) => state.categories);
-  const selectedReleaseYears = useCategoryStore((state) => state.releaseYears);
+  const selectedMovie = useCategoryStore((state) => state.movie);
   const selectedDiscount = useCategoryStore((state) => state.discount);
-  const selectedPriceSorting = useCategoryStore((state) => state.priceSorting);
-  const selectedNameSorting = useCategoryStore((state) => state.nameSorting);
+  const selectedSortingCriteria = useCategoryStore((state) => state.sortingCriteria);
+  const selectedSortingValue = useCategoryStore((state) => state.sortingValue);
   const selectedMinPrice = useCategoryStore((state) => state.minPrice);
   const selectedMaxPrice = useCategoryStore((state) => state.maxPrice);
   const selectedMinPositiveCalls = useCategoryStore((state) => state.minPositiveCalls);
   const selectedMaxPositiveCalls = useCategoryStore((state) => state.maxPositiveCalls);
   const searchWords = useCategoryStore((state) => state.searchWords);
+  const closeCatalog = useCategoryStore((state) => state.closeCatalog);
+  const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
+
+  const handleBurger = () => {
+    if (closeCatalog) setCloseCatalog(false);
+    else setCloseCatalog(true);
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -63,55 +70,57 @@ export const Catalog = () => {
     fetchCategories();
   }, []);
 
-  /* useEffect(() => {
-    const fetchProducts = async () => {
-      const productList = await getProductsBySearchWords(searchWords);
-      setProducts(productList);
-    };
-
-    fetchProducts();
-  }, [searchWords]); */
-
   useEffect(() => {
     const fetchProducts = async () => {
-      const productList = await getProductList(
-        selectedCategories,
-        selectedReleaseYears,
-        selectedDiscount,
-        selectedPriceSorting,
-        selectedNameSorting,
-        selectedMinPrice,
-        selectedMaxPrice,
-        selectedMinPositiveCalls,
-        selectedMaxPositiveCalls,
-        searchWords,
-      );
-      setProducts(productList);
+      try {
+        const productList = await getProductList(
+          selectedCategories,
+          selectedMovie,
+          selectedDiscount,
+          selectedSortingCriteria,
+          selectedSortingValue,
+          selectedMinPrice,
+          selectedMaxPrice,
+          selectedMinPositiveCalls,
+          selectedMaxPositiveCalls,
+          searchWords,
+        );
+        setProducts(productList);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          const errMsg = err.message;
+          setError(() => errMsg);
+        }
+      }
     };
-
     fetchProducts();
   }, [
     selectedCategories,
-    selectedReleaseYears,
+    selectedMovie,
     selectedDiscount,
-    selectedPriceSorting,
-    selectedNameSorting,
+    selectedSortingCriteria,
     selectedMinPrice,
     selectedMaxPrice,
     selectedMinPositiveCalls,
     selectedMaxPositiveCalls,
     searchWords,
+    selectedSortingValue,
   ]);
 
   return (
     <main className={styles.catalog}>
-      <Breadcrumbs />
+      <div className={styles.navElementsWrapper}>
+        <BurgerMenuCatalog onClick={handleBurger} />
+        <Breadcrumbs />
+      </div>
       <section className={styles.mainSection}>
-        <article className={styles.formWrapper}>
+        <div className={closeCatalog ? styles.blur : `${styles.blur} ${styles.showBlur}`} onClick={handleBurger} />
+        <article className={closeCatalog ? styles.formWrapper : `${styles.formWrapper} ${styles.showForm}`}>
           {ctgList ? <CategoryList categoryList={ctgList} /> : <p>Loading...</p>}
         </article>
         <article className={styles.cardsWrapper}>
-          {products ? <ProductList productList={products} /> : <p>Loading...</p>}
+          {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
+          {products && products.length > 0 ? <ProductList productList={products} /> : <p>Loading...</p>}
         </article>
       </section>
     </main>

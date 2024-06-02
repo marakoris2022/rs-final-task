@@ -3,6 +3,28 @@ import styles from './sortOptions.module.scss';
 export const SortOptions = () => {
   return (
     <>
+      <fieldset className={styles.movieWrapper} name="movieFieldSet">
+        <legend
+          style={{
+            color: '#fff',
+          }}
+        >
+          Movies:
+        </legend>
+        <div className={styles.radioWrapper}>
+          <input className="movieSet" type="radio" id="moviesIncluded" name="movieProducts" value="false" />
+          <label className={styles.radioLabel} htmlFor="all">
+            all products
+          </label>
+        </div>
+
+        <div className={styles.radioWrapper}>
+          <input className="movieSet" type="radio" id="noMovies" name="movieProducts" value="true" />
+          <label className={styles.radioLabel} htmlFor="noMovies">
+            no available movies
+          </label>
+        </div>
+      </fieldset>
       <fieldset className={styles.discountWrapper} name="discountFieldSet">
         <legend
           style={{
@@ -12,58 +34,49 @@ export const SortOptions = () => {
           Sort by discount:
         </legend>
         <div className={styles.radioWrapper}>
-          <input type="radio" id="allProducts" name="discountedProducts" value="all" checked />
+          <input className="discountSet" type="radio" id="allProducts" name="discountedProducts" value="false" />
           <label className={styles.radioLabel} htmlFor="allProducts">
             all products
           </label>
         </div>
 
         <div className={styles.radioWrapper}>
-          <input type="radio" id="discountedOnly" name="discountedProducts" value="discounted" />
+          <input className="discountSet" type="radio" id="discountedOnly" name="discountedProducts" value="true" />
           <label className={styles.radioLabel} htmlFor="discountedOnly">
             with discount
           </label>
         </div>
       </fieldset>
-      <fieldset className={styles.priceWrapper} name="priceSortingFieldSet">
+      <fieldset className={styles.priceWrapper} name="sortingFieldSet">
         <legend
           style={{
             color: '#fff',
           }}
         >
-          Sort by Price:
+          Sort options:
         </legend>
 
         <div className={styles.radioWrapper}>
-          <input type="radio" id="priceAsc" name="priceSorting" value="asc" />
+          <input className="sorting" type="radio" id="priceAsc" name="sorting" value="asc" data-name="price" />
           <label className={styles.radioLabel} htmlFor="priceAsc">
-            from low to high price
+            price: low to high
           </label>
         </div>
 
         <div className={styles.radioWrapper}>
-          <input type="radio" id="priceDesc" name="priceSorting" value="desc" />
+          <input className="sorting" type="radio" id="priceDesc" name="sorting" value="desc" data-name="price" />
           <label className={styles.radioLabel} htmlFor="priceDesc">
-            from high to low price
+            price: high to low
           </label>
         </div>
-      </fieldset>
-      <fieldset className={styles.nameWrapper} name="nameSortingFieldSet">
-        <legend
-          style={{
-            color: '#fff',
-          }}
-        >
-          Sort by Name:
-        </legend>
         <div className={styles.radioWrapper}>
-          <input type="radio" id="az" name="nameSorting" value="asc" />
+          <input className="sorting" type="radio" id="az" name="sorting" value="asc" data-name="name.en-us" />
           <label className={styles.radioLabel} htmlFor="az">
             from A to Z
           </label>
         </div>
         <div className={styles.radioWrapper}>
-          <input type="radio" id="za" name="nameSorting" value="desc" />
+          <input className="sorting" type="radio" id="za" name="sorting" value="desc" data-name="name.en-us" />
           <label className={styles.radioLabel} htmlFor="za">
             from Z to A
           </label>

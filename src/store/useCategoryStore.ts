@@ -2,40 +2,43 @@ import { create } from 'zustand';
 
 type CategoryStore = {
   categories: string[];
-  releaseYears: string[];
+  movie: boolean;
   discount: boolean;
-  priceSorting: string;
-  nameSorting: string;
+  sortingCriteria: string;
+  sortingValue: string;
   minPrice: string;
   maxPrice: string;
   minPositiveCalls: string;
   maxPositiveCalls: string;
   searchWords: string;
+  closeCatalog: boolean;
   addCategories: (data: string[]) => void;
   updateCategories: (data: string[]) => void;
   clearCategories: () => void;
-  addYears: (data: string[]) => void;
+  isMovie: (data: boolean) => void;
   isDiscounted: (value: boolean) => void;
-  setPriceSorting: (data: string) => void;
-  setNameSorting: (data: string) => void;
+  setSortingCriteria: (data: string) => void;
+  setSortingValue: (data: string) => void;
   setPriceMin: (data: string) => void;
   setPriceMax: (data: string) => void;
   setPositiveCallsMin: (data: string) => void;
   setPositiveCallsMax: (data: string) => void;
   setSearchWords: (data: string) => void;
+  setCloseCatalog: (data: boolean) => void;
 };
 
 export const useCategoryStore = create<CategoryStore>()((set) => ({
   categories: [],
-  releaseYears: [],
+  movie: false,
   discount: false,
-  priceSorting: '',
-  nameSorting: '',
+  sortingCriteria: '',
+  sortingValue: '',
   minPrice: '0',
-  maxPrice: '50',
+  maxPrice: '50000',
   minPositiveCalls: '0',
   maxPositiveCalls: '500',
   searchWords: '',
+  closeCatalog: true,
   addCategories: (data: string[]) => {
     set({ categories: data });
   },
@@ -45,17 +48,17 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
     }));
   },
   clearCategories: () => set({ categories: [] }),
-  addYears: (data: string[]) => {
-    set({ releaseYears: data });
+  isMovie: (data: boolean) => {
+    set({ movie: data });
   },
   isDiscounted: (value: boolean) => {
     set({ discount: value });
   },
-  setPriceSorting: (data: string) => {
-    set({ priceSorting: data });
+  setSortingCriteria: (data: string) => {
+    set({ sortingCriteria: data });
   },
-  setNameSorting: (data: string) => {
-    set({ nameSorting: data });
+  setSortingValue: (data: string) => {
+    set({ sortingValue: data });
   },
   setPriceMin: (data: string) => {
     set({ minPrice: data });
@@ -71,5 +74,8 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   },
   setSearchWords: (data: string) => {
     set({ searchWords: data });
+  },
+  setCloseCatalog: (data: boolean) => {
+    set({ closeCatalog: data });
   },
 }));
