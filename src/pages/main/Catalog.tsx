@@ -6,7 +6,7 @@ import { ProductList } from './categorylist/products/ProductsList';
 import { useCategoryStore } from '../../store/useCategoryStore';
 import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
 import { ModalWindow } from '../../components/modal/ModalWindow';
-import { BurgerMenu } from '../../components/burger-menu/BurgerMenu';
+import { BurgerMenuCatalog } from '../../components/burger-menu-catalog/burgerMenuCatalog';
 
 const getCategoryList = async (): Promise<CategoryResults[] | null> => {
   return await getCategories();
@@ -41,6 +41,9 @@ const getProductList = async (
 export const Catalog = () => {
   const [ctgList, setCtgList] = useState<CategoryResults[] | null>(null);
   const [products, setProducts] = useState<ProductType[] | null>(null);
+  const [error, setError] = useState('');
+  const [isOpenBurger, setIsOpenBurger] = useState(false);
+
   const selectedCategories = useCategoryStore((state) => state.categories);
   const selectedMovie = useCategoryStore((state) => state.movie);
   const selectedDiscount = useCategoryStore((state) => state.discount);
@@ -52,17 +55,8 @@ export const Catalog = () => {
   const selectedMaxPositiveCalls = useCategoryStore((state) => state.maxPositiveCalls);
   const searchWords = useCategoryStore((state) => state.searchWords);
 
-  const [error, setError] = useState('');
-
-  const [isOpenBurger, setIsOpenBurger] = useState(false);
-
   const handleBurger = () => {
     setIsOpenBurger((prev) => !prev);
-    if (!isOpenBurger) {
-      document.body.classList.add('no-scroll');
-    } else {
-      document.body.classList.remove('no-scroll');
-    }
   };
 
   useEffect(() => {
@@ -114,11 +108,11 @@ export const Catalog = () => {
   return (
     <main className={styles.catalog}>
       <div className={styles.navElementsWrapper}>
-        <BurgerMenu isOpen={isOpenBurger} onClick={handleBurger} />
+        <BurgerMenuCatalog isOpen={isOpenBurger} onClick={handleBurger} />
         <Breadcrumbs />
       </div>
       <section className={styles.mainSection}>
-        <article className={styles.formWrapper}>
+        <article className={isOpenBurger ? styles.formWrapper : `${styles.formWrapper} ${styles.showForm}`}>
           {ctgList ? <CategoryList categoryList={ctgList} /> : <p>Loading...</p>}
         </article>
         <article className={styles.cardsWrapper}>
@@ -126,6 +120,6 @@ export const Catalog = () => {
           {products && products.length > 0 ? <ProductList productList={products} /> : <p>Loading...</p>}
         </article>
       </section>
-    </main>
+    </main >
   );
 };

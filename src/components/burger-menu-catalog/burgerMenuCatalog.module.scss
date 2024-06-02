@@ -1,0 +1,41 @@
+.burgerContainer {
+  display: none;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: goldenrod;
+}
+
+.burgerIcon {
+  display: inline-block;
+  transition: all 0.1s linear;
+  object-fit: cover;
+  object-position: center center;
+  width: 40px;
+  height: 40px;
+}
+
+.burgerIcon:active {
+  transform: scale(0.8);
+}
+
+.burgerContainer:active {
+  box-shadow: 2px 2px 5px brown;
+}
+
+@media screen and (max-width: 920px) {
+  .burgerContainer {
+    display: flex;
+  }
+}
+
+@media (hover:hover) {
+  .burgerIcon {
+    transform: scale(0.8);
+  }
+
+  .burgerContainer {
+    box-shadow: 2px 2px 5px brown;
+  }
+}
