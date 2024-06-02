@@ -5,17 +5,17 @@ import { FormValues } from '../../interfaces/interfaces';
 import styles from './formField.module.scss';
 
 type FormFieldProps<T extends FormValues> = {
+  formik: FormikProps<T>;
+  labelText: string;
+  id: string;
+  name: keyof T;
+  type: string;
   stylesField?: string;
   stylesError?: string;
   stylesInput?: string;
   stylesInputWrapper?: string;
   showError?: boolean;
   isRequired?: boolean;
-  formik: FormikProps<T>;
-  labelText: string;
-  id: string;
-  name: keyof T;
-  type: string;
   autoComplete?: string;
   placeholder?: string;
   children?: React.ReactNode;

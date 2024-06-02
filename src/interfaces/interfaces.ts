@@ -1,5 +1,4 @@
 export type Address = {
-  id?: string;
   title: string;
   firstName: string;
   lastName: string;
@@ -8,6 +7,7 @@ export type Address = {
   additionalStreetInfo?: string;
   postalCode: string;
   city: string;
+  id?: string;
   region?: string;
   state?: string;
   country: string;
@@ -64,9 +64,9 @@ export type CountryPostalCode = {
 };
 
 export type ECommerceLS = {
+  accessToken: string;
   customerId?: string;
   refreshToken?: string;
-  accessToken: string;
 };
 
 export type IntrospectionResponse = {
