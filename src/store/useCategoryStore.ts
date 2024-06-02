@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 type CategoryStore = {
   categories: string[];
-  releaseYears: string[];
+  movie: boolean;
   discount: boolean;
   sortingCriteria: string;
   sortingValue: string;
@@ -14,7 +14,7 @@ type CategoryStore = {
   addCategories: (data: string[]) => void;
   updateCategories: (data: string[]) => void;
   clearCategories: () => void;
-  addYears: (data: string[]) => void;
+  isMovie: (data: boolean) => void;
   isDiscounted: (value: boolean) => void;
   setSortingCriteria: (data: string) => void;
   setSortingValue: (data: string) => void;
@@ -27,7 +27,7 @@ type CategoryStore = {
 
 export const useCategoryStore = create<CategoryStore>()((set) => ({
   categories: [],
-  releaseYears: [],
+  movie: false,
   discount: false,
   sortingCriteria: '',
   sortingValue: '',
@@ -45,8 +45,8 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
     }));
   },
   clearCategories: () => set({ categories: [] }),
-  addYears: (data: string[]) => {
-    set({ releaseYears: data });
+  isMovie: (data: boolean) => {
+    set({ movie: data });
   },
   isDiscounted: (value: boolean) => {
     set({ discount: value });

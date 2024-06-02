@@ -6,6 +6,7 @@ import { ProductList } from './categorylist/products/ProductsList';
 import { useCategoryStore } from '../../store/useCategoryStore';
 import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
 import { ModalWindow } from '../../components/modal/ModalWindow';
+import { BurgerMenu } from '../../components/burger-menu/BurgerMenu';
 
 const getCategoryList = async (): Promise<CategoryResults[] | null> => {
   return await getCategories();
@@ -13,7 +14,7 @@ const getCategoryList = async (): Promise<CategoryResults[] | null> => {
 
 const getProductList = async (
   categories: string[],
-  releaseYears: string[],
+  movie: boolean,
   discount: boolean,
   sortingCriteria: string,
   selectedSortingValue: string,
@@ -25,7 +26,7 @@ const getProductList = async (
 ): Promise<ProductType[] | null> => {
   return await getProductProjection(
     categories,
-    releaseYears,
+    movie,
     discount,
     sortingCriteria,
     selectedSortingValue,
@@ -41,7 +42,7 @@ export const Catalog = () => {
   const [ctgList, setCtgList] = useState<CategoryResults[] | null>(null);
   const [products, setProducts] = useState<ProductType[] | null>(null);
   const selectedCategories = useCategoryStore((state) => state.categories);
-  const selectedReleaseYears = useCategoryStore((state) => state.releaseYears);
+  const selectedMovie = useCategoryStore((state) => state.movie);
   const selectedDiscount = useCategoryStore((state) => state.discount);
   const selectedSortingCriteria = useCategoryStore((state) => state.sortingCriteria);
   const selectedSortingValue = useCategoryStore((state) => state.sortingValue);
@@ -52,6 +53,17 @@ export const Catalog = () => {
   const searchWords = useCategoryStore((state) => state.searchWords);
 
   const [error, setError] = useState('');
+
+  const [isOpenBurger, setIsOpenBurger] = useState(false);
+
+  const handleBurger = () => {
+    setIsOpenBurger((prev) => !prev);
+    if (!isOpenBurger) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -67,7 +79,7 @@ export const Catalog = () => {
       try {
         const productList = await getProductList(
           selectedCategories,
-          selectedReleaseYears,
+          selectedMovie,
           selectedDiscount,
           selectedSortingCriteria,
           selectedSortingValue,
@@ -88,7 +100,7 @@ export const Catalog = () => {
     fetchProducts();
   }, [
     selectedCategories,
-    selectedReleaseYears,
+    selectedMovie,
     selectedDiscount,
     selectedSortingCriteria,
     selectedMinPrice,
@@ -101,7 +113,10 @@ export const Catalog = () => {
 
   return (
     <main className={styles.catalog}>
-      <Breadcrumbs />
+      <div className={styles.navElementsWrapper}>
+        <BurgerMenu isOpen={isOpenBurger} onClick={handleBurger} />
+        <Breadcrumbs />
+      </div>
       <section className={styles.mainSection}>
         <article className={styles.formWrapper}>
           {ctgList ? <CategoryList categoryList={ctgList} /> : <p>Loading...</p>}

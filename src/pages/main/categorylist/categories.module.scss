@@ -2,10 +2,9 @@
   position: relative;
   padding: 5px 20px 5px 10px;
   width: 100%;
-  overflow: auto;
   height: 100%;
   background: linear-gradient(to top, rgb(143, 174, 206) 0%, rgb(104, 80, 193) 55%, rgb(49, 13, 115) 100%);
-
+  overflow: auto;
 }
 
 .btnsContainer {
@@ -88,8 +87,6 @@
   }
 }
 
-
-
 .searchField:active {
   outline: none;
 }
@@ -122,5 +119,88 @@ form::-webkit-scrollbar-thumb,
   .glassImg:hover,
   .glassImg:active {
     background-image: url(./magnifying-glass-hover.svg);
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .btnsContainer {
+    /*  position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 10; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    padding: 5px;
+    width: 100%;
+
+    >* {
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+  }
+
+  .titleContainer {
+    padding: 0px 5px;
+    width: 100%;
+  }
+
+  .categoryTitle {
+    color: #fff;
+    margin-right: 10px;
+  }
+
+  .formBtn {
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 5px;
+    border-radius: 10px;
+    background: rgb(160, 160, 160);
+    cursor: pointer;
+    transition: 0.2s ease;
+    height: fit-content;
+  }
+
+  .categoryWrapper {
+    height: 50vh;
+    overflow: auto;
+  }
+
+  .priceFilterWrapper,
+  .yearFilterWrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .searchLabel {
+    position: relative;
+
+    .glassImg {
+      position: absolute;
+      top: 0;
+      right: 10px;
+      width: 20px;
+      height: 20px;
+      background-image: url(./magnifying-glass.svg);
+      background-repeat: no-repeat;
+      background-position: center right;
+      background-size: 20px 20px;
+      z-index: 2;
+      cursor: pointer;
+      transition: all 0.2s linear;
+    }
+
+    .searchField {
+      position: relative;
+      padding: 5px 40px 5px 10px;
+      height: 40px;
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .searchField:focus {
+      box-shadow: 10px 5px 5px rgb(76, 95, 99);
+    }
   }
 }

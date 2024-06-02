@@ -4,7 +4,6 @@ import { CheckboxComponent } from '../../../components/checkbox/CheckboxComponen
 import { CategoryResults } from '../../../api/catalogue-api';
 import { useCategoryStore } from '../../../store/useCategoryStore';
 import { DoubleSlider } from '../../../components/slider/DoubleSlider';
-import { YearPicker } from './year-picker/YearPicker';
 import { SortOptions } from './sort-section/SortOptions';
 
 type CategoryListType = {
@@ -13,7 +12,7 @@ type CategoryListType = {
 
 export const CategoryList = ({ categoryList }: CategoryListType) => {
   const addCategories = useCategoryStore((state) => state.addCategories);
-  const addYears = useCategoryStore((state) => state.addYears);
+  const isMovie = useCategoryStore((state) => state.isMovie);
   const isDiscounted = useCategoryStore((state) => state.isDiscounted);
   const setSortingCriteria = useCategoryStore((state) => state.setSortingCriteria);
   const setSortingValue = useCategoryStore((state) => state.setSortingValue);
@@ -61,15 +60,12 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           callsRangMin && setPositiveCallsMin(callsRangMin.value);
           callsRangeMax && setPositiveCallsMax(callsRangeMax.value);
         }
-        const releaseSet = form.elements.namedItem('releaseFieldSet') as HTMLFieldSetElement | null;
-        if (releaseSet) {
-          const releaseYears = releaseSet.elements.namedItem('yearSelect') as HTMLSelectElement | null;
-          const yearValues = releaseYears
-            ? Array.from(releaseYears.options)
-              .filter((item) => item.selected)
-              .map((year) => year.value)
-            : [];
-          yearValues.length > 0 && addYears(yearValues);
+        const movieSet = form.elements.namedItem('movieFieldSet') as HTMLFieldSetElement | null;
+        if (movieSet) {
+          const options = movieSet.getElementsByClassName('movieSet') as HTMLCollectionOf<HTMLInputElement> | null;
+          const found = options ? Array.from(options).find((item) => item.checked) : null;
+          if (found && found.value === 'true') isMovie(true);
+          else isMovie(false);
         }
         const discountSet = form.elements.namedItem('discountFieldSet') as HTMLFieldSetElement | null;
         if (discountSet) {
@@ -96,7 +92,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
       setPriceMax,
       setPositiveCallsMin,
       setPositiveCallsMax,
-      addYears,
+      isMovie,
       isDiscounted,
       setSortingValue,
       setSortingCriteria,
@@ -126,9 +122,6 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
       </fieldset>
       <fieldset className={styles.positiveCallbacksFilterWrapper} name="positiveCallsFieldSet">
         <DoubleSlider title={'Positive Callbacks'} MIN={0} MAX={500}></DoubleSlider>
-      </fieldset>
-      <fieldset className={styles.yearFilterWrapper} name="releaseFieldSet">
-        <YearPicker></YearPicker>
       </fieldset>
       <SortOptions></SortOptions>
     </form>

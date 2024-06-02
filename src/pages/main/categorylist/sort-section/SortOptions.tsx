@@ -3,6 +3,28 @@ import styles from './sortOptions.module.scss';
 export const SortOptions = () => {
   return (
     <>
+      <fieldset className={styles.movieWrapper} name="movieFieldSet">
+        <legend
+          style={{
+            color: '#fff',
+          }}
+        >
+          Movies:
+        </legend>
+        <div className={styles.radioWrapper}>
+          <input className="movieSet" type="radio" id="moviesIncluded" name="movieProducts" value="false" />
+          <label className={styles.radioLabel} htmlFor="all">
+            all products
+          </label>
+        </div>
+
+        <div className={styles.radioWrapper}>
+          <input className="movieSet" type="radio" id="noMovies" name="movieProducts" value="true" />
+          <label className={styles.radioLabel} htmlFor="noMovies">
+            no available movies
+          </label>
+        </div>
+      </fieldset>
       <fieldset className={styles.discountWrapper} name="discountFieldSet">
         <legend
           style={{
@@ -37,14 +59,14 @@ export const SortOptions = () => {
         <div className={styles.radioWrapper}>
           <input className="sorting" type="radio" id="priceAsc" name="sorting" value="asc" data-name="price" />
           <label className={styles.radioLabel} htmlFor="priceAsc">
-            from low to high price
+            price: low to high
           </label>
         </div>
 
         <div className={styles.radioWrapper}>
           <input className="sorting" type="radio" id="priceDesc" name="sorting" value="desc" data-name="price" />
           <label className={styles.radioLabel} htmlFor="priceDesc">
-            from high to low price
+            price: high to low
           </label>
         </div>
         <div className={styles.radioWrapper}>

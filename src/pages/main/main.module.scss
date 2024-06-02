@@ -28,6 +28,7 @@
 }
 
 .mainSection {
+  position: relative;
   display: flex;
   flex: 1;
 }
@@ -49,4 +50,27 @@
 
 .cardsWrapper {
   width: 80%;
+}
+
+.navElementsWrapper {
+  display: flex;
+  padding: 5px;
+
+  >* {
+    margin-left: 10px;
+  }
+
+  background: rgb(44, 44, 161);
+}
+
+@media screen and (max-width: 920px) {
+  .formWrapper {
+    position: absolute;
+    top: 0;
+    left: -100%;
+  }
+
+  .cardsWrapper {
+    width: 100%;
+  }
 }

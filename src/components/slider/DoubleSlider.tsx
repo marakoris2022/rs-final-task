@@ -20,6 +20,7 @@ export const DoubleSlider = ({ title, MIN, MAX, signs }: DoubleSliderProbs) => {
       <div className={styles.values}>
         {signs}
         <input
+          className={styles.rangeValue}
           onChange={(event) => {
             const newValue = +event.target.value;
             setValues((prev) => {
@@ -35,6 +36,7 @@ export const DoubleSlider = ({ title, MIN, MAX, signs }: DoubleSliderProbs) => {
         />{' '}
         - {signs}
         <input
+          className={styles.rangeValue}
           onChange={(event) => {
             const newValue = +event.target.value;
             setValues((prev) => {

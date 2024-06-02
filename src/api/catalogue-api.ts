@@ -179,7 +179,7 @@ export async function getProductsByText(searchWords: string, limit: number = 30)
 
 export async function getProductProjection(
   categoryID: string[] = [],
-  releaseYears: string[] = [],
+  movie: boolean = false,
   discount: boolean = false,
   sortingCriteria: string = '',
   sortingValue: string = '',
@@ -218,6 +218,7 @@ export async function getProductProjection(
     query.push(`filter=variants.price.centAmount:range(${priceRange})`);
     query.push(`filter=variants.attributes.positive:range(${positiveCalls})`);
     if (discount) query.push(`&filter=variants.scopedPriceDiscounted:true&priceCurrency=USD`);
+    if (movie) query.push(`filter=variants.attributes.movies:"[]"`);
     query.push(`limit=${limit}`);
     if (sortingCriteria && sortingValue) query.push(`sort=${sortingCriteria} ${sortingValue}`);
 
