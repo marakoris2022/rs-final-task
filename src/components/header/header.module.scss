@@ -8,4 +8,42 @@
   padding: 5px 10px;
   margin-bottom: 10px;
   border-radius: 5px;
+
+  .logoWrapper {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    border-radius: 10px;
+    padding: 5px;
+
+    transition: all 0.3s ease;
+    background-color: rgba(0, 0, 255, 0.1);
+
+    .logoImg {
+      margin-right: 15px;
+      width: 50px;
+    }
+    .logoText {
+      font-size: 40px;
+      line-height: 40px;
+      font-family: 'Redressed', cursive;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @media screen and (max-width: 768px) {
+      .logoText {
+        display: none;
+      }
+      .logoImg {
+        margin-right: 0;
+      }
+    }
+  }
+  @media (any-hover: hover) {
+    .logoWrapper:hover {
+      background-color: rgba(0, 0, 255, 0.2);
+    }
+  }
 }
