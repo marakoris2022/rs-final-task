@@ -5,7 +5,7 @@ import { UserPersonalInfo } from '../../components/user-personal-info/UserPerson
 import { useCustomerStore } from '../../store/useCustomerStore';
 import { Button } from '../../components/button/Button';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FaSpinner } from 'react-icons/fa';
+import { Loading } from '../../components/loading/Loading';
 
 enum ProfilePaths {
   PERSONAL_INFO = '/profile/personal-info',
@@ -47,12 +47,7 @@ export const Profile = () => {
   }, [location]);
 
   if (!customer) {
-    return (
-      <div className={styles.loadingDiv}>
-        <FaSpinner className={styles.spinner} />
-        Loading...
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

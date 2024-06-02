@@ -15,6 +15,7 @@ import {
   addNewAddress,
   setDefaultAddressType,
 } from '../../../api/commerce-tools-api-profile';
+import { Loading } from '../../loading/Loading';
 
 const selectList = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
 
@@ -191,6 +192,10 @@ export const AddAddress = () => {
       }
     },
   });
+
+  if (!customer) {
+    return <Loading />;
+  }
 
   return (
     <>
