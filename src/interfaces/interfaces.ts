@@ -1,5 +1,4 @@
-type Address = {
-  id?: string;
+export type Address = {
   title: string;
   firstName: string;
   lastName: string;
@@ -8,13 +7,15 @@ type Address = {
   additionalStreetInfo?: string;
   postalCode: string;
   city: string;
+  id?: string;
   region?: string;
   state?: string;
   country: string;
   phone?: string;
+  additionalAddressInfo?: string;
 };
 
-export type UserProps = {
+export interface UserProps {
   email: string;
   password: string;
   firstName: string;
@@ -26,13 +27,20 @@ export type UserProps = {
   defaultBillingAddress?: number;
   shippingAddresses?: number[];
   billingAddresses?: number[];
+  shippingAddressIds?: string[];
+  billingAddressIds?: string[];
   isEmailVerified?: boolean;
   addresses?: Array<Address>;
   defaultShippingAddressId?: string;
   defaultBillingAddressId?: string;
   version?: number;
   id?: string;
-};
+}
+export interface UserPropsExtended extends UserProps {
+  id: string;
+  version: number;
+  dateOfBirth: string;
+}
 
 export type LoginProps = {
   access_token: string;
@@ -56,9 +64,9 @@ export type CountryPostalCode = {
 };
 
 export type ECommerceLS = {
+  accessToken: string;
   customerId?: string;
   refreshToken?: string;
-  accessToken: string;
 };
 
 export type IntrospectionResponse = {

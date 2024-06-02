@@ -11,6 +11,7 @@ import { Footer } from './components/footer/Footer';
 import { useStore } from './store/useStore';
 import { useEffect } from 'react';
 import { initializeUserSession } from './services/initializeUserSession';
+import { AddAddress } from './components/user-addresses/add-address/AddAddress';
 
 const Layout = () => {
   return (
@@ -34,10 +35,17 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Catalog />} />
-          <Route path="login" element={isLogged ? <Navigate to="/" replace /> : <Login />} />
-          <Route path="registration" element={isLogged ? <Navigate to="/" replace /> : <Registration />} />
-          <Route path="profile" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />
-          <Route path="catalog/:key" element={<Product />} />
+          <Route path="/catalog" element={<Navigate to="/" replace />} />
+          <Route path="/login" element={isLogged ? <Navigate to="/" replace /> : <Login />} />
+          <Route path="/registration" element={isLogged ? <Navigate to="/" replace /> : <Registration />} />
+          <Route path="/profile" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />
+          <Route path="/profile/personal-info" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />
+          <Route path="/profile/addresses" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />
+          <Route
+            path="/profile/addresses/add-address"
+            element={isLogged ? <AddAddress /> : <Navigate to="/login" replace />}
+          />
+          <Route path="/catalog/:key" element={<Product />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

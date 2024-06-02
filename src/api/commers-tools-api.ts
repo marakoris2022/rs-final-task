@@ -37,6 +37,12 @@ apiClient.interceptors.request.use(
       const { active } = response;
       if (!active) {
         await refreshTokenInLocalStorage();
+        const commerceInfo = localStorage.getItem(ECommerceKey) as string | null;
+
+        if (commerceInfo) {
+          const { accessToken } = JSON.parse(commerceInfo) as ECommerceLS;
+          config.headers.Authorization = `Bearer ${accessToken}`;
+        }
       }
     } else {
       await getBasicToken();
@@ -146,9 +152,8 @@ export async function signUp(user: UserProps): Promise<void> {
 }
 
 export async function getCustomerById(id: string, accessToken: string) {
-  const userData = await axios.get(`${api}/${projectKey}/customers/${id}`, {
+  const userData = await apiClient.get(`/${projectKey}/customers/${id}`, {
     headers: {
-      'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
   });

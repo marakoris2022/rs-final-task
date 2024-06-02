@@ -58,7 +58,7 @@ export const Navigation = () => {
           <li>
             {isLogged ? (
               <CustomLink
-                to="/profile"
+                to="/profile/personal-info"
                 onClick={() => {
                   isOpenBurger && handleBurger();
                 }}

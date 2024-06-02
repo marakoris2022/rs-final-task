@@ -21,6 +21,24 @@
     }
   }
 
+  .addressWrapper {
+    padding: 10px;
+    border: 1px solid lightgray;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    position: relative;
+
+    .addressWrapperTitle {
+      position: absolute;
+      left: 70px;
+      top: -9px;
+      background-color: white;
+      padding: 3px 5px;
+      font-size: 14px;
+      color: #c7b7a3;
+    }
+  }
+
   @media screen and (max-width: 600px) {
     & {
       margin-bottom: 0px;
