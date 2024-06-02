@@ -33,6 +33,13 @@
     cursor: pointer;
   }
 
+  .modalBtnsContainer {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    gap: 30px;
+  }
+
   @media (any-hover: hover) {
     .modalErrorBtn:hover {
       background: #5eabdd;

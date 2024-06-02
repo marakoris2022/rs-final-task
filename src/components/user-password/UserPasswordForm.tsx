@@ -77,15 +77,11 @@ export const UserPasswordForm = () => {
     validate,
     onSubmit: async (values) => {
       try {
-        const valuesWithVersion = { ...values, version: customer?.version ? customer.version : 1 };
-
-        if (customer!.id) {
-          const { version } = await updateUserPassword(customer!.id, valuesWithVersion);
-          updateCustomer({ ...values, version });
-          setMessage(() => 'Password successfully changed');
-          await login(customer!.email, values.newPassword);
-          formik.resetForm();
-        }
+        const updatedUser = await updateUserPassword(customer!, values);
+        updateCustomer(updatedUser);
+        setMessage(() => 'Password successfully changed');
+        await login(customer!.email, values.newPassword);
+        formik.resetForm();
       } catch (err: unknown) {
         if (err instanceof Error) {
           const errMsg = err.message;
@@ -98,48 +94,51 @@ export const UserPasswordForm = () => {
 
   return (
     <form className={styles.userPasswordForm} onSubmit={formik.handleSubmit}>
-      <FormField
-        stylesField={styles.loginFormField}
-        stylesError={styles.loginFormError}
-        stylesInput={styles.loginFormInput}
-        stylesInputWrapper={styles.loginFormInputWrapper}
-        formik={formik}
-        labelText="Current Password:"
-        id="currentPassword"
-        name="currentPassword"
-        type={showPassword ? 'text' : 'password'}
-        autoComplete="current-password"
-      >
-        <span className={styles.loginFormPassIco} onClick={togglePasswordVisibility}>
-          {showPassword ? <FaEye /> : <FaEyeSlash />}
-        </span>
-      </FormField>
+      <div className={styles.passwordFormContainer}>
+        <h3>Change Your Password</h3>
+        <hr />
 
-      <FormField
-        stylesField={styles.loginFormField}
-        stylesError={styles.loginFormError}
-        stylesInput={styles.loginFormInput}
-        stylesInputWrapper={styles.loginFormInputWrapper}
-        formik={formik}
-        labelText="New Password:"
-        id="newPassword"
-        name="newPassword"
-        type={showNewPassword ? 'text' : 'password'}
-        autoComplete="current-password"
-      >
-        <span className={styles.loginFormPassIco} onClick={toggleNewPasswordVisibility}>
-          {showNewPassword ? <FaEye /> : <FaEyeSlash />}
-        </span>
-      </FormField>
+        <FormField
+          stylesError={styles.profileFormError}
+          stylesInput={styles.profileFormInput}
+          stylesInputWrapper={styles.labelInputContainer}
+          formik={formik}
+          labelText="Current Password:"
+          id="currentPassword"
+          name="currentPassword"
+          type={showPassword ? 'text' : 'password'}
+          autoComplete="current-password"
+        >
+          <span className={styles.profileFormPassIco} onClick={togglePasswordVisibility}>
+            {showPassword ? <FaEye /> : <FaEyeSlash />}
+          </span>
+        </FormField>
 
-      <Button
-        style={styles.loginFormBtn}
-        title="Change Password"
-        type="submit"
-        disabled={!formik.isValid || formik.isSubmitting || !formik.dirty}
-      />
+        <FormField
+          stylesError={styles.profileFormError}
+          stylesInput={styles.profileFormInput}
+          stylesInputWrapper={styles.labelInputContainer}
+          formik={formik}
+          labelText="New Password:"
+          id="newPassword"
+          name="newPassword"
+          type={showNewPassword ? 'text' : 'password'}
+          autoComplete="current-password"
+        >
+          <span className={styles.profileFormPassIco} onClick={toggleNewPasswordVisibility}>
+            {showNewPassword ? <FaEye /> : <FaEyeSlash />}
+          </span>
+        </FormField>
 
-      {message && <ModalWindow message={message} onClose={() => setMessage(() => '')} />}
+        <Button
+          style={styles.profileFormBtn}
+          title="Change Password"
+          type="submit"
+          disabled={!formik.isValid || formik.isSubmitting || !formik.dirty}
+        />
+
+        {message && <ModalWindow message={message} onClose={() => setMessage(() => '')} />}
+      </div>
     </form>
   );
 };

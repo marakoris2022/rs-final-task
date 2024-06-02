@@ -1,5 +1,132 @@
 .userForm {
-  padding: 10px;
   background-color: #eee;
   border-radius: 10px;
+
+  .profileFormError {
+    margin-top: 10px;
+    color: red;
+    margin-left: 10px;
+  }
+
+  .profileFormInput {
+    padding: 5px 10px;
+    border-radius: 10px;
+    border-color: aliceblue;
+
+    &:focus {
+      -webkit-box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+      -moz-box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+      box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .profileFormBtn {
+    align-self: flex-start;
+    border: none;
+    background-color: #ccc;
+    color: #888;
+    margin-left: 80px;
+    cursor: default;
+
+    &:enabled {
+      background-color: #1d4ae9;
+      color: white;
+      cursor: pointer;
+    }
+
+    @media screen and (max-width: 441px) {
+      & {
+        margin-left: 0;
+        margin: 0 auto;
+      }
+    }
+  }
+}
+
+.basicInfoContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 20px;
+
+  background-color: #eee;
+  padding: 30px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+
+  hr {
+    width: 100%;
+  }
+
+  .basicInfoItemContainer {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+
+    @media screen and (max-width: 600px) {
+      & {
+        justify-content: center;
+      }
+    }
+  }
+
+  h3 {
+    margin: 0;
+    text-align: center;
+    font-size: 1.2rem;
+    line-height: 120%;
+  }
+
+  h4 {
+    margin: 0;
+    min-width: 150px;
+    text-align: center;
+  }
+
+  .basicInfoItem {
+    margin: 0;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: #333;
+    padding: 10px;
+    background-color: antiquewhite;
+    border-radius: 10px;
+  }
+
+
+  @media screen and (max-width: 600px) {
+    & {
+      padding: 20px;
+    }
+  }
+
+}
+
+.labelInputContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  label {
+    font-weight: 600;
+    min-width: 120px;
+    text-align: center;
+
+    @media screen and (max-width: 441px) {
+      & {
+        min-width: 200px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 441px) {
+    & {
+      justify-content: center;
+    }
+    input {
+      min-width: 200px;
+    }
+  }
 }
