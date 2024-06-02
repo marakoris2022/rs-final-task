@@ -120,6 +120,6 @@ export const Catalog = () => {
           {products && products.length > 0 ? <ProductList productList={products} /> : <p>Loading...</p>}
         </article>
       </section>
-    </main >
+    </main>
   );
 };
