@@ -1,13 +1,11 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 import './styles.scss';
 
-// import required modules
 import { Pagination, Navigation } from 'swiper/modules';
 
 export const Carousel = ({ images }: { images: Array<string> }) => {

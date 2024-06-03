@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 import styles from './card.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { ProductType, getProductByKey } from '../../../../../api/catalogue-api';
-import { Button } from '../../../../../components/button/Button';
 import { ModalWindow } from '../../../../../components/modal/ModalWindow';
 
 type CardType = {
