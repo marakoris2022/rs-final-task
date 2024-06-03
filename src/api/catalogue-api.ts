@@ -184,7 +184,7 @@ export async function getProductProjection(
   minPrice: string = '0',
   maxPrice: string = '50000',
   minPositiveCalls: string = '0',
-  maxPositiveCalls: string = '500',
+  maxPositiveCalls: string = '5000',
   searchWords: string = '',
   limit: number = 30,
 ): Promise<ProductType[] | null> {
@@ -197,7 +197,7 @@ export async function getProductProjection(
         Authorization: `Bearer ${token}`,
       },
     };
-    let urlString = `/${projectKey}/product-projections/search?`
+    let urlString = `/${projectKey}/product-projections/search?`;
     const query: string[] = [];
     const priceRange = `${Math.min(+minPrice, +maxPrice)} to ${Math.max(+minPrice, +maxPrice)}`;
     const positiveCalls = `${Math.min(+minPositiveCalls, +maxPositiveCalls)} to ${Math.max(+minPositiveCalls, +maxPositiveCalls)}`;
@@ -221,6 +221,7 @@ export async function getProductProjection(
     if (sortingCriteria && sortingValue) query.push(`sort=${sortingCriteria} ${sortingValue}`);
 
     urlString += query.join('&');
+
     const response = await apiClient.get(urlString, config);
     const { results } = response.data;
     if (results.length === 0) throw new Error('There is no product matching your query');

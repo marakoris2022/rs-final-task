@@ -12,6 +12,7 @@ import { useStore } from './store/useStore';
 import { useEffect } from 'react';
 import { initializeUserSession } from './services/initializeUserSession';
 import { AddAddress } from './components/user-addresses/add-address/AddAddress';
+import { getBasicToken } from './api/commers-tools-api';
 
 const Layout = () => {
   return (
@@ -25,7 +26,6 @@ const Layout = () => {
 
 export const App = () => {
   const isLogged = useStore((state) => state.isLogged);
-
   useEffect(() => {
     initializeUserSession(isLogged);
   }, [isLogged]);
