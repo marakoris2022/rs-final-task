@@ -197,7 +197,7 @@ export async function getProductProjection(
         Authorization: `Bearer ${token}`,
       },
     };
-    let urlString = `/${projectKey}/product-projections/search?`
+    let urlString = `/${projectKey}/product-projections/search?`;
     const query: string[] = [];
     const priceRange = `${Math.min(+minPrice, +maxPrice)} to ${Math.max(+minPrice, +maxPrice)}`;
     const positiveCalls = `${Math.min(+minPositiveCalls, +maxPositiveCalls)} to ${Math.max(+minPositiveCalls, +maxPositiveCalls)}`;
