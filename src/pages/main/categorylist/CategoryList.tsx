@@ -57,7 +57,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         const positiveCallsSet = form.elements.namedItem('positiveCallsFieldSet') as HTMLFieldSetElement | null;
         if (positiveCallsSet) {
           const callsRangMin = positiveCallsSet.elements.namedItem('minValue') as HTMLInputElement | null;
-          const callsRangeMax = positiveCallsSet.elements.namedItem('minValue') as HTMLInputElement | null;
+          const callsRangeMax = positiveCallsSet.elements.namedItem('maxValue') as HTMLInputElement | null;
           callsRangMin && setPositiveCallsMin(callsRangMin.value);
           callsRangeMax && setPositiveCallsMax(callsRangeMax.value);
         }
@@ -124,7 +124,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         <DoubleSlider title={'Price'} MIN={0} MAX={50000} signs={'C'}></DoubleSlider>
       </fieldset>
       <fieldset className={styles.positiveCallbacksFilterWrapper} name="positiveCallsFieldSet">
-        <DoubleSlider title={'Positive Callbacks'} MIN={0} MAX={500}></DoubleSlider>
+        <DoubleSlider title={'Positive Callbacks'} MIN={0} MAX={5000}></DoubleSlider>
       </fieldset>
       <SortOptions></SortOptions>
     </form>
