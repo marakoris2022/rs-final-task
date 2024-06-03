@@ -18,7 +18,7 @@
   padding: 5px;
   width: 100%;
 
-  >* {
+  > * {
     margin-right: 10px;
     margin-bottom: 5px;
   }
@@ -67,7 +67,7 @@
     right: 10px;
     width: 20px;
     height: 20px;
-    background-image: url(./magnifying-glass.svg);
+    background-image: url(/magnifying-glass.svg);
     background-repeat: no-repeat;
     background-position: center right;
     background-size: 20px 20px;
@@ -133,7 +133,7 @@ form::-webkit-scrollbar-thumb,
     padding: 5px;
     width: 100%;
 
-    >* {
+    > * {
       margin-right: 5px;
       margin-bottom: 5px;
     }
