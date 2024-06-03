@@ -197,7 +197,7 @@ export async function getProductProjection(
         Authorization: `Bearer ${token}`,
       },
     };
-    let urlString = `/${projectKey}/product-projections/search?`
+    let urlString = `/${projectKey}/product-projections/search?`;
     const query: string[] = [];
     const priceRange = `${Math.min(+minPrice, +maxPrice)} to ${Math.max(+minPrice, +maxPrice)}`;
     const positiveCalls = `${Math.min(+minPositiveCalls, +maxPositiveCalls)} to ${Math.max(+minPositiveCalls, +maxPositiveCalls)}`;
@@ -232,6 +232,7 @@ export async function getProductProjection(
 export async function getProductByKey(key: string): Promise<ProductTypeByKey | null> {
   let selectedProduct = null;
   const commerceObj = localStorage.getItem(ECommerceKey);
+
   if (commerceObj) {
     const token = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
     const config: CategoryConfig = {

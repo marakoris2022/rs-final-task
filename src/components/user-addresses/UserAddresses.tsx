@@ -137,8 +137,8 @@ export const UserAddresses = () => {
                   </div>
                 </div>
                 <div className={styles.addressManageContainer}>
-                  {isDefaultAddress && <div className={styles.addressDefault}>Default shipping</div>}
                   <div className={styles.addressManageBtnsContainer}>
+                    {isDefaultAddress && <div className={styles.addressDefault}>Default shipping</div>}
                     {!isDefaultAddress && (
                       <Button
                         style={styles.setDefaultAddressBtn}
@@ -150,17 +150,16 @@ export const UserAddresses = () => {
                         disabled={isLoading}
                       />
                     )}
-                    {!isDefaultAddress && (
-                      <Button
-                        style={styles.setDefaultAddressBtn}
-                        title="Set as billing"
-                        type="button"
-                        onClick={() => {
-                          handleChangeAddressType(currAddress.id, RemoveAddressTypes.SHIPPING, AddressTypes.BILLING);
-                        }}
-                        disabled={isLoading}
-                      />
-                    )}
+
+                    <Button
+                      style={styles.setDefaultAddressBtn}
+                      title="Set as billing"
+                      type="button"
+                      onClick={() => {
+                        handleChangeAddressType(currAddress.id, RemoveAddressTypes.SHIPPING, AddressTypes.BILLING);
+                      }}
+                      disabled={isLoading}
+                    />
                   </div>
                   <div className={styles.addressIconsContainer}>
                     <FaEdit onClick={() => !isLoading && openEditModal(currAddress)} />
@@ -207,8 +206,8 @@ export const UserAddresses = () => {
                   </div>
                 </div>
                 <div className={styles.addressManageContainer}>
-                  {isDefaultAddress && <div className={styles.addressDefault}>Default billing</div>}
                   <div className={styles.addressManageBtnsContainer}>
+                    {isDefaultAddress && <div className={styles.addressDefault}>Default billing</div>}
                     {!isDefaultAddress && (
                       <Button
                         style={styles.setDefaultAddressBtn}
@@ -220,17 +219,16 @@ export const UserAddresses = () => {
                         disabled={isLoading}
                       />
                     )}
-                    {!isDefaultAddress && (
-                      <Button
-                        style={styles.setDefaultAddressBtn}
-                        title="Set as shipping"
-                        type="button"
-                        onClick={() => {
-                          handleChangeAddressType(currAddress.id, RemoveAddressTypes.BILLING, AddressTypes.SHIPPING);
-                        }}
-                        disabled={isLoading}
-                      />
-                    )}
+
+                    <Button
+                      style={styles.setDefaultAddressBtn}
+                      title="Set as shipping"
+                      type="button"
+                      onClick={() => {
+                        handleChangeAddressType(currAddress.id, RemoveAddressTypes.BILLING, AddressTypes.SHIPPING);
+                      }}
+                      disabled={isLoading}
+                    />
                   </div>
 
                   <div className={styles.addressIconsContainer}>
