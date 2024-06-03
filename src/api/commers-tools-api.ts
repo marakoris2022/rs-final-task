@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { ECommerceLS, IntrospectionResponse, LoginProps, UserProps } from '../interfaces/interfaces';
 import { useCustomerStore } from '../store/useCustomerStore';
+import { useStore } from '../store/useStore';
 
 const authHost = import.meta.env.VITE_AUTH_HOST;
 const api = import.meta.env.VITE_API;
@@ -71,6 +72,10 @@ export async function getBasicToken() {
   const jsonBody = { accessToken: access_token };
 
   localStorage.setItem(ECommerceKey, JSON.stringify(jsonBody));
+
+  const setIsToken = useStore.getState().setIsToken;
+  setIsToken(true);
+
   return JSON.stringify(jsonBody);
 }
 

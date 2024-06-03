@@ -12,6 +12,7 @@ import { useStore } from './store/useStore';
 import { useEffect } from 'react';
 import { initializeUserSession } from './services/initializeUserSession';
 import { AddAddress } from './components/user-addresses/add-address/AddAddress';
+import { Loading } from './components/loading/Loading';
 
 const Layout = () => {
   return (
@@ -25,10 +26,15 @@ const Layout = () => {
 
 export const App = () => {
   const isLogged = useStore((state) => state.isLogged);
+  const isToken = useStore((state) => state.isToken);
 
   useEffect(() => {
     initializeUserSession(isLogged);
   }, [isLogged]);
+
+  if (!isToken) {
+    return <Loading />;
+  }
 
   return (
     <>

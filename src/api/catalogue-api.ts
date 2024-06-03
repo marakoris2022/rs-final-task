@@ -232,6 +232,7 @@ export async function getProductProjection(
 export async function getProductByKey(key: string): Promise<ProductTypeByKey | null> {
   let selectedProduct = null;
   const commerceObj = localStorage.getItem(ECommerceKey);
+
   if (commerceObj) {
     const token = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
     const config: CategoryConfig = {
