@@ -1,9 +1,8 @@
 import { screen } from '@testing-library/react';
-import { render } from '../test/test-utilities'; // Adjust the import according to your project structure
-import { App } from './App'; // Adjust the import according to your project structure
+import { render } from '../test/test-utilities';
+import { App } from './App';
 import { describe, it, expect, vi } from 'vitest';
 
-// Mock components
 vi.mock('./components/Header', () => ({ default: () => <div>Header</div> }));
 vi.mock('./components/Footer', () => ({ default: () => <div>Footer</div> }));
 vi.mock('./pages/Login', () => ({ default: () => <div>Login</div> }));

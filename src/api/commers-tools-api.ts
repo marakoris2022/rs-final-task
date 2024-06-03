@@ -101,7 +101,6 @@ export async function login(email: string, password: string): Promise<LoginProps
           accessToken: access_token,
         }),
       );
-      // const customer = await getCustomerById(customer_id, access_token); REMOVE OR USE IT !?
     }
     return response.data;
   } catch (error) {
