@@ -38,8 +38,13 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
       event.preventDefault();
       if (event.target instanceof HTMLFormElement) {
         const form = event.target;
+
         const searchedWordsInput = form.elements.namedItem('searchField') as HTMLInputElement;
-        if (searchedWordsInput && searchedWordsInput.value) setSearchWords(searchedWordsInput.value);
+        if (searchedWordsInput && searchedWordsInput.value) {
+          setSearchWords(searchedWordsInput.value);
+        } else {
+          setSearchWords('');
+        }
         const categorySet = form.elements.namedItem('categoryFieldSet') as HTMLFieldSetElement | null;
         if (categorySet) {
           const formElements = Array.from(categorySet.elements) as HTMLInputElement[];
@@ -47,6 +52,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           const mapped = filtered.map((box) => box.value);
           addCategories(mapped);
         }
+
         const priceSet = form.elements.namedItem('priceFieldSet') as HTMLFieldSetElement | null;
         if (priceSet) {
           const priceRangeMin = priceSet.elements.namedItem('minValue') as HTMLInputElement | null;
@@ -111,7 +117,14 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
       <div className={styles.titleContainer}>{<h2 className={styles.categoryTitle}>Categories</h2>}</div>
       <label className={styles.searchLabel} htmlFor="searchField">
         <span onClick={searchHandler} className={styles.glassImg} />
-        <input autoComplete="off" placeholder="Search..." className={styles.searchField} type="text" id="searchField" />
+        <input
+          autoComplete="off"
+          placeholder="Search..."
+          className={styles.searchField}
+          type="text"
+          id="searchField"
+          name="searchField"
+        />
       </label>
       <fieldset className={styles.categoryWrapper} name="categoryFieldSet">
         {categoryList.map((category) => (
