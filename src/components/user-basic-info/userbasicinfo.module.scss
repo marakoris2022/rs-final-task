@@ -25,7 +25,7 @@
     border: none;
     background-color: #ccc;
     color: #888;
-    margin-left: 80px;
+    margin: 0 auto;
     cursor: default;
 
     &:enabled {
@@ -48,11 +48,23 @@
   flex-wrap: wrap;
   flex-direction: column;
   gap: 20px;
-
   background-color: #eee;
-  padding: 30px;
   margin-bottom: 20px;
   border-radius: 10px;
+  padding: 20px;
+
+  .modifyIco {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    margin-left: 65px;
+
+    @media screen and (max-width: 600px) {
+      & {
+        margin: 0 auto;
+      }
+    }
+  }
 
   hr {
     width: 100%;
@@ -67,6 +79,7 @@
     @media screen and (max-width: 600px) {
       & {
         justify-content: center;
+        flex-direction: column;
       }
     }
   }
@@ -97,7 +110,7 @@
 
   @media screen and (max-width: 600px) {
     & {
-      padding: 20px;
+      padding: 10px;
     }
   }
 
@@ -128,5 +141,15 @@
     input {
       min-width: 200px;
     }
+  }
+}
+
+.basicInfoContainerWithoutMargin {
+  margin-bottom: 0;
+  background-color: inherit;
+
+  h3 {
+    margin: 0;
+    margin-bottom: 20px;
   }
 }
