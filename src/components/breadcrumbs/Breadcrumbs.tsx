@@ -2,7 +2,12 @@ import { useLocation, Link } from 'react-router-dom';
 import styles from './breadcrumbs.module.scss';
 import homeImg from '/home-icon.svg';
 
-export const Breadcrumbs = ({ currantPage }: { currantPage?: string }) => {
+type BreadcrumbsPages = {
+  currantPage?: string;
+  subPage?: string;
+};
+
+export const Breadcrumbs = ({ currantPage, subPage }: BreadcrumbsPages) => {
   const location = useLocation();
 
   let currentLink = '';
@@ -11,18 +16,27 @@ export const Breadcrumbs = ({ currantPage }: { currantPage?: string }) => {
     .split('/')
     .filter((crumb) => crumb !== '')
     .map((crumb, index, arr) => {
-      currentLink += `/${crumb}`;
       let crumbName = crumb;
 
+      if (subPage && index === arr.length - 2) {
+        crumbName = subPage;
+        currentLink += `/category`;
+      }
       if (currantPage && index === arr.length - 1) {
         crumbName = currantPage;
       }
 
+      currentLink += `/${crumbName}`;
+
       return (
         <div className={styles.crumb} key={crumb}>
-          <Link className={styles.crumbLink} to={currentLink}>
-            {crumbName}
-          </Link>
+          {index === arr.length - 1 ? (
+            <span className={styles.crumbLink}>{crumbName}</span>
+          ) : (
+            <Link className={styles.crumbLink} to={currentLink}>
+              {crumbName}
+            </Link>
+          )}
         </div>
       );
     });

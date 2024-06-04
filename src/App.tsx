@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import { initializeUserSession } from './services/initializeUserSession';
 import { AddAddress } from './components/user-addresses/add-address/AddAddress';
 import { Loading } from './components/loading/Loading';
+import { Category } from './pages/category/Category';
 
 const Layout = () => {
   return (
@@ -41,7 +42,7 @@ export const App = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Catalog />} />
-          <Route path="/catalog" element={<Navigate to="/" replace />} />
+          <Route path="/category/:data" element={<Category />} />
           <Route path="/login" element={isLogged ? <Navigate to="/" replace /> : <Login />} />
           <Route path="/registration" element={isLogged ? <Navigate to="/" replace /> : <Registration />} />
           <Route path="/profile" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />
