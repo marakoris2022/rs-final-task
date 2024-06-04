@@ -89,6 +89,8 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           const found = options ? Array.from(options).find((item) => item.checked) : null;
           found && setSortingValue(found.value);
           found && found.dataset.name && setSortingCriteria(found.dataset.name);
+          !found && setSortingValue('');
+          !found && setSortingCriteria('');
         }
         setCloseCatalog(true);
       }
