@@ -32,7 +32,7 @@
     border: none;
     background-color: #ccc;
     color: #888;
-    margin-left: 80px;
+    margin: 0 auto;
     cursor: default;
 
     &:enabled {
@@ -55,11 +55,10 @@
   flex-wrap: wrap;
   flex-direction: column;
   gap: 20px;
-
   background-color: #eee;
-  padding: 30px;
   margin-bottom: 20px;
   border-radius: 10px;
+  padding: 20px;
 
   hr {
     width: 100%;
@@ -104,7 +103,7 @@
 
   @media screen and (max-width: 600px) {
     & {
-      padding: 20px;
+      padding: 10px;
     }
   }
 
@@ -136,4 +135,9 @@
       min-width: 200px;
     }
   }
+}
+
+.basicInfoContainerWithoutMargin {
+  margin-bottom: 0;
+  background-color: inherit;
 }
