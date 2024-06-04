@@ -10,6 +10,9 @@ type CategoryListType = {
   categoryList: CategoryResults[];
 };
 
+const MIN_VALUE = '0';
+const MAX_VALUE = '50000';
+
 export const CategoryList = ({ categoryList }: CategoryListType) => {
   const addCategories = useCategoryStore((state) => state.addCategories);
   const isMovie = useCategoryStore((state) => state.isMovie);
@@ -22,6 +25,8 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
   const setPositiveCallsMax = useCategoryStore((state) => state.setPositiveCallsMax);
   const setSearchWords = useCategoryStore((state) => state.setSearchWords);
   const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
+  const setResetMin = useCategoryStore((state) => state.setResetMin);
+  const setResetMax = useCategoryStore((state) => state.setResetMax);
 
   const searchHandler = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
@@ -32,6 +37,11 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
     },
     [setSearchWords],
   );
+
+  const resetHandler = useCallback(() => {
+    setResetMin(MIN_VALUE);
+    setResetMax(MAX_VALUE);
+  }, [setResetMax, setResetMin]);
 
   const submitHandler = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
@@ -58,7 +68,9 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           const priceRangeMin = priceSet.elements.namedItem('minValue') as HTMLInputElement | null;
           const priceRangeMax = priceSet.elements.namedItem('maxValue') as HTMLInputElement | null;
           priceRangeMin && setPriceMin(priceRangeMin.value);
+          priceRangeMin && setResetMin(priceRangeMin.value);
           priceRangeMax && setPriceMax(priceRangeMax.value);
+          priceRangeMax && setResetMax(priceRangeMax.value);
         }
         const positiveCallsSet = form.elements.namedItem('positiveCallsFieldSet') as HTMLFieldSetElement | null;
         if (positiveCallsSet) {
@@ -96,11 +108,13 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
       }
     },
     [
-      setSearchWords,
       setCloseCatalog,
+      setSearchWords,
       addCategories,
       setPriceMin,
+      setResetMin,
       setPriceMax,
+      setResetMax,
       setPositiveCallsMin,
       setPositiveCallsMax,
       isMovie,
@@ -114,7 +128,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
     <form onSubmit={submitHandler} className={styles.form}>
       <div className={styles.btnsContainer}>
         <input type="submit" className={styles.formBtn} value="submit" />
-        <input type="reset" className={styles.formBtn} value="reset" />
+        <input type="reset" className={styles.formBtn} value="reset" onClick={resetHandler} />
       </div>
       <div className={styles.titleContainer}>{<h2 className={styles.categoryTitle}>Categories</h2>}</div>
       <label className={styles.searchLabel} htmlFor="searchField">
@@ -139,7 +153,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         <DoubleSlider title={'Price'} MIN={0} MAX={50000} signs={'C'}></DoubleSlider>
       </fieldset>
       <fieldset className={styles.positiveCallbacksFilterWrapper} name="positiveCallsFieldSet">
-        <DoubleSlider title={'Positive Callbacks'} MIN={0} MAX={5000}></DoubleSlider>
+        <DoubleSlider title={'Positive Callbacks'} MIN={0} MAX={50000}></DoubleSlider>
       </fieldset>
       <SortOptions></SortOptions>
     </form>

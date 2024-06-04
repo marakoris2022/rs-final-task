@@ -184,7 +184,7 @@ export async function getProductProjection(
   minPrice: string = '0',
   maxPrice: string = '50000',
   minPositiveCalls: string = '0',
-  maxPositiveCalls: string = '5000',
+  maxPositiveCalls: string = '50000',
   searchWords: string = '',
   limit: number = 30,
 ): Promise<ProductType[] | null> {
