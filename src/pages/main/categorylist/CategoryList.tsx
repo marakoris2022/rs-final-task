@@ -38,8 +38,13 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
       event.preventDefault();
       if (event.target instanceof HTMLFormElement) {
         const form = event.target;
+
         const searchedWordsInput = form.elements.namedItem('searchField') as HTMLInputElement;
-        if (searchedWordsInput && searchedWordsInput.value) setSearchWords(searchedWordsInput.value);
+        if (searchedWordsInput && searchedWordsInput.value) {
+          setSearchWords(searchedWordsInput.value);
+        } else {
+          setSearchWords('');
+        }
         const categorySet = form.elements.namedItem('categoryFieldSet') as HTMLFieldSetElement | null;
         if (categorySet) {
           const formElements = Array.from(categorySet.elements) as HTMLInputElement[];
@@ -47,6 +52,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           const mapped = filtered.map((box) => box.value);
           addCategories(mapped);
         }
+
         const priceSet = form.elements.namedItem('priceFieldSet') as HTMLFieldSetElement | null;
         if (priceSet) {
           const priceRangeMin = priceSet.elements.namedItem('minValue') as HTMLInputElement | null;
@@ -57,7 +63,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         const positiveCallsSet = form.elements.namedItem('positiveCallsFieldSet') as HTMLFieldSetElement | null;
         if (positiveCallsSet) {
           const callsRangMin = positiveCallsSet.elements.namedItem('minValue') as HTMLInputElement | null;
-          const callsRangeMax = positiveCallsSet.elements.namedItem('minValue') as HTMLInputElement | null;
+          const callsRangeMax = positiveCallsSet.elements.namedItem('maxValue') as HTMLInputElement | null;
           callsRangMin && setPositiveCallsMin(callsRangMin.value);
           callsRangeMax && setPositiveCallsMax(callsRangeMax.value);
         }
@@ -111,7 +117,14 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
       <div className={styles.titleContainer}>{<h2 className={styles.categoryTitle}>Categories</h2>}</div>
       <label className={styles.searchLabel} htmlFor="searchField">
         <span onClick={searchHandler} className={styles.glassImg} />
-        <input autoComplete="off" placeholder="Search..." className={styles.searchField} type="text" id="searchField" />
+        <input
+          autoComplete="off"
+          placeholder="Search..."
+          className={styles.searchField}
+          type="text"
+          id="searchField"
+          name="searchField"
+        />
       </label>
       <fieldset className={styles.categoryWrapper} name="categoryFieldSet">
         {categoryList.map((category) => (
@@ -124,7 +137,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         <DoubleSlider title={'Price'} MIN={0} MAX={50000} signs={'C'}></DoubleSlider>
       </fieldset>
       <fieldset className={styles.positiveCallbacksFilterWrapper} name="positiveCallsFieldSet">
-        <DoubleSlider title={'Positive Callbacks'} MIN={0} MAX={500}></DoubleSlider>
+        <DoubleSlider title={'Positive Callbacks'} MIN={0} MAX={5000}></DoubleSlider>
       </fieldset>
       <SortOptions></SortOptions>
     </form>
