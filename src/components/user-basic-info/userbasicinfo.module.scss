@@ -147,4 +147,9 @@
 .basicInfoContainerWithoutMargin {
   margin-bottom: 0;
   background-color: inherit;
+
+  h3 {
+    margin: 0;
+    margin-bottom: 20px;
+  }
 }

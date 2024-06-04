@@ -141,6 +141,7 @@ export const UserBasicInfo = () => {
           <ModalWindow
             children={
               <div className={`${styles.basicInfoContainer} ${styles.basicInfoContainerWithoutMargin}`}>
+                <h3>Change Your Personal Info</h3>
                 <FormField
                   stylesError={styles.profileFormError}
                   stylesInput={styles.profileFormInput}
