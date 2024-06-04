@@ -32,3 +32,12 @@ export function getCategoryNameById(id: string) {
   }
   return null;
 }
+
+export function getCategoryIdByName(name: string) {
+  for (const [key, value] of Object.entries(Category)) {
+    if (key === name) {
+      return value;
+    }
+  }
+  return null;
+}

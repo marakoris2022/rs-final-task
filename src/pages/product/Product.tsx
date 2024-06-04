@@ -118,7 +118,7 @@ export const Product = () => {
     </div>
   ) : (
     <div className={styles.productWrapper}>
-      <Breadcrumbs currantPage={productData.title} />
+      <Breadcrumbs subPage={getCategoryNameById(productData.categories[0].id)!} currantPage={productData.title} />
 
       <div className={styles.contentWrapper}>
         <div className={styles.content}>
@@ -203,7 +203,7 @@ export const Product = () => {
       )}
 
       <div style={{ width: '100%', marginBottom: '10px' }}>
-        <Breadcrumbs currantPage={productData.title} />
+        <Breadcrumbs subPage={getCategoryNameById(productData.categories[0].id)!} currantPage={productData.title} />
       </div>
 
       {isModal && (

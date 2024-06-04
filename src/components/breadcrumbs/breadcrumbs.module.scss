@@ -23,7 +23,8 @@
   display: none;
 }
 
-.breadcrumbs a {
+.breadcrumbs a,
+.crumbLink {
   display: inline-block;
 
   align-self: center;
