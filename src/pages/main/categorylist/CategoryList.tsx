@@ -4,6 +4,7 @@ import { CheckboxComponent } from '../../../components/checkbox/CheckboxComponen
 import { CategoryResults } from '../../../api/catalogue-api';
 import { useCategoryStore } from '../../../store/useCategoryStore';
 import { DoubleSlider } from '../../../components/slider/DoubleSlider';
+import { DoubleSliderCallbacks } from '../../../components/slider/DoubleSliderCallbacks';
 import { SortOptions } from './sort-section/SortOptions';
 
 type CategoryListType = {
@@ -12,6 +13,7 @@ type CategoryListType = {
 
 const MIN_VALUE = '0';
 const MAX_VALUE = '50000';
+const MAX_VALUE_CALLS = '5000';
 
 export const CategoryList = ({ categoryList }: CategoryListType) => {
   const addCategories = useCategoryStore((state) => state.addCategories);
@@ -27,6 +29,8 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
   const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
   const setResetMin = useCategoryStore((state) => state.setResetMin);
   const setResetMax = useCategoryStore((state) => state.setResetMax);
+  const setResetMinCalls = useCategoryStore((state) => state.setResetMinCalls);
+  const setResetMaxCalls = useCategoryStore((state) => state.setResetMaxCalls);
 
   const searchHandler = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
@@ -41,7 +45,9 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
   const resetHandler = useCallback(() => {
     setResetMin(MIN_VALUE);
     setResetMax(MAX_VALUE);
-  }, [setResetMax, setResetMin]);
+    setResetMinCalls(MIN_VALUE);
+    setResetMaxCalls(MAX_VALUE_CALLS);
+  }, [setResetMax, setResetMaxCalls, setResetMin, setResetMinCalls]);
 
   const submitHandler = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
@@ -68,9 +74,9 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           const priceRangeMin = priceSet.elements.namedItem('minValue') as HTMLInputElement | null;
           const priceRangeMax = priceSet.elements.namedItem('maxValue') as HTMLInputElement | null;
           priceRangeMin && setPriceMin(priceRangeMin.value);
-          priceRangeMin && setResetMin(priceRangeMin.value);
+          /* priceRangeMin && setResetMin(priceRangeMin.value); */
           priceRangeMax && setPriceMax(priceRangeMax.value);
-          priceRangeMax && setResetMax(priceRangeMax.value);
+          /* priceRangeMax && setResetMax(priceRangeMax.value); */
         }
         const positiveCallsSet = form.elements.namedItem('positiveCallsFieldSet') as HTMLFieldSetElement | null;
         if (positiveCallsSet) {
@@ -112,9 +118,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
       setSearchWords,
       addCategories,
       setPriceMin,
-      setResetMin,
       setPriceMax,
-      setResetMax,
       setPositiveCallsMin,
       setPositiveCallsMax,
       isMovie,
@@ -153,7 +157,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         <DoubleSlider title={'Price'} MIN={0} MAX={50000} signs={'C'}></DoubleSlider>
       </fieldset>
       <fieldset className={styles.positiveCallbacksFilterWrapper} name="positiveCallsFieldSet">
-        <DoubleSlider title={'Positive Callbacks'} MIN={0} MAX={50000}></DoubleSlider>
+        <DoubleSliderCallbacks title={'Positive Callbacks'} MIN={0} MAX={5000}></DoubleSliderCallbacks>
       </fieldset>
       <SortOptions></SortOptions>
     </form>

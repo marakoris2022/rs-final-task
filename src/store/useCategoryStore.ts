@@ -14,6 +14,8 @@ type CategoryStore = {
   closeCatalog: boolean;
   resetMin: string;
   resetMax: string;
+  resetMinCalls: string;
+  resetMaxCalls: string;
   addCategories: (data: string[]) => void;
   updateCategories: (data: string[]) => void;
   clearCategories: () => void;
@@ -29,6 +31,8 @@ type CategoryStore = {
   setCloseCatalog: (data: boolean) => void;
   setResetMin: (data: string) => void;
   setResetMax: (data: string) => void;
+  setResetMinCalls: (data: string) => void;
+  setResetMaxCalls: (data: string) => void;
 };
 
 export const useCategoryStore = create<CategoryStore>()((set) => ({
@@ -45,6 +49,8 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   closeCatalog: true,
   resetMin: '0',
   resetMax: '50000',
+  resetMinCalls: '0',
+  resetMaxCalls: '5000',
   addCategories: (data: string[]) => {
     set({ categories: data });
   },
@@ -89,5 +95,11 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   },
   setResetMax: (data: string) => {
     set({ resetMax: data });
+  },
+  setResetMinCalls: (data: string) => {
+    set({ resetMinCalls: data });
+  },
+  setResetMaxCalls: (data: string) => {
+    set({ resetMaxCalls: data });
   },
 }));
