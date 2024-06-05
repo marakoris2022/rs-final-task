@@ -6,6 +6,7 @@ import { useCategoryStore } from '../../../store/useCategoryStore';
 import { DoubleSlider } from '../../../components/slider/DoubleSlider';
 import { DoubleSliderCallbacks } from '../../../components/slider/DoubleSliderCallbacks';
 import { SortOptions } from './sort-section/SortOptions';
+import newWindow from '/window-plus.svg';
 
 type CategoryListType = {
   categoryList: CategoryResults[];
@@ -150,6 +151,9 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         {categoryList.map((category) => (
           <CheckboxComponent key={category.id} value={category.id}>
             {category.name['en-US']}
+            <a style={{ color: 'white' }} href={`/category/${category.name['en-US']}`}>
+              <img style={{ width: '13px', marginLeft: '5px' }} src={newWindow} alt="+" />
+            </a>
           </CheckboxComponent>
         ))}
       </fieldset>
