@@ -325,7 +325,7 @@
     "Regex": "^\\d{7}\\s\\(\\d{3}-\\d{4}\\)$"
   },
   {
-    "Note": "A postal code or youbian (邮编) in a subordinate division will have the same first two digits as its governing one (see Political divisions of China. The postal services in Macau or Hong Kong Special Administrative Regions remain separate from Mainland China, with no post code system currently used.",
+    "Note": "A postal code or youbian (邮编) in a subordinate division will have the same first two digits as its governing one (see Political divisions of China. The postal services in Macau or Hong Kong Special Administrative Regions remain separate from Catalogland China, with no post code system currently used.",
     "Country": "China",
     "ISO": "CN",
     "Format": "NNNNNN",

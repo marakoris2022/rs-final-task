@@ -2,27 +2,91 @@
   display: flex;
   flex-direction: column;
 
-  .nav__btn {
+  .navBtn {
     border: none;
     background-color: white;
     border-radius: 5px;
 
     padding: 3px 10px;
+    margin-right: 10px;
 
     cursor: pointer;
   }
 
-  .main__section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    flex: 1;
-  }
-
   @media (any-hover: hover) {
-    .nav__btn:hover {
+    .navBtn:hover {
       background-color: lightgray;
     }
+  }
+}
+
+.navigate {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px;
+  background-color: rgb(10, 10, 89);
+}
+
+.mainSection {
+  position: relative;
+  display: flex;
+  flex: 1;
+}
+
+.blur {
+  display: none;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  backdrop-filter: blur(2px);
+  z-index: 4;
+}
+
+.formWrapper {
+  width: 20%;
+  position: relative;
+  z-index: 5;
+}
+
+.catalogPageTitle {
+  margin-bottom: 50px;
+  text-align: center;
+
+  @media screen and (max-width: 600px) {
+    & {
+      margin-bottom: 25px;
+    }
+  }
+}
+
+.cardsWrapper {
+  width: 80%;
+}
+
+.navElementsWrapper {
+  display: flex;
+  padding: 5px 0;
+}
+
+@media screen and (max-width: 960px) {
+  .formWrapper {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    z-index: 5;
+    transition: all 0.5s ease-in-out;
+    width: 300px;
+  }
+
+  .showBlur {
+    display: block;
+  }
+
+  .showForm {
+    left: 0;
+  }
+
+  .cardsWrapper {
+    width: 100%;
   }
 }

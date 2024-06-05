@@ -1,0 +1,45 @@
+.breadcrumbs {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px;
+  background: rgb(44, 44, 161);
+}
+
+.breadcrumbs > * {
+  display: flex;
+  margin-right: 10px;
+}
+
+.breadcrumbs .crumb:after {
+  content: '>';
+  display: inline-block;
+  align-self: center;
+  margin-left: 10px;
+  color: #fff;
+}
+
+.breadcrumbs .crumb:last-child:after {
+  display: none;
+}
+
+.breadcrumbs a,
+.crumbLink {
+  display: inline-block;
+
+  align-self: center;
+
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.homeImage {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  padding: 2px;
+  background-image: url('./home-icon.svg');
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+}

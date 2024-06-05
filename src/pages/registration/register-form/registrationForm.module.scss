@@ -1,0 +1,210 @@
+.loginForm {
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+
+  .loginPrompt {
+    padding-top: 30px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    @media screen and (max-width: 600px) {
+      & {
+        padding-top: 20px;
+      }
+    }
+  }
+
+  .addressWrapper {
+    padding: 10px;
+    border: 1px solid lightgray;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    position: relative;
+
+    .addressWrapperTitle {
+      position: absolute;
+      left: 70px;
+      top: -9px;
+      background-color: white;
+      padding: 3px 5px;
+      font-size: 14px;
+      color: #c7b7a3;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    & {
+      margin-bottom: 0px;
+    }
+  }
+
+  .navBtnLogin {
+    border: none;
+    background-color: white;
+    border-radius: 5px;
+    color: #8b93ff;
+
+    padding: 3px 10px;
+
+    cursor: pointer;
+  }
+
+  .loginFormFieldCheckbox {
+    width: 100%;
+
+    label {
+      display: block;
+      width: 100%;
+      margin-bottom: 8px;
+      text-align: center;
+
+      @media screen and (max-width: 600px) {
+        & {
+          width: 250px;
+        }
+      }
+    }
+  }
+
+  .smallBtn {
+    font-size: 14px;
+    padding: 2px 6px;
+    margin: 15px 0;
+
+    border: 1px inset rgba(0, 0, 139, 0.5);
+    border-radius: 12px;
+  }
+
+  .loginFormField {
+    margin-bottom: 10px;
+    text-align: start;
+    display: flex;
+    flex-direction: column;
+    width: 360px;
+    margin-bottom: 20px;
+
+    @media screen and (max-width: 600px) {
+      & {
+        width: 250px;
+      }
+    }
+
+    .loginFormError {
+      color: red;
+      padding: 5px 30px;
+      font-size: 14px;
+
+      @media screen and (max-width: 600px) {
+        & {
+          padding: 8px 0 0 0;
+        }
+      }
+    }
+
+    label {
+      color: #5b4d4d;
+      min-width: 100px;
+      display: inline-block;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      letter-spacing: 0.9px;
+    }
+
+    .loginFormPassIco {
+      display: inline-block;
+      margin-left: -20px;
+      transform: translate(30px, 5px);
+      cursor: pointer;
+      svg {
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+
+  .loginFormBtn {
+    transition: 0.2s ease;
+
+    background-color: #1d4ae9;
+    color: #ffffff;
+
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: none;
+    line-height: 1em;
+    letter-spacing: 0.32px;
+
+    -webkit-box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+
+    border-radius: 5px;
+    border: none;
+
+    cursor: pointer;
+  }
+
+  .loginFormBtn:disabled {
+    cursor: default;
+    background-color: lightgray;
+  }
+
+  .loginFormInput {
+    padding: 5px;
+    height: 30px;
+
+    width: 360px;
+
+    line-height: 1em;
+    letter-spacing: 0.32px;
+    padding: 8px 8px 10px 11px;
+    border-radius: 4px 4px 4px 4px;
+    color: #888888;
+    border-style: solid;
+    border-width: 1px 1px 1px 1px;
+    border-color: #ebebeb;
+
+    @media screen and (max-width: 600px) {
+      & {
+        width: 100%;
+      }
+    }
+  }
+  .loginFormInput:focus {
+    -webkit-box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .loginFormInputCheckbox {
+    margin-left: 0 auto;
+    height: 15px;
+    width: 100%;
+  }
+
+  @media (any-hover: hover) {
+    .loginFormBtn:hover {
+      background: #5eabdd;
+    }
+
+    .loginFormBtn:hover:disabled {
+      cursor: default;
+      background-color: lightgray;
+    }
+
+    .smallBtn:hover {
+      background-color: white;
+    }
+
+    .navBtnLogin:hover {
+      background-color: lightgray;
+    }
+  }
+}

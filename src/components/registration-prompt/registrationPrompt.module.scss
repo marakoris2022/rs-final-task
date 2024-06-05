@@ -1,0 +1,28 @@
+.registrationPromptContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 1.1rem;
+  line-height: 110%;
+
+  a {
+    font-size: 1.2rem;
+    color: #007bff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  span {
+    display: inline-block;
+    margin-left: 25px;
+  }
+
+  @media (any-hover: hover) {
+    a:hover {
+      text-decoration: underline;
+      scale: 1.05;
+      color: #0056b3;
+    }
+  }
+}

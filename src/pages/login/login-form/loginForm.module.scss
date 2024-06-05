@@ -1,0 +1,100 @@
+.loginForm {
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+
+  @media screen and (max-width: 600px) {
+    & {
+      margin-bottom: 15px;
+    }
+  }
+
+  .loginFormField {
+    margin-bottom: 26px;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .loginFormInputWrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      @media screen and (max-width: 600px) {
+        & {
+          flex-direction: column;
+          align-items: start;
+          gap: 10px;
+          text-align: start;
+        }
+      }
+    }
+
+    label {
+      min-width: 100px;
+      display: inline-block;
+      font-size: 1.1rem;
+      margin-right: 10px;
+    }
+
+    .loginFormError {
+      margin-top: 15px;
+      color: red;
+    }
+
+    .loginFormPassIco {
+      display: inline-block;
+      margin-left: -20px;
+      transform: translate(30px, 5px);
+      cursor: pointer;
+      svg {
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+
+  .loginFormBtn {
+    transition: 0.2s ease;
+
+    background-color: #1d4ae9;
+    color: #ffffff;
+
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: none;
+    line-height: 1em;
+    letter-spacing: 0.32px;
+
+    border-radius: 5px;
+    border: none;
+
+    cursor: pointer;
+  }
+
+  .loginFormBtn:disabled {
+    cursor: default;
+    background-color: lightgray;
+  }
+
+  .loginFormInput {
+    padding: 5px;
+    height: 30px;
+  }
+
+  @media (any-hover: hover) {
+    .loginFormBtn:hover {
+      background: #5eabdd;
+    }
+
+    .loginFormBtn:hover:disabled {
+      cursor: default;
+      background-color: lightgray;
+    }
+  }
+}

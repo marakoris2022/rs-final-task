@@ -1,3 +1,20 @@
+export type Address = {
+  title: string;
+  firstName: string;
+  lastName: string;
+  streetName: string;
+  streetNumber?: string;
+  additionalStreetInfo?: string;
+  postalCode: string;
+  city: string;
+  id?: string;
+  region?: string;
+  state?: string;
+  country: string;
+  phone?: string;
+  additionalAddressInfo?: string;
+};
+
 export interface UserProps {
   email: string;
   password: string;
@@ -10,56 +27,51 @@ export interface UserProps {
   defaultBillingAddress?: number;
   shippingAddresses?: number[];
   billingAddresses?: number[];
+  shippingAddressIds?: string[];
+  billingAddressIds?: string[];
   isEmailVerified?: boolean;
-  addresses?: Array<{
-    id?: string;
-    title: string;
-    firstName: string;
-    lastName: string;
-    streetName: string;
-    streetNumber?: string;
-    additionalStreetInfo?: string;
-    postalCode: string;
-    city: string;
-    region?: string;
-    state?: string;
-    country: string;
-    phone?: string;
-  }>;
+  addresses?: Array<Address>;
   defaultShippingAddressId?: string;
   defaultBillingAddressId?: string;
+  version?: number;
+  id?: string;
+}
+export interface UserPropsExtended extends UserProps {
+  id: string;
+  version: number;
+  dateOfBirth: string;
 }
 
-export interface LoginProps {
+export type LoginProps = {
   access_token: string;
   expires_in: number;
   token_type: string;
   scope: string;
   refresh_token: string;
-}
+};
 
-export interface FormValues {
+export type FormValues = {
   [key: string]: string | undefined;
-}
+};
 
-export interface CountryPostalCode {
+export type CountryPostalCode = {
   Note: string;
   Country: string;
   ISO: string;
   Format: string;
   Regex: string;
   Example?: string;
-}
+};
 
-export interface ECommerceLS {
+export type ECommerceLS = {
+  accessToken: string;
   customerId?: string;
   refreshToken?: string;
-  accessToken: string;
-}
+};
 
-export interface IntrospectionResponse {
+export type IntrospectionResponse = {
   active: boolean;
   client_id?: string;
   exp?: number;
   scope?: string;
-}
+};

@@ -1,0 +1,132 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 45%;
+  min-width: 250px;
+  justify-content: start;
+  border: 1px solid rgb(3, 3, 44);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.cardTitle {
+  text-align: center;
+  line-height: 110%;
+  background: radial-gradient(brown, rgb(70, 52, 1), );
+  padding: 5px;
+  margin: 0;
+  width: 100%;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 1.5rem;
+}
+
+.cardContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  aspect-ratio: 16/9;
+  min-width: 100px;
+  justify-content: start;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.cardDescriptionContainer {
+  flex: 1;
+  padding: 5px;
+  border-radius: 5px;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  width: 100%;
+  transition: all 0.5s linear;
+}
+
+.cardDescription {
+  text-align: start;
+  overflow: hidden;
+  border-radius: 5px;
+  padding: 5px;
+  line-height: 110%;
+  background-color: rgba(4, 4, 51, 0.5);
+  cursor: pointer;
+  transition: all 0.5s linear;
+}
+
+.cardBtn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: none;
+  background: radial-gradient(#cde17d, rgb(125, 142, 16));
+  border-radius: 5px;
+  color: #fff;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+
+.priceInfo {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 5px;
+  background: linear-gradient(to right, #e6dedf, rgb(125, 142, 16));
+  color: #fff;
+  font-weight: 700;
+  align-items: baseline;
+
+  span {
+    margin-left: 5px;
+  }
+
+  .discount {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: green;
+    color: rgb(164, 197, 21);
+    padding: 5px;
+    margin-left: 40px;
+  }
+
+  .discountPrice,
+  .discountPriceCurrency {
+    color: rgb(77, 7, 7);
+    font-size: 1.4em;
+  }
+}
+
+@media (hover: hover) {
+  .cardBtn:hover {
+    background-color: lightgray;
+  }
+
+  .cardContainer:hover .cardDescriptionContainer {
+    transform: scale(1.1);
+  }
+
+  .cardContainer:hover .cardDescription {
+    transform: scale(0.9);
+  }
+
+  .cardDescription:hover {
+    background-color: rgb(4, 4, 51);
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .card {
+    font-size: 0.8rem;
+  }
+
+  .cardTitle {
+    font-size: 1rem;
+  }
+}

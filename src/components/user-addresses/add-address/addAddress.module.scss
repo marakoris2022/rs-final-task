@@ -1,0 +1,138 @@
+
+.addAddressForm {
+
+
+  background-color: #eee;
+  padding: 30px 20px 20px 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+
+  @media screen and (max-width: 470px) {
+    & {
+      padding: 20px 10px;
+    }
+  }
+
+  select {
+    margin-left: 11px;
+  }
+
+  .addAddressFormTypeError {
+    color: red;
+    margin-top: 10px;
+    margin-left: 10px;
+    transform: translateY(-15px);
+    font-size: 1.1rem;
+  }
+
+  .addressTypeContainer {
+    display: flex;
+    gap: 13px;
+    margin-bottom: 10px;
+    margin-left: 18px;
+    font-size: 1.1rem;
+
+    span {
+      color: red;
+    }
+  }
+
+  .checkboxWrapper,
+  .checkboxDefaultWrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-right: 5px;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+
+    div {
+      transform: translateY(2px);
+    }
+  }
+
+  .checkboxDefaultWrapper {
+    & {
+      margin-bottom: 20px;
+    }
+    @media screen and (max-width: 470px) {
+      & label {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .addAddressFormField {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+  }
+
+
+  .addAddressInputWrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    label {
+      min-width: 145px;
+      text-align: center;
+    }
+
+    .addAddressFormInput {
+      padding: 5px 10px;
+      border-radius: 10px;
+      border-color: aliceblue;
+
+      &:focus {
+        -webkit-box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+        -moz-box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      @media screen and (max-width: 470px) {
+        & {
+          max-width: 150px;
+        }
+      }
+    }
+  }
+
+  .addAddressFormError {
+    margin-top: 10px;
+    color: red;
+    margin-left: 10px;
+    font-weight: 400;
+  }
+
+  .defaultText {
+    color: #591fe0;
+    margin-top: 35px;
+    transform: translateY(-26px);
+    margin-left: 10px;
+    font-size: 1.05rem;
+  }
+
+  .addAddressBtnsContainer {
+    display: flex;
+    gap: 20px;
+
+    .addAddressBtn {
+      border: none;
+      background-color: #a4b5c2;
+
+      @media screen and (any-hover: hover) {
+
+        &:hover {
+          background-color: #a9aaea;
+        }
+
+      }
+
+      &:disabled {
+        cursor: auto;
+        background-color: #a4b5c2;
+      }
+    }
+  }
+}

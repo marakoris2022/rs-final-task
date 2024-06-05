@@ -1,13 +1,13 @@
-import styles from './notfoundpage.module.scss';
-import Button from '../../components/button/Button';
+import styles from './notFoundPage.module.scss';
+import { Button } from '../../components/button/Button';
 import { useNavigate } from 'react-router-dom';
 
-export default function Notfoundpage() {
+export const NotFoundPage = () => {
   const navigate = useNavigate();
 
   return (
     <main className={styles.notFound}>
-      <Button style={styles.backToMain} onClick={() => navigate('/')} title={'Main'} />
+      <Button style={styles.backToCatalog} onClick={() => navigate('/')} title={'Catalog'} />
     </main>
   );
-}
+};
