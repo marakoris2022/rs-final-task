@@ -11,22 +11,22 @@ type DoubleSliderProbs = {
   signs?: string;
 };
 
-export const DoubleSlider = ({ title, MIN, MAX, signs }: DoubleSliderProbs) => {
-  const resetMin = useCategoryStore((state) => state.resetMin);
-  const resetMax = useCategoryStore((state) => state.resetMax);
-  const setResetMin = useCategoryStore((state) => state.setResetMin);
-  const setResetMax = useCategoryStore((state) => state.setResetMax);
+export const DoubleSliderCallbacks = ({ title, MIN, MAX, signs }: DoubleSliderProbs) => {
+  const resetMinCalls = useCategoryStore((state) => state.resetMinCalls);
+  const resetMaxCalls = useCategoryStore((state) => state.resetMaxCalls);
+  const setResetMinCalls = useCategoryStore((state) => state.setResetMinCalls);
+  const setResetMaxCalls = useCategoryStore((state) => state.setResetMaxCalls);
 
   const [values, setValues] = useState([MIN, MAX]);
 
   useEffect(() => {
-    setResetMin(values[0] + '');
-    setResetMax(values[1] + '');
-  }, [setResetMax, setResetMin, values]);
+    setResetMinCalls(values[0] + '');
+    setResetMaxCalls(values[1] + '');
+  }, [setResetMaxCalls, setResetMinCalls, values]);
 
   useEffect(() => {
-    setValues([+resetMin, +resetMax]);
-  }, [resetMin, resetMax]);
+    setValues([+resetMinCalls, +resetMaxCalls]);
+  }, [resetMinCalls, resetMaxCalls]);
 
   return (
     <div className={styles.box}>
