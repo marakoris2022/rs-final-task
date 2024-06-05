@@ -11,7 +11,7 @@ type DoubleSliderProbs = {
   signs?: string;
 };
 
-export const DoubleSlider = ({ title, MIN, MAX, signs }: DoubleSliderProbs) => {
+export const DoubleSlider = ({ title, MIN, MAX }: DoubleSliderProbs) => {
   const resetMin = useCategoryStore((state) => state.resetMin);
   const resetMax = useCategoryStore((state) => state.resetMax);
   const setResetMin = useCategoryStore((state) => state.setResetMin);
@@ -34,7 +34,7 @@ export const DoubleSlider = ({ title, MIN, MAX, signs }: DoubleSliderProbs) => {
         {title} <span>Range</span>
       </h3>
       <div className={styles.values}>
-        {signs}
+        <span style={{ fontSize: '1.8rem' }}>&cent;</span>
         <input
           className={styles.rangeValue}
           onChange={(event) => {
@@ -50,7 +50,7 @@ export const DoubleSlider = ({ title, MIN, MAX, signs }: DoubleSliderProbs) => {
           name="minValue"
           value={values[0]}
         />{' '}
-        - {signs}
+        - <span style={{ fontSize: '1.8rem' }}>&cent;</span>
         <input
           className={styles.rangeValue}
           onChange={(event) => {
@@ -68,8 +68,9 @@ export const DoubleSlider = ({ title, MIN, MAX, signs }: DoubleSliderProbs) => {
         />
       </div>
       <small>
-        Current Range: {signs}
+        Current Range:
         {values[1] - values[0]}
+        <span> USD Cents</span>
       </small>
       <Slider className={'slider'} onChange={setValues} value={values} min={MIN} max={MAX} />
     </div>
