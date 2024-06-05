@@ -6,9 +6,10 @@ import { ModalWindow } from '../../../../../components/modal/ModalWindow';
 
 type CardType = {
   product: ProductType;
+  dataTestid: string;
 };
 
-export const ProductCard = ({ product }: CardType) => {
+export const ProductCard = ({ product, dataTestid }: CardType) => {
   const navigate = useNavigate();
   const [error, setError] = useState('');
   const [imageURL, setImageUrl] = useState('');
@@ -18,6 +19,7 @@ export const ProductCard = ({ product }: CardType) => {
   const [priceWithDiscount, setPriceWithDiscount] = useState(0);
 
   useEffect(() => {
+    console.log(product);
     const { url } = product.masterVariant.images[0];
     if (url) {
       setImageUrl(url);
@@ -53,7 +55,7 @@ export const ProductCard = ({ product }: CardType) => {
   }, [navigate, product.key]);
 
   return (
-    <div className={styles.card} onClick={clickHandle}>
+    <div className={styles.card} onClick={clickHandle} data-testid={dataTestid}>
       <div className={styles.cardContainer}>
         <div className={styles.cardDescriptionContainer} style={{ backgroundImage: `url(${imageURL})` }}>
           <h2 className={styles.cardTitle}>{product.name['en-US']}</h2>
