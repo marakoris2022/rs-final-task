@@ -46,6 +46,9 @@ To run the project locally, you can use the following npm scripts:
 - [react](https://reactjs.org/): A JavaScript library for building user interfaces.
 - [react-router](https://reactrouter.com/): Declarative routing for React applications.
 - [axios](https://github.com/axios/axios): Promise-based HTTP client for the browser and Node.js.
+- [formik](https://formik.org/): A form library for React.
+- [swiper](https://swiperjs.com/): Modern mobile touch slider.
+- [react-icons](https://react-icons.github.io/react-icons/): Include popular icons in your React projects easily.
 - [zustand](https://github.com/pmndrs/zustand): A small, fast, and scalable state management library for React.
 - [vitest](https://vitest.dev/): Next Generation Testing Framework. A Vite-native testing framework.
 - [sass](https://sass-lang.com/): Sass (Syntactically Awesome Stylesheets) is a CSS preprocessor
