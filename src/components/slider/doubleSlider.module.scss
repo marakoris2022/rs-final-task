@@ -1,0 +1,49 @@
+$slider-color: #275efe;
+$range-background-color: #cdb7b7;
+$legend-color: #3f4656;
+
+.box {
+    width: 100%;
+    max-width: 320px;
+    padding: 10px 8px 20px;
+    background: $range-background-color;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(18, 22, 33, .12);
+}
+
+.values {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    font-weight: 500;
+    color: $slider-color;
+}
+
+small {
+    font-size: 0.8rem;
+    margin-top: 8px;
+    display: block;
+    color: #343537;
+}
+
+h3.title {
+    font-weight: 700;
+    margin: 0 0 20px 0;
+    color: $legend-color;
+    line-height: 110%;
+
+    span {
+        font-weight: 400;
+    }
+}
+
+
+.rangeValue {
+    font-size: 0.6rem;
+}
+
+@media screen and (max-width: 1200px) {
+    .rangeValue {
+        font-size: 0.5rem;
+    }
+}

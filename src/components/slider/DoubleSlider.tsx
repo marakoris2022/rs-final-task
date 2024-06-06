@@ -1,0 +1,78 @@
+import { useEffect, useState } from 'react';
+import styles from './doubleSlider.module.scss';
+import './slider.scss';
+import Slider from 'react-slider';
+import { useCategoryStore } from '../../store/useCategoryStore';
+
+type DoubleSliderProbs = {
+  title: string;
+  MIN: number;
+  MAX: number;
+  signs?: string;
+};
+
+export const DoubleSlider = ({ title, MIN, MAX }: DoubleSliderProbs) => {
+  const resetMin = useCategoryStore((state) => state.resetMin);
+  const resetMax = useCategoryStore((state) => state.resetMax);
+  const setResetMin = useCategoryStore((state) => state.setResetMin);
+  const setResetMax = useCategoryStore((state) => state.setResetMax);
+
+  const [values, setValues] = useState([MIN, MAX]);
+
+  useEffect(() => {
+    setResetMin(values[0] + '');
+    setResetMax(values[1] + '');
+  }, [setResetMax, setResetMin, values]);
+
+  useEffect(() => {
+    setValues([+resetMin, +resetMax]);
+  }, [resetMin, resetMax]);
+
+  return (
+    <div className={styles.box}>
+      <h3 className={styles.title}>
+        {title} <span>Range</span>
+      </h3>
+      <div className={styles.values}>
+        <span style={{ fontSize: '1.8rem' }}>&cent;</span>
+        <input
+          className={styles.rangeValue}
+          onChange={(event) => {
+            const newValue = +event.target.value;
+            setValues((prev) => {
+              const arr = [...prev];
+              arr[0] = newValue;
+              return arr;
+            });
+          }}
+          style={{ width: '30%', textAlign: 'end', borderRadius: '5px' }}
+          type="text"
+          name="minValue"
+          value={values[0]}
+        />{' '}
+        - <span style={{ fontSize: '1.8rem' }}>&cent;</span>
+        <input
+          className={styles.rangeValue}
+          onChange={(event) => {
+            const newValue = +event.target.value;
+            setValues((prev) => {
+              const arr = [...prev];
+              arr[1] = newValue;
+              return arr;
+            });
+          }}
+          style={{ width: '30%', textAlign: 'end', borderRadius: '5px' }}
+          type="text"
+          name="maxValue"
+          value={values[1]}
+        />
+      </div>
+      <small>
+        Current Range:
+        {values[1] - values[0]}
+        <span> USD Cents</span>
+      </small>
+      <Slider className={'slider'} onChange={setValues} value={values} min={MIN} max={MAX} />
+    </div>
+  );
+};

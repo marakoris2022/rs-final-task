@@ -1,5 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { ECommerceLS, IntrospectionResponse, LoginProps, UserProps } from '../interfaces/interfaces';
+import { useCustomerStore } from '../store/useCustomerStore';
+import { useStore } from '../store/useStore';
 
 const authHost = import.meta.env.VITE_AUTH_HOST;
 const api = import.meta.env.VITE_API;
@@ -8,21 +10,21 @@ const clientId = import.meta.env.VITE_CLIENT_ID;
 const clientSecret = import.meta.env.VITE_CLIENT_SECRET;
 const ECommerceKey = import.meta.env.VITE_E_COMMERCE_KEY;
 
-const basicClient: AxiosInstance = axios.create({
+export const basicClient: AxiosInstance = axios.create({
   baseURL: authHost,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
   },
 });
 
-const authClient: AxiosInstance = axios.create({
+export const authClient: AxiosInstance = axios.create({
   baseURL: authHost,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
   },
 });
 
-const apiClient: AxiosInstance = axios.create({
+export const apiClient: AxiosInstance = axios.create({
   baseURL: api,
   headers: {
     'Content-Type': 'application/json',
@@ -36,6 +38,12 @@ apiClient.interceptors.request.use(
       const { active } = response;
       if (!active) {
         await refreshTokenInLocalStorage();
+        const commerceInfo = localStorage.getItem(ECommerceKey) as string | null;
+
+        if (commerceInfo) {
+          const { accessToken } = JSON.parse(commerceInfo) as ECommerceLS;
+          config.headers.Authorization = `Bearer ${accessToken}`;
+        }
       }
     } else {
       await getBasicToken();
@@ -64,6 +72,10 @@ export async function getBasicToken() {
   const jsonBody = { accessToken: access_token };
 
   localStorage.setItem(ECommerceKey, JSON.stringify(jsonBody));
+
+  const setIsToken = useStore.getState().setIsToken;
+  setIsToken(true);
+
   return JSON.stringify(jsonBody);
 }
 
@@ -94,7 +106,6 @@ export async function login(email: string, password: string): Promise<LoginProps
           accessToken: access_token,
         }),
       );
-      const customer = await getCustomerById(customer_id, access_token);
     }
     return response.data;
   } catch (error) {
@@ -145,12 +156,13 @@ export async function signUp(user: UserProps): Promise<void> {
 }
 
 export async function getCustomerById(id: string, accessToken: string) {
-  return await axios.get(`${api}/${projectKey}/customers/${id}`, {
+  const userData = await apiClient.get(`/${projectKey}/customers/${id}`, {
     headers: {
-      'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
   });
+  const setCustomer = useCustomerStore.getState().setCustomer;
+  setCustomer(userData.data);
 }
 
 async function refreshAccessToken(refreshToken: string) {

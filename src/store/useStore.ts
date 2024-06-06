@@ -5,6 +5,8 @@ const ECommerceKey = import.meta.env.VITE_E_COMMERCE_KEY;
 type Store = {
   isLogged: boolean;
   setLogged: (flag: boolean) => void;
+  isToken: boolean;
+  setIsToken: (flag: boolean) => void;
 };
 
 function isUserInLS(): boolean {
@@ -15,6 +17,8 @@ function isUserInLS(): boolean {
 const useStore = create<Store>()((set) => ({
   isLogged: isUserInLS(),
   setLogged: (flag) => set({ isLogged: flag }),
+  isToken: false,
+  setIsToken: (flag) => set({ isToken: flag }),
 }));
 
 export { useStore };

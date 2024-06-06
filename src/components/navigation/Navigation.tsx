@@ -1,13 +1,11 @@
 import styles from './navigation.module.scss';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '../button/Button';
 import { useStore } from '../../store/useStore';
 import { useEffect, useState } from 'react';
 import { BurgerMenu } from '../burger-menu/BurgerMenu';
 import { getBasicToken } from '../../api/commers-tools-api';
+import { CustomLink } from '../custom-link/CustomLink';
 
 export const Navigation = () => {
-  const navigate = useNavigate();
   const { isLogged, setLogged } = useStore((state) => ({
     isLogged: state.isLogged,
     setLogged: state.setLogged,
@@ -48,57 +46,58 @@ export const Navigation = () => {
       <nav className={`${styles.navMenu} ${isOpenBurger ? styles.active : ''}`} onClick={handleBurger}>
         <ul className={`${styles.ulMenu} ${isOpenBurger ? styles.active : ''}`} onClick={(e) => e.stopPropagation()}>
           <li>
-            <Button
-              style={styles.navBtn}
+            <CustomLink
+              to="/"
               onClick={() => {
-                navigate('/');
                 isOpenBurger && handleBurger();
               }}
-              title="Main"
-            />
+            >
+              Catalog
+            </CustomLink>
           </li>
           <li>
             {isLogged ? (
-              <Button
-                style={styles.navBtn}
+              <CustomLink
+                to="/profile/personal-info"
                 onClick={() => {
-                  navigate('/profile');
                   isOpenBurger && handleBurger();
                 }}
-                title="Profile"
-              />
+              >
+                Profile
+              </CustomLink>
             ) : (
-              <Button
-                style={styles.navBtn}
+              <CustomLink
+                to="/login"
                 onClick={() => {
-                  navigate('/login');
                   isOpenBurger && handleBurger();
                 }}
-                title="Login"
-              />
+              >
+                Login
+              </CustomLink>
             )}
           </li>
           <li>
             {isLogged ? (
-              <Button
-                style={styles.navBtn}
+              <CustomLink
+                to="/login"
                 onClick={() => {
                   localStorage.clear();
                   getBasicToken();
                   setLogged(false);
                   isOpenBurger && handleBurger();
                 }}
-                title="Logout"
-              />
+              >
+                Logout
+              </CustomLink>
             ) : (
-              <Button
-                style={styles.navBtn}
+              <CustomLink
+                to="/registration"
                 onClick={() => {
-                  navigate('/registration');
                   isOpenBurger && handleBurger();
                 }}
-                title="Registration"
-              />
+              >
+                Registration
+              </CustomLink>
             )}
           </li>
         </ul>

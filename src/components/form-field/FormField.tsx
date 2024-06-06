@@ -5,23 +5,24 @@ import { FormValues } from '../../interfaces/interfaces';
 import styles from './formField.module.scss';
 
 type FormFieldProps<T extends FormValues> = {
+  formik: FormikProps<T>;
+  labelText: string;
+  id: string;
+  name: keyof T;
+  type: string;
   stylesField?: string;
   stylesError?: string;
   stylesInput?: string;
   stylesInputWrapper?: string;
   showError?: boolean;
   isRequired?: boolean;
-  formik: FormikProps<T>;
-  labelText: string;
-  id: string;
-  name: keyof T;
-  type: string;
   autoComplete?: string;
   placeholder?: string;
   children?: React.ReactNode;
   value?: string;
   min?: string;
   max?: string;
+  disabled?: boolean;
 };
 
 enum FieldColors {
@@ -47,6 +48,7 @@ export const FormField = <T extends FormValues>({
   children,
   min,
   max,
+  disabled = false,
 }: FormFieldProps<T>) => {
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,6 +59,13 @@ export const FormField = <T extends FormValues>({
   );
 
   const getFieldStyle = () => {
+    const initialValue = formik.initialValues[name];
+    const currValue = formik.values[name];
+
+    if (!formik.touched[name] || (initialValue === currValue && currValue !== '')) {
+      return { outlineColor: FieldColors.BLUE };
+    }
+
     if (formik.touched[name] && formik.errors[name]) {
       return { borderColor: FieldColors.RED, outlineColor: FieldColors.RED };
     }
@@ -91,6 +100,7 @@ export const FormField = <T extends FormValues>({
               formik.handleBlur(name);
             }}
             value={formik.values[name]}
+            disabled={disabled}
           />
           {children}
         </div>
