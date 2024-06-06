@@ -8,9 +8,13 @@ vi.mock('./Navigation', () => ({
 }));
 
 describe('Header', () => {
-  it('renders Header component with h2 and Navigation', () => {
+  it('renders Header component with Logo and RSTeam Games Store', () => {
     customRender(<Header />);
 
-    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('Header');
+    const logoImg = screen.getByAltText('Logo');
+    const logoText = screen.getByText('RSTeam Games Store');
+
+    expect(logoImg).toBeInTheDocument();
+    expect(logoText).toBeInTheDocument();
   });
 });
