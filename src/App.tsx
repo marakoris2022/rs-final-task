@@ -14,6 +14,7 @@ import { initializeUserSession } from './services/initializeUserSession';
 import { AddAddress } from './components/user-addresses/add-address/AddAddress';
 import { Loading } from './components/loading/Loading';
 import { Category } from './pages/category/Category';
+import { CartPageTest } from './api/CartPageTest';
 
 const Layout = () => {
   return (
@@ -53,6 +54,7 @@ export const App = () => {
             element={isLogged ? <AddAddress /> : <Navigate to="/login" replace />}
           />
           <Route path="/catalog/:key" element={<Product />} />
+          <Route path="/cart" element={<CartPageTest />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

@@ -8,8 +8,12 @@ import { Button } from '../../components/button/Button';
 import { getCategoryNameById } from '../../services/getCategoryNameById';
 import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
 import { useCategoryStore } from '../../store/useCategoryStore';
+import { useCartStore } from '../../store/useCartStore';
+import { addProductToCart, changeProductQuantity } from '../../api/commerce-tools-api-cart';
 
-type ProductData = {
+export type ProductData = {
+  id: string;
+  version: number;
   title: string;
   description: string;
   imageTitle: string;
@@ -23,6 +27,9 @@ type ProductData = {
   categoriesAdd: Array<string>;
   categories: { id: string }[];
   movie: Array<string>;
+  taxCategory?: string;
+  productId?: string;
+  quantity?: number;
 };
 
 function calculateDiscount(oldPrice: number, newPrice: number) {
@@ -38,6 +45,9 @@ export const Product = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isModal, setIsModal] = useState(false);
   const [productData, setProductData] = useState<ProductData>({
+    id: '',
+    version: 1,
+    taxCategory: '',
     title: '',
     description: '',
     imageTitle: '',
@@ -53,6 +63,8 @@ export const Product = () => {
     movie: [],
   });
 
+  const cart = useCartStore((state) => state.cart);
+
   function categoryClick(id: string) {
     clearCategories();
     addCategories([id]);
@@ -64,6 +76,10 @@ export const Product = () => {
       const fetchedData = await getProductByKey(productKey);
 
       if (fetchedData) {
+        const id = fetchedData.id;
+        const version = fetchedData.version;
+        const taxCategory = fetchedData?.taxCategory;
+
         const masterData = fetchedData.masterData.current;
         const masterVariant = masterData.masterVariant;
         const attributes = masterVariant.attributes;
@@ -87,6 +103,9 @@ export const Product = () => {
         const movie = JSON.parse(getStringAttribute(3) as string);
 
         setProductData({
+          version,
+          id,
+          taxCategory,
           title,
           description,
           imageTitle,
@@ -145,14 +164,34 @@ export const Product = () => {
             <div className={styles.discountWrapper}>
               <p className={styles.oldPrice}>{`${(productData.price / 100).toFixed(2)} USD`}</p>
               <div className={styles.discountBtnContainer}>
-                <Button style={styles.discountBtn} title={`${(productData.discountPrice / 100).toFixed(2)} USD`} />
+                <Button
+                  style={styles.discountBtn}
+                  title={`${(productData.discountPrice / 100).toFixed(2)} USD ${cart?.lineItems.find((item) => item.productId === productData.id) ? 'REMOVE FROM CART' : 'ADD TO CART'}`}
+                  onClick={() => {
+                    {
+                      cart?.lineItems.find((item) => item.productId === productData.id)
+                        ? changeProductQuantity(cart!, productData, 0)
+                        : addProductToCart(cart!, productData, 1);
+                    }
+                  }}
+                />
               </div>
             </div>
           </>
         ) : (
           <>
             <h3 className={styles.buyPromo}>Buy it now! </h3>
-            <Button style={styles.buyBtn} title={`${(productData.price / 100).toFixed(2)} USD`} />
+            <Button
+              style={styles.buyBtn}
+              title={`${(productData.price / 100).toFixed(2)} USD ${cart?.lineItems.find((item) => item.productId === productData.id) ? 'REMOVE FROM CART' : 'ADD TO CART'}`}
+              onClick={() => {
+                {
+                  cart?.lineItems.find((item) => item.productId === productData.id)
+                    ? changeProductQuantity(cart!, productData, 0)
+                    : addProductToCart(cart!, productData, 1);
+                }
+              }}
+            />
           </>
         )}
       </div>

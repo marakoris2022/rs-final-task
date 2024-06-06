@@ -10,9 +10,7 @@ rootElement.id = 'root';
 document.body.appendChild(rootElement);
 
 ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>,
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
 );

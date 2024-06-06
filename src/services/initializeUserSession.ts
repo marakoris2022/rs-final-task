@@ -1,3 +1,4 @@
+import { initializeCart } from '../api/commerce-tools-api-cart';
 import { getBasicToken, getCustomerById } from '../api/commers-tools-api';
 import { ECommerceLS } from '../interfaces/interfaces';
 import { useStore } from '../store/useStore';
@@ -18,4 +19,6 @@ export async function initializeUserSession(isLogged: boolean) {
 
   const setIsToken = useStore.getState().setIsToken;
   setIsToken(true);
+
+  await initializeCart();
 }
