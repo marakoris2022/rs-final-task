@@ -192,26 +192,28 @@ export const RegistrationForm = () => {
     await formik.setFieldValue('postal2', postal);
   }
 
+  const initialValues = {
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '1990-01-01',
+    street: '',
+    city: '',
+    postal: '',
+    title: '',
+    street2: '',
+    city2: '',
+    postal2: '',
+    title2: '',
+    country: selectList[0],
+    country2: selectList[0],
+    defaultShippingAddress: '',
+    defaultBillingAddress: '',
+  };
+
   const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      dateOfBirth: '1990-01-01',
-      street: '',
-      city: '',
-      postal: '',
-      title: '',
-      street2: '',
-      city2: '',
-      postal2: '',
-      title2: '',
-      country: selectList[0],
-      country2: selectList[0],
-      defaultShippingAddress: '',
-      defaultBillingAddress: '',
-    },
+    initialValues,
     validate,
     onSubmit: async function (values) {
       try {
