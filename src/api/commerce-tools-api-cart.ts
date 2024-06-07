@@ -13,6 +13,7 @@ function daysToMilliseconds(days: number) {
 enum CartActions {
   ADD_LINE_ITEM = 'addLineItem',
   SET_LINE_ITEM_QUANTITY = 'changeLineItemQuantity',
+  SET_CART_TO_CUSTOMER = 'setCustomerId',
 }
 
 enum CartState {
@@ -55,9 +56,10 @@ export interface Cart {
   totalPrice: TotalCartPrice;
   type: 'Cart';
   version: number;
+  customerId?: string;
 }
 
-const createCart = async () => {
+export const createCart = async () => {
   const commerceObj = localStorage.getItem(ECommerceKey);
 
   if (commerceObj) {
@@ -99,7 +101,12 @@ export const initializeCart = async () => {
       const sevenDays = daysToMilliseconds(7);
 
       if (dateNow - lastModifiedAt > sevenDays) {
-        const newCartResp = await createCart();
+        let newCartResp = await createCart();
+
+        if (cart.customerId) {
+          const customerId = (JSON.parse(commerceObj) as ECommerceLS).customerId;
+          newCartResp = await setCartToCustomerById(newCartResp!, customerId!);
+        }
 
         if (cart.lineItems && cart.lineItems.length > 0) {
           for (const item of cart.lineItems) {
@@ -134,6 +141,67 @@ const getCartById = async (cartId: string) => {
     const cartResp = await apiClient.get(`/${projectKey}/carts/${cartId}`, config);
 
     return cartResp.data as Cart;
+  }
+};
+
+export const getCartByCustomerId = async (customerId: string) => {
+  const commerceObj = localStorage.getItem(ECommerceKey);
+
+  if (commerceObj) {
+    const token = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const response = await apiClient.get(
+      `/${projectKey}/carts?customerId=${customerId}&sort=createdAt desc&limit=1`,
+      config,
+    );
+
+    if (response.data?.cartState !== CartState.ACTIVE || response.data?.cartState !== CartState.FROZEN) {
+      const updateCart = useCartStore.getState().updateCart;
+      updateCart(response.data);
+
+      return response.data;
+    } else {
+      return null;
+    }
+  }
+};
+
+export const setCartToCustomerById = async (cart: Cart, customerId: string) => {
+  const commerceObj = localStorage.getItem(ECommerceKey);
+
+  if (commerceObj) {
+    const token = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const actualCart = await getCartById(cart.id);
+
+    const requestBody = {
+      version: actualCart!.version,
+      actions: [
+        {
+          action: CartActions.SET_CART_TO_CUSTOMER,
+          customerId: customerId,
+        },
+      ],
+    };
+
+    const { data } = await apiClient.post(`/${projectKey}/carts/${actualCart!.id}`, requestBody, config);
+
+    const updateCart = useCartStore.getState().updateCart;
+    updateCart(data);
+
+    return data;
   }
 };
 
