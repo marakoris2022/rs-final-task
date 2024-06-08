@@ -1,13 +1,70 @@
-.aboutCardsWrapper {
-  display: flex;
-  gap: 15px;
+.aboutPageWrapper {
+  .aboutPageTitle {
+    text-align: center;
+    font-size: 30px;
 
-  padding: 15px 0px;
-}
+    line-height: 1.3;
 
-@media screen and (max-width: 768px) {
+    padding: 10px 0;
+  }
+
   .aboutCardsWrapper {
-    flex-direction: column;
-    gap: 20px;
+    display: flex;
+    gap: 15px;
+
+    padding: 15px 0px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .aboutCardsWrapper {
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+
+  .projectTextWrapper {
+    padding: 0 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-bottom: 30px;
+
+    .textImages {
+      display: block;
+      width: 30%;
+      min-width: 240px;
+      margin: 0 auto;
+
+      border-radius: 15px;
+
+      max-height: 260px;
+    }
+
+    .projectText {
+      text-indent: 20px;
+      line-height: 1.4;
+      font-size: 20px;
+    }
+    @media screen and (max-width: 1300px) {
+      .projectText {
+        font-size: 1.6vw;
+      }
+    }
+    @media screen and (max-width: 768px) {
+      .projectText {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .rsSchoolWrapper {
+    width: 100%;
+    display: flex;
+
+    margin-bottom: 30px;
+
+    .rsSchoolLink {
+      display: inline-block;
+      margin: 0 auto;
+    }
   }
 }
