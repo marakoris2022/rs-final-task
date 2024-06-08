@@ -37,9 +37,9 @@ export const Basket = () => {
             />
             <button onClick={() => changeProductsQuantity(cart, [item], item!.quantity + 1)}>+</button>
             <FaTrash onClick={() => changeProductsQuantity(cart, [item], 0)} />
-            <div>{item.price.discounted.value.centAmount || item.price.value.centAmount}cent</div>
+            <div>{item.price.discounted?.value.centAmount || item.price.value.centAmount}cent</div>
             <div>
-              {item.price.discounted.value.centAmount * item.quantity || item.price.value.centAmount * item.quantity}
+              {item.price.discounted?.value.centAmount * item.quantity || item.price.value.centAmount * item.quantity}
               cent
             </div>
           </div>
