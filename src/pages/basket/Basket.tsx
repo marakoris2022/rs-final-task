@@ -27,8 +27,8 @@ export const Basket = () => {
                 const newQuantity =
                   inputValue === '' ? 0 : /^\d+$/.test(inputValue) ? parseInt(inputValue) : item.quantity;
 
-                if (!isNaN(newQuantity)) {
-                  const clampedQuantity = Math.min(Math.max(newQuantity, 1), 199);
+                if (!isNaN(newQuantity!)) {
+                  const clampedQuantity = Math.min(Math.max(newQuantity!, 1), 199);
                   if (clampedQuantity !== item.quantity) {
                     changeProductsQuantity(cart, [item], clampedQuantity);
                   }
@@ -39,7 +39,7 @@ export const Basket = () => {
             <FaTrash onClick={() => changeProductsQuantity(cart, [item], 0)} />
             <div>{item.price.discounted?.value.centAmount || item.price.value.centAmount}cent</div>
             <div>
-              {item.price.discounted?.value.centAmount * item.quantity || item.price.value.centAmount * item.quantity}
+              {item.totalPrice.centAmount}
               cent
             </div>
           </div>
