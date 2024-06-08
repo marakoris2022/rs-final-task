@@ -7,7 +7,7 @@ interface Store {
 
 const defaultStore: Store = {
   isLogged: false,
-  setLogged: () => { },
+  setLogged: () => {},
 };
 
 const StoreContext = createContext<Store>(defaultStore);
