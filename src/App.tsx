@@ -14,6 +14,7 @@ import { initializeUserSession } from './services/initializeUserSession';
 import { AddAddress } from './components/user-addresses/add-address/AddAddress';
 import { Loading } from './components/loading/Loading';
 import { Category } from './pages/category/Category';
+import { About } from './pages/about/About';
 
 const Layout = () => {
   return (
@@ -48,6 +49,7 @@ export const App = () => {
           <Route path="/profile" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />
           <Route path="/profile/personal-info" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />
           <Route path="/profile/addresses" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />
+          <Route path="/about" element={<About />} />
           <Route
             path="/profile/addresses/add-address"
             element={isLogged ? <AddAddress /> : <Navigate to="/login" replace />}

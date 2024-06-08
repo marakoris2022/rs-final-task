@@ -100,6 +100,16 @@ export const Navigation = () => {
               </CustomLink>
             )}
           </li>
+          <li>
+            <CustomLink
+              to="/about"
+              onClick={() => {
+                isOpenBurger && handleBurger();
+              }}
+            >
+              About Us
+            </CustomLink>
+          </li>
         </ul>
       </nav>
       <BurgerMenu isOpen={isOpenBurger} onClick={handleBurger} />
