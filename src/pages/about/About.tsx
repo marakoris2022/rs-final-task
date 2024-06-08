@@ -11,21 +11,21 @@ export const About = () => {
         <AboutCard
           authorName="Olga"
           title="Theoretical Master"
-          bio="Some info about the author."
+          bio="Intelligent and purposeful, Olga is our strategic thinker. She always thoroughly understands each issue before taking action, ensuring our solutions are well-informed and effective."
           git="https://github.com/lokispirit"
           photo={photoOlga}
         />
         <AboutCard
           authorName="Alexandr"
           title="Anonymous Coder"
-          bio="Some info about the author."
+          bio="Modest and persistent, Alexander is our dedicated learner. He prefers to gain knowledge through hands-on experience, bringing a practical approach to our projects."
           git="https://github.com/oxygeniumo2"
           photo={photoSasha}
         />
         <AboutCard
           authorName="Sergey"
           title="Not the most Important"
-          bio="Some info about the author."
+          bio="Confident and grounded, Sergey values everyone's input but stands firm on his convictions. His balanced approach ensures we stay true to our vision while considering all perspectives."
           git="https://github.com/marakoris2022"
           photo={photoSergey}
         />
