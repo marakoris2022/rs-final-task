@@ -2,21 +2,11 @@ import styles from './basket.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { FaTrash } from 'react-icons/fa';
 import { useCartStore } from '../../store/useCartStore';
-import { Cart, changeProductQuantity } from '../../api/commerce-tools-api-cart';
+import { changeProductsQuantity } from '../../api/commerce-tools-api-cart';
 
 export const Basket = () => {
   const cart = useCartStore((state) => state.cart);
   const navigate = useNavigate();
-
-  const removeAllProducts = async (cart: Cart) => {
-    if (!cart) {
-      throw new Error('No cart found in state.');
-    }
-
-    for (const item of cart.lineItems) {
-      await changeProductQuantity(cart, item, 0);
-    }
-  };
 
   return (
     <div>
@@ -28,7 +18,7 @@ export const Basket = () => {
               <img className={styles.cartItemImg} src={item.variant.images[0].url} alt="img" />
             </div>
             <button onClick={() => navigate(`/catalog/${item.productKey}`)}>{item.name.en}</button>
-            <button onClick={() => changeProductQuantity(cart, item, item!.quantity - 1)}>-</button>
+            <button onClick={() => changeProductsQuantity(cart, [item], item!.quantity - 1)}>-</button>
             <input
               type="text"
               value={item.quantity}
@@ -40,13 +30,13 @@ export const Basket = () => {
                 if (!isNaN(newQuantity)) {
                   const clampedQuantity = Math.min(Math.max(newQuantity, 1), 199);
                   if (clampedQuantity !== item.quantity) {
-                    changeProductQuantity(cart, item, clampedQuantity);
+                    changeProductsQuantity(cart, [item], clampedQuantity);
                   }
                 }
               }}
             />
-            <button onClick={() => changeProductQuantity(cart, item, item!.quantity + 1)}>+</button>
-            <FaTrash onClick={() => changeProductQuantity(cart, item, 0)} />
+            <button onClick={() => changeProductsQuantity(cart, [item], item!.quantity + 1)}>+</button>
+            <FaTrash onClick={() => changeProductsQuantity(cart, [item], 0)} />
             <div>{item.price.discounted.value.centAmount || item.price.value.centAmount}cent</div>
             <div>
               {item.price.discounted.value.centAmount * item.quantity || item.price.value.centAmount * item.quantity}
@@ -58,7 +48,7 @@ export const Basket = () => {
       <div>Total price: {cart?.totalPrice.centAmount}</div>
       <button
         onClick={() => {
-          removeAllProducts(cart!);
+          changeProductsQuantity(cart!, cart!.lineItems, 0);
         }}
       >
         remove all

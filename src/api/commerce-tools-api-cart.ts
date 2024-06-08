@@ -260,7 +260,7 @@ export const addProductToCart = async (
   }
 };
 
-export const changeProductQuantity = async (cart: Cart, product: ProductData, quantityToAdd: number) => {
+export const changeProductsQuantity = async (cart: Cart, products: ProductData[], quantityToAdd: number) => {
   const commerceObj = localStorage.getItem(ECommerceKey);
 
   if (commerceObj) {
@@ -274,19 +274,20 @@ export const changeProductQuantity = async (cart: Cart, product: ProductData, qu
 
     const actualCart = await getCartById(cart.id);
 
-    const itemToUpdate = actualCart!.lineItems.find((item) => item.productId === product.id);
+    const actions = products.map((product) => {
+      const itemToUpdate = actualCart!.lineItems.find((item) => item.productId === product.id);
+      const lineItemId = itemToUpdate ? itemToUpdate.id : product.id;
 
-    const lineItemId = itemToUpdate ? itemToUpdate.id : product.id;
+      return {
+        action: CartActions.SET_LINE_ITEM_QUANTITY,
+        lineItemId: lineItemId,
+        quantity: quantityToAdd,
+      };
+    });
 
     const requestBody = {
       version: actualCart!.version,
-      actions: [
-        {
-          action: CartActions.SET_LINE_ITEM_QUANTITY,
-          lineItemId: lineItemId,
-          quantity: quantityToAdd,
-        },
-      ],
+      actions: actions,
     };
 
     const { data } = await apiClient.post(`/${projectKey}/carts/${cart.id}`, requestBody, config);

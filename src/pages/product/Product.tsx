@@ -9,7 +9,7 @@ import { getCategoryNameById } from '../../services/getCategoryNameById';
 import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
 import { useCategoryStore } from '../../store/useCategoryStore';
 import { useCartStore } from '../../store/useCartStore';
-import { addProductToCart, changeProductQuantity } from '../../api/commerce-tools-api-cart';
+import { addProductToCart, changeProductsQuantity } from '../../api/commerce-tools-api-cart';
 
 export type ProductData = {
   id: string;
@@ -169,7 +169,7 @@ export const Product = () => {
                   onClick={() => {
                     {
                       cart?.lineItems.find((item) => item.productId === productData.id)
-                        ? changeProductQuantity(cart!, productData, 0)
+                        ? changeProductsQuantity(cart!, [productData], 0)
                         : addProductToCart(cart!, productData, 1);
                     }
                   }}
@@ -186,7 +186,7 @@ export const Product = () => {
               onClick={() => {
                 {
                   cart?.lineItems.find((item) => item.productId === productData.id)
-                    ? changeProductQuantity(cart!, productData, 0)
+                    ? changeProductsQuantity(cart!, [productData], 0)
                     : addProductToCart(cart!, productData, 1);
                 }
               }}
