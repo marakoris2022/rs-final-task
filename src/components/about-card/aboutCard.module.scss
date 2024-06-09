@@ -1,0 +1,104 @@
+.aboutCardWrapper {
+  display: flex;
+  flex-direction: column;
+
+  max-width: 400px;
+
+  width: 32%;
+
+  border-radius: 15px;
+  overflow: hidden;
+
+  margin: 0 auto;
+
+  background-color: rgb(247, 247, 247);
+
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.18),
+    0 3px 6px rgba(0, 0, 0, 0.23);
+
+  .imgWrapper {
+    width: 100%;
+    margin-bottom: 10px;
+
+    .img {
+      width: inherit;
+    }
+  }
+
+  .contentWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    flex: 1;
+
+    padding: 0 10px;
+
+    .titleWrapper {
+      display: flex;
+      gap: 10px;
+
+      font-size: 24px;
+
+      .titleName {
+        font-weight: 600;
+      }
+      .title {
+        text-decoration: underline;
+      }
+    }
+    @media screen and (max-width: 1300px) {
+      .titleWrapper {
+        font-size: 1.8vw;
+      }
+    }
+    @media screen and (max-width: 768px) {
+      .titleWrapper {
+        font-size: 20px;
+      }
+    }
+
+    .bioWrapper {
+      flex: 1;
+
+      .bioText {
+        font-size: 20px;
+        line-height: 1.3;
+      }
+      @media screen and (max-width: 1300px) {
+        .bioText {
+          font-size: 1.6vw;
+        }
+      }
+      @media screen and (max-width: 768px) {
+        .bioText {
+          font-size: 18px;
+        }
+      }
+    }
+
+    .githubWrapper {
+      display: flex;
+      gap: 4px;
+
+      align-items: center;
+
+      margin-bottom: 10px;
+
+      .githubLink {
+        text-decoration: none;
+        color: darkblue;
+        font-weight: 600;
+      }
+      .githubImg {
+        width: 20px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .aboutCardWrapper {
+    width: 100%;
+  }
+}
