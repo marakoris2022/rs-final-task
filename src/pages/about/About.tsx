@@ -7,10 +7,12 @@ import rsSchoolLogo from '/logo-rsschool3.png';
 import reactLogo from '/small-icon_react-2.png';
 import zustandLogo from '/zustand.png';
 import commercetoolsLogo from '/commercetools-logo-2024.svg';
+import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
 
 export const About = () => {
   return (
     <div className={styles.aboutPageWrapper}>
+      <Breadcrumbs currantPage="About Us" />
       <h2 className={styles.aboutPageTitle}>Meet Our Team</h2>
       <div className={styles.aboutCardsWrapper}>
         <AboutCard
@@ -99,6 +101,7 @@ export const About = () => {
           <img style={{ width: '250px' }} src={rsSchoolLogo} alt="rsSchoolLogo" />
         </a>
       </div>
+      <Breadcrumbs currantPage="About Us" />
     </div>
   );
 };
