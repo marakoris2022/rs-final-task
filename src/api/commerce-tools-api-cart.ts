@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Address, ECommerceLS } from '../interfaces/interfaces';
 import { ProductData } from '../pages/product/Product';
 import { useCartStore } from '../store/useCartStore';
@@ -14,6 +15,7 @@ enum CartActions {
   ADD_LINE_ITEM = 'addLineItem',
   SET_LINE_ITEM_QUANTITY = 'changeLineItemQuantity',
   SET_CART_TO_CUSTOMER = 'setCustomerId',
+  ADD_DISCOUNT_CODE = 'addDiscountCode',
 }
 
 enum CartState {
@@ -126,7 +128,7 @@ export const initializeCart = async () => {
   }
 };
 
-const getCartById = async (cartId: string) => {
+export const getCartById = async (cartId: string) => {
   const commerceObj = localStorage.getItem(ECommerceKey);
 
   if (commerceObj) {
@@ -296,5 +298,90 @@ export const changeProductsQuantity = async (cart: Cart, products: ProductData[]
     updateCart(data);
 
     return data;
+  }
+};
+
+export const addDiscountCode = async (cart: Cart, discountCode: string) => {
+  const commerceObj = localStorage.getItem(ECommerceKey);
+
+  if (commerceObj) {
+    const token = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
+
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const actualCart = await getCartById(cart.id);
+
+      const requestBody = {
+        version: actualCart!.version,
+        actions: [
+          {
+            action: CartActions.ADD_DISCOUNT_CODE,
+            code: discountCode,
+          },
+        ],
+      };
+
+      const { data } = await apiClient.post(`/${projectKey}/carts/${actualCart!.id}`, requestBody, config);
+
+      const updateCart = useCartStore.getState().updateCart;
+      updateCart(data);
+
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data.message);
+      } else if (error instanceof Error) {
+        throw error;
+      }
+    }
+  }
+};
+
+export const removeDiscountCode = async (cart: Cart, discountCode: string) => {
+  const commerceObj = localStorage.getItem(ECommerceKey);
+
+  if (commerceObj) {
+    const token = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
+
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const actualCart = await getCartById(cart.id);
+
+      const requestBody = {
+        version: actualCart!.version,
+        actions: [
+          {
+            action: 'removeDiscountCode',
+            discountCode: {
+              typeId: 'discount-code',
+              id: discountCode,
+            },
+          },
+        ],
+      };
+
+      const { data } = await apiClient.post(`/${projectKey}/carts/${actualCart!.id}`, requestBody, config);
+
+      const updateCart = useCartStore.getState().updateCart;
+      updateCart(data);
+
+      return data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data.message);
+      } else if (error instanceof Error) {
+        throw error;
+      }
+    }
   }
 };
