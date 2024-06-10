@@ -176,6 +176,12 @@ export const initializeCart = async () => {
         } else {
           await manageCart(commerceObj, cart);
         }
+      } else {
+        if (cart?.customerId) {
+          await createCart();
+        } else {
+          await manageCart(commerceObj, cart);
+        }
       }
     } else {
       if (JSON.parse(commerceObj).customerId) {
