@@ -1,12 +1,19 @@
 import styles from './main.module.scss';
 import { useEffect, useState } from 'react';
-import { CategoryResults, ProductType, getCategories, getProductProjection } from '../../api/catalogue-api';
+import {
+  CategoryResults,
+  ProductProps,
+  ProductType,
+  getCategories,
+  getProductProjection,
+} from '../../api/catalogue-api';
 import { CategoryList } from './categorylist/CategoryList';
 import { ProductList } from './categorylist/products/ProductsList';
 import { useCategoryStore } from '../../store/useCategoryStore';
 import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
 import { ModalWindow } from '../../components/modal/ModalWindow';
 import { BurgerMenuCatalog } from '../../components/burger-menu-catalog/burgerMenuCatalog';
+import { Pagination } from '../../components/pagination/Pagination';
 
 const getCategoryList = async (): Promise<CategoryResults[] | null> => {
   return await getCategories();
@@ -23,7 +30,9 @@ const getProductList = async (
   minPositiveCalls: string,
   maxPositiveCalls: string,
   searchWords: string,
-): Promise<ProductType[] | null> => {
+  offset: number,
+  limit: number,
+): Promise<ProductProps | null> => {
   return await getProductProjection(
     categories,
     movie,
@@ -35,6 +44,8 @@ const getProductList = async (
     minPositiveCalls,
     maxPositiveCalls,
     searchWords,
+    offset,
+    limit,
   );
 };
 
@@ -55,6 +66,12 @@ export const Catalog = () => {
   const searchWords = useCategoryStore((state) => state.searchWords);
   const closeCatalog = useCategoryStore((state) => state.closeCatalog);
   const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
+  const limit = useCategoryStore((state) => state.limit);
+  const offset = useCategoryStore((state) => state.offset);
+
+  //Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(0);
 
   const handleBurger = () => {
     if (closeCatalog) setCloseCatalog(false);
@@ -84,8 +101,13 @@ export const Catalog = () => {
           selectedMinPositiveCalls,
           selectedMaxPositiveCalls,
           searchWords,
+          offset,
+          limit,
         );
-        setProducts(productList);
+        if (productList) {
+          setLastPage(Math.ceil(productList.total / limit));
+          setProducts(productList.results);
+        }
       } catch (err: unknown) {
         if (err instanceof Error) {
           const errMsg = err.message;
@@ -105,6 +127,8 @@ export const Catalog = () => {
     selectedMaxPositiveCalls,
     searchWords,
     selectedSortingValue,
+    offset,
+    limit,
   ]);
 
   return (
@@ -121,6 +145,9 @@ export const Catalog = () => {
         <article className={styles.cardsWrapper}>
           {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
           {products && products.length > 0 ? <ProductList productList={products} /> : <p>Loading...</p>}
+          <div className={styles.paginationContainer}>
+            <Pagination currentPage={currentPage} lastPage={lastPage} maxLength={7} setCurrentPage={setCurrentPage} />
+          </div>
         </article>
       </section>
     </main>
