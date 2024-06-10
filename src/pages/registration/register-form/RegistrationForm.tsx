@@ -11,6 +11,8 @@ import { ModalWindow } from '../../../components/modal/ModalWindow.tsx';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { login, signUp } from '../../../api/commers-tools-api.ts';
 import postalCodesRegexCollection from '../../../data/json/postal-codes.json';
+import { setCartToCustomerById } from '../../../api/commerce-tools-api-cart.ts';
+import { useCartStore } from '../../../store/useCartStore.ts';
 
 type BillingAddressValues = {
   street: string;
@@ -173,6 +175,7 @@ const validate = (values: FormValues) => {
 
 export const RegistrationForm = () => {
   const setLogged = useStore((state) => state.setLogged);
+  const cart = useCartStore((state) => state.cart);
 
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -257,7 +260,10 @@ export const RegistrationForm = () => {
           Object.assign(requestBody, { defaultBillingAddress: 1 });
         }
 
-        await signUp(requestBody);
+        const newCustomer = await signUp(requestBody);
+
+        await setCartToCustomerById(cart!, newCustomer!.id);
+
         await login(values.email, values.password);
 
         setRegistrationMessage('Registration Successful!');

@@ -85,8 +85,10 @@ type MasterData = {
 
 export type ProductTypeByKey = {
   masterData: MasterData;
-  id: number;
+  id: string;
   key: string;
+  version: number;
+  taxCategory?: string;
 };
 
 export type ProductType = {

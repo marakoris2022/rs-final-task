@@ -14,6 +14,7 @@ import { initializeUserSession } from './services/initializeUserSession';
 import { AddAddress } from './components/user-addresses/add-address/AddAddress';
 import { Loading } from './components/loading/Loading';
 import { Category } from './pages/category/Category';
+import { Basket } from './pages/basket/Basket';
 import { About } from './pages/about/About';
 
 const Layout = () => {
@@ -55,6 +56,7 @@ export const App = () => {
             element={isLogged ? <AddAddress /> : <Navigate to="/login" replace />}
           />
           <Route path="/catalog/:key" element={<Product />} />
+          <Route path="/basket" element={<Basket />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

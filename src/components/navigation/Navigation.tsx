@@ -77,6 +77,16 @@ export const Navigation = () => {
             )}
           </li>
           <li>
+            <CustomLink
+              to="/basket"
+              onClick={() => {
+                isOpenBurger && handleBurger();
+              }}
+            >
+              Basket
+            </CustomLink>
+          </li>
+          <li>
             {isLogged ? (
               <CustomLink
                 to="/login"
