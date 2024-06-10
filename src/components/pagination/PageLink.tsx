@@ -1,22 +1,19 @@
 import { HTMLProps } from 'react';
 import cn from 'classnames';
-import styles from './pageLink.module.css';
+import styles from './pageLink.module.scss';
 
 export type Props = HTMLProps<HTMLAnchorElement> & { active?: boolean };
 
 export default function PageLink({ className, active, disabled, children, ...otherProps }: Props) {
-    const customClassName = cn(styles.pageLink, className, {
-        active,
-        disabled,
-    });
+  const customClassName = cn(styles.pageLink, className, { active, disabled });
 
-    if (disabled) {
-        return <span className={customClassName}>{children}</span>;
-    }
+  if (disabled) {
+    return <span className={customClassName}>{children}</span>;
+  }
 
-    return (
-        <a className={customClassName} aria-current={active ? 'page' : undefined} {...otherProps}>
-            {children}
-        </a>
-    );
+  return (
+    <a className={customClassName} aria-current={active ? 'page' : undefined} {...otherProps}>
+      {children}
+    </a>
+  );
 }

@@ -13,7 +13,8 @@ import { useCategoryStore } from '../../store/useCategoryStore';
 import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
 import { ModalWindow } from '../../components/modal/ModalWindow';
 import { BurgerMenuCatalog } from '../../components/burger-menu-catalog/burgerMenuCatalog';
-import { Pagination } from '../../components/pagination/Pagination';
+import Pagination from '../../components/pagination/Pagination';
+import { Loading } from '../../components/loading/Loading';
 
 const getCategoryList = async (): Promise<CategoryResults[] | null> => {
   return await getCategories();
@@ -51,6 +52,7 @@ const getProductList = async (
 
 export const Catalog = () => {
   const [ctgList, setCtgList] = useState<CategoryResults[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [products, setProducts] = useState<ProductType[] | null>(null);
   const [error, setError] = useState('');
 
@@ -90,6 +92,7 @@ export const Catalog = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true);
         const productList = await getProductList(
           selectedCategories,
           selectedMovie,
@@ -107,6 +110,7 @@ export const Catalog = () => {
         if (productList) {
           setLastPage(Math.ceil(productList.total / limit));
           setProducts(productList.results);
+          setLoading(false);
         }
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -140,14 +144,16 @@ export const Catalog = () => {
       <section className={styles.mainSection}>
         <div className={closeCatalog ? styles.blur : `${styles.blur} ${styles.showBlur}`} onClick={handleBurger} />
         <article className={closeCatalog ? styles.formWrapper : `${styles.formWrapper} ${styles.showForm}`}>
-          {ctgList ? <CategoryList categoryList={ctgList} /> : <p>Loading...</p>}
+          {ctgList ? <CategoryList categoryList={ctgList} /> : <Loading />}
         </article>
         <article className={styles.cardsWrapper}>
           {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
-          {products && products.length > 0 ? <ProductList productList={products} /> : <p>Loading...</p>}
-          <div className={styles.paginationContainer}>
-            <Pagination currentPage={currentPage} lastPage={lastPage} maxLength={7} setCurrentPage={setCurrentPage} />
-          </div>
+          {!loading && products && products.length > 0 ? <ProductList productList={products} /> : <Loading />}
+          {!loading && (
+            <div className={styles.paginationContainer}>
+              <Pagination currentPage={currentPage} lastPage={lastPage} maxLength={7} setCurrentPage={setCurrentPage} />
+            </div>
+          )}
         </article>
       </section>
     </main>

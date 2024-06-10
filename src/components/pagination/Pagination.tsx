@@ -1,6 +1,6 @@
-import { getPaginationItems } from './pagination';
+import { getPaginationItems } from './paginationUtils';
 import PageLink from './PageLink';
-import styles from './pagination.module.css';
+import styles from './pagination.module.scss';
 import { useCallback } from 'react';
 import { useCategoryStore } from '../../store/useCategoryStore';
 
@@ -11,7 +11,7 @@ export type Props = {
   setCurrentPage: (page: number) => void;
 };
 
-export function Pagination({ currentPage, lastPage, maxLength, setCurrentPage }: Props) {
+const Pagination = ({ currentPage, lastPage, maxLength, setCurrentPage }: Props) => {
   const limit = useCategoryStore((state) => state.limit);
   const setOffset = useCategoryStore((state) => state.setOffset);
 
@@ -44,4 +44,6 @@ export function Pagination({ currentPage, lastPage, maxLength, setCurrentPage }:
       </PageLink>
     </nav>
   );
-}
+};
+
+export default Pagination;
