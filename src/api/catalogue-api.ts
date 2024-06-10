@@ -1,4 +1,5 @@
 import { ECommerceLS } from '../interfaces/interfaces';
+import { useCategoryStore } from '../store/useCategoryStore';
 import { apiClient } from './commers-tools-api';
 
 const projectKey = import.meta.env.VITE_PROJECT_KEY;
@@ -177,6 +178,11 @@ export async function getProductsByText(searchWords: string, limit: number = 30)
   return selectedProducts;
 }
 
+export type ProductProps = {
+  results: ProductType[];
+  total: number;
+};
+
 export async function getProductProjection(
   categoryID: string[] = [],
   movie: boolean = false,
@@ -188,8 +194,9 @@ export async function getProductProjection(
   minPositiveCalls: string = '0',
   maxPositiveCalls: string = '5000',
   searchWords: string = '',
-  limit: number = 30,
-): Promise<ProductType[] | null> {
+  offset: number = 0,
+  limit: number = 20,
+): Promise<ProductProps | null> {
   let selectedProducts = null;
   const commerceObj = localStorage.getItem(ECommerceKey);
   if (commerceObj) {
@@ -219,14 +226,15 @@ export async function getProductProjection(
     query.push(`filter=variants.attributes.positive:range(${positiveCalls})`);
     if (discount) query.push(`&filter=variants.scopedPriceDiscounted:true&priceCurrency=USD`);
     if (movie) query.push(`filter=variants.attributes.movies:"[]"`);
+    query.push(`offset=${offset}`);
     query.push(`limit=${limit}`);
     if (sortingCriteria && sortingValue) query.push(`sort=${sortingCriteria} ${sortingValue}`);
 
     urlString += query.join('&');
     const response = await apiClient.get(urlString, config);
-    const { results } = response.data;
+    const { results, total } = response.data;
     if (results.length === 0) throw new Error('There is no product matching your query');
-    selectedProducts = results;
+    selectedProducts = { results, total };
   }
   return selectedProducts;
 }

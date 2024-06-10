@@ -1,12 +1,20 @@
 import styles from './main.module.scss';
 import { useEffect, useState } from 'react';
-import { CategoryResults, ProductType, getCategories, getProductProjection } from '../../api/catalogue-api';
+import {
+  CategoryResults,
+  ProductProps,
+  ProductType,
+  getCategories,
+  getProductProjection,
+} from '../../api/catalogue-api';
 import { CategoryList } from './categorylist/CategoryList';
 import { ProductList } from './categorylist/products/ProductsList';
 import { useCategoryStore } from '../../store/useCategoryStore';
 import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
 import { ModalWindow } from '../../components/modal/ModalWindow';
 import { BurgerMenuCatalog } from '../../components/burger-menu-catalog/burgerMenuCatalog';
+import Pagination from '../../components/pagination/Pagination';
+import { Loading } from '../../components/loading/Loading';
 
 const getCategoryList = async (): Promise<CategoryResults[] | null> => {
   return await getCategories();
@@ -23,7 +31,9 @@ const getProductList = async (
   minPositiveCalls: string,
   maxPositiveCalls: string,
   searchWords: string,
-): Promise<ProductType[] | null> => {
+  offset: number,
+  limit: number,
+): Promise<ProductProps | null> => {
   return await getProductProjection(
     categories,
     movie,
@@ -35,11 +45,14 @@ const getProductList = async (
     minPositiveCalls,
     maxPositiveCalls,
     searchWords,
+    offset,
+    limit,
   );
 };
 
 export const Catalog = () => {
   const [ctgList, setCtgList] = useState<CategoryResults[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [products, setProducts] = useState<ProductType[] | null>(null);
   const [error, setError] = useState('');
 
@@ -55,6 +68,12 @@ export const Catalog = () => {
   const searchWords = useCategoryStore((state) => state.searchWords);
   const closeCatalog = useCategoryStore((state) => state.closeCatalog);
   const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
+  const limit = useCategoryStore((state) => state.limit);
+  const offset = useCategoryStore((state) => state.offset);
+
+  //Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(0);
 
   const handleBurger = () => {
     if (closeCatalog) setCloseCatalog(false);
@@ -73,6 +92,7 @@ export const Catalog = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true);
         const productList = await getProductList(
           selectedCategories,
           selectedMovie,
@@ -84,8 +104,14 @@ export const Catalog = () => {
           selectedMinPositiveCalls,
           selectedMaxPositiveCalls,
           searchWords,
+          offset,
+          limit,
         );
-        setProducts(productList);
+        if (productList) {
+          setLastPage(Math.ceil(productList.total / limit));
+          setProducts(productList.results);
+          setLoading(false);
+        }
       } catch (err: unknown) {
         if (err instanceof Error) {
           const errMsg = err.message;
@@ -105,6 +131,8 @@ export const Catalog = () => {
     selectedMaxPositiveCalls,
     searchWords,
     selectedSortingValue,
+    offset,
+    limit,
   ]);
 
   return (
@@ -116,11 +144,16 @@ export const Catalog = () => {
       <section className={styles.mainSection}>
         <div className={closeCatalog ? styles.blur : `${styles.blur} ${styles.showBlur}`} onClick={handleBurger} />
         <article className={closeCatalog ? styles.formWrapper : `${styles.formWrapper} ${styles.showForm}`}>
-          {ctgList ? <CategoryList categoryList={ctgList} /> : <p>Loading...</p>}
+          {ctgList ? <CategoryList categoryList={ctgList} /> : <Loading />}
         </article>
         <article className={styles.cardsWrapper}>
           {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
-          {products && products.length > 0 ? <ProductList productList={products} /> : <p>Loading...</p>}
+          {!loading && products && products.length > 0 ? <ProductList productList={products} /> : <Loading />}
+          {!loading && (
+            <div className={styles.paginationContainer}>
+              <Pagination currentPage={currentPage} lastPage={lastPage} maxLength={7} setCurrentPage={setCurrentPage} />
+            </div>
+          )}
         </article>
       </section>
     </main>
