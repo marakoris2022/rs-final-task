@@ -19,6 +19,8 @@ export async function initializeUserSession(isLogged: boolean) {
     commerceInfo = await getBasicToken();
   }
 
+  await initializeCart();
+
   if (isLogged && commerceInfo) {
     const { accessToken, customerId } = JSON.parse(commerceInfo) as ECommerceLS;
     customerId && (await getCustomerById(customerId, accessToken));
@@ -37,6 +39,4 @@ export async function initializeUserSession(isLogged: boolean) {
 
   const setIsToken = useStore.getState().setIsToken;
   setIsToken(true);
-
-  await initializeCart();
 }
