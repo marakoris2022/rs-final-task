@@ -35,6 +35,10 @@ export enum RsTeamLS {
   CART = 'rs-team-cart',
 }
 
+enum ResponseStatus {
+  NOT_FOUND = 404,
+}
+
 interface TotalCartPrice {
   centAmount: number;
   currencyCode: 'USD';
@@ -100,6 +104,34 @@ export interface Cart {
   discountCodes?: discountCodes[] | undefined;
 }
 
+const manageCart = async (commerceObj: string, cart: Cart) => {
+  const lastModifiedAt = new Date(cart.lastModifiedAt).getTime();
+  const dateNow = new Date().getTime();
+
+  const sevenDays = daysToMilliseconds(7);
+
+  if (dateNow - lastModifiedAt > sevenDays) {
+    let newCartResp = await createCart();
+
+    if (cart.customerId) {
+      const customerId = (JSON.parse(commerceObj) as ECommerceLS).customerId;
+      newCartResp = await setCartToCustomerById(newCartResp!, customerId!);
+    }
+
+    if (cart.lineItems && cart.lineItems.length > 0) {
+      for (const item of cart.lineItems) {
+        await addProductToCart(newCartResp!, item as ProductDataLineItem, item.quantity, true);
+      }
+    } else {
+      const updateCart = useCartStore.getState().updateCart;
+      updateCart(newCartResp!);
+    }
+  } else {
+    const setCart = useCartStore.getState().setCart;
+    setCart(cart);
+  }
+};
+
 export const createCart = async () => {
   const commerceObj = localStorage.getItem(ECommerceKey);
 
@@ -136,33 +168,30 @@ export const initializeCart = async () => {
     if (cartFromLS) {
       const cart = JSON.parse(cartFromLS) as Cart;
 
-      const lastModifiedAt = new Date(cart.lastModifiedAt).getTime();
-      const dateNow = new Date().getTime();
+      if (JSON.parse(commerceObj).customerId) {
+        const cartByCustomer = await getCartByCustomerId(JSON.parse(commerceObj).customerId);
 
-      const sevenDays = daysToMilliseconds(7);
-
-      if (dateNow - lastModifiedAt > sevenDays) {
-        let newCartResp = await createCart();
-
-        if (cart.customerId) {
-          const customerId = (JSON.parse(commerceObj) as ECommerceLS).customerId;
-          newCartResp = await setCartToCustomerById(newCartResp!, customerId!);
-        }
-
-        if (cart.lineItems && cart.lineItems.length > 0) {
-          for (const item of cart.lineItems) {
-            await addProductToCart(newCartResp!, item as ProductDataLineItem, item.quantity, true);
-          }
+        if (cartByCustomer) {
+          await manageCart(commerceObj, cartByCustomer);
         } else {
-          const updateCart = useCartStore.getState().updateCart;
-          updateCart(newCartResp!);
+          await manageCart(commerceObj, cart);
         }
-      } else {
-        const setCart = useCartStore.getState().setCart;
-        setCart(cart);
       }
     } else {
-      await createCart();
+      if (JSON.parse(commerceObj).customerId) {
+        const cartByCustomer = await getCartByCustomerId(JSON.parse(commerceObj).customerId);
+
+        if (cartByCustomer) {
+          localStorage.setItem(RsTeamLS.CART, JSON.stringify(cartByCustomer));
+          const setCart = useCartStore.getState().setCart;
+          setCart(cartByCustomer as unknown as Cart);
+        } else {
+          const newCart = await createCart();
+          await setCartToCustomerById(newCart!, JSON.parse(commerceObj).customerId);
+        }
+      } else {
+        await createCart();
+      }
     }
   }
 };
@@ -185,7 +214,7 @@ export const getCartById = async (cartId: string) => {
   }
 };
 
-export const getCartByCustomerId = async (customerId: string) => {
+export const getCartByCustomerId = async (customerId: string): Promise<Cart | null | undefined> => {
   const commerceObj = localStorage.getItem(ECommerceKey);
 
   if (commerceObj) {
@@ -197,18 +226,26 @@ export const getCartByCustomerId = async (customerId: string) => {
       },
     };
 
-    const response = await apiClient.get(
-      `/${projectKey}/carts?customerId=${customerId}&sort=createdAt desc&limit=1`,
-      config,
-    );
+    try {
+      const response = await apiClient.get(
+        `/${projectKey}/carts?customerId=${customerId}&sort=createdAt desc&limit=1`,
+        config,
+      );
 
-    if (response.data?.cartState !== CartState.ACTIVE || response.data?.cartState !== CartState.FROZEN) {
-      const updateCart = useCartStore.getState().updateCart;
-      updateCart(response.data);
+      if (response.data?.cartState === CartState.ACTIVE || response.data?.cartState === CartState.FROZEN) {
+        const updateCart = useCartStore.getState().updateCart;
+        updateCart(response.data);
 
-      return response.data;
-    } else {
-      return null;
+        return response.data;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === ResponseStatus.NOT_FOUND) {
+        return null;
+      } else {
+        throw error;
+      }
     }
   }
 };
