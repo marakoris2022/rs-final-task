@@ -374,7 +374,7 @@ export const addDiscountCode = async (cart: Cart, discountCode: string) => {
       const updateCart = useCartStore.getState().updateCart;
       updateCart(data);
 
-      return data;
+      return data as Cart;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(error.response?.data.message);

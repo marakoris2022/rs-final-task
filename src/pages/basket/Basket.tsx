@@ -64,28 +64,15 @@ export const Basket = () => {
         let msg: string;
 
         if (cart?.discountCodes?.length) {
-          let promoToDeleteId: string | null;
+          const updatedCart = await addDiscountCode(cart!, values.promoCode);
 
-          if (values.promoCode === DiscountCodesName.rsteam10off) {
-            promoToDeleteId = DiscountCodesId.TO_ALL_10;
-          } else if (values.promoCode === DiscountCodesName.racing50off) {
-            promoToDeleteId = DiscountCodesId.TO_RACING_50;
-          } else {
-            promoToDeleteId = null;
-          }
-
-          if (cart.discountCodes[0].discountCode.id === promoToDeleteId && promoToDeleteId) {
-            msg = 'This promo code have been already activated';
-          } else if (!promoToDeleteId) {
-            await addDiscountCode(cart!, values.promoCode);
-            msg = 'Promo code activated!';
-          } else {
-            await removeDiscountCode(
-              cart,
-              promoToDeleteId === DiscountCodesId.TO_ALL_10 ? DiscountCodesId.TO_RACING_50 : DiscountCodesId.TO_ALL_10,
-            );
-            await addDiscountCode(cart!, values.promoCode);
-            msg = 'Promo code activated!';
+          if (updatedCart && updatedCart.discountCodes) {
+            if (updatedCart.discountCodes.length === 1) {
+              msg = 'This promo code have been already activated';
+            } else if (updatedCart.discountCodes.length > 0) {
+              await removeDiscountCode(updatedCart, updatedCart.discountCodes[0].discountCode.id);
+              msg = 'Promo code activated';
+            }
           }
         } else {
           await addDiscountCode(cart!, values.promoCode);
@@ -126,7 +113,7 @@ export const Basket = () => {
                   <button
                     className={styles.quantityChangeItem}
                     onClick={async () => await changeProductsQuantity(cart, [item], item.quantity! - 1)}
-                    disabled={item.quantity === MinMaxNumberOfItems.MIN_ITEMS}
+                    disabled={item.quantity === MinMaxNumberOfItems.MIN_ITEMS || formik.isSubmitting}
                   >
                     <FaMinus />
                   </button>
@@ -154,7 +141,7 @@ export const Basket = () => {
                   <button
                     className={styles.quantityChangeItem}
                     onClick={async () => await changeProductsQuantity(cart, [item], item.quantity! + 1)}
-                    disabled={item!.quantity === MinMaxNumberOfItems.MAX_ITEM}
+                    disabled={item!.quantity === MinMaxNumberOfItems.MAX_ITEM || formik.isSubmitting}
                   >
                     <FaPlus />
                   </button>
@@ -277,6 +264,7 @@ export const Basket = () => {
             }}
             title="Clear basket"
             type="button"
+            disabled={formik.isSubmitting}
           />
         </div>
       )}
