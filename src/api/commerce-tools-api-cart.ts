@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { Address, ECommerceLS } from '../interfaces/interfaces';
-import { ProductData } from '../pages/product/Product';
 import { useCartStore } from '../store/useCartStore';
 import { apiClient } from './commers-tools-api';
+import { ProductData } from '../pages/product/Product';
 
 const projectKey = import.meta.env.VITE_PROJECT_KEY;
 const ECommerceKey = import.meta.env.VITE_E_COMMERCE_KEY;
@@ -42,23 +42,62 @@ interface TotalCartPrice {
   type: 'centPrecision';
 }
 
+interface discountCodes {
+  discountCode: {
+    id: string;
+  };
+}
+
+export interface ProductDataLineItem {
+  id: string;
+  name: {
+    en: string;
+    'en-US': string;
+  };
+  price: {
+    value: {
+      centAmount: number;
+    };
+    discounted?: {
+      value: {
+        centAmount: number;
+      };
+    };
+  };
+  totalPrice: {
+    centAmount: number;
+  };
+  variant: {
+    images: {
+      url: string;
+    }[];
+  };
+  productId: string;
+  productKey: string;
+  quantity: number;
+  version: number;
+  discountedPrice?: {
+    value: {
+      centAmount: number;
+    };
+  };
+  taxCategory?: string;
+}
 export interface Cart {
   cartState: CartState;
   createdAt: Date;
   deleteDaysAfterLastModification: number;
-  directDiscounts: number[] | undefined;
-  discountCodes: number[] | undefined;
   id: string;
   inventoryMode: InventoryMode;
   itemShippingAddresses: Address[];
   lastMessageSequenceNumber: number;
   lastModifiedAt: Date;
-  lineItems: ProductData[];
-  shipping: number[] | undefined;
+  lineItems: ProductDataLineItem[];
   totalPrice: TotalCartPrice;
   type: 'Cart';
   version: number;
   customerId?: string;
+  discountCodes?: discountCodes[] | undefined;
 }
 
 export const createCart = async () => {
@@ -112,7 +151,7 @@ export const initializeCart = async () => {
 
         if (cart.lineItems && cart.lineItems.length > 0) {
           for (const item of cart.lineItems) {
-            await addProductToCart(newCartResp!, item, item.quantity, true);
+            await addProductToCart(newCartResp!, item as ProductDataLineItem, item.quantity, true);
           }
         } else {
           const updateCart = useCartStore.getState().updateCart;
@@ -209,7 +248,7 @@ export const setCartToCustomerById = async (cart: Cart, customerId: string) => {
 
 export const addProductToCart = async (
   cart: Cart,
-  product: ProductData,
+  product: ProductDataLineItem | ProductData,
   quantity: number | undefined,
   copyCart = false,
 ) => {
@@ -262,7 +301,11 @@ export const addProductToCart = async (
   }
 };
 
-export const changeProductsQuantity = async (cart: Cart, products: ProductData[], quantityToAdd: number) => {
+export const changeProductsQuantity = async (
+  cart: Cart,
+  products: ProductDataLineItem[] | ProductData[],
+  quantityToAdd: number,
+) => {
   const commerceObj = localStorage.getItem(ECommerceKey);
 
   if (commerceObj) {
