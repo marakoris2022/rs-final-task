@@ -16,7 +16,6 @@ import { Loading } from './components/loading/Loading';
 import { Category } from './pages/category/Category';
 import { About } from './pages/about/About';
 import { Basket } from './pages/basket/Basket';
-import { About } from './pages/about/About';
 
 const Layout = () => {
   return (
