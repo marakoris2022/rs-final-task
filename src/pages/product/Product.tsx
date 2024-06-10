@@ -9,7 +9,10 @@ import { getCategoryNameById } from '../../services/getCategoryNameById';
 import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
 import { useCategoryStore } from '../../store/useCategoryStore';
 import { useCartStore } from '../../store/useCartStore';
-import { addProductToCart, changeProductsQuantity } from '../../api/commerce-tools-api-cart';
+import { Cart, addProductToCart, changeProductsQuantity } from '../../api/commerce-tools-api-cart';
+import cartIcon from '/cart-check-svgrepo-com.svg';
+import removeIcon from '/remove-circle-svgrepo-com.svg';
+import { Loading } from '../../components/loading/Loading';
 
 export type ProductData = {
   id: string;
@@ -37,6 +40,104 @@ function calculateDiscount(oldPrice: number, newPrice: number) {
   return Math.round(discountPercentage);
 }
 
+function findInCart(cart: Cart, productId: string) {
+  return cart?.lineItems.find((item) => item.productId === productId);
+}
+
+function buttonWithoutDiscount(
+  productData: ProductData,
+  cart: Cart,
+  openModal: React.Dispatch<React.SetStateAction<boolean>>,
+  setModalText: React.Dispatch<React.SetStateAction<JSX.Element>>,
+) {
+  return (
+    <>
+      <h3 className={styles.buyPromo}>
+        Buy with Discount{' '}
+        <span className={styles.discountPercent}>
+          {calculateDiscount(productData.price, productData.discountPrice!)}%
+        </span>{' '}
+        !{' '}
+      </h3>
+      <div className={styles.discountWrapper}>
+        <p className={styles.oldPrice}>{`${(productData.price / 100).toFixed(2)} USD`}</p>
+        <div className={styles.discountBtnContainer}>
+          <Button
+            style={styles.discountBtn}
+            title={`${(productData.discountPrice! / 100).toFixed(2)} USD`}
+            onClick={async () => {
+              setModalText(<p>Loading...</p>);
+              openModal(true);
+              await addProductToCart(cart, productData, 1);
+              setModalText(
+                <p>
+                  You <span style={{ color: 'green' }}>successfully</span> added item to the cart.
+                </p>,
+              );
+            }}
+          />
+        </div>
+      </div>
+    </>
+  );
+}
+
+function buttonWithDiscount(
+  productData: ProductData,
+  cart: Cart,
+  openModal: React.Dispatch<React.SetStateAction<boolean>>,
+  setModalText: React.Dispatch<React.SetStateAction<JSX.Element>>,
+) {
+  return (
+    <>
+      <h3 className={styles.buyPromo}>Buy it now! </h3>
+      <Button
+        style={styles.buyBtn}
+        title={`${(productData.price / 100).toFixed(2)} USD`}
+        onClick={async () => {
+          setModalText(<p>Loading...</p>);
+          openModal(true);
+          await addProductToCart(cart, productData, 1);
+          setModalText(
+            <p>
+              You <span style={{ color: 'green' }}>successfully</span> added item to the cart.
+            </p>,
+          );
+        }}
+      />
+    </>
+  );
+}
+
+function ItemInTheCart(
+  cart: Cart,
+  productData: ProductData,
+  openModal: React.Dispatch<React.SetStateAction<boolean>>,
+  setModalText: React.Dispatch<React.SetStateAction<JSX.Element>>,
+) {
+  return (
+    <div className={styles.cartBlockWrapper}>
+      <span className={styles.cartBlockText}>Item in the Cart!</span>
+      <img className={styles.cartIcon} src={cartIcon} alt="Cart" />
+      <img
+        onClick={async () => {
+          openModal(true);
+          setModalText(<p>Loading...</p>);
+          await changeProductsQuantity(cart!, [productData], 0);
+          setModalText(
+            <p>
+              You <span style={{ color: 'red' }}>remove</span> product from the cart.
+            </p>,
+          );
+        }}
+        className={styles.removeIcon}
+        src={removeIcon}
+        alt="Remove"
+      />
+    </div>
+  );
+}
+
 export const Product = () => {
   const navigate = useNavigate();
   const clearCategories = useCategoryStore((state) => state.clearCategories);
@@ -45,6 +146,8 @@ export const Product = () => {
   const { key } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [isModal, setIsModal] = useState(false);
+  const [isPurchase, setIsPurchase] = useState(false);
+  const [modalText, setModalText] = useState(<p></p>);
   const [productData, setProductData] = useState<ProductData>({
     id: '',
     version: 1,
@@ -151,48 +254,11 @@ export const Product = () => {
       </div>
 
       <div className={styles.buyWrapper}>
-        {productData.discountPrice ? (
-          <>
-            <h3 className={styles.buyPromo}>
-              Buy with Discount{' '}
-              <span className={styles.discountPercent}>
-                {calculateDiscount(productData.price, productData.discountPrice)}%
-              </span>{' '}
-              !{' '}
-            </h3>
-            <div className={styles.discountWrapper}>
-              <p className={styles.oldPrice}>{`${(productData.price / 100).toFixed(2)} USD`}</p>
-              <div className={styles.discountBtnContainer}>
-                <Button
-                  style={styles.discountBtn}
-                  title={`${(productData.discountPrice / 100).toFixed(2)} USD ${cart?.lineItems.find((item) => item.productId === productData.id) ? 'REMOVE FROM CART' : 'ADD TO CART'}`}
-                  onClick={() => {
-                    {
-                      cart?.lineItems.find((item) => item.productId === productData.id)
-                        ? changeProductsQuantity(cart!, [productData], 0)
-                        : addProductToCart(cart!, productData, 1);
-                    }
-                  }}
-                />
-              </div>
-            </div>
-          </>
-        ) : (
-          <>
-            <h3 className={styles.buyPromo}>Buy it now! </h3>
-            <Button
-              style={styles.buyBtn}
-              title={`${(productData.price / 100).toFixed(2)} USD ${cart?.lineItems.find((item) => item.productId === productData.id) ? 'REMOVE FROM CART' : 'ADD TO CART'}`}
-              onClick={() => {
-                {
-                  cart?.lineItems.find((item) => item.productId === productData.id)
-                    ? changeProductsQuantity(cart!, [productData], 0)
-                    : addProductToCart(cart!, productData, 1);
-                }
-              }}
-            />
-          </>
-        )}
+        {findInCart(cart!, productData.id)
+          ? ItemInTheCart(cart!, productData, setIsPurchase, setModalText)
+          : productData.discountPrice
+            ? buttonWithoutDiscount(productData, cart!, setIsPurchase, setModalText)
+            : buttonWithDiscount(productData, cart!, setIsPurchase, setModalText)}
       </div>
 
       <div className={styles.carouselWrapper}>
@@ -253,6 +319,14 @@ export const Product = () => {
           }
           onClose={() => {
             setIsModal(false);
+          }}
+        />
+      )}
+      {isPurchase && (
+        <ModalWindow
+          message={findInCart(cart!, productData.id) ? modalText : modalText}
+          onClose={() => {
+            setIsPurchase(false);
           }}
         />
       )}

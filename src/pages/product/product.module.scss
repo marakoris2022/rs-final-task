@@ -122,6 +122,32 @@
     padding: 20px 10px 0;
     margin-bottom: 15px;
 
+    .cartBlockWrapper {
+      display: flex;
+      align-items: center;
+
+      margin-bottom: 10px;
+
+      .cartBlockText {
+        font-size: 24px;
+        margin-right: 10px;
+      }
+      .cartIcon {
+        width: 30px;
+        margin-right: 10px;
+      }
+      .removeIcon {
+        width: 20px;
+        transition: all 0.6 ease;
+        cursor: pointer;
+      }
+      @media (any-hover: hover) {
+        .removeIcon:hover {
+          scale: 1.1;
+        }
+      }
+    }
+
     .buyPromo {
       font-size: 30px;
       width: fit-content;
