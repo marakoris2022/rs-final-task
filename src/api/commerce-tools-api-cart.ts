@@ -108,9 +108,9 @@ const manageCart = async (commerceObj: string, cart: Cart) => {
   const lastModifiedAt = new Date(cart.lastModifiedAt).getTime();
   const dateNow = new Date().getTime();
 
-  const sevenDays = daysToMilliseconds(7);
+  const sixtyDays = daysToMilliseconds(60);
 
-  if (dateNow - lastModifiedAt > sevenDays) {
+  if (dateNow - lastModifiedAt > sixtyDays) {
     let newCartResp = await createCart();
 
     if (cart.customerId) {
