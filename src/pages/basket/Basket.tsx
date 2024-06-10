@@ -156,19 +156,20 @@ export const Basket = () => {
                   {item?.price?.discounted?.value.centAmount ? (
                     <div className={styles.priceContainer}>
                       <div>
-                        Per copy: <span>{item.price.discounted.value.centAmount / 100}$</span>
+                        Per copy: <span>{(item.price.discounted.value.centAmount / 100).toFixed(2)}$</span>
                       </div>
                       <div>
-                        Total: <span>{(item.price.discounted.value.centAmount * item.quantity) / 100}$</span>
+                        Total:{' '}
+                        <span>{((item.price.discounted.value.centAmount * item.quantity) / 100).toFixed(2)}$</span>
                       </div>
                     </div>
                   ) : (
                     <div className={styles.priceContainer}>
                       <div>
-                        Per copy: <span>{item.price.value.centAmount / 100}$</span>
+                        Per copy: <span>{(item.price.value.centAmount / 100).toFixed(2)}$</span>
                       </div>
                       <div>
-                        Total: <span>{(item.price.value.centAmount * item.quantity) / 100}$</span>
+                        Total: <span>{((item.price.value.centAmount * item.quantity) / 100).toFixed(2)}$</span>
                       </div>
                     </div>
                   )}
@@ -177,10 +178,10 @@ export const Basket = () => {
                 {item.discountedPrice?.value.centAmount && (
                   <div className={styles.priceContainer}>
                     <div>
-                      Per copy: <span>{item.discountedPrice?.value.centAmount / 100}$</span>
+                      Per copy: <span>{(item.discountedPrice?.value.centAmount / 100).toFixed(2)}$</span>
                     </div>
                     <div>
-                      Total: <span>{item.totalPrice.centAmount / 100}$</span>
+                      Total: <span>{(item.totalPrice.centAmount / 100).toFixed(2)}$</span>
                     </div>
                   </div>
                 )}
@@ -243,7 +244,7 @@ export const Basket = () => {
           </form>
           {cart?.totalPrice.centAmount !== totalSum && (
             <div className={styles.basketDiscountText}>
-              Total price without discount: <span>{totalSum / 100}$</span>
+              Total price without discount: <span>{(totalSum / 100).toFixed(2)}$</span>
             </div>
           )}
 
@@ -254,7 +255,7 @@ export const Basket = () => {
                 : `${styles.basketTotalDiscount}`
             }
           >
-            Total price: <span>{cart?.totalPrice.centAmount / 100}$</span>
+            Total price: <span>{(cart?.totalPrice.centAmount / 100).toFixed(2)}$</span>
           </div>
 
           <Button
