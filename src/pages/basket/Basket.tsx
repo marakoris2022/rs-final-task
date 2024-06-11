@@ -97,7 +97,7 @@ export const Basket = () => {
     },
   });
 
-  if (!cart) {
+  if (!cart || !cart.lineItems) {
     return <Loading />;
   }
 
