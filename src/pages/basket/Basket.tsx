@@ -40,7 +40,10 @@ export const Basket = () => {
   const cart = useCartStore((state) => state.cart);
   const navigate = useNavigate();
   const [msg, setMsg] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [totalSum, setTotalSum] = useState(0);
+  const [showDiscountText, setShowDiscountText] = useState(false);
 
   useEffect(() => {
     if (cart?.lineItems) {
@@ -53,6 +56,10 @@ export const Basket = () => {
       setTotalSum(total);
     }
   }, [cart]);
+
+  useEffect(() => {
+    setShowDiscountText(cart?.totalPrice.centAmount !== totalSum);
+  }, [cart?.totalPrice.centAmount, totalSum]);
 
   const formik = useFormik({
     initialValues: {
@@ -90,7 +97,7 @@ export const Basket = () => {
     },
   });
 
-  if (!cart) {
+  if (!cart || !cart.lineItems) {
     return <Loading />;
   }
 
@@ -112,8 +119,12 @@ export const Basket = () => {
                 <div className={styles.quantityChangeContainer}>
                   <button
                     className={styles.quantityChangeItem}
-                    onClick={async () => await changeProductsQuantity(cart, [item], item.quantity! - 1)}
-                    disabled={item.quantity === MinMaxNumberOfItems.MIN_ITEMS || formik.isSubmitting}
+                    onClick={async () => {
+                      setIsLoading(() => true);
+                      await changeProductsQuantity(cart, [item], item.quantity! - 1);
+                      setIsLoading(() => false);
+                    }}
+                    disabled={item.quantity === MinMaxNumberOfItems.MIN_ITEMS || formik.isSubmitting || isLoading}
                   >
                     <FaMinus />
                   </button>
@@ -132,7 +143,9 @@ export const Basket = () => {
                           MinMaxNumberOfItems.MAX_ITEM,
                         );
                         if (clampedQuantity !== item.quantity) {
+                          setIsLoading(() => true);
                           await changeProductsQuantity(cart, [item], clampedQuantity);
+                          setIsLoading(() => false);
                         }
                       }
                     }}
@@ -140,8 +153,12 @@ export const Basket = () => {
 
                   <button
                     className={styles.quantityChangeItem}
-                    onClick={async () => await changeProductsQuantity(cart, [item], item.quantity! + 1)}
-                    disabled={item!.quantity === MinMaxNumberOfItems.MAX_ITEM || formik.isSubmitting}
+                    onClick={async () => {
+                      setIsLoading(() => true);
+                      await changeProductsQuantity(cart, [item], item.quantity! + 1);
+                      setIsLoading(() => false);
+                    }}
+                    disabled={item!.quantity === MinMaxNumberOfItems.MAX_ITEM || formik.isSubmitting || isLoading}
                   >
                     <FaPlus />
                   </button>
@@ -188,7 +205,11 @@ export const Basket = () => {
               </div>
               <FaTrash
                 className={styles.removeProduct}
-                onClick={async () => await changeProductsQuantity(cart, [item], 0)}
+                onClick={async () => {
+                  setIsLoading(() => true);
+                  await changeProductsQuantity(cart, [item], 0);
+                  setIsLoading(() => false);
+                }}
               />
             </div>
           </div>
@@ -212,7 +233,7 @@ export const Basket = () => {
                 style={styles.promoCodeBtn}
                 title="Apply code"
                 type="submit"
-                disabled={!formik.isValid || formik.isSubmitting || !formik.dirty}
+                disabled={!formik.isValid || formik.isSubmitting || !formik.dirty || isLoading}
               />
               {cart?.discountCodes?.length !== 0 && (
                 <Button
@@ -221,10 +242,12 @@ export const Basket = () => {
                   type="button"
                   onClick={async () => {
                     if (cart?.discountCodes) {
+                      setIsLoading(() => true);
                       await removeDiscountCode(cart, cart.discountCodes[0].discountCode.id);
+                      setIsLoading(() => false);
                     }
                   }}
-                  disabled={formik.isSubmitting}
+                  disabled={formik.isSubmitting || isLoading}
                 ></Button>
               )}
             </div>
@@ -242,7 +265,7 @@ export const Basket = () => {
               </div>
             )}
           </form>
-          {cart?.totalPrice.centAmount !== totalSum && (
+          {showDiscountText && (
             <div className={styles.basketDiscountText}>
               Total price without discount: <span>{(totalSum / 100).toFixed(2)}$</span>
             </div>
@@ -260,12 +283,12 @@ export const Basket = () => {
 
           <Button
             style={styles.clearBasketBtn}
-            onClick={async () => {
-              await changeProductsQuantity(cart!, cart!.lineItems, 0);
+            onClick={() => {
+              setShowModal((prev) => !prev);
             }}
             title="Clear basket"
             type="button"
-            disabled={formik.isSubmitting}
+            disabled={formik.isSubmitting || isLoading}
           />
         </div>
       )}
@@ -281,6 +304,18 @@ export const Basket = () => {
         </div>
       )}
       {msg && <ModalWindow message={msg} onClose={() => setMsg(() => '')} />}
+      {showModal && (
+        <ModalWindow
+          message={'Are you sure you want to clear your basket'}
+          secondBtn="Confirm"
+          onClose={() => setShowModal(() => false)}
+          onConfirm={async () => {
+            setIsLoading(() => true);
+            await changeProductsQuantity(cart!, cart!.lineItems, 0);
+            setIsLoading(() => false);
+          }}
+        />
+      )}
     </div>
   );
 };

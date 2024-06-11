@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { BurgerMenu } from '../burger-menu/BurgerMenu';
 import { getBasicToken } from '../../api/commers-tools-api';
 import { CustomLink } from '../custom-link/CustomLink';
+import { GiShoppingCart } from 'react-icons/gi';
+import { useCartStore } from '../../store/useCartStore';
 
 export const Navigation = () => {
   const { isLogged, setLogged } = useStore((state) => ({
@@ -11,6 +13,7 @@ export const Navigation = () => {
     setLogged: state.setLogged,
   }));
   const [isOpenBurger, setIsOpenBurger] = useState(false);
+  const cart = useCartStore((state) => state.cart);
 
   const handleBurger = () => {
     setIsOpenBurger((prev) => !prev);
@@ -77,16 +80,6 @@ export const Navigation = () => {
             )}
           </li>
           <li>
-            <CustomLink
-              to="/basket"
-              onClick={() => {
-                isOpenBurger && handleBurger();
-              }}
-            >
-              Basket
-            </CustomLink>
-          </li>
-          <li>
             {isLogged ? (
               <CustomLink
                 to="/login"
@@ -119,6 +112,21 @@ export const Navigation = () => {
             >
               About Us
             </CustomLink>
+          </li>
+          <li>
+            <div className={styles.basketContainer}>
+              <CustomLink
+                to="/basket"
+                onClick={() => {
+                  isOpenBurger && handleBurger();
+                }}
+              >
+                <GiShoppingCart className={styles.shoppingCart} />
+              </CustomLink>
+              {cart?.lineItems.length !== 0 && (
+                <div className={styles.basketNumberOfItems}>- {cart?.lineItems.length}</div>
+              )}
+            </div>
           </li>
         </ul>
       </nav>

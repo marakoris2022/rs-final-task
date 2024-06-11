@@ -28,6 +28,23 @@
     margin: 0;
     list-style-type: none;
     transition: transform 0.3s ease;
+    align-items: center;
+    font-size: 1.1rem;
+
+    .basketContainer {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .basketNumberOfItems {
+      color: #18520b;
+    }
+
+    .shoppingCart {
+      width: 25px;
+      height: 25px;
+    }
   }
 
   @media screen and (max-width: 768px) {
@@ -41,6 +58,7 @@
       background-color: #95b4ce;
       padding-top: 50px;
       border-radius: 10px;
+      align-items: start;
     }
 
     &.active {

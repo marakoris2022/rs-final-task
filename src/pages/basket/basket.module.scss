@@ -246,7 +246,7 @@
     background-color: #1d4ae9;
     color: white;
 
-    &:disabled {
+    &:first-child:disabled {
       background-color: #cacaca;
       color: #959595;
     }
