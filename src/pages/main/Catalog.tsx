@@ -110,6 +110,7 @@ export const Catalog = () => {
         if (productList) {
           setLastPage(Math.ceil(productList.total / limit));
           setProducts(productList.results);
+          window.scrollTo(0, 0);
           setLoading(false);
         }
       } catch (err: unknown) {
