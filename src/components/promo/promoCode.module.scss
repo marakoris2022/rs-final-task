@@ -1,0 +1,91 @@
+.promoContainer {
+    position: fixed;
+    right: 30px;
+    top: 10%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(160px, 30%));
+    grid-template-rows: 1fr;
+    height: 80px;
+    z-index: 100;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.promoItem {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    width: minmax(160px, 30%);
+    color: rgb(44, 26, 2);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.promoName {
+    padding: 5px;
+    color: rgb(10, 1, 45);
+    background-color: white;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.promoText {
+    font-size: 1.2rem;
+    color: rgb(45, 2, 2);
+    line-height: 110%;
+}
+
+/* @media screen and (max-width: 1200px) {
+    .promoText {
+        font-size: 1rem;
+    }
+} */
+
+.rsteamDiscount,
+.raceDiscount,
+.closeBtn {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.rsteamDiscount {
+    background-image: url(./coupon50.svg);
+}
+
+.raceDiscount {
+    background-image: url(./coupon10.svg);
+}
+
+.closeBtn {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+    width: 20px;
+    height: 20px;
+    background-image: url(./close-circle.svg);
+    z-index: 10;
+    cursor: pointer;
+
+    @media (hover:hover) {
+        &:hover {
+            background-image: url(./close-circle-hover.svg);
+        }
+    }
+
+    &:active {
+        background-image: url(./close-circle-hover.svg);
+    }
+}
+
+/* @media screen and (max-width: 1200px) {
+    .closeBtn {
+        top: 10px;
+    }
+} */
+
+.hiddenItem {
+    display: none;
+}

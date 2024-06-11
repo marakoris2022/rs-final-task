@@ -15,6 +15,7 @@ import { ModalWindow } from '../../components/modal/ModalWindow';
 import { BurgerMenuCatalog } from '../../components/burger-menu-catalog/burgerMenuCatalog';
 import Pagination from '../../components/pagination/Pagination';
 import { Loading } from '../../components/loading/Loading';
+import { PromoCode } from '../../components/promo/PromoCode';
 
 const getCategoryList = async (): Promise<CategoryResults[] | null> => {
   return await getCategories();
@@ -148,6 +149,7 @@ export const Catalog = () => {
           {ctgList ? <CategoryList categoryList={ctgList} /> : <Loading />}
         </article>
         <article className={styles.cardsWrapper}>
+          <PromoCode></PromoCode>
           {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
           {!loading && products && products.length > 0 ? <ProductList productList={products} /> : <Loading />}
           {!loading && (
