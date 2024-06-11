@@ -55,7 +55,7 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   resetMax: '50000',
   resetMinCalls: '0',
   resetMaxCalls: '5000',
-  limit: 20,
+  limit: 10,
   offset: 0,
   addCategories: (data: string[]) => {
     set({ categories: data });
