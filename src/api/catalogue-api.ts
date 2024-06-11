@@ -93,6 +93,7 @@ export type ProductTypeByKey = {
 };
 
 export type ProductType = {
+  productId: string;
   id: string;
   key: string;
   description: {
@@ -105,6 +106,7 @@ export type ProductType = {
   };
   productType: { typeId: string; id: string };
   version: number;
+  taxCategory?: string;
 };
 
 export async function getCategories(sort: string = '', limit: number = 0): Promise<CategoryResults[] | null> {

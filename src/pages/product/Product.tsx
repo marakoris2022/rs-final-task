@@ -12,7 +12,6 @@ import { useCartStore } from '../../store/useCartStore';
 import { Cart, addProductToCart, changeProductsQuantity } from '../../api/commerce-tools-api-cart';
 import cartIcon from '/cart-check-svgrepo-com.svg';
 import removeIcon from '/remove-circle-svgrepo-com.svg';
-import { Loading } from '../../components/loading/Loading';
 
 export type ProductData = {
   id: string;
