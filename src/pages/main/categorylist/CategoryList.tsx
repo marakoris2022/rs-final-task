@@ -75,9 +75,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           const priceRangeMin = priceSet.elements.namedItem('minValue') as HTMLInputElement | null;
           const priceRangeMax = priceSet.elements.namedItem('maxValue') as HTMLInputElement | null;
           priceRangeMin && setPriceMin(priceRangeMin.value);
-          /* priceRangeMin && setResetMin(priceRangeMin.value); */
           priceRangeMax && setPriceMax(priceRangeMax.value);
-          /* priceRangeMax && setResetMax(priceRangeMax.value); */
         }
         const positiveCallsSet = form.elements.namedItem('positiveCallsFieldSet') as HTMLFieldSetElement | null;
         if (positiveCallsSet) {
