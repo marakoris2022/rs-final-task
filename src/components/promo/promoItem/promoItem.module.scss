@@ -1,13 +1,25 @@
 .promoItem {
     position: relative;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    justify-content: start;
     padding: 5px;
-    width: minmax(160px, 30%);
+    width: 170px;
     color: rgb(44, 26, 2);
     font-size: 1rem;
     font-weight: 700;
+}
+
+@media screen and (max-width:800px) {
+    .promoItem {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+.promoTitle {
+    color: rgb(44, 26, 2);
+    font-size: 1.1rem;
 }
 
 .promoName {
@@ -21,14 +33,7 @@
 .promoText {
     font-size: 1.2rem;
     color: rgb(45, 2, 2);
-    line-height: 110%;
 }
-
-/* @media screen and (max-width: 1200px) {
-    .promoText {
-        font-size: 1rem;
-    }
-} */
 
 .closeBtn {
     background-size: cover;
@@ -39,7 +44,7 @@
 .closeBtn {
     position: absolute;
     right: 1px;
-    top: 1px;
+    top: 8px;
     width: 20px;
     height: 20px;
     background-image: url(./close-circle.svg);
@@ -56,12 +61,6 @@
         background-image: url(./close-circle-hover.svg);
     }
 }
-
-/* @media screen and (max-width: 1200px) {
-    .closeBtn {
-        top: 10px;
-    }
-} */
 
 .hiddenItem {
     display: none;

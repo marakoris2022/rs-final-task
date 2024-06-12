@@ -12,6 +12,48 @@ type CategoryListType = {
   categoryList: CategoryResults[];
 };
 
+type CategoryState = {
+  categories: string[];
+  movie: boolean;
+  discount: boolean;
+  sortingCriteria: string;
+  sortingValue: string;
+  minPrice: string;
+  maxPrice: string;
+  minPositiveCalls: string;
+  maxPositiveCalls: string;
+  searchWords: string;
+  closeCatalog: boolean;
+  resetMin: string;
+  resetMax: string;
+  resetMinCalls: string;
+  resetMaxCalls: string;
+  limit: number;
+  offset: number;
+};
+
+/* const statePrev: CategoryState = {
+  categories: [],
+  movie: false,
+  discount: false,
+  sortingCriteria: '',
+  sortingValue: '',
+  minPrice: '0',
+  maxPrice: '50000',
+  minPositiveCalls: '0',
+  maxPositiveCalls: '50000',
+  searchWords: '',
+  closeCatalog: true,
+  resetMin: '0',
+  resetMax: '50000',
+  resetMinCalls: '0',
+  resetMaxCalls: '5000',
+  limit: 10,
+  offset: 0,
+};
+
+const stateNow: CategoryState = {}; */
+
 const MIN_VALUE = '0';
 const MAX_VALUE = '50000';
 const MAX_VALUE_CALLS = '5000';
@@ -49,7 +91,24 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
     setResetMinCalls(MIN_VALUE);
     setResetMaxCalls(MAX_VALUE_CALLS);
   }, [setResetMax, setResetMaxCalls, setResetMin, setResetMinCalls]);
-
+  /* const state = {
+    categories: [],
+    movie: false,
+    discount: false,
+    sortingCriteria: '',
+    sortingValue: '',
+    minPrice: '0',
+    maxPrice: '50000',
+    minPositiveCalls: '0',
+    maxPositiveCalls: '50000',
+    closeCatalog: true,
+    resetMin: '0',
+    resetMax: '50000',
+    resetMinCalls: '0',
+    resetMaxCalls: '5000',
+    limit: 10,
+    offset: 0,
+  }; */
   const submitHandler = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -59,8 +118,10 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         const searchedWordsInput = form.elements.namedItem('searchField') as HTMLInputElement;
         if (searchedWordsInput && searchedWordsInput.value) {
           setSearchWords(searchedWordsInput.value);
+          stateNow.searchWords = searchedWordsInput.value;
         } else {
           setSearchWords('');
+          stateNow.searchWords = '';
         }
         const categorySet = form.elements.namedItem('categoryFieldSet') as HTMLFieldSetElement | null;
         if (categorySet) {
@@ -68,6 +129,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           const filtered = formElements.filter((elem) => elem.type === 'checkbox' && elem.checked);
           const mapped = filtered.map((box) => box.value);
           addCategories(mapped);
+          stateNow.categories = mapped;
         }
 
         const priceSet = form.elements.namedItem('priceFieldSet') as HTMLFieldSetElement | null;
