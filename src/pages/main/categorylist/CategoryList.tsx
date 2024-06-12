@@ -35,6 +35,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
   const setSortingOption = useCategoryStore((state) => state.setSortingOption);
   const setDiscountOption = useCategoryStore((state) => state.setDiscountOption);
   const setMovieOption = useCategoryStore((state) => state.setMovieOption);
+  const setCategoryCheckedItems = useCategoryStore((state) => state.setCategoryCheckedItems);
 
   const searchHandler = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
@@ -54,6 +55,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
     setSortingOption('priceAsc');
     setDiscountOption('allProducts');
     setMovieOption('moviesIncluded');
+    setCategoryCheckedItems(['93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b', true, true]);
   }, [
     setDiscountOption,
     setMovieOption,
@@ -62,6 +64,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
     setResetMin,
     setResetMinCalls,
     setSortingOption,
+    setCategoryCheckedItems,
   ]);
 
   const submitHandler = useCallback(
@@ -76,6 +79,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         } else {
           setSearchWords('');
         }
+
         const categorySet = form.elements.namedItem('categoryFieldSet') as HTMLFieldSetElement | null;
         if (categorySet) {
           const formElements = Array.from(categorySet.elements) as HTMLInputElement[];
@@ -89,9 +93,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           const priceRangeMin = priceSet.elements.namedItem('minValue') as HTMLInputElement | null;
           const priceRangeMax = priceSet.elements.namedItem('maxValue') as HTMLInputElement | null;
           priceRangeMin && setPriceMin(priceRangeMin.value);
-          /* priceRangeMin && setResetMin(priceRangeMin.value); */
           priceRangeMax && setPriceMax(priceRangeMax.value);
-          /* priceRangeMax && setResetMax(priceRangeMax.value); */
         }
         const positiveCallsSet = form.elements.namedItem('positiveCallsFieldSet') as HTMLFieldSetElement | null;
         if (positiveCallsSet) {
@@ -122,8 +124,6 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           const found = options ? Array.from(options).find((item) => item.checked) : null;
           found && setSortingValue(found.value);
           found && found.dataset.name && setSortingCriteria(found.dataset.name);
-          /*           !found && setSortingValue('');
-                    !found && setSortingCriteria(''); */
         }
         setCloseCatalog(true);
       }

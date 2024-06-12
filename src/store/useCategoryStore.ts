@@ -21,6 +21,7 @@ type CategoryStore = {
   sortingOption: string;
   movieOption: string;
   discountOption: string;
+  categoryCheckedItems: string[];
   addCategories: (data: string[]) => void;
   updateCategories: (data: string[]) => void;
   clearCategories: () => void;
@@ -43,6 +44,7 @@ type CategoryStore = {
   setSortingOption: (data: string) => void;
   setDiscountOption: (data: string) => void;
   setMovieOption: (data: string) => void;
+  setCategoryCheckedItems: (data: [string, boolean, boolean]) => void;
 };
 
 export const useCategoryStore = create<CategoryStore>()((set) => ({
@@ -66,6 +68,7 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   sortingOption: 'priceAsc',
   movieOption: 'moviesIncluded',
   discountOption: 'allProducts',
+  categoryCheckedItems: ['93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b'],
   addCategories: (data: string[]) => {
     set({ categories: data });
   },
@@ -131,5 +134,14 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   },
   setDiscountOption: (data: string) => {
     set({ discountOption: data });
+  },
+  setCategoryCheckedItems: (data: [string, boolean, boolean]) => {
+    if (data[2]) {
+      set({ categoryCheckedItems: [data[0]] });
+    } else if (!data[2] && data[1]) {
+      set((state) => ({ categoryCheckedItems: state.categoryCheckedItems.concat(data[0]) }));
+    } else if (!data[2] && !data[1]) {
+      set((state) => ({ categoryCheckedItems: state.categoryCheckedItems.filter((item) => item !== data[0]) }));
+    }
   },
 }));
