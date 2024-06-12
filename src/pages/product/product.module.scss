@@ -5,6 +5,8 @@
   justify-content: center;
   align-items: center;
 
+  background-color: rgba(5, 4, 62, 0.8);
+
   .contentWrapper {
     display: flex;
     flex-direction: row-reverse;
@@ -511,6 +513,6 @@
   .categoryWrapper:hover,
   .addWrapper:hover,
   .videoBlockWrapper:hover {
-    background-color: rgba(211, 211, 211, 0.2);
+    background-color: rgba(5, 122, 126, 0.3);
   }
 }
