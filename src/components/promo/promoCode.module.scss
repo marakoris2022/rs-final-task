@@ -1,35 +1,36 @@
 .promoContainer {
-    position: fixed;
-    right: 30px;
-    top: 10%;
-    display: grid;
-    grid-template-columns: repeat(2, 170px);
-    grid-template-rows: 1fr;
-    height: 110px;
-    z-index: 100;
-    border-radius: 5px;
-    overflow: hidden;
+  position: fixed;
+  right: 30px;
+  top: 10%;
+  display: grid;
+  grid-template-columns: repeat(2, 170px);
+  grid-template-rows: 1fr;
+  height: 110px;
+  z-index: 100;
+  gap: 10px;
+  border-radius: 5px;
+  overflow: hidden;
 }
 
-@media screen and (max-width:800px) {
-    .promoContainer {
-        grid-template-columns: 170px;
-        grid-auto-rows: 1fr;
-        height: auto;
-    }
+@media screen and (max-width: 800px) {
+  .promoContainer {
+    grid-template-columns: 170px;
+    grid-auto-rows: 1fr;
+    height: auto;
+  }
 }
 
 .rsteamDiscount,
 .raceDiscount {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .rsteamDiscount {
-    background-image: url(./coupon50.svg);
+  background-image: url(./coupon50.svg);
 }
 
 .raceDiscount {
-    background-image: url(./coupon10.svg);
+  background-image: url(./coupon10.svg);
 }
