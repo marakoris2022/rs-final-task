@@ -18,6 +18,9 @@ type CategoryStore = {
   resetMaxCalls: string;
   limit: number;
   offset: number;
+  sortingOption: string;
+  movieOption: string;
+  discountOption: string;
   addCategories: (data: string[]) => void;
   updateCategories: (data: string[]) => void;
   clearCategories: () => void;
@@ -37,6 +40,9 @@ type CategoryStore = {
   setResetMaxCalls: (data: string) => void;
   setLimit: (data: number) => void;
   setOffset: (data: number) => void;
+  setSortingOption: (data: string) => void;
+  setDiscountOption: (data: string) => void;
+  setMovieOption: (data: string) => void;
 };
 
 export const useCategoryStore = create<CategoryStore>()((set) => ({
@@ -57,6 +63,9 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   resetMaxCalls: '5000',
   limit: 10,
   offset: 0,
+  sortingOption: 'priceAsc',
+  movieOption: 'moviesIncluded',
+  discountOption: 'allProducts',
   addCategories: (data: string[]) => {
     set({ categories: data });
   },
@@ -113,5 +122,14 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   },
   setOffset: (data: number) => {
     set({ offset: data });
+  },
+  setSortingOption: (data: string) => {
+    set({ sortingOption: data });
+  },
+  setMovieOption: (data: string) => {
+    set({ movieOption: data });
+  },
+  setDiscountOption: (data: string) => {
+    set({ discountOption: data });
   },
 }));

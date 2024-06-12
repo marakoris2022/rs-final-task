@@ -32,6 +32,9 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
   const setResetMax = useCategoryStore((state) => state.setResetMax);
   const setResetMinCalls = useCategoryStore((state) => state.setResetMinCalls);
   const setResetMaxCalls = useCategoryStore((state) => state.setResetMaxCalls);
+  const setSortingOption = useCategoryStore((state) => state.setSortingOption);
+  const setDiscountOption = useCategoryStore((state) => state.setDiscountOption);
+  const setMovieOption = useCategoryStore((state) => state.setMovieOption);
 
   const searchHandler = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
@@ -48,7 +51,18 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
     setResetMax(MAX_VALUE);
     setResetMinCalls(MIN_VALUE);
     setResetMaxCalls(MAX_VALUE_CALLS);
-  }, [setResetMax, setResetMaxCalls, setResetMin, setResetMinCalls]);
+    setSortingOption('priceAsc');
+    setDiscountOption('allProducts');
+    setMovieOption('moviesIncluded');
+  }, [
+    setDiscountOption,
+    setMovieOption,
+    setResetMax,
+    setResetMaxCalls,
+    setResetMin,
+    setResetMinCalls,
+    setSortingOption,
+  ]);
 
   const submitHandler = useCallback(
     (event: FormEvent<HTMLFormElement>) => {
@@ -108,8 +122,8 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           const found = options ? Array.from(options).find((item) => item.checked) : null;
           found && setSortingValue(found.value);
           found && found.dataset.name && setSortingCriteria(found.dataset.name);
-          !found && setSortingValue('');
-          !found && setSortingCriteria('');
+          /*           !found && setSortingValue('');
+                    !found && setSortingCriteria(''); */
         }
         setCloseCatalog(true);
       }
