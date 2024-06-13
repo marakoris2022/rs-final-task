@@ -2,21 +2,25 @@
 .priceWrapper,
 .nameWrapper,
 .movieWrapper {
-    width: 100%;
-    line-height: 100%;
+  width: 100%;
+  line-height: 100%;
+
+  border: 1px solid green;
+
+  margin-bottom: 15px;
 }
 
 .radioWrapper {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .radioLabel {
-    color: #fff;
-    margin-left: 5px;
+  color: #fff;
+  margin-left: 5px;
 }
 
 @media screen and (max-width: 1200px) {
-    .radioWrapper {
-        font-size: 0.8rem;
-    }
+  .radioWrapper {
+    font-size: 0.8rem;
+  }
 }
