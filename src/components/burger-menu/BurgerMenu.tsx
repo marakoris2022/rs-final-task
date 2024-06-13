@@ -8,11 +8,15 @@ type BurgerMenuProps = {
 export const BurgerMenu = ({ isOpen, onClick }: BurgerMenuProps) => {
   return (
     <div
-      className={`${styles.burgerMenuContainer} ${isOpen ? styles.active : ''}`}
+      className={`${styles.square} ${isOpen ? styles.active : ''}`}
       onClick={onClick}
       data-testid="generalBurgerMenu"
     >
-      <div className={styles.line}></div>
+      <div className={styles.burgerwrap}>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
   );
 };

@@ -9,7 +9,7 @@ body {
   letter-spacing: 0.32px;
   color: rgb(255, 255, 243);
 
-  background-image: url('/background_gif.webp');
+  background-image: url('/background_static.jpg');
 
   min-width: 100%;
   min-height: 100vh;
@@ -42,6 +42,10 @@ body {
       padding: 0 15px;
     }
   }
+}
+
+body.animateBack {
+  background-image: url('/background_gif.webp');
 }
 
 .no-scroll {
