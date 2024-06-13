@@ -158,8 +158,18 @@
 }
 
 .basketPageTitle {
-  text-align: center;
-  font-size: 1.35rem;
+  color: white;
+  margin: 20px auto;
+
+  letter-spacing: 3px;
+  border: 1px solid rgb(0, 255, 68);
+
+  width: fit-content;
+  border-radius: 5px;
+
+  background-color: rgba(5, 4, 62, 0.8);
+
+  padding: 10px 15px;
 }
 
 .cartItemImg {
