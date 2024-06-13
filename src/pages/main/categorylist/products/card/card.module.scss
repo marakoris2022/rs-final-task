@@ -3,7 +3,7 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  width: 45%;
+  width: 48%;
   min-width: 250px;
   justify-content: start;
   border: 1px solid rgb(3, 3, 44);
@@ -149,5 +149,10 @@
 
   .cardTitle {
     font-size: 1rem;
+  }
+}
+@media screen and (max-width: 608px) {
+  .card {
+    width: 90%;
   }
 }
