@@ -99,7 +99,7 @@
       display: flex;
       gap: 50px;
       font-size: 1.2rem;
-      color: green;
+      color: rgb(6 168 6);
       font-weight: 500;
 
       span {
@@ -192,6 +192,8 @@
   justify-content: center;
   align-items: center;
   height: 40vh;
+  background-color: rgba(5, 4, 62, 0.9);
+  margin-bottom: 20px;
 }
 
 .linkToCatalog {
@@ -207,8 +209,8 @@
   button {
     border: none;
     background-color: inherit;
-    color: green;
-    border-bottom: 1px solid green;
+    color: rgb(0, 212, 0);
+    border-bottom: 1px solid rgb(0, 212, 0);
     cursor: pointer;
     transition: all 0.2s ease;
     @media screen and (any-hover: hover) {
@@ -368,5 +370,5 @@
 }
 
 .basketTotalNoDiscount {
-  color: black;
+  color: rgb(210, 245, 255);
 }
