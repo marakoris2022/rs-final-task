@@ -56,7 +56,7 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   minPrice: '0',
   maxPrice: '50000',
   minPositiveCalls: '0',
-  maxPositiveCalls: '50000',
+  maxPositiveCalls: '5000',
   searchWords: '',
   closeCatalog: true,
   resetMin: '0',
