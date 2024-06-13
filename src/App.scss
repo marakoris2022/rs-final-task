@@ -1,0 +1,23 @@
+.scrollContainer {
+  display: flex;
+  position: fixed;
+  left: 0;
+  width: 300%;
+  height: 100%;
+  animation: scroll 50s linear infinite;
+  z-index: -1;
+}
+
+
+.scrollImage {
+  width: 33.33%;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.33%);
+  }
+}
