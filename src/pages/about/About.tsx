@@ -8,6 +8,7 @@ import reactLogo from '/react-img.svg';
 import zustandLogo from '/zustand.png';
 import commercetoolsLogo from '/commercetools-logo-2024.svg';
 import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
+import { RsSchoolLogo } from '../../components/rsschoollogo/RsSchoolLogo';
 
 export const About = () => {
   return (
@@ -97,9 +98,7 @@ export const About = () => {
       </div>
 
       <div className={styles.rsSchoolWrapper}>
-        <a className={styles.rsSchoolLink} target="blank" href="https://app.rs.school/">
-          <img style={{ width: '250px' }} src={rsSchoolLogo} alt="rsSchoolLogo" />
-        </a>
+        <RsSchoolLogo width="250" />
       </div>
       <Breadcrumbs currantPage="About Us" />
     </div>
