@@ -150,7 +150,8 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           <CheckboxComponent key={category.id} value={category.id}>
             {category.name['en-US']}
             <a style={{ color: 'white' }} href={`/category/${category.name['en-US']}`}>
-              <img style={{ width: '13px', marginLeft: '5px' }} src={newWindow} alt="+" />
+              {/* <img style={{ width: '13px', marginLeft: '5px' }} src={newWindow} alt="+" /> */}
+              <span className={styles.categoryLinkBtn}></span>
             </a>
           </CheckboxComponent>
         ))}

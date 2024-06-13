@@ -86,6 +86,21 @@
   border-bottom: 2px solid green;
   border-top: 2px solid green;
   margin-bottom: 15px;
+
+  .categoryLinkBtn {
+    display: inline-block;
+    background-image: url('/window-plus.svg');
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 15px 15px;
+    width: 15px;
+    height: 15px;
+
+    margin-left: 5px;
+  }
+  .categoryLinkBtn:hover {
+    background-image: url('/window-plus-active.svg');
+  }
 }
 
 .priceFilterWrapper,
