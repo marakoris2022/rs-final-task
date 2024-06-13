@@ -4,7 +4,7 @@ import photoSasha from '/photo_alex.jpg';
 import photoOlga from '/photo_olga.jpg';
 import photoSergey from '/photo_sergey.jpg';
 import rsSchoolLogo from '/logo-rsschool3.png';
-import reactLogo from '/small-icon_react-2.png';
+import reactLogo from '/react-img.svg';
 import zustandLogo from '/zustand.png';
 import commercetoolsLogo from '/commercetools-logo-2024.svg';
 import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
@@ -54,7 +54,7 @@ export const About = () => {
           assembling a starter build, creating catalogs, installing necessary libraries, and writing the README. Despite
           the newness of React JS, this task took just a few days, leaving us with ample time before the second sprint.
         </p>
-        <img className={styles.textImages} src={reactLogo} alt="ReactLogo" />
+        <img className={styles.reactLogo} src={reactLogo} alt="ReactLogo" />
         <p className={styles.projectText}>
           We used this time wisely, dedicating ourselves to learning React JS from scratch. Besides React JS, we also
           had to familiarize ourselves with Axios and Zustand. By the second sprint, we had grasped the basic concepts
@@ -67,7 +67,7 @@ export const About = () => {
           experience, Sergey tackled the Registration page, which had more input fields but was completed swiftly due to
           our familiarity with Formik.
         </p>
-        <img className={styles.textImages} src={zustandLogo} alt="ZustandLogo" />
+        <img className={styles.zustandImg} src={zustandLogo} alt="ZustandLogo" />
         <p className={styles.projectText}>
           Meanwhile, Olga focused on our backend platform, ‘commercetools.’ Despite its vast size and initial
           complexity, Olga successfully prepared our application to work with their API, allowing us to close the sprint

@@ -1,5 +1,6 @@
 .aboutPageWrapper {
-  background-color: rgba(5, 4, 62, 0.8);
+  background-color: rgba(5, 4, 62, 0.9);
+  border-radius: 5px;
 
   .aboutPageTitle {
     text-align: center;
@@ -30,15 +31,27 @@
     margin: 0 auto;
     margin-bottom: 30px;
 
-    .textImages {
+    .textImages,
+    .reactLogo,
+    .zustandImg {
       display: block;
       width: 30%;
-      min-width: 240px;
+      // min-width: 240px;
       margin: 0 auto;
 
       border-radius: 15px;
 
       max-height: 260px;
+    }
+
+    .reactLogo {
+      width: 120px;
+    }
+
+    .zustandImg {
+      -webkit-box-shadow: 2px 2px 2px 0px rgba(0, 255, 68, 0.4);
+      -moz-box-shadow: 2px 2px 2px 0px rgba(0, 255, 68, 0.4);
+      box-shadow: 2px 2px 2px 0px rgba(0, 255, 68, 0.4);
     }
 
     .projectText {
