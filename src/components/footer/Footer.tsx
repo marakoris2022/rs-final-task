@@ -11,7 +11,6 @@ export const Footer = () => {
         </div>
         <div className={styles.githubLinkWrapper}>
           <GitHubLink fontSize="18px" iconWidth="18px" name="Alexandr" link="https://github.com/oxygeniumo2" />
-
           <GitHubLink fontSize="18px" iconWidth="18px" name="Olga" link="https://github.com/lokispirit" />
           <GitHubLink fontSize="18px" iconWidth="18px" name="Sergey" link="https://github.com/marakoris2022" />
         </div>
