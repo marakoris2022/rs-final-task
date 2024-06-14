@@ -48,10 +48,12 @@
   flex-wrap: wrap;
   flex-direction: column;
   gap: 20px;
-  background-color: #eee;
+  background-color: rgba(4, 4, 49, 0.9);
   margin-bottom: 20px;
   border-radius: 10px;
   padding: 20px;
+
+  letter-spacing: 2px;
 
   .modifyIco {
     width: 25px;
@@ -93,7 +95,7 @@
 
   h4 {
     margin: 0;
-    min-width: 150px;
+    min-width: 170px;
     text-align: center;
   }
 
@@ -101,19 +103,17 @@
     margin: 0;
     font-size: 1.15rem;
     font-style: italic;
-    color: #333;
+    color: white;
     padding: 10px;
-    background-color: antiquewhite;
+    background-color: rgba(250, 235, 215, 0.2);
     border-radius: 10px;
   }
-
 
   @media screen and (max-width: 600px) {
     & {
       padding: 10px;
     }
   }
-
 }
 
 .labelInputContainer {
@@ -147,6 +147,7 @@
 .basicInfoContainerWithoutMargin {
   margin-bottom: 0;
   background-color: inherit;
+  color: rgb(250, 235, 215);
 
   h3 {
     margin: 0;

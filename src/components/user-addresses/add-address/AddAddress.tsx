@@ -199,7 +199,7 @@ export const AddAddress = () => {
 
   return (
     <>
-      <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>Add new address</h2>
+      <h2 className={styles.newAddressTitle}>Add new address</h2>
       <form className={styles.addAddressForm} onSubmit={formik.handleSubmit}>
         <div className={styles.addressTypeContainer}>
           <b>
@@ -339,7 +339,7 @@ export const AddAddress = () => {
 
         <div className={styles.addAddressBtnsContainer}>
           <Button
-            style={styles.addAddressBtn}
+            style={styles.addAddressBtn + ' ' + styles.addAddressBtnBack}
             title="Back"
             type="button"
             onClick={() => navigate('/profile/addresses')}

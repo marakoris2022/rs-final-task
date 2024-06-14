@@ -1,11 +1,25 @@
+.newAddressTitle {
+  color: white;
+  margin: 20px auto;
 
+  border: 1px solid rgb(0, 255, 68);
+
+  letter-spacing: 3px;
+
+  width: fit-content;
+  border-radius: 5px;
+
+  background-color: rgba(5, 4, 62, 0.8);
+
+  padding: 10px 15px;
+}
 .addAddressForm {
-
-
-  background-color: #eee;
+  background-color: rgba(4, 4, 49, 0.9);
   padding: 30px 20px 20px 20px;
   margin-bottom: 20px;
   border-radius: 10px;
+
+  letter-spacing: 2px;
 
   @media screen and (max-width: 470px) {
     & {
@@ -68,7 +82,6 @@
     margin-bottom: 25px;
   }
 
-
   .addAddressInputWrapper {
     display: flex;
     align-items: center;
@@ -106,7 +119,7 @@
   }
 
   .defaultText {
-    color: #591fe0;
+    color: #9d78f3;
     margin-top: 35px;
     transform: translateY(-26px);
     margin-left: 10px;
@@ -119,20 +132,21 @@
 
     .addAddressBtn {
       border: none;
-      background-color: #a4b5c2;
+      background-color: #7fcb47;
 
       @media screen and (any-hover: hover) {
-
         &:hover {
           background-color: #a9aaea;
         }
-
       }
 
       &:disabled {
         cursor: auto;
         background-color: #a4b5c2;
       }
+    }
+    .addAddressBtnBack {
+      background-color: rgb(160, 160, 255);
     }
   }
 }

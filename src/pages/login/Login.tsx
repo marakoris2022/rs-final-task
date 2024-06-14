@@ -4,8 +4,8 @@ import styles from './login.module.scss';
 
 export const Login = () => {
   return (
-    <main>
-      <section>
+    <main className={styles.mainWrapper}>
+      <section className={styles.formWrapper}>
         <h2 className={styles.loginPageTitle}>Login</h2>
         <LoginForm />
         <RegistrationPrompt />
