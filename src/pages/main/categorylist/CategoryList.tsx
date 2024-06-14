@@ -49,25 +49,12 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
     [setSearchWords],
   );
 
-  const resetHandler = useCallback(() => {
+  const resetHandler = () => {
     setResetMin(MIN_VALUE);
     setResetMax(MAX_VALUE);
     setResetMinCalls(MIN_VALUE);
     setResetMaxCalls(MAX_VALUE_CALLS);
-    setSortingOption('priceAsc');
-    setDiscountOption('allProducts');
-    setMovieOption('moviesIncluded');
-    setCategoryCheckedItems(['93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b', true, true]);
-  }, [
-    setDiscountOption,
-    setMovieOption,
-    setResetMax,
-    setResetMaxCalls,
-    setResetMin,
-    setResetMinCalls,
-    setSortingOption,
-    setCategoryCheckedItems,
-  ]);
+  };
 
   const submitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
