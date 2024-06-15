@@ -40,6 +40,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
     const searchedWordsInput = clicked.nextElementSibling as HTMLInputElement | null;
     if (!searchedWordsInput) return;
     setSearchWords(searchedWordsInput.value);
+    setSearchWordsForFetching(searchedWordsInput.value);
   };
 
   const resetHandler = useCallback(() => {
