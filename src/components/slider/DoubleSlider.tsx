@@ -29,7 +29,6 @@ export const DoubleSlider = ({ title, MIN, MAX }: DoubleSliderProbs) => {
   }, [setResetMax, setResetMin, sliderPriceValues]);
 
   useEffect(() => {
-    /* setValues([+resetMin, +resetMax]); */
     setSliderPriceValues([+resetMin, +resetMax]);
   }, [resetMin, resetMax, setSliderPriceValues]);
 

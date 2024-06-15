@@ -50,6 +50,8 @@ type CategoryStore = {
   setCategoryCheckedItems: (data: string) => void;
   removeCategoryCheckedItems: (data: string) => void;
   resetFilters: () => void;
+  setSliderPriceValues: (data: number[]) => void;
+  setSliderCBValues: (data: number[]) => void;
   setSearchWordsForFetching: (data: string) => void;
 };
 

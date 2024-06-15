@@ -55,7 +55,7 @@ export const DoubleSliderCallbacks = ({ title, MIN, MAX, signs }: DoubleSliderPr
           className={styles.rangeValue}
           onChange={(event) => {
             const newValue = +event.target.value;
-            setSliderCBValues([sliderCBValues[1], newValue]);
+            setSliderCBValues([sliderCBValues[0], newValue]);
           }}
           style={{ width: '30%', textAlign: 'end', borderRadius: '5px' }}
           type="text"
