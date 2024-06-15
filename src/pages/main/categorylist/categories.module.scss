@@ -70,6 +70,146 @@
       outline: none;
     }
   }
+}
+
+.titleContainer {
+  padding: 0px 5px;
+  width: 100%;
+}
+
+.categoryTitle {
+  color: #fff;
+  margin-right: 10px;
+  text-align: center;
+
+  letter-spacing: 3px;
+}
+
+.categoryWrapper {
+  width: 100%;
+  height: 50vh;
+  overflow: auto;
+
+  border: none;
+  border-bottom: 2px solid green;
+  border-top: 2px solid green;
+  margin-bottom: 15px;
+
+  .categoryLinkBtn {
+    display: inline-block;
+    background-image: url('/window-plus.svg');
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 15px 15px;
+    width: 15px;
+    height: 15px;
+
+    margin-left: 5px;
+  }
+
+  .categoryLinkBtn:hover {
+    background-image: url('/window-plus-active.svg');
+  }
+}
+
+.priceFilterWrapper,
+.positiveCallbacksFilterWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  border: none;
+  border-bottom: 2px solid green;
+
+  margin-bottom: 10px;
+}
+
+.searchLabel {
+  position: relative;
+
+  .glassImg {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background-image: url(/magnifying-glass.svg);
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 20px 20px;
+    z-index: 2;
+    cursor: pointer;
+    transition: all 0.2s linear;
+  }
+
+  .searchField {
+    position: relative;
+    padding: 5px 40px 5px 10px;
+    height: 40px;
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+
+    color: white;
+
+    border-style: inset;
+    border: 2px solid green;
+    background-color: rgba(11, 8, 155, 0.3);
+  }
+
+  .searchField:focus {
+    box-shadow: 5px 3px 3px #0dc6ec;
+  }
+}
+
+.searchField:active {
+  outline: none;
+}
+
+form::-webkit-scrollbar,
+.categoryWrapper::-webkit-scrollbar {
+  width: 10px;
+  background-color: rgb(2, 2, 62);
+}
+
+form::-webkit-scrollbar-track,
+.categoryWrapper::-webkit-scrollbar-track {
+  border: 5px solid (255, 255, 255, 0.25);
+  box-shadow: inset 0 0 2.5px 2px (0, 0, 0, 0, 0.5);
+  background-clip: content-box;
+}
+
+form::-webkit-scrollbar-thumb,
+.categoryWrapper::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: linear-gradient(to right, #fff, #0000ff);
+  cursor: pointer;
+}
+
+@media (hover: hover) {
+  .formBtn:hover {
+    background: lightgray;
+  }
+
+  .glassImg:hover,
+  .glassImg:active {
+    background-image: url(./magnifying-glass-hover.svg);
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .btnsContainer {
+    display: flex;
+    gap: 10px;
+    margin: 0 auto;
+    width: fit-content;
+    padding: 5px;
+
+    >* {
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+  }
 
   .titleContainer {
     padding: 0px 5px;
@@ -77,62 +217,18 @@
   }
 
   .categoryTitle {
-    color: #fff;
     margin-right: 10px;
-    text-align: center;
-
-    letter-spacing: 3px;
-  }
-
-  .formBtn {
-    width: 80px;
-    height: fit-content;
-    font-size: 1.2rem;
-    font-weight: 700;
-    padding: 5px;
-    border-radius: 10px;
-    background: rgb(160, 160, 160);
-    cursor: pointer;
-    transition: 0.2s ease;
   }
 
   .categoryWrapper {
-    width: 100%;
     height: 50vh;
     overflow: auto;
-
-    border: none;
-    border-bottom: 2px solid green;
-    border-top: 2px solid green;
-    margin-bottom: 15px;
-
-    .categoryLinkBtn {
-      display: inline-block;
-      background-image: url('/window-plus.svg');
-      background-repeat: no-repeat;
-      background-position: center right;
-      background-size: 15px 15px;
-      width: 15px;
-      height: 15px;
-
-      margin-left: 5px;
-    }
-
-    .categoryLinkBtn:hover {
-      background-image: url('/window-plus-active.svg');
-    }
   }
 
   .priceFilterWrapper,
-  .positiveCallbacksFilterWrapper {
-    width: 100%;
+  .yearFilterWrapper {
     display: flex;
     flex-direction: column;
-
-    border: none;
-    border-bottom: 2px solid green;
-
-    margin-bottom: 10px;
   }
 
   .searchLabel {
@@ -144,7 +240,7 @@
       right: 10px;
       width: 20px;
       height: 20px;
-      background-image: url(/magnifying-glass.svg);
+      background-image: url(./magnifying-glass.svg);
       background-repeat: no-repeat;
       background-position: center right;
       background-size: 20px 20px;
@@ -152,113 +248,17 @@
       cursor: pointer;
       transition: all 0.2s linear;
     }
-
-    .searchField {
-      position: relative;
-      padding: 5px 40px 5px 10px;
-      height: 40px;
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 10px;
-
-      color: white;
-
-      border-style: inset;
-      border: 2px solid green;
-      background-color: rgba(11, 8, 155, 0.3);
-    }
-
-    .searchField:focus {
-      box-shadow: 5px 3px 3px #0dc6ec;
-    }
   }
+}
 
-  .searchField:active {
-    outline: none;
-  }
-
-  form::-webkit-scrollbar,
-  .categoryWrapper::-webkit-scrollbar {
-    width: 10px;
-    background-color: rgb(2, 2, 62);
-  }
-
-  form::-webkit-scrollbar-track,
-  .categoryWrapper::-webkit-scrollbar-track {
-    border: 5px solid (255, 255, 255, 0.25);
-    box-shadow: inset 0 0 2.5px 2px (0, 0, 0, 0, 0.5);
-    background-clip: content-box;
-  }
-
-  form::-webkit-scrollbar-thumb,
-  .categoryWrapper::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background: linear-gradient(to right, #fff, #0000ff);
-    cursor: pointer;
-  }
-
-  @media (hover: hover) {
-    .formBtn:hover {
-      background: lightgray;
-    }
-
-    .glassImg:hover,
-    .glassImg:active {
-      background-image: url(./magnifying-glass-hover.svg);
-    }
-  }
-
-  @media screen and (max-width: 780px) {
-    .btnsContainer {
-      display: flex;
-      gap: 10px;
-      margin: 0 auto;
-      width: fit-content;
-      padding: 5px;
-
-      >* {
-        margin-right: 5px;
-        margin-bottom: 5px;
-      }
-    }
-
-    .titleContainer {
-      padding: 0px 5px;
-      width: 100%;
-    }
-
-    .categoryTitle {
-      margin-right: 10px;
-    }
-
-    .categoryWrapper {
-      height: 50vh;
-      overflow: auto;
-    }
-
-    .priceFilterWrapper,
-    .yearFilterWrapper {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .searchLabel {
-      position: relative;
-
-      .glassImg {
-        position: absolute;
-        top: 0;
-        right: 10px;
-        width: 20px;
-        height: 20px;
-        background-image: url(./magnifying-glass.svg);
-        background-repeat: no-repeat;
-        background-position: center right;
-        background-size: 20px 20px;
-        z-index: 2;
-        cursor: pointer;
-        transition: all 0.2s linear;
-      }
-    }
-  }
+.formBtn {
+  width: 80px;
+  height: fit-content;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 5px;
+  border-radius: 10px;
+  background: rgb(160, 160, 160);
+  cursor: pointer;
+  transition: 0.2s ease;
 }

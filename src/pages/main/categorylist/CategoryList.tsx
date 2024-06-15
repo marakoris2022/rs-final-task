@@ -29,6 +29,8 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
   const setPositiveCallsMin = useCategoryStore((state) => state.setPositiveCallsMin);
   const setPositiveCallsMax = useCategoryStore((state) => state.setPositiveCallsMax);
   const setSearchWords = useCategoryStore((state) => state.setSearchWords);
+  const setSearchWordsForFetching = useCategoryStore((state) => state.setSearchWordsForFetching);
+  const searchWords = useCategoryStore((state) => state.searchWords);
   const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
   const categoryCheckedItems = useCategoryStore((state) => state.categoryCheckedItems);
   const resetFilters = useCategoryStore((state) => state.resetFilters);
@@ -52,8 +54,10 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
       const searchedWordsInput = form.elements.namedItem('searchField') as HTMLInputElement;
       if (searchedWordsInput && searchedWordsInput.value) {
         setSearchWords(searchedWordsInput.value);
+        setSearchWordsForFetching(searchedWordsInput.value);
       } else {
         setSearchWords('');
+        setSearchWordsForFetching('');
       }
 
       const categorySet = form.elements.namedItem('categoryFieldSet') as HTMLFieldSetElement | null;
@@ -62,22 +66,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         const filtered = formElements.filter((elem) => elem.type === 'checkbox' && elem.checked);
         const mapped = filtered.map((box) => box.value);
         if (!arraysEqual(categories, mapped)) {
-          const searchedWordsInput = form.elements.namedItem('searchField') as HTMLInputElement;
-          if (searchedWordsInput && searchedWordsInput.value) {
-            setSearchWords(searchedWordsInput.value);
-          } else {
-            setSearchWords('');
-          }
-
-          const categorySet = form.elements.namedItem('categoryFieldSet') as HTMLFieldSetElement | null;
-          if (categorySet) {
-            const formElements = Array.from(categorySet.elements) as HTMLInputElement[];
-            const filtered = formElements.filter((elem) => elem.type === 'checkbox' && elem.checked);
-            const mapped = filtered.map((box) => box.value);
-            if (!arraysEqual(categories, mapped)) {
-              addCategories(mapped);
-            }
-          }
+          addCategories(mapped);
         }
       }
 
@@ -138,6 +127,8 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           type="text"
           id="searchField"
           name="searchField"
+          value={searchWords}
+          onChange={(event) => setSearchWords(event.target.value)}
         />
       </label>
       <fieldset className={styles.categoryWrapper} name="categoryFieldSet">

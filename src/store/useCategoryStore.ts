@@ -11,6 +11,7 @@ type CategoryStore = {
   minPositiveCalls: string;
   maxPositiveCalls: string;
   searchWords: string;
+  searchWordsForFetching: string;
   closeCatalog: boolean;
   resetMin: string;
   resetMax: string;
@@ -49,8 +50,7 @@ type CategoryStore = {
   setCategoryCheckedItems: (data: string) => void;
   removeCategoryCheckedItems: (data: string) => void;
   resetFilters: () => void;
-  setSliderPriceValues: (data: number[]) => void;
-  setSliderCBValues: (data: number[]) => void;
+  setSearchWordsForFetching: (data: string) => void;
 };
 
 export const useCategoryStore = create<CategoryStore>()((set) => ({
@@ -64,6 +64,7 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   minPositiveCalls: '0',
   maxPositiveCalls: '5000',
   searchWords: '',
+  searchWordsForFetching: '',
   closeCatalog: true,
   resetMin: '0',
   resetMax: '50000',
@@ -112,6 +113,9 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   },
   setSearchWords: (data: string) => {
     set({ searchWords: data });
+  },
+  setSearchWordsForFetching: (data: string) => {
+    set({ searchWordsForFetching: data });
   },
   setCloseCatalog: (data: boolean) => {
     set({ closeCatalog: data });
@@ -163,6 +167,7 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
       movieOption: 'moviesIncluded',
       discountOption: 'allProducts',
       categoryCheckedItems: ['93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b'],
+      searchWords: '',
       resetMin: '0',
       resetMax: '50000',
       resetMinCalls: '0',

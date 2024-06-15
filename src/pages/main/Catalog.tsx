@@ -31,7 +31,7 @@ const getProductList = async (
   maxPrice: string,
   minPositiveCalls: string,
   maxPositiveCalls: string,
-  searchWords: string,
+  searchWordsForFetching: string,
   offset: number,
   limit: number,
 ): Promise<ProductProps | null> => {
@@ -45,7 +45,7 @@ const getProductList = async (
     maxPrice,
     minPositiveCalls,
     maxPositiveCalls,
-    searchWords,
+    searchWordsForFetching,
     offset,
     limit,
   );
@@ -66,7 +66,7 @@ export const Catalog = () => {
   const selectedMaxPrice = useCategoryStore((state) => state.maxPrice);
   const selectedMinPositiveCalls = useCategoryStore((state) => state.minPositiveCalls);
   const selectedMaxPositiveCalls = useCategoryStore((state) => state.maxPositiveCalls);
-  const searchWords = useCategoryStore((state) => state.searchWords);
+  const searchWordsForFetching = useCategoryStore((state) => state.searchWordsForFetching);
   const closeCatalog = useCategoryStore((state) => state.closeCatalog);
   const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
   const limit = useCategoryStore((state) => state.limit);
@@ -104,7 +104,7 @@ export const Catalog = () => {
           selectedMaxPrice,
           selectedMinPositiveCalls,
           selectedMaxPositiveCalls,
-          searchWords,
+          searchWordsForFetching,
           offset,
           limit,
         );
@@ -131,7 +131,7 @@ export const Catalog = () => {
     selectedMaxPrice,
     selectedMinPositiveCalls,
     selectedMaxPositiveCalls,
-    searchWords,
+    searchWordsForFetching,
     selectedSortingValue,
     offset,
     limit,
