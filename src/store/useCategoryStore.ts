@@ -138,15 +138,6 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   setDiscountOption: (data: string) => {
     set({ discountOption: data });
   },
-  /*   setCategoryCheckedItems: (data: [string, boolean, boolean]) => {
-      if (data[2]) {
-        set({ categoryCheckedItems: [data[0]] });
-      } else if (!data[2] && data[1]) {
-        set((state) => ({ categoryCheckedItems: state.categoryCheckedItems.concat(data[0]) }));
-      } else if (!data[2] && !data[1]) {
-        set((state) => ({ categoryCheckedItems: state.categoryCheckedItems.filter((item) => item !== data[0]) }));
-      }
-    }, */
   setCategoryCheckedItems: (data: string) => {
     set((state) => ({ categoryCheckedItems: state.categoryCheckedItems.concat(data) }));
   },

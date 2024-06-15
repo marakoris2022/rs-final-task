@@ -12,10 +12,6 @@ type CategoryListType = {
   categoryList: CategoryResults[];
 };
 
-/* const MIN_VALUE = '0';
-const MAX_VALUE = '50000';
-const MAX_VALUE_CALLS = '5000'; */
-
 const arraysEqual = (arr1: string[], arr2: string[]): boolean => {
   if (arr1.length !== arr2.length) return false;
   return arr1.every((value, index) => value == arr2[index]);
@@ -23,7 +19,6 @@ const arraysEqual = (arr1: string[], arr2: string[]): boolean => {
 
 export const CategoryList = ({ categoryList }: CategoryListType) => {
   const addCategories = useCategoryStore((state) => state.addCategories);
-  const categories = useCategoryStore((state) => state.categories);
   const categories = useCategoryStore((state) => state.categories);
   const isMovie = useCategoryStore((state) => state.isMovie);
   const isDiscounted = useCategoryStore((state) => state.isDiscounted);
@@ -46,15 +41,6 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
   };
 
   const resetHandler = useCallback(() => {
-    /* setResetMin(MIN_VALUE);
-    setResetMax(MAX_VALUE);
-    setResetMinCalls(MIN_VALUE);
-    setResetMaxCalls(MAX_VALUE_CALLS);
-    setSortingOption('priceAsc');
-    setDiscountOption('allProducts');
-    setMovieOption('moviesIncluded');
-    setCategoryCheckedItems(['93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b', true, true]);
-     */
     resetFilters();
   }, [resetFilters]);
 
@@ -62,11 +48,20 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
     event.preventDefault();
     if (event.target instanceof HTMLFormElement) {
       const form = event.target;
-      const submitHandler = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        if (event.target instanceof HTMLFormElement) {
-          const form = event.target;
 
+      const searchedWordsInput = form.elements.namedItem('searchField') as HTMLInputElement;
+      if (searchedWordsInput && searchedWordsInput.value) {
+        setSearchWords(searchedWordsInput.value);
+      } else {
+        setSearchWords('');
+      }
+
+      const categorySet = form.elements.namedItem('categoryFieldSet') as HTMLFieldSetElement | null;
+      if (categorySet) {
+        const formElements = Array.from(categorySet.elements) as HTMLInputElement[];
+        const filtered = formElements.filter((elem) => elem.type === 'checkbox' && elem.checked);
+        const mapped = filtered.map((box) => box.value);
+        if (!arraysEqual(categories, mapped)) {
           const searchedWordsInput = form.elements.namedItem('searchField') as HTMLInputElement;
           if (searchedWordsInput && searchedWordsInput.value) {
             setSearchWords(searchedWordsInput.value);
@@ -80,63 +75,12 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
             const filtered = formElements.filter((elem) => elem.type === 'checkbox' && elem.checked);
             const mapped = filtered.map((box) => box.value);
             if (!arraysEqual(categories, mapped)) {
-              const searchedWordsInput = form.elements.namedItem('searchField') as HTMLInputElement;
-              if (searchedWordsInput && searchedWordsInput.value) {
-                setSearchWords(searchedWordsInput.value);
-              } else {
-                setSearchWords('');
-              }
-
-              const categorySet = form.elements.namedItem('categoryFieldSet') as HTMLFieldSetElement | null;
-              if (categorySet) {
-                const formElements = Array.from(categorySet.elements) as HTMLInputElement[];
-                const filtered = formElements.filter((elem) => elem.type === 'checkbox' && elem.checked);
-                const mapped = filtered.map((box) => box.value);
-                if (!arraysEqual(categories, mapped)) {
-                  addCategories(mapped);
-                }
-              }
+              addCategories(mapped);
             }
           }
-
-          const priceSet = form.elements.namedItem('priceFieldSet') as HTMLFieldSetElement | null;
-          if (priceSet) {
-            const priceRangeMin = priceSet.elements.namedItem('minValue') as HTMLInputElement | null;
-            const priceRangeMax = priceSet.elements.namedItem('maxValue') as HTMLInputElement | null;
-            priceRangeMin && setPriceMin(priceRangeMin.value);
-            priceRangeMax && setPriceMax(priceRangeMax.value);
-          }
-          const positiveCallsSet = form.elements.namedItem('positiveCallsFieldSet') as HTMLFieldSetElement | null;
-          if (positiveCallsSet) {
-            const callsRangMin = positiveCallsSet.elements.namedItem('minValue') as HTMLInputElement | null;
-            const callsRangeMax = positiveCallsSet.elements.namedItem('maxValue') as HTMLInputElement | null;
-            callsRangMin && setPositiveCallsMin(callsRangMin.value);
-            callsRangeMax && setPositiveCallsMax(callsRangeMax.value);
-          }
-          const movieSet = form.elements.namedItem('movieFieldSet') as HTMLFieldSetElement | null;
-          if (movieSet) {
-            const options = movieSet.getElementsByClassName('movieSet') as HTMLCollectionOf<HTMLInputElement> | null;
-            const found = options ? Array.from(options).find((item) => item.checked) : null;
-            if (found && found.value === 'true') isMovie(true);
-            else isMovie(false);
-          }
-          const discountSet = form.elements.namedItem('discountFieldSet') as HTMLFieldSetElement | null;
-          if (discountSet) {
-            const options = discountSet.getElementsByClassName('discountSet') as HTMLCollectionOf<HTMLInputElement> | null;
-            const found = options ? Array.from(options).find((item) => item.checked) : null;
-            if (found && found.value === 'true') isDiscounted(true);
-            else isDiscounted(false);
-          }
-          const sortingSet = form.elements.namedItem('sortingFieldSet') as HTMLFieldSetElement | null;
-          if (sortingSet) {
-            const options = sortingSet.getElementsByClassName('sorting') as HTMLCollectionOf<HTMLInputElement> | null;
-            const found = options ? Array.from(options).find((item) => item.checked) : null;
-            found && setSortingValue(found.value);
-            found && found.dataset.name && setSortingCriteria(found.dataset.name);
-          }
-          setCloseCatalog(true);
         }
-      };
+      }
+
       const priceSet = form.elements.namedItem('priceFieldSet') as HTMLFieldSetElement | null;
       if (priceSet) {
         const priceRangeMin = priceSet.elements.namedItem('minValue') as HTMLInputElement | null;
@@ -210,7 +154,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
             </a>
           </CheckboxComponent>
         ))}
-      </fieldset >
+      </fieldset>
       <fieldset className={styles.priceFilterWrapper} name="priceFieldSet">
         <DoubleSlider title={'Price'} MIN={0} MAX={50000} signs={'C'}></DoubleSlider>
       </fieldset>
@@ -218,6 +162,6 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         <DoubleSliderCallbacks title={'Positive Callbacks'} MIN={0} MAX={5000}></DoubleSliderCallbacks>
       </fieldset>
       <SortOptions></SortOptions>
-    </form >
+    </form>
   );
 };
