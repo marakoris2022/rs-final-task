@@ -7,6 +7,7 @@ import { DoubleSlider } from '../../../components/slider/DoubleSlider';
 import { DoubleSliderCallbacks } from '../../../components/slider/DoubleSliderCallbacks';
 import { SortOptions } from './sort-section/SortOptions';
 import newWindow from '/window-plus.svg';
+import cn from 'classnames';
 
 type CategoryListType = {
   categoryList: CategoryResults[];
@@ -38,7 +39,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
   const searchHandler = (event: React.MouseEvent<HTMLElement>) => {
     const clicked = event.target as HTMLElement;
     const searchedWordsInput = clicked.nextElementSibling as HTMLInputElement | null;
-    if (!searchedWordsInput) return;
+    if (!searchedWordsInput || searchedWordsInput.value.length < 3) return;
     setSearchWords(searchedWordsInput.value);
     setSearchWordsForFetching(searchedWordsInput.value);
   };
@@ -54,6 +55,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
 
       const searchedWordsInput = form.elements.namedItem('searchField') as HTMLInputElement;
       if (searchedWordsInput && searchedWordsInput.value) {
+        if (searchedWordsInput.value.length < 3) return;
         setSearchWords(searchedWordsInput.value);
         setSearchWordsForFetching(searchedWordsInput.value);
       } else {
@@ -122,6 +124,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
       <label className={styles.searchLabel} htmlFor="searchField">
         <span onClick={searchHandler} className={styles.glassImg} />
         <input
+          /* minLength={3} */
           autoComplete="off"
           placeholder="Search..."
           className={styles.searchField}
@@ -129,8 +132,28 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
           id="searchField"
           name="searchField"
           value={searchWords}
-          onChange={(event) => setSearchWords(event.target.value)}
+          onBlur={() => {
+            document.getElementById('suggestion')?.classList.add(styles.hidden);
+          }}
+          onFocus={(event) => {
+            const val = event.target.value;
+            if (val.length < 3) {
+              document.getElementById('suggestion')?.classList.remove(styles.hidden);
+            }
+          }}
+          onChange={(event) => {
+            const val = event.target.value;
+            setSearchWords(val);
+            if (val.length < 3) {
+              document.getElementById('suggestion')?.classList.remove(styles.hidden);
+            } else {
+              document.getElementById('suggestion')?.classList.add(styles.hidden);
+            }
+          }}
         />
+        <p className={cn('suggestion', styles.hidden)} id="suggestion" style={{ color: 'red' }}>
+          Require 3 characters or more
+        </p>
       </label>
       <fieldset className={styles.categoryWrapper} name="categoryFieldSet">
         {categoryList.map((category) => (
