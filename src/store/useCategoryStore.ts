@@ -22,6 +22,8 @@ type CategoryStore = {
   movieOption: string;
   discountOption: string;
   categoryCheckedItems: string[];
+  sliderPriceValues: number[];
+  sliderCBValues: number[];
   addCategories: (data: string[]) => void;
   updateCategories: (data: string[]) => void;
   clearCategories: () => void;
@@ -44,10 +46,11 @@ type CategoryStore = {
   setSortingOption: (data: string) => void;
   setDiscountOption: (data: string) => void;
   setMovieOption: (data: string) => void;
-  /* setCategoryCheckedItems: (data: [string, boolean, boolean]) => void; */
   setCategoryCheckedItems: (data: string) => void;
   removeCategoryCheckedItems: (data: string) => void;
   resetFilters: () => void;
+  setSliderPriceValues: (data: number[]) => void;
+  setSliderCBValues: (data: number[]) => void;
 };
 
 export const useCategoryStore = create<CategoryStore>()((set) => ({
@@ -72,6 +75,8 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   movieOption: 'moviesIncluded',
   discountOption: 'allProducts',
   categoryCheckedItems: ['93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b'],
+  sliderPriceValues: [0, 50000],
+  sliderCBValues: [0, 5000],
   addCategories: (data: string[]) => {
     set({ categories: data });
   },
@@ -137,6 +142,12 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   },
   setDiscountOption: (data: string) => {
     set({ discountOption: data });
+  },
+  setSliderPriceValues: (data: number[]) => {
+    set({ sliderPriceValues: data });
+  },
+  setSliderCBValues: (data: number[]) => {
+    set({ sliderCBValues: data });
   },
   setCategoryCheckedItems: (data: string) => {
     set((state) => ({ categoryCheckedItems: state.categoryCheckedItems.concat(data) }));

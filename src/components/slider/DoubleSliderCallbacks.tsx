@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styles from './doubleSlider.module.scss';
 import './slider.scss';
 import Slider from 'react-slider';
@@ -16,17 +16,21 @@ export const DoubleSliderCallbacks = ({ title, MIN, MAX, signs }: DoubleSliderPr
   const resetMaxCalls = useCategoryStore((state) => state.resetMaxCalls);
   const setResetMinCalls = useCategoryStore((state) => state.setResetMinCalls);
   const setResetMaxCalls = useCategoryStore((state) => state.setResetMaxCalls);
-
-  const [values, setValues] = useState([MIN, MAX]);
-
-  useEffect(() => {
-    setResetMinCalls(values[0] + '');
-    setResetMaxCalls(values[1] + '');
-  }, [setResetMaxCalls, setResetMinCalls, values]);
+  const sliderCBValues = useCategoryStore((state) => state.sliderCBValues);
+  const setSliderCBValues = useCategoryStore((state) => state.setSliderCBValues);
 
   useEffect(() => {
-    setValues([+resetMinCalls, +resetMaxCalls]);
-  }, [resetMinCalls, resetMaxCalls]);
+    setSliderCBValues([MIN, MAX]);
+  }, []);
+
+  useEffect(() => {
+    setResetMinCalls(sliderCBValues[0] + '');
+    setResetMaxCalls(sliderCBValues[1] + '');
+  }, [setResetMaxCalls, setResetMinCalls, sliderCBValues]);
+
+  useEffect(() => {
+    setSliderCBValues([+resetMinCalls, +resetMaxCalls]);
+  }, [resetMinCalls, resetMaxCalls, setSliderCBValues]);
 
   return (
     <div className={styles.box}>
@@ -39,39 +43,31 @@ export const DoubleSliderCallbacks = ({ title, MIN, MAX, signs }: DoubleSliderPr
           className={styles.rangeValue}
           onChange={(event) => {
             const newValue = +event.target.value;
-            setValues((prev) => {
-              const arr = [...prev];
-              arr[0] = newValue;
-              return arr;
-            });
+            setSliderCBValues([newValue, sliderCBValues[1]]);
           }}
           style={{ width: '30%', textAlign: 'end', borderRadius: '5px' }}
           type="text"
           name="minValue"
-          value={values[0]}
+          value={sliderCBValues[0]}
         />{' '}
         - {signs}
         <input
           className={styles.rangeValue}
           onChange={(event) => {
             const newValue = +event.target.value;
-            setValues((prev) => {
-              const arr = [...prev];
-              arr[1] = newValue;
-              return arr;
-            });
+            setSliderCBValues([sliderCBValues[1], newValue]);
           }}
           style={{ width: '30%', textAlign: 'end', borderRadius: '5px' }}
           type="text"
           name="maxValue"
-          value={values[1]}
+          value={sliderCBValues[1]}
         />
       </div>
       <small>
         Current Range: {signs}
-        {values[1] - values[0]}
+        {sliderCBValues[1] - sliderCBValues[0]}
       </small>
-      <Slider className={'slider'} onChange={setValues} value={values} min={MIN} max={MAX} />
+      <Slider className={'slider'} onChange={setSliderCBValues} value={sliderCBValues} min={MIN} max={MAX} />
     </div>
   );
 };
