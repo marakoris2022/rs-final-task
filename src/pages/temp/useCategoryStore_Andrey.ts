@@ -44,7 +44,6 @@ type CategoryStore = {
   setSortingOption: (data: string) => void;
   setDiscountOption: (data: string) => void;
   setMovieOption: (data: string) => void;
-  /* setCategoryCheckedItems: (data: [string, boolean, boolean]) => void; */
   setCategoryCheckedItems: (data: string) => void;
   removeCategoryCheckedItems: (data: string) => void;
   resetFilters: () => void;
@@ -59,7 +58,7 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   minPrice: '0',
   maxPrice: '50000',
   minPositiveCalls: '0',
-  maxPositiveCalls: '5000',
+  maxPositiveCalls: '50000',
   searchWords: '',
   closeCatalog: true,
   resetMin: '0',
@@ -138,15 +137,6 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
   setDiscountOption: (data: string) => {
     set({ discountOption: data });
   },
-  /*   setCategoryCheckedItems: (data: [string, boolean, boolean]) => {
-      if (data[2]) {
-        set({ categoryCheckedItems: [data[0]] });
-      } else if (!data[2] && data[1]) {
-        set((state) => ({ categoryCheckedItems: state.categoryCheckedItems.concat(data[0]) }));
-      } else if (!data[2] && !data[1]) {
-        set((state) => ({ categoryCheckedItems: state.categoryCheckedItems.filter((item) => item !== data[0]) }));
-      }
-    }, */
   setCategoryCheckedItems: (data: string) => {
     set((state) => ({ categoryCheckedItems: state.categoryCheckedItems.concat(data) }));
   },
@@ -161,10 +151,10 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
       movieOption: 'moviesIncluded',
       discountOption: 'allProducts',
       categoryCheckedItems: ['93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b'],
-      resetMin: '0',
-      resetMax: '50000',
-      resetMinCalls: '0',
-      resetMaxCalls: '5000',
+      minPrice: '0',
+      maxPrice: '50000',
+      minPositiveCalls: '0',
+      maxPositiveCalls: '50000',
     }));
   },
 }));

@@ -12,9 +12,9 @@ type CategoryListType = {
   categoryList: CategoryResults[];
 };
 
-const MIN_VALUE = '0';
+/* const MIN_VALUE = '0';
 const MAX_VALUE = '50000';
-const MAX_VALUE_CALLS = '5000';
+const MAX_VALUE_CALLS = '5000'; */
 
 const arraysEqual = (arr1: string[], arr2: string[]): boolean => {
   if (arr1.length !== arr2.length) return false;
@@ -34,27 +34,18 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
   const setPositiveCallsMax = useCategoryStore((state) => state.setPositiveCallsMax);
   const setSearchWords = useCategoryStore((state) => state.setSearchWords);
   const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
-  const setResetMin = useCategoryStore((state) => state.setResetMin);
-  const setResetMax = useCategoryStore((state) => state.setResetMax);
-  const setResetMinCalls = useCategoryStore((state) => state.setResetMinCalls);
-  const setResetMaxCalls = useCategoryStore((state) => state.setResetMaxCalls);
-  const setSortingOption = useCategoryStore((state) => state.setSortingOption);
-  const setDiscountOption = useCategoryStore((state) => state.setDiscountOption);
-  const setMovieOption = useCategoryStore((state) => state.setMovieOption);
-  const setCategoryCheckedItems = useCategoryStore((state) => state.setCategoryCheckedItems);
+  const categoryCheckedItems = useCategoryStore((state) => state.categoryCheckedItems);
+  const resetFilters = useCategoryStore((state) => state.resetFilters);
 
-  const searchHandler = useCallback(
-    (event: React.MouseEvent<HTMLElement>) => {
-      const clicked = event.target as HTMLElement;
-      const searchedWordsInput = clicked.nextElementSibling as HTMLInputElement | null;
-      if (!searchedWordsInput) return;
-      setSearchWords(searchedWordsInput.value);
-    },
-    [setSearchWords],
-  );
+  const searchHandler = (event: React.MouseEvent<HTMLElement>) => {
+    const clicked = event.target as HTMLElement;
+    const searchedWordsInput = clicked.nextElementSibling as HTMLInputElement | null;
+    if (!searchedWordsInput) return;
+    setSearchWords(searchedWordsInput.value);
+  };
 
   const resetHandler = useCallback(() => {
-    setResetMin(MIN_VALUE);
+    /* setResetMin(MIN_VALUE);
     setResetMax(MAX_VALUE);
     setResetMinCalls(MIN_VALUE);
     setResetMaxCalls(MAX_VALUE_CALLS);
@@ -62,16 +53,9 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
     setDiscountOption('allProducts');
     setMovieOption('moviesIncluded');
     setCategoryCheckedItems(['93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b', true, true]);
-  }, [
-    setDiscountOption,
-    setMovieOption,
-    setResetMax,
-    setResetMaxCalls,
-    setResetMin,
-    setResetMinCalls,
-    setSortingOption,
-    setCategoryCheckedItems,
-  ]);
+     */
+    resetFilters();
+  }, [resetFilters]);
 
   const submitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -138,7 +122,9 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
     <form onSubmit={submitHandler} className={styles.form}>
       <div className={styles.btnsContainer}>
         <input type="submit" className={styles.formBtn} value="submit" />
-        <input type="reset" className={styles.formBtn} value="reset" onClick={resetHandler} />
+        <button type="button" className={styles.formBtn} onClick={resetHandler}>
+          reset
+        </button>
       </div>
       <div className={styles.titleContainer}>{<h2 className={styles.categoryTitle}>Categories</h2>}</div>
       <label className={styles.searchLabel} htmlFor="searchField">
@@ -154,7 +140,12 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
       </label>
       <fieldset className={styles.categoryWrapper} name="categoryFieldSet">
         {categoryList.map((category) => (
-          <CheckboxComponent key={category.id} value={category.id}>
+          <CheckboxComponent
+            name={category.name['en-US']}
+            key={category.id}
+            value={category.id}
+            isChecked={categoryCheckedItems.includes(category.id)}
+          >
             {category.name['en-US']}
             <a style={{ color: 'white' }} href={`/category/${category.name['en-US']}`}>
               <img style={{ width: '13px', marginLeft: '5px' }} src={newWindow} alt="+" />

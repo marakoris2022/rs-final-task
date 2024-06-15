@@ -18,7 +18,7 @@
   padding: 5px;
   width: 100%;
 
-  > * {
+  >* {
     margin-right: 10px;
     margin-bottom: 5px;
   }
@@ -35,6 +35,8 @@
 }
 
 .formBtn {
+  width: 80px;
+  height: fit-content;
   font-size: 1.2rem;
   font-weight: 700;
   padding: 5px;
@@ -42,7 +44,6 @@
   background: rgb(160, 160, 160);
   cursor: pointer;
   transition: 0.2s ease;
-  height: fit-content;
 }
 
 .categoryWrapper {
@@ -133,7 +134,7 @@ form::-webkit-scrollbar-thumb,
     padding: 5px;
     width: 100%;
 
-    > * {
+    >* {
       margin-right: 5px;
       margin-bottom: 5px;
     }
@@ -147,17 +148,6 @@ form::-webkit-scrollbar-thumb,
   .categoryTitle {
     color: #fff;
     margin-right: 10px;
-  }
-
-  .formBtn {
-    font-size: 1.2rem;
-    font-weight: 700;
-    padding: 5px;
-    border-radius: 10px;
-    background: rgb(160, 160, 160);
-    cursor: pointer;
-    transition: 0.2s ease;
-    height: fit-content;
   }
 
   .categoryWrapper {

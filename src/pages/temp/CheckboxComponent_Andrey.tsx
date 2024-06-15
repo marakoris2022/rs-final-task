@@ -2,29 +2,17 @@ import { useCategoryStore } from '../../store/useCategoryStore';
 import styles from './checkboxComponent.module.scss';
 
 type CategoryType = {
-  isChecked?: boolean;
-  onChange?: (newChecked: boolean) => void;
   children: React.ReactNode;
   value: string;
+  isChecked?: boolean;
   name?: string;
   additionalStyles?: { color: string };
+  onChange?: (newChecked: boolean) => void;
 };
 
 export const CheckboxComponent = ({ isChecked = false, additionalStyles, name, value, children }: CategoryType) => {
-  /* const categoryCheckedItems = useCategoryStore((state) => state.categoryCheckedItems); */
   const setCategoryCheckedItems = useCategoryStore((state) => state.setCategoryCheckedItems);
   const removeCategoryCheckedItems = useCategoryStore((state) => state.removeCategoryCheckedItems);
-  /*  const handleCategoryItem = useCallback(
-     (event: React.ChangeEvent<HTMLInputElement>) => {
-       const box = event.target;
-       if (box instanceof HTMLInputElement) {
-         box.checked === true
-           ? setCategoryCheckedItems([box.value, true, false])
-           : setCategoryCheckedItems([box.value, false, false]);
-       }
-     },
-     [setCategoryCheckedItems],
-   ); */
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -39,8 +27,6 @@ export const CheckboxComponent = ({ isChecked = false, additionalStyles, name, v
         id={value}
         name={name}
         value={value}
-        /* checked={categoryCheckedItems.includes(value)} */
-        /* onChange={handleCategoryItem} */
         checked={isChecked}
         onChange={handleChange}
       />
