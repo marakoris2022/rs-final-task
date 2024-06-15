@@ -130,6 +130,7 @@ export const Basket = () => {
                   </button>
 
                   <input
+                    className={styles.quantityInput}
                     type="text"
                     value={item.quantity}
                     onChange={async (e) => {

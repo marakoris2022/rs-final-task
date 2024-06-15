@@ -1,9 +1,12 @@
-$color-inactive: #2C2C32;
-$color-active: #0f7dc6;
+$color-inactive: rgb(255, 255, 243);
+$color-active: rgb(0, 255, 68);
 
 .active {
   color: $color-active;
+  border-radius: 5px;
   cursor: default;
+
+  font-weight: 500;
 }
 
 .inactive {
@@ -17,7 +20,7 @@ $color-active: #0f7dc6;
   text-decoration: none;
 }
 
-@media (hover:hover) {
+@media (hover: hover) {
   .inactive:hover {
     filter: drop-shadow(0 0 0.75rem crimson);
     text-decoration: underline;

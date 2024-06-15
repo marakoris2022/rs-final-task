@@ -41,6 +41,12 @@ export const App = () => {
 
   return (
     <>
+      <div className="scrollContainer">
+        <img src="background_static2.jpg" alt="Scrolling Image" className="scrollImage"></img>
+        <img src="background_static2.jpg" alt="Scrolling Image" className="scrollImage"></img>
+        <img src="background_static2.jpg" alt="Scrolling Image" className="scrollImage"></img>
+      </div>
+
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Catalog />} />

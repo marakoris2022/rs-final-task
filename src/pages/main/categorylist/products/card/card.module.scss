@@ -3,10 +3,10 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  width: 45%;
+  width: 48%;
   min-width: 250px;
   justify-content: start;
-  border: 1px solid rgb(3, 3, 44);
+  border: 1px solid rgb(0, 255, 68);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -14,11 +14,12 @@
 .cardTitle {
   text-align: center;
   line-height: 110%;
-  background: radial-gradient(brown, rgb(70, 52, 1), );
+  background: rgba(66, 162, 236, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   padding: 5px;
   margin: 0;
   width: 100%;
-  color: #fff;
+  color: black;
   border-radius: 10px;
   font-size: 1.5rem;
 }
@@ -75,15 +76,25 @@
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  height: 35px;
+  height: 38px;
   padding: 5px;
-  background: linear-gradient(to right, #e6dedf, rgb(125, 142, 16));
+  // background: linear-gradient(to right, #e6dedf, rgb(125, 142, 16));
+  background-color: rgba(66, 162, 236, 0.8);
   color: #fff;
   font-weight: 700;
-  align-items: baseline;
+  align-items: center;
+  cursor: pointer;
+
+  transition: all 0.8s ease;
 
   span {
     margin-left: 5px;
+  }
+
+  .cartIcon {
+    width: 25px;
+    padding: 1px;
+    margin: 0 15px;
   }
 
   .discount {
@@ -104,6 +115,13 @@
   }
 }
 
+.priceInfo.active {
+  background: rgb(232, 255, 232);
+}
+.priceInfo.active span {
+  color: darkgreen;
+}
+
 @media (hover: hover) {
   .cardBtn:hover {
     background-color: lightgray;
@@ -120,6 +138,13 @@
   .cardDescription:hover {
     background-color: rgb(4, 4, 51);
   }
+
+  .priceInfo:hover {
+    background-color: rgba(11, 78, 130, 0.9);
+  }
+  .priceInfo.active:hover {
+    background-color: rgb(103, 177, 103);
+  }
 }
 
 @media screen and (max-width: 1000px) {
@@ -129,5 +154,10 @@
 
   .cardTitle {
     font-size: 1rem;
+  }
+}
+@media screen and (max-width: 608px) {
+  .card {
+    width: 90%;
   }
 }

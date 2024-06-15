@@ -51,7 +51,7 @@ export const Profile = () => {
   }
 
   return (
-    <main>
+    <main className={styles.mainProfile}>
       <section>
         <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>Profile</h2>
         <div className={styles.profileSectionBtnsContainer}>

@@ -1,3 +1,8 @@
+.mainProfile {
+  background-color: rgba(5, 4, 62, 0.8);
+
+  letter-spacing: 2px;
+}
 
 .profileSectionBtnsContainer {
   display: flex;
@@ -9,18 +14,19 @@
 }
 
 .profileSectionBtn {
-  background-color: #bcbcbc;
+  background-color: #7891ea;
   border: none;
   min-width: 155px;
 
   @media (any-hover: hover) {
     &:hover {
-      background-color: #b1cbff;
+      background-color: #5576eb;
     }
   }
   &.active {
     background-color: #1d4ae9;
     color: white;
+    border: 1px solid rgb(0, 255, 68);
     cursor: default;
   }
 }

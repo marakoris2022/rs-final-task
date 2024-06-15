@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Address, ECommerceLS } from '../interfaces/interfaces';
 import { useCartStore } from '../store/useCartStore';
 import { apiClient } from './commers-tools-api';
+import { ProductType } from './catalogue-api';
 import { ProductData } from '../pages/product/Product';
 
 const projectKey = import.meta.env.VITE_PROJECT_KEY;
@@ -291,7 +292,7 @@ export const setCartToCustomerById = async (cart: Cart, customerId: string) => {
 
 export const addProductToCart = async (
   cart: Cart,
-  product: ProductDataLineItem | ProductData,
+  product: ProductDataLineItem | ProductData | ProductType,
   quantity: number | undefined,
   copyCart = false,
 ) => {
@@ -346,7 +347,7 @@ export const addProductToCart = async (
 
 export const changeProductsQuantity = async (
   cart: Cart,
-  products: ProductDataLineItem[] | ProductData[],
+  products: ProductDataLineItem[] | ProductData[] | ProductType[],
   quantityToAdd: number,
 ) => {
   const commerceObj = localStorage.getItem(ECommerceKey);

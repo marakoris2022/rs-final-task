@@ -3,11 +3,18 @@ import styles from './card.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { ProductType, getProductByKey } from '../../../../../api/catalogue-api';
 import { ModalWindow } from '../../../../../components/modal/ModalWindow';
+import { useCartStore } from '../../../../../store/useCartStore';
+import { Cart, addProductToCart, changeProductsQuantity } from '../../../../../api/commerce-tools-api-cart';
+import cartIcon from '/cart-check-svgrepo-com.svg';
 
 type CardType = {
   product: ProductType;
   dataTestid: string;
 };
+
+function findInCart(cart: Cart, productId: string) {
+  return cart?.lineItems.find((item) => item.productId === productId);
+}
 
 export const ProductCard = ({ product, dataTestid }: CardType) => {
   const navigate = useNavigate();
@@ -17,6 +24,7 @@ export const ProductCard = ({ product, dataTestid }: CardType) => {
   const [currency, setCurrency] = useState('USD');
   const [discount, setDiscount] = useState('');
   const [priceWithDiscount, setPriceWithDiscount] = useState(0);
+  const cart = useCartStore((state) => state.cart);
 
   useEffect(() => {
     const { url } = product.masterVariant.images[0];
@@ -54,30 +62,48 @@ export const ProductCard = ({ product, dataTestid }: CardType) => {
   }, [navigate, product.key]);
 
   return (
-    <div className={styles.card} onClick={clickHandle} data-testid={dataTestid}>
-      <div className={styles.cardContainer}>
+    <div className={styles.card} data-testid={dataTestid}>
+      <div onClick={clickHandle} className={styles.cardContainer}>
         <div className={styles.cardDescriptionContainer} style={{ backgroundImage: `url(${imageURL})` }}>
           <h2 className={styles.cardTitle}>{product.name['en-US']}</h2>
           <p className={styles.cardDescription}> {product.description['en-US']}</p>
         </div>
       </div>
-      <div className={styles.priceInfo}>
-        {discount ? (
-          <span>
-            <s>{price}</s>
-          </span>
-        ) : (
-          <span>{price}</span>
-        )}
-        <span>{currency}</span>
-        {Boolean(discount) && (
-          <>
-            <span className={styles.discount}>-{discount}%</span>
-            <span className={styles.discountPrice}>{priceWithDiscount}</span>
-            <span className={styles.discountPriceCurrency}>{currency}</span>
-          </>
-        )}
-      </div>
+
+      {findInCart(cart!, product.id) ? (
+        <div
+          onClick={() => {
+            changeProductsQuantity(cart!, [product], 0);
+          }}
+          className={styles.priceInfo + ' ' + styles.active}
+        >
+          <span>Have in cart</span>
+          <img className={styles.cartIcon} src={cartIcon} alt="Cart" />
+        </div>
+      ) : (
+        <div
+          onClick={() => {
+            addProductToCart(cart!, product, 1);
+          }}
+          className={styles.priceInfo}
+        >
+          {discount ? (
+            <span>
+              <s>{price}</s>
+            </span>
+          ) : (
+            <span>{price}</span>
+          )}
+          <span>{currency}</span>
+          {Boolean(discount) && (
+            <>
+              <span className={styles.discount}>-{discount}%</span>
+              <span className={styles.discountPrice}>{priceWithDiscount}</span>
+              <span className={styles.discountPriceCurrency}>{currency}</span>
+            </>
+          )}
+        </div>
+      )}
       {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
     </div>
   );

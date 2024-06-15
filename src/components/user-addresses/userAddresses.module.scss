@@ -14,7 +14,7 @@
 
 .addressesTitle {
   text-align: center;
-  background-color: #e29c38;
+  background-color: #001769;
   padding: 20px 0;
   border-radius: 10px;
   margin-bottom: 10px;
@@ -27,16 +27,19 @@
   margin: 0 auto;
   background-color: #7fcb47;
 
+  color: #122a82;
+  border: 2px solid #1d4ae9;
+
   @media screen and (any-hover: hover) {
     &:hover {
-      background-color: #a9aaea;
+      background-color: #a8f670;
     }
   }
 }
 
 .shippingAddressesContainer,
 .billingAddressesContainer {
-  background-color: #71c791;
+  background-color: #055322;
   padding: 10px;
   border-radius: 10px;
   margin-top: 20px;
@@ -44,13 +47,13 @@
 }
 
 .billingAddressesContainer {
-  background-color: #7697cf;
+  background-color: #345181;
 }
 
 .addressContainer {
-  background-color: #eee;
+  background-color: transparent;
   gap: 10px;
-  padding: 20px;
+  padding: 3px;
   margin-bottom: 10px;
   border-radius: 10px;
   justify-content: center;
@@ -69,16 +72,16 @@
     display: flex;
     width: 100%;
     margin-bottom: 10px;
-    gap: 10px;
+    gap: 3px;
     flex-wrap: wrap;
   }
 
   .addressItemContainer {
     display: flex;
     gap: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 3px;
     align-items: center;
-    background-color: aliceblue;
+    background-color: #001769;
     padding: 10px 5px;
     flex-grow: 1;
     flex-wrap: wrap;
@@ -119,20 +122,20 @@
 
     @media screen and (max-width: 540px) {
       & {
-       flex-direction: column;
-       justify-content: center;
+        flex-direction: column;
+        justify-content: center;
       }
 
       .addressManageBtnsContainer {
         margin: 0;
         justify-content: center;
       }
-     }
+    }
   }
 
   .addressValue {
     padding: 5px;
-    background-color: antiquewhite;
+    background-color: #1d4ae9;
     border-radius: 10px;
     font-style: italic;
     font-size: 1.1rem;
