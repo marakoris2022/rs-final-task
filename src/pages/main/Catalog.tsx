@@ -77,8 +77,11 @@ export const Catalog = () => {
   const [lastPage, setLastPage] = useState(0);
 
   const handleBurger = () => {
-    if (closeCatalog) setCloseCatalog(false);
-    else setCloseCatalog(true);
+    if (closeCatalog) {
+      setCloseCatalog(false);
+    } else {
+      setCloseCatalog(true);
+    }
   };
 
   useEffect(() => {
