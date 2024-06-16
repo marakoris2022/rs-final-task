@@ -31,7 +31,7 @@ const getProductList = async (
   maxPrice: string,
   minPositiveCalls: string,
   maxPositiveCalls: string,
-  searchWords: string,
+  searchWordsForFetching: string,
   offset: number,
   limit: number,
 ): Promise<ProductProps | null> => {
@@ -45,7 +45,7 @@ const getProductList = async (
     maxPrice,
     minPositiveCalls,
     maxPositiveCalls,
-    searchWords,
+    searchWordsForFetching,
     offset,
     limit,
   );
@@ -66,7 +66,7 @@ export const Catalog = () => {
   const selectedMaxPrice = useCategoryStore((state) => state.maxPrice);
   const selectedMinPositiveCalls = useCategoryStore((state) => state.minPositiveCalls);
   const selectedMaxPositiveCalls = useCategoryStore((state) => state.maxPositiveCalls);
-  const searchWords = useCategoryStore((state) => state.searchWords);
+  const searchWordsForFetching = useCategoryStore((state) => state.searchWordsForFetching);
   const closeCatalog = useCategoryStore((state) => state.closeCatalog);
   const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
   const limit = useCategoryStore((state) => state.limit);
@@ -77,8 +77,11 @@ export const Catalog = () => {
   const [lastPage, setLastPage] = useState(0);
 
   const handleBurger = () => {
-    if (closeCatalog) setCloseCatalog(false);
-    else setCloseCatalog(true);
+    if (closeCatalog) {
+      setCloseCatalog(false);
+    } else {
+      setCloseCatalog(true);
+    }
   };
 
   useEffect(() => {
@@ -104,7 +107,7 @@ export const Catalog = () => {
           selectedMaxPrice,
           selectedMinPositiveCalls,
           selectedMaxPositiveCalls,
-          searchWords,
+          searchWordsForFetching,
           offset,
           limit,
         );
@@ -131,7 +134,7 @@ export const Catalog = () => {
     selectedMaxPrice,
     selectedMinPositiveCalls,
     selectedMaxPositiveCalls,
-    searchWords,
+    searchWordsForFetching,
     selectedSortingValue,
     offset,
     limit,
@@ -146,7 +149,7 @@ export const Catalog = () => {
       <section className={styles.mainSection}>
         <div className={closeCatalog ? styles.blur : `${styles.blur} ${styles.showBlur}`} onClick={handleBurger} />
         <article className={closeCatalog ? styles.formWrapper : `${styles.formWrapper} ${styles.showForm}`}>
-          {ctgList ? <CategoryList categoryList={ctgList} /> : <Loading />}
+          {ctgList ? <CategoryList categoryList={ctgList} setCurrentPage={setCurrentPage} /> : <Loading />}
         </article>
         <article className={styles.cardsWrapper}>
           <PromoCode></PromoCode>

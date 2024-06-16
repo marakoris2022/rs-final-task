@@ -7,21 +7,19 @@ import { DoubleSlider } from '../../../components/slider/DoubleSlider';
 import { DoubleSliderCallbacks } from '../../../components/slider/DoubleSliderCallbacks';
 import { SortOptions } from './sort-section/SortOptions';
 import newWindow from '/window-plus.svg';
+import cn from 'classnames';
 
 type CategoryListType = {
   categoryList: CategoryResults[];
+  setCurrentPage: (data: number) => void;
 };
-
-const MIN_VALUE = '0';
-const MAX_VALUE = '50000';
-const MAX_VALUE_CALLS = '5000';
 
 const arraysEqual = (arr1: string[], arr2: string[]): boolean => {
   if (arr1.length !== arr2.length) return false;
   return arr1.every((value, index) => value == arr2[index]);
 };
 
-export const CategoryList = ({ categoryList }: CategoryListType) => {
+export const CategoryList = ({ categoryList, setCurrentPage }: CategoryListType) => {
   const addCategories = useCategoryStore((state) => state.addCategories);
   const categories = useCategoryStore((state) => state.categories);
   const isMovie = useCategoryStore((state) => state.isMovie);
@@ -33,28 +31,26 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
   const setPositiveCallsMin = useCategoryStore((state) => state.setPositiveCallsMin);
   const setPositiveCallsMax = useCategoryStore((state) => state.setPositiveCallsMax);
   const setSearchWords = useCategoryStore((state) => state.setSearchWords);
+  const setSearchWordsForFetching = useCategoryStore((state) => state.setSearchWordsForFetching);
+  const searchWords = useCategoryStore((state) => state.searchWords);
   const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
-  const setResetMin = useCategoryStore((state) => state.setResetMin);
-  const setResetMax = useCategoryStore((state) => state.setResetMax);
-  const setResetMinCalls = useCategoryStore((state) => state.setResetMinCalls);
-  const setResetMaxCalls = useCategoryStore((state) => state.setResetMaxCalls);
+  const categoryCheckedItems = useCategoryStore((state) => state.categoryCheckedItems);
+  const resetFilters = useCategoryStore((state) => state.resetFilters);
+  const setOffset = useCategoryStore((state) => state.setOffset);
 
-  const searchHandler = useCallback(
-    (event: React.MouseEvent<HTMLElement>) => {
-      const clicked = event.target as HTMLElement;
-      const searchedWordsInput = clicked.nextElementSibling as HTMLInputElement | null;
-      if (!searchedWordsInput) return;
-      setSearchWords(searchedWordsInput.value);
-    },
-    [setSearchWords],
-  );
-
-  const resetHandler = () => {
-    setResetMin(MIN_VALUE);
-    setResetMax(MAX_VALUE);
-    setResetMinCalls(MIN_VALUE);
-    setResetMaxCalls(MAX_VALUE_CALLS);
+  const searchHandler = (event: React.MouseEvent<HTMLElement>) => {
+    const clicked = event.target as HTMLElement;
+    const searchedWordsInput = clicked.nextElementSibling as HTMLInputElement | null;
+    if (!searchedWordsInput || searchedWordsInput.value.length < 3) return;
+    setSearchWords(searchedWordsInput.value);
+    setSearchWordsForFetching(searchedWordsInput.value);
+    setOffset(0);
+    setCurrentPage(1);
   };
+
+  const resetHandler = useCallback(() => {
+    resetFilters();
+  }, [resetFilters]);
 
   const submitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -63,9 +59,12 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
 
       const searchedWordsInput = form.elements.namedItem('searchField') as HTMLInputElement;
       if (searchedWordsInput && searchedWordsInput.value) {
+        if (searchedWordsInput.value.length < 3) return;
         setSearchWords(searchedWordsInput.value);
+        setSearchWordsForFetching(searchedWordsInput.value);
       } else {
         setSearchWords('');
+        setSearchWordsForFetching('');
       }
 
       const categorySet = form.elements.namedItem('categoryFieldSet') as HTMLFieldSetElement | null;
@@ -113,6 +112,8 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         found && setSortingValue(found.value);
         found && found.dataset.name && setSortingCriteria(found.dataset.name);
       }
+      setOffset(0);
+      setCurrentPage(1);
       setCloseCatalog(true);
     }
   };
@@ -121,27 +122,56 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
     <form onSubmit={submitHandler} className={styles.form}>
       <div className={styles.btnsContainer}>
         <input type="submit" className={styles.formBtn} value="submit" />
-        <input type="reset" className={styles.formBtn} value="reset" onClick={resetHandler} />
+        <button type="button" className={styles.formBtn} onClick={resetHandler}>
+          reset
+        </button>
       </div>
       <div className={styles.titleContainer}>{<h2 className={styles.categoryTitle}>Categories</h2>}</div>
       <label className={styles.searchLabel} htmlFor="searchField">
         <span onClick={searchHandler} className={styles.glassImg} />
         <input
+          /* minLength={3} */
           autoComplete="off"
           placeholder="Search..."
           className={styles.searchField}
           type="text"
           id="searchField"
           name="searchField"
+          value={searchWords}
+          onBlur={() => {
+            document.getElementById('suggestion')?.classList.add(styles.hidden);
+          }}
+          onFocus={(event) => {
+            const val = event.target.value;
+            if (val.length < 3) {
+              document.getElementById('suggestion')?.classList.remove(styles.hidden);
+            }
+          }}
+          onChange={(event) => {
+            const val = event.target.value;
+            setSearchWords(val);
+            if (val.length < 3) {
+              document.getElementById('suggestion')?.classList.remove(styles.hidden);
+            } else {
+              document.getElementById('suggestion')?.classList.add(styles.hidden);
+            }
+          }}
         />
+        <p className={cn('suggestion', styles.hidden)} id="suggestion" style={{ color: 'red' }}>
+          Require 3 characters or more
+        </p>
       </label>
       <fieldset className={styles.categoryWrapper} name="categoryFieldSet">
         {categoryList.map((category) => (
-          <CheckboxComponent key={category.id} value={category.id}>
+          <CheckboxComponent
+            name={category.name['en-US']}
+            key={category.id}
+            value={category.id}
+            isChecked={categoryCheckedItems.includes(category.id)}
+          >
             {category.name['en-US']}
             <a style={{ color: 'white' }} href={`/category/${category.name['en-US']}`}>
-              {/* <img style={{ width: '13px', marginLeft: '5px' }} src={newWindow} alt="+" /> */}
-              <span className={styles.categoryLinkBtn}></span>
+              <img style={{ width: '13px', marginLeft: '5px' }} src={newWindow} alt="+" />
             </a>
           </CheckboxComponent>
         ))}

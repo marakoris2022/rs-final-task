@@ -18,21 +18,29 @@
 }
 
 .promoTitle {
+    display: inline-block;
+    width: fit-content;
     color: rgb(44, 26, 2);
     font-size: 1.1rem;
 }
 
 .promoName {
-    padding: 5px;
     color: rgb(10, 1, 45);
-    background-color: white;
-    border-radius: 5px;
     margin-right: 5px;
 }
 
 .promoText {
     font-size: 1.2rem;
     color: rgb(45, 2, 2);
+
+}
+
+.promoText,
+.promoName,
+.promoTitle {
+    background-color: white;
+    border-radius: 5px;
+    padding: 2px;
 }
 
 .closeBtn {
