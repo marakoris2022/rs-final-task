@@ -146,7 +146,7 @@ export const Catalog = () => {
       <section className={styles.mainSection}>
         <div className={closeCatalog ? styles.blur : `${styles.blur} ${styles.showBlur}`} onClick={handleBurger} />
         <article className={closeCatalog ? styles.formWrapper : `${styles.formWrapper} ${styles.showForm}`}>
-          {ctgList ? <CategoryList categoryList={ctgList} /> : <Loading />}
+          {ctgList ? <CategoryList categoryList={ctgList} setCurrentPage={setCurrentPage} /> : <Loading />}
         </article>
         <article className={styles.cardsWrapper}>
           <PromoCode></PromoCode>

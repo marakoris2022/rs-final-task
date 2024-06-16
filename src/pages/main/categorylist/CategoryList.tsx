@@ -11,6 +11,7 @@ import cn from 'classnames';
 
 type CategoryListType = {
   categoryList: CategoryResults[];
+  setCurrentPage: (data: number) => void;
 };
 
 const arraysEqual = (arr1: string[], arr2: string[]): boolean => {
@@ -18,7 +19,7 @@ const arraysEqual = (arr1: string[], arr2: string[]): boolean => {
   return arr1.every((value, index) => value == arr2[index]);
 };
 
-export const CategoryList = ({ categoryList }: CategoryListType) => {
+export const CategoryList = ({ categoryList, setCurrentPage }: CategoryListType) => {
   const addCategories = useCategoryStore((state) => state.addCategories);
   const categories = useCategoryStore((state) => state.categories);
   const isMovie = useCategoryStore((state) => state.isMovie);
@@ -35,6 +36,7 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
   const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
   const categoryCheckedItems = useCategoryStore((state) => state.categoryCheckedItems);
   const resetFilters = useCategoryStore((state) => state.resetFilters);
+  const setOffset = useCategoryStore((state) => state.setOffset);
 
   const searchHandler = (event: React.MouseEvent<HTMLElement>) => {
     const clicked = event.target as HTMLElement;
@@ -42,6 +44,8 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
     if (!searchedWordsInput || searchedWordsInput.value.length < 3) return;
     setSearchWords(searchedWordsInput.value);
     setSearchWordsForFetching(searchedWordsInput.value);
+    setOffset(0);
+    setCurrentPage(1);
   };
 
   const resetHandler = useCallback(() => {
@@ -108,6 +112,8 @@ export const CategoryList = ({ categoryList }: CategoryListType) => {
         found && setSortingValue(found.value);
         found && found.dataset.name && setSortingCriteria(found.dataset.name);
       }
+      setOffset(0);
+      setCurrentPage(1);
       setCloseCatalog(true);
     }
   };

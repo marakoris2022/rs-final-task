@@ -1,5 +1,4 @@
 import { ECommerceLS } from '../interfaces/interfaces';
-import { useCategoryStore } from '../store/useCategoryStore';
 import { apiClient } from './commers-tools-api';
 
 const projectKey = import.meta.env.VITE_PROJECT_KEY;
