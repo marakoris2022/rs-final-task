@@ -120,6 +120,7 @@
     width: 20px;
     height: 20px;
     background-image: url(/magnifying-glass.svg);
+    border-radius: 10px;
     background-repeat: no-repeat;
     background-position: center right;
     background-size: 20px 20px;
@@ -175,7 +176,13 @@ form::-webkit-scrollbar-thumb,
 @media (hover: hover) {
   .glassImg:hover,
   .glassImg:active {
-    background-image: url(./magnifying-glass-hover.svg);
+    background-image: url(/magnifying-glass-hover.svg);
+    border-radius: 10px;
+    box-shadow:
+      0 0 2px rgba(0, 183, 255, 0.5),
+      0 0 5px rgba(0, 183, 255, 0.5),
+      0 0 20px rgba(0, 183, 255, 0.5),
+      0 0 30px rgba(0, 183, 255, 0.5);
   }
 }
 
@@ -222,7 +229,7 @@ form::-webkit-scrollbar-thumb,
       right: 10px;
       width: 20px;
       height: 20px;
-      background-image: url(./magnifying-glass.svg);
+      background-image: url(/magnifying-glass.svg);
       background-repeat: no-repeat;
       background-position: center right;
       background-size: 20px 20px;

@@ -6,7 +6,6 @@ import { useCategoryStore } from '../../../store/useCategoryStore';
 import { DoubleSlider } from '../../../components/slider/DoubleSlider';
 import { DoubleSliderCallbacks } from '../../../components/slider/DoubleSliderCallbacks';
 import { SortOptions } from './sort-section/SortOptions';
-import newWindow from '/window-plus.svg';
 import cn from 'classnames';
 
 type CategoryListType = {

@@ -16,7 +16,6 @@ import {
 } from '../../api/commerce-tools-api-profile';
 import { EditAddress } from './edit-address/EditAddress';
 import { Address } from '../../interfaces/interfaces';
-import addIcon from '/add-circle-svgrepo-com.svg';
 
 const CountryCodes: Record<string, string> = {
   US: 'USA',
