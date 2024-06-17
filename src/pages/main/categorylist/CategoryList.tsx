@@ -177,6 +177,8 @@ export const CategoryList = ({ categoryList, setCurrentPage }: CategoryListType)
                 clearCategories();
                 addCategories([category.id]);
                 clearCategoryCheckedItems();
+                setOffset(0);
+                setCurrentPage(1);
               }}
               style={{ color: 'white' }}
             >
