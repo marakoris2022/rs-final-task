@@ -6,6 +6,7 @@ import { useCategoryStore } from '../../../store/useCategoryStore';
 import { DoubleSlider } from '../../../components/slider/DoubleSlider';
 import { DoubleSliderCallbacks } from '../../../components/slider/DoubleSliderCallbacks';
 import { SortOptions } from './sort-section/SortOptions';
+
 import cn from 'classnames';
 
 type CategoryListType = {
@@ -20,6 +21,8 @@ const arraysEqual = (arr1: string[], arr2: string[]): boolean => {
 
 export const CategoryList = ({ categoryList, setCurrentPage }: CategoryListType) => {
   const addCategories = useCategoryStore((state) => state.addCategories);
+  const clearCategories = useCategoryStore((state) => state.clearCategories);
+  const clearCategoryCheckedItems = useCategoryStore((state) => state.clearCategoryCheckedItems);
   const categories = useCategoryStore((state) => state.categories);
   const isMovie = useCategoryStore((state) => state.isMovie);
   const isDiscounted = useCategoryStore((state) => state.isDiscounted);
@@ -169,7 +172,14 @@ export const CategoryList = ({ categoryList, setCurrentPage }: CategoryListType)
             isChecked={categoryCheckedItems.includes(category.id)}
           >
             {category.name['en-US']}
-            <a style={{ color: 'white' }} href={`/category/${category.name['en-US']}`}>
+            <a
+              onClick={() => {
+                clearCategories();
+                addCategories([category.id]);
+                clearCategoryCheckedItems();
+              }}
+              style={{ color: 'white' }}
+            >
               <span className={styles.categoryLinkBtn}></span>
             </a>
           </CheckboxComponent>

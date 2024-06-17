@@ -49,6 +49,7 @@ type CategoryStore = {
   setMovieOption: (data: string) => void;
   setCategoryCheckedItems: (data: string) => void;
   removeCategoryCheckedItems: (data: string) => void;
+  clearCategoryCheckedItems: () => void;
   resetFilters: () => void;
   setSliderPriceValues: (data: number[]) => void;
   setSliderCBValues: (data: number[]) => void;
@@ -163,6 +164,8 @@ export const useCategoryStore = create<CategoryStore>()((set) => ({
       categoryCheckedItems: state.categoryCheckedItems.filter((item) => item !== data),
     }));
   },
+  clearCategoryCheckedItems: () => set({ categoryCheckedItems: [] }),
+
   resetFilters: () => {
     set(() => ({
       sortingOption: 'priceAsc',

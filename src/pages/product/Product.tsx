@@ -140,7 +140,9 @@ function ItemInTheCart(
 export const Product = () => {
   const navigate = useNavigate();
   const clearCategories = useCategoryStore((state) => state.clearCategories);
+  const clearCategoryCheckedItems = useCategoryStore((state) => state.clearCategoryCheckedItems);
   const addCategories = useCategoryStore((state) => state.addCategories);
+  const setCategoryCheckedItems = useCategoryStore((state) => state.setCategoryCheckedItems);
   const cart = useCartStore((state) => state.cart);
   const { key } = useParams();
   const [isLoading, setIsLoading] = useState(true);
@@ -169,6 +171,8 @@ export const Product = () => {
   function categoryClick(id: string) {
     clearCategories();
     addCategories([id]);
+    clearCategoryCheckedItems();
+    setCategoryCheckedItems(id);
     navigate(`/`);
   }
 
