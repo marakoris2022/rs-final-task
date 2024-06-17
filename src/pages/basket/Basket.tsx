@@ -102,7 +102,7 @@ export const Basket = () => {
   }
 
   return (
-    <div>
+    <div className={styles.basketContainer}>
       <h2 className={styles.basketPageTitle}>Basket Page</h2>
       {cart?.lineItems.map((item) => {
         return (
