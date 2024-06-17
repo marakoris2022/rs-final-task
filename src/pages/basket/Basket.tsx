@@ -210,13 +210,14 @@ export const Basket = () => {
                   try {
                     setIsLoading(() => true);
                     await changeProductsQuantity(cart, [item], 0);
-                    setIsLoading(() => false);
                     setMsg(() => `Product "${item.name.en.toUpperCase()}" successfully removed`);
                   } catch (err: unknown) {
                     if (err instanceof Error) {
                       const errMsg = err.message;
                       setMsg(() => errMsg);
                     }
+                  } finally {
+                    setIsLoading(() => false);
                   }
                 }}
               />
