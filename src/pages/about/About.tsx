@@ -3,7 +3,6 @@ import { AboutCard } from '../../components/about-card/AboutCard';
 import photoSasha from '/photo_alex.jpg';
 import photoOlga from '/photo_olga.jpg';
 import photoSergey from '/photo_sergey.jpg';
-import rsSchoolLogo from '/logo-rsschool3.png';
 import reactLogo from '/react-img.svg';
 import zustandLogo from '/zustand.png';
 import commercetoolsLogo from '/commercetools-logo-2024.svg';
