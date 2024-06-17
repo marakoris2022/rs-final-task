@@ -144,6 +144,7 @@ export const Product = () => {
   const addCategories = useCategoryStore((state) => state.addCategories);
   const setCategoryCheckedItems = useCategoryStore((state) => state.setCategoryCheckedItems);
   const cart = useCartStore((state) => state.cart);
+  const setOffset = useCategoryStore((state) => state.setOffset);
   const { key } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [isModal, setIsModal] = useState(false);
@@ -173,6 +174,7 @@ export const Product = () => {
     addCategories([id]);
     clearCategoryCheckedItems();
     setCategoryCheckedItems(id);
+    setOffset(0);
     navigate(`/`);
   }
 
