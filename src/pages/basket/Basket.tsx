@@ -207,9 +207,18 @@ export const Basket = () => {
               <FaTrash
                 className={styles.removeProduct}
                 onClick={async () => {
-                  setIsLoading(() => true);
-                  await changeProductsQuantity(cart, [item], 0);
-                  setIsLoading(() => false);
+                  try {
+                    setIsLoading(() => true);
+                    await changeProductsQuantity(cart, [item], 0);
+                    setMsg(() => `Product "${item.name.en.toUpperCase()}" successfully removed`);
+                  } catch (err: unknown) {
+                    if (err instanceof Error) {
+                      const errMsg = err.message;
+                      setMsg(() => errMsg);
+                    }
+                  } finally {
+                    setIsLoading(() => false);
+                  }
                 }}
               />
             </div>
