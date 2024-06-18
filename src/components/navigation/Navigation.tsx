@@ -124,7 +124,13 @@ export const Navigation = () => {
                 <GiShoppingCart className={styles.shoppingCart} />
               </CustomLink>
               {cart?.lineItems.length !== 0 && (
-                <div className={styles.basketNumberOfItems}>- {cart?.lineItems.length}</div>
+                <div className={styles.basketNumberOfItems}>
+                  -{' '}
+                  {cart?.lineItems.reduce((acc, item) => {
+                    acc += item.quantity;
+                    return acc;
+                  }, 0)}
+                </div>
               )}
             </div>
           </li>
