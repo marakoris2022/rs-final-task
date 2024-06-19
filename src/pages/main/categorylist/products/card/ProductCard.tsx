@@ -6,7 +6,6 @@ import { ModalWindow } from '../../../../../components/modal/ModalWindow';
 import { useCartStore } from '../../../../../store/useCartStore';
 import { Cart, addProductToCart, changeProductsQuantity } from '../../../../../api/commerce-tools-api-cart';
 import cartIcon from '/cart-check-svgrepo-com.svg';
-import { BiColor } from 'react-icons/bi';
 
 type CardType = {
   product: ProductType;
@@ -24,7 +23,6 @@ export const ProductCard = ({ product, dataTestid }: CardType) => {
   const [price, setPrice] = useState(0);
   const [currency, setCurrency] = useState('USD');
   const [discount, setDiscount] = useState('');
-  const [buyLoading, setBuyLoading] = useState(false);
   const [priceWithDiscount, setPriceWithDiscount] = useState(0);
   const cart = useCartStore((state) => state.cart);
 
