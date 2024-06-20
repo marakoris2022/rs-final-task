@@ -16,6 +16,7 @@ import { Loading } from './components/loading/Loading';
 import { Category } from './pages/category/Category';
 import { About } from './pages/about/About';
 import { Basket } from './pages/basket/Basket';
+import { Path } from './interfaces/enum';
 
 const Layout = () => {
   return (
@@ -48,22 +49,22 @@ export const App = () => {
       </div>
 
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path={Path.Home} element={<Layout />}>
           <Route index element={<Catalog />} />
-          <Route path="/category/:data" element={<Category />} />
-          <Route path="/login" element={isLogged ? <Navigate to="/" replace /> : <Login />} />
-          <Route path="/registration" element={isLogged ? <Navigate to="/" replace /> : <Registration />} />
-          <Route path="/profile" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />
-          <Route path="/profile/personal-info" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />
-          <Route path="/profile/addresses" element={isLogged ? <Profile /> : <Navigate to="/login" replace />} />
-          <Route path="/about" element={<About />} />
+          <Route path={Path.CategoryData} element={<Category />} />
+          <Route path={Path.Login} element={isLogged ? <Navigate to={Path.Home} replace /> : <Login />} />
+          <Route path={Path.Registration} element={isLogged ? <Navigate to={Path.Home} replace /> : <Registration />} />
+          <Route path={Path.Profile} element={isLogged ? <Profile /> : <Navigate to={Path.Login} replace />} />
           <Route
-            path="/profile/addresses/add-address"
-            element={isLogged ? <AddAddress /> : <Navigate to="/login" replace />}
+            path={Path.ProfilePersonalInfo}
+            element={isLogged ? <Profile /> : <Navigate to={Path.Login} replace />}
           />
-          <Route path="/catalog/:key" element={<Product />} />
-          <Route path="/basket" element={<Basket />} />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path={Path.ProfileAddresses} element={isLogged ? <Profile /> : <Navigate to={Path.Login} replace />} />
+          <Route path={Path.About} element={<About />} />
+          <Route path={Path.AddAddress} element={isLogged ? <AddAddress /> : <Navigate to={Path.Login} replace />} />
+          <Route path={Path.ProductKey} element={<Product />} />
+          <Route path={Path.Basket} element={<Basket />} />
+          <Route path={Path.NotFound} element={<NotFoundPage />} />
         </Route>
       </Routes>
     </>

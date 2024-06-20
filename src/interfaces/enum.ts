@@ -24,4 +24,20 @@ enum Category {
   Accounting = 'b86528fd-5351-4249-9248-f4c8de4a225e',
 }
 
+export enum Path {
+  Home = '/',
+  CategoryData = '/category/:data',
+  Category = '/category',
+  Login = '/login',
+  Registration = '/registration',
+  Profile = '/profile',
+  ProfilePersonalInfo = '/profile/personal-info',
+  ProfileAddresses = '/profile/addresses',
+  About = '/about',
+  AddAddress = '/profile/addresses/add-address',
+  ProductKey = '/catalog/:key',
+  Basket = '/basket',
+  NotFound = '*',
+}
+
 export default Category;

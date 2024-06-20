@@ -1,6 +1,7 @@
 import { useLocation, Link } from 'react-router-dom';
 import styles from './breadcrumbs.module.scss';
 import homeImg from '/home-icon.svg';
+import { Path } from '../../interfaces/enum';
 
 type BreadcrumbsPages = {
   currantPage?: string;
@@ -15,11 +16,11 @@ export const Breadcrumbs = ({ currantPage, subPage }: BreadcrumbsPages) => {
   const crumbs: JSX.Element[] = location.pathname.split('/').reduce<JSX.Element[]>((acc, crumb, index, arr) => {
     let crumbName = crumb;
 
-    if (crumb === '/') return acc;
+    if (crumb === '') return acc;
 
     if (subPage && index === arr.length - 2) {
       crumbName = subPage;
-      currentLink += `/category`;
+      currentLink += Path.Category;
     }
     if (currantPage && index === arr.length - 1) {
       crumbName = currantPage;
