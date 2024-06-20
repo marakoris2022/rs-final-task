@@ -7,7 +7,7 @@ type CategoryType = {
   children: React.ReactNode;
   value: string;
   name?: string;
-  additionalStyles?: { color: string };
+  additionalStyles?: { [rule: string]: string };
 };
 
 export const CheckboxComponent = ({ isChecked = false, additionalStyles, name, value, children }: CategoryType) => {
