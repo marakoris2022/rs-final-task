@@ -6,8 +6,7 @@ import { useCategoryStore } from '../../../store/useCategoryStore';
 import { DoubleSlider } from '../../../components/slider/DoubleSlider';
 import { DoubleSliderCallbacks } from '../../../components/slider/DoubleSliderCallbacks';
 import { SortOptions } from './sort-section/SortOptions';
-
-import cn from 'classnames';
+import { SearchWords } from '../../../components/search-field/SearchWords';
 
 type CategoryListType = {
   categoryList: CategoryResults[];
@@ -34,21 +33,10 @@ export const CategoryList = ({ categoryList, setCurrentPage }: CategoryListType)
   const setPositiveCallsMax = useCategoryStore((state) => state.setPositiveCallsMax);
   const setSearchWords = useCategoryStore((state) => state.setSearchWords);
   const setSearchWordsForFetching = useCategoryStore((state) => state.setSearchWordsForFetching);
-  const searchWords = useCategoryStore((state) => state.searchWords);
   const setCloseCatalog = useCategoryStore((state) => state.setCloseCatalog);
   const categoryCheckedItems = useCategoryStore((state) => state.categoryCheckedItems);
   const resetFilters = useCategoryStore((state) => state.resetFilters);
   const setOffset = useCategoryStore((state) => state.setOffset);
-
-  const searchHandler = (event: React.MouseEvent<HTMLElement>) => {
-    const clicked = event.target as HTMLElement;
-    const searchedWordsInput = clicked.nextElementSibling as HTMLInputElement | null;
-    if (!searchedWordsInput || searchedWordsInput.value.length < 3) return;
-    setSearchWords(searchedWordsInput.value);
-    setSearchWordsForFetching(searchedWordsInput.value);
-    setOffset(0);
-    setCurrentPage(1);
-  };
 
   const resetHandler = useCallback(() => {
     resetFilters();
@@ -129,40 +117,7 @@ export const CategoryList = ({ categoryList, setCurrentPage }: CategoryListType)
         </button>
       </div>
       <div className={styles.titleContainer}>{<h2 className={styles.categoryTitle}>Categories</h2>}</div>
-      <label className={styles.searchLabel} htmlFor="searchField">
-        <span onClick={searchHandler} className={styles.glassImg} />
-        <input
-          /* minLength={3} */
-          autoComplete="off"
-          placeholder="Search..."
-          className={styles.searchField}
-          type="text"
-          id="searchField"
-          name="searchField"
-          value={searchWords}
-          onBlur={() => {
-            document.getElementById('suggestion')?.classList.add(styles.hidden);
-          }}
-          onFocus={(event) => {
-            const val = event.target.value;
-            if (val.length < 3) {
-              document.getElementById('suggestion')?.classList.remove(styles.hidden);
-            }
-          }}
-          onChange={(event) => {
-            const val = event.target.value;
-            setSearchWords(val);
-            if (val.length < 3) {
-              document.getElementById('suggestion')?.classList.remove(styles.hidden);
-            } else {
-              document.getElementById('suggestion')?.classList.add(styles.hidden);
-            }
-          }}
-        />
-        <p className={cn('suggestion', styles.hidden)} id="suggestion" style={{ color: 'red' }}>
-          Require 3 characters or more
-        </p>
-      </label>
+      <SearchWords setPage={setCurrentPage} />
       <fieldset className={styles.categoryWrapper} name="categoryFieldSet">
         {categoryList.map((category) => (
           <CheckboxComponent

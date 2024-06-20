@@ -4,7 +4,6 @@ import { MemoryRouter } from 'react-router-dom';
 import { About } from './About';
 import { vi } from 'vitest';
 
-// Mock react-router-dom and correctly cast the actual import
 vi.mock('react-router-dom', async (importOriginal) => {
   const actual = (await importOriginal()) as typeof import('react-router-dom');
   return {
@@ -13,7 +12,6 @@ vi.mock('react-router-dom', async (importOriginal) => {
   };
 });
 
-// Mock AboutCard component
 vi.mock('../../components/about-card/AboutCard', () => ({
   AboutCard: ({
     authorName,
@@ -38,17 +36,14 @@ vi.mock('../../components/about-card/AboutCard', () => ({
   ),
 }));
 
-// Mock Breadcrumbs component
 vi.mock('../../components/breadcrumbs/Breadcrumbs', () => ({
   Breadcrumbs: ({ currantPage }: { currantPage: string }) => <div>{currantPage}</div>,
 }));
 
-// Mock RsSchoolLogo component
 vi.mock('../../components/rsschoollogo/RsSchoolLogo', () => ({
   RsSchoolLogo: ({ width }: { width: string }) => <div style={{ width }}>RS School Logo</div>,
 }));
 
-// Test suite for the About component
 describe('About Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -61,13 +56,10 @@ describe('About Component', () => {
       </MemoryRouter>,
     );
 
-    // Check for the presence of the main title
     expect(screen.getByText(/Meet Our Team/i)).toBeInTheDocument();
 
-    // Check for the presence of the breadcrumbs
     expect(screen.getAllByText(/About Us/i)).toHaveLength(2);
 
-    // Check for the presence of team members
     const teamMembers = [
       { name: 'Olga', title: 'Theoretical Master' },
       { name: 'Alexandr', title: 'Anonymous Coder' },
@@ -79,7 +71,6 @@ describe('About Component', () => {
       expect(screen.getByText(member.title)).toBeInTheDocument();
     });
 
-    // Check for the presence of the project journey text
     expect(screen.getByText(/Our Journey Through the Project/i)).toBeInTheDocument();
     expect(
       screen.getByText(
@@ -87,7 +78,6 @@ describe('About Component', () => {
       ),
     ).toBeInTheDocument();
 
-    // Check for the presence of the RS School logo
     expect(screen.getByText(/RS School Logo/i)).toBeInTheDocument();
   });
 });
