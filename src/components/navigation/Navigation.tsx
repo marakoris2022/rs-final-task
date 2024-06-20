@@ -8,6 +8,14 @@ import { GiShoppingCart } from 'react-icons/gi';
 import { useCartStore } from '../../store/useCartStore';
 import { Path } from '../../interfaces/enum';
 
+const setDocumentScrollBehaviour = (disable: boolean) => {
+  if (disable) {
+    document.body.classList.add('no-scroll');
+  } else {
+    document.body.classList.remove('no-scroll');
+  }
+};
+
 export const Navigation = () => {
   const { isLogged, setLogged } = useStore((state) => ({
     isLogged: state.isLogged,
@@ -18,11 +26,7 @@ export const Navigation = () => {
 
   const handleBurger = () => {
     setIsOpenBurger((prev) => !prev);
-    if (!isOpenBurger) {
-      document.body.classList.add('no-scroll');
-    } else {
-      document.body.classList.remove('no-scroll');
-    }
+    setDocumentScrollBehaviour(!isOpenBurger);
   };
 
   useEffect(() => {
