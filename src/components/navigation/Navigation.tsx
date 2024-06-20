@@ -6,6 +6,7 @@ import { getBasicToken } from '../../api/commers-tools-api';
 import { CustomLink } from '../custom-link/CustomLink';
 import { GiShoppingCart } from 'react-icons/gi';
 import { useCartStore } from '../../store/useCartStore';
+import { Path } from '../../interfaces/enum';
 
 export const Navigation = () => {
   const { isLogged, setLogged } = useStore((state) => ({
@@ -50,7 +51,7 @@ export const Navigation = () => {
         <ul className={`${styles.ulMenu} ${isOpenBurger ? styles.active : ''}`} onClick={(e) => e.stopPropagation()}>
           <li>
             <CustomLink
-              to="/"
+              to={Path.Home}
               onClick={() => {
                 isOpenBurger && handleBurger();
               }}
@@ -61,7 +62,7 @@ export const Navigation = () => {
           <li>
             {isLogged ? (
               <CustomLink
-                to="/profile/personal-info"
+                to={Path.ProfilePersonalInfo}
                 onClick={() => {
                   isOpenBurger && handleBurger();
                 }}
@@ -70,7 +71,7 @@ export const Navigation = () => {
               </CustomLink>
             ) : (
               <CustomLink
-                to="/login"
+                to={Path.Login}
                 onClick={() => {
                   isOpenBurger && handleBurger();
                 }}
@@ -82,7 +83,7 @@ export const Navigation = () => {
           <li>
             {isLogged ? (
               <CustomLink
-                to="/login"
+                to={Path.Login}
                 onClick={() => {
                   localStorage.clear();
                   getBasicToken();
@@ -94,7 +95,7 @@ export const Navigation = () => {
               </CustomLink>
             ) : (
               <CustomLink
-                to="/registration"
+                to={Path.Registration}
                 onClick={() => {
                   isOpenBurger && handleBurger();
                 }}
@@ -105,7 +106,7 @@ export const Navigation = () => {
           </li>
           <li>
             <CustomLink
-              to="/about"
+              to={Path.About}
               onClick={() => {
                 isOpenBurger && handleBurger();
               }}
@@ -116,7 +117,7 @@ export const Navigation = () => {
           <li>
             <div className={styles.basketContainer}>
               <CustomLink
-                to="/basket"
+                to={Path.Basket}
                 onClick={() => {
                   isOpenBurger && handleBurger();
                 }}
