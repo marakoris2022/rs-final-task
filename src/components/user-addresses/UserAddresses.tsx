@@ -88,9 +88,9 @@ export const UserAddresses = () => {
   };
 
   const handleChangeAddressType = async (
-    addressId: string | undefined,
     typeToRemove: RemoveAddressTypes,
     typeToAdd: AddressTypes,
+    addressId?: string,
   ) => {
     setIsLoading(() => true);
 
@@ -166,7 +166,7 @@ export const UserAddresses = () => {
                       title="Set as billing"
                       type="button"
                       onClick={() => {
-                        handleChangeAddressType(currAddress.id, RemoveAddressTypes.SHIPPING, AddressTypes.BILLING);
+                        handleChangeAddressType(RemoveAddressTypes.SHIPPING, AddressTypes.BILLING, currAddress.id);
                       }}
                       disabled={isLoading}
                     />
@@ -235,7 +235,7 @@ export const UserAddresses = () => {
                       title="Set as shipping"
                       type="button"
                       onClick={() => {
-                        handleChangeAddressType(currAddress.id, RemoveAddressTypes.BILLING, AddressTypes.SHIPPING);
+                        handleChangeAddressType(RemoveAddressTypes.BILLING, AddressTypes.SHIPPING, currAddress.id);
                       }}
                       disabled={isLoading}
                     />
