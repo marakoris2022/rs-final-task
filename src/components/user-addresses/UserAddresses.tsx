@@ -118,37 +118,30 @@ export const UserAddresses = () => {
           {shippingAddresses?.map((currAddress) => {
             const isDefaultAddress = customer?.defaultShippingAddressId === currAddress.id;
 
+            const addressItems = [
+              { title: 'First name', value: currAddress.firstName },
+              { title: 'Last name', value: currAddress.lastName },
+              { title: 'Country', value: CountryCodes[currAddress.country] },
+              { title: 'Postal Code', value: currAddress.postalCode },
+              { title: 'City', value: currAddress.city },
+              { title: 'Street', value: currAddress.streetName },
+            ];
+
             return (
               <div className={styles.addressContainer} key={currAddress.id}>
                 <div className={styles.addressWrapper}>
-                  <div className={styles.addressItemContainer}>
-                    <h4>First name:</h4>
-                    <div className={styles.addressValue}>{currAddress.firstName}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Last name:</h4>
-                    <div className={styles.addressValue}>{currAddress.lastName}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Country:</h4>
-                    <div className={styles.addressValue}>{CountryCodes[currAddress.country]}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Postal Code:</h4>
-                    <div className={styles.addressValue}>{currAddress.postalCode}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>City:</h4>
-                    <div className={styles.addressValue}>{currAddress.city}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Street:</h4>
-                    <div className={styles.addressValue}>{currAddress.streetName}</div>
-                  </div>
+                  {addressItems.map((item, index) => (
+                    <div key={index} className={styles.addressItemContainer}>
+                      <h4>{item.title}:</h4>
+                      <div className={styles.addressValue}>{item.value}</div>
+                    </div>
+                  ))}
                 </div>
+
                 <div className={styles.addressManageContainer}>
                   <div className={styles.addressManageBtnsContainer}>
                     {isDefaultAddress && <div className={styles.addressDefault}>Default shipping</div>}
+
                     {!isDefaultAddress && (
                       <Button
                         style={styles.setDefaultAddressBtn}
@@ -171,6 +164,7 @@ export const UserAddresses = () => {
                       disabled={isLoading}
                     />
                   </div>
+
                   <div className={styles.addressIconsContainer}>
                     <FaEdit onClick={() => !isLoading && openEditModal(currAddress)} />
                     <FaTrash onClick={() => !isLoading && openDeleteModal(currAddress.id)} />
@@ -187,33 +181,24 @@ export const UserAddresses = () => {
           {billingAddresses?.map((currAddress) => {
             const isDefaultAddress = customer?.defaultBillingAddressId === currAddress.id;
 
+            const addressItems = [
+              { title: 'First name', value: currAddress.firstName },
+              { title: 'Last name', value: currAddress.lastName },
+              { title: 'Country', value: CountryCodes[currAddress.country] },
+              { title: 'Postal Code', value: currAddress.postalCode },
+              { title: 'City', value: currAddress.city },
+              { title: 'Street', value: currAddress.streetName },
+            ];
+
             return (
               <div className={styles.addressContainer} key={currAddress.id}>
                 <div className={styles.addressWrapper}>
-                  <div className={styles.addressItemContainer}>
-                    <h4>First name:</h4>
-                    <div className={styles.addressValue}>{currAddress.firstName}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Last name:</h4>
-                    <div className={styles.addressValue}>{currAddress.lastName}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Country:</h4>
-                    <div className={styles.addressValue}>{CountryCodes[currAddress.country]}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Postal Code:</h4>
-                    <div className={styles.addressValue}>{currAddress.postalCode}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>City:</h4>
-                    <div className={styles.addressValue}>{currAddress.city}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Street:</h4>
-                    <div className={styles.addressValue}>{currAddress.streetName}</div>
-                  </div>
+                  {addressItems.map((item, index) => (
+                    <div key={index} className={styles.addressItemContainer}>
+                      <h4>{item.title}:</h4>
+                      <div className={styles.addressValue}>{item.value}</div>
+                    </div>
+                  ))}
                 </div>
                 <div className={styles.addressManageContainer}>
                   <div className={styles.addressManageBtnsContainer}>
