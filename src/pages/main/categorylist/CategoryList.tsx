@@ -97,15 +97,13 @@ export const CategoryList = ({ categoryList, setCurrentPage }: CategoryListType)
       if (movieSet) {
         const options = movieSet.getElementsByClassName('movieSet') as HTMLCollectionOf<HTMLInputElement> | null;
         const found = options ? Array.from(options).find((item) => item.checked) : null;
-        if (found && found.value === 'true') isMovie(true);
-        else isMovie(false);
+        isMovie(Boolean(found && found.value === 'true'));
       }
       const discountSet = form.elements.namedItem('discountFieldSet') as HTMLFieldSetElement | null;
       if (discountSet) {
         const options = discountSet.getElementsByClassName('discountSet') as HTMLCollectionOf<HTMLInputElement> | null;
         const found = options ? Array.from(options).find((item) => item.checked) : null;
-        if (found && found.value === 'true') isDiscounted(true);
-        else isDiscounted(false);
+        isDiscounted(Boolean(found && found.value === 'true'));
       }
       const sortingSet = form.elements.namedItem('sortingFieldSet') as HTMLFieldSetElement | null;
       if (sortingSet) {
@@ -132,7 +130,6 @@ export const CategoryList = ({ categoryList, setCurrentPage }: CategoryListType)
       <label className={styles.searchLabel} htmlFor="searchField">
         <span onClick={searchHandler} className={styles.glassImg} />
         <input
-          /* minLength={3} */
           autoComplete="off"
           placeholder="Search..."
           className={styles.searchField}
