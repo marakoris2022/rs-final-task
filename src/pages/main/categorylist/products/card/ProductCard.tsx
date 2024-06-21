@@ -6,6 +6,7 @@ import { ModalWindow } from '../../../../../components/modal/ModalWindow';
 import { useCartStore } from '../../../../../store/useCartStore';
 import { Cart, addProductToCart, changeProductsQuantity } from '../../../../../api/commerce-tools-api-cart';
 import cartIcon from '/cart-check-svgrepo-com.svg';
+import { GiShoppingCart } from 'react-icons/gi';
 
 type CardType = {
   product: ProductType;
@@ -89,12 +90,18 @@ export const ProductCard = ({ product, dataTestid }: CardType) => {
         >
           {discount ? (
             <span>
-              <s>{price}</s>
+              <s>
+                {price}
+                <span>{currency}</span>
+              </s>
             </span>
           ) : (
-            <span>{price}</span>
+            <>
+              <span>{price}</span>
+              <span>{currency}</span>
+            </>
           )}
-          <span>{currency}</span>
+
           {Boolean(discount) && (
             <>
               <span className={styles.discount}>-{discount}%</span>
@@ -102,6 +109,9 @@ export const ProductCard = ({ product, dataTestid }: CardType) => {
               <span className={styles.discountPriceCurrency}>{currency}</span>
             </>
           )}
+          <span className={styles.cartFill}>
+            <GiShoppingCart className={styles.shoppingCart} />
+          </span>
         </div>
       )}
       {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
