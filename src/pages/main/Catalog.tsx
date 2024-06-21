@@ -16,6 +16,7 @@ import { BurgerMenuCatalog } from '../../components/burger-menu-catalog/burgerMe
 import Pagination from '../../components/pagination/Pagination';
 import { Loading } from '../../components/loading/Loading';
 import { PromoCode } from '../../components/promo/PromoCode';
+import CardSkeleton from '../../components/skeleton/CardSkeleton';
 
 const getCategoryList = async (): Promise<CategoryResults[] | null> => {
   return await getCategories();
@@ -53,7 +54,7 @@ const getProductList = async (
 
 export const Catalog = () => {
   const [ctgList, setCtgList] = useState<CategoryResults[] | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [products, setProducts] = useState<ProductType[] | null>(null);
   const [error, setError] = useState('');
 
@@ -96,7 +97,6 @@ export const Catalog = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        setLoading(true);
         const productList = await getProductList(
           selectedCategories,
           selectedMovie,
@@ -152,9 +152,14 @@ export const Catalog = () => {
           {ctgList ? <CategoryList categoryList={ctgList} setCurrentPage={setCurrentPage} /> : <Loading />}
         </article>
         <article className={styles.cardsWrapper}>
-          <PromoCode></PromoCode>
+          <PromoCode />
           {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
-          {!loading && products && products.length > 0 ? <ProductList productList={products} /> : <Loading />}
+          {loading ? (
+            [...new Array(6)].map((_item, id) => <CardSkeleton key={id} />)
+          ) : (
+            <ProductList productList={products} />
+          )}
+          {/*  {!loading && products && products.length > 0 ? <ProductList productList={products} /> : <Loading />} */}
           {!loading && (
             <div className={styles.paginationContainer}>
               <Pagination currentPage={currentPage} lastPage={lastPage} maxLength={7} setCurrentPage={setCurrentPage} />
