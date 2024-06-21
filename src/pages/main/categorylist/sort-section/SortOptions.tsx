@@ -1,5 +1,6 @@
 import styles from './sortOptions.module.scss';
 import { useCategoryStore } from '../../../../store/useCategoryStore';
+import { SortInput } from './SortInput';
 
 export const SortOptions = () => {
   const sortingOption = useCategoryStore((state) => state.sortingOption);
@@ -24,153 +25,88 @@ export const SortOptions = () => {
   return (
     <>
       <fieldset className={styles.movieWrapper} name="movieFieldSet">
-        <legend
-          style={{
-            color: '#fff',
-          }}
-        >
-          Movies:
-        </legend>
-        <div className={styles.radioWrapper}>
-          <input
-            className="movieSet"
-            type="radio"
-            id="moviesIncluded"
-            name="movieProducts"
-            value="false"
-            checked={movieOption === 'moviesIncluded'}
-            onChange={handleMovieChange}
-          />
-          <label className={styles.radioLabel} htmlFor="all">
-            all products
-          </label>
-        </div>
+        <legend className={styles.legend}>Movies:</legend>
+        <SortInput
+          id="moviesIncluded"
+          name="movieProducts"
+          value="false"
+          title="all products"
+          optionChecker={movieOption}
+          handleChange={handleMovieChange}
+        />
 
-        <div className={styles.radioWrapper}>
-          <input
-            className="movieSet"
-            type="radio"
-            id="noMovies"
-            name="movieProducts"
-            value="true"
-            checked={movieOption === 'noMovies'}
-            onChange={handleMovieChange}
-          />
-          <label className={styles.radioLabel} htmlFor="noMovies">
-            no available movies
-          </label>
-        </div>
+        <SortInput
+          id="noMovies"
+          name="movieProducts"
+          value="true"
+          title="no available movies"
+          optionChecker={movieOption}
+          handleChange={handleMovieChange}
+        />
       </fieldset>
+
       <fieldset className={styles.discountWrapper} name="discountFieldSet">
-        <legend
-          style={{
-            color: '#fff',
-          }}
-        >
-          Sort by discount:
-        </legend>
-        <div className={styles.radioWrapper}>
-          <input
-            className="discountSet"
-            type="radio"
-            id="allProducts"
-            name="discountedProducts"
-            value="false"
-            checked={discountOption === 'allProducts'}
-            onChange={handleDiscountChange}
-          />
-          <label className={styles.radioLabel} htmlFor="allProducts">
-            all products
-          </label>
-        </div>
-
-        <div className={styles.radioWrapper}>
-          <input
-            className="discountSet"
-            type="radio"
-            id="discountedOnly"
-            name="discountedProducts"
-            value="true"
-            checked={discountOption === 'discountedOnly'}
-            onChange={handleDiscountChange}
-          />
-          <label className={styles.radioLabel} htmlFor="discountedOnly">
-            with discount
-          </label>
-        </div>
+        <legend className={styles.legend}>Sort by discount:</legend>
+        <SortInput
+          id="allProducts"
+          name="discountedProducts"
+          value="false"
+          title="all products"
+          optionChecker={discountOption}
+          handleChange={handleDiscountChange}
+        />
+        <SortInput
+          id="discountedOnly"
+          name="discountedProducts"
+          value="true"
+          title="with discount"
+          optionChecker={discountOption}
+          handleChange={handleDiscountChange}
+        />
       </fieldset>
+
       <fieldset className={styles.priceWrapper} name="sortingFieldSet">
-        <legend
-          style={{
-            color: '#fff',
-          }}
-        >
-          Sort options:
-        </legend>
+        <legend className={styles.legend}>Sort options:</legend>
 
-        <div className={styles.radioWrapper}>
-          <input
-            className="sorting"
-            type="radio"
-            id="priceAsc"
-            name="sorting"
-            value="asc"
-            data-name="price"
-            checked={sortingOption === 'priceAsc'}
-            onChange={handleOptionChange}
-          />
-          <label className={styles.radioLabel} htmlFor="priceAsc">
-            price: low to high
-          </label>
-        </div>
+        <SortInput
+          id="priceAsc"
+          name="sorting"
+          value="asc"
+          data-name="price"
+          title="price: low to high"
+          optionChecker={sortingOption}
+          handleChange={handleOptionChange}
+        />
 
-        <div className={styles.radioWrapper}>
-          <input
-            className="sorting"
-            type="radio"
-            id="priceDesc"
-            name="sorting"
-            value="desc"
-            data-name="price"
-            checked={sortingOption === 'priceDesc'}
-            onChange={handleOptionChange}
-          />
-          <label className={styles.radioLabel} htmlFor="priceDesc">
-            price: high to low
-          </label>
-        </div>
+        <SortInput
+          id="priceDesc"
+          name="sorting"
+          value="desc"
+          data-name="price"
+          title="price: high to low"
+          optionChecker={sortingOption}
+          handleChange={handleOptionChange}
+        />
 
-        <div className={styles.radioWrapper}>
-          <input
-            className="sorting"
-            type="radio"
-            id="az"
-            name="sorting"
-            value="asc"
-            data-name="name.en-us"
-            checked={sortingOption === 'az'}
-            onChange={handleOptionChange}
-          />
-          <label className={styles.radioLabel} htmlFor="az">
-            from A to Z
-          </label>
-        </div>
+        <SortInput
+          id="az"
+          name="sorting"
+          value="asc"
+          data-name="name.en-us"
+          title="from A to Z"
+          optionChecker={sortingOption}
+          handleChange={handleOptionChange}
+        />
 
-        <div className={styles.radioWrapper}>
-          <input
-            className="sorting"
-            type="radio"
-            id="za"
-            name="sorting"
-            value="desc"
-            data-name="name.en-us"
-            checked={sortingOption === 'za'}
-            onChange={handleOptionChange}
-          />
-          <label className={styles.radioLabel} htmlFor="za">
-            from Z to A
-          </label>
-        </div>
+        <SortInput
+          id="za"
+          name="sorting"
+          value="desc"
+          title="from Z to A"
+          data-name="name.en-us"
+          optionChecker={sortingOption}
+          handleChange={handleOptionChange}
+        />
       </fieldset>
     </>
   );
