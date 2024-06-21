@@ -24,13 +24,7 @@ export const SortOptions = () => {
   return (
     <>
       <fieldset className={styles.movieWrapper} name="movieFieldSet">
-        <legend
-          style={{
-            color: '#fff',
-          }}
-        >
-          Movies:
-        </legend>
+        <legend className={styles.legend}>Movies:</legend>
         <div className={styles.radioWrapper}>
           <input
             className="movieSet"
@@ -62,13 +56,7 @@ export const SortOptions = () => {
         </div>
       </fieldset>
       <fieldset className={styles.discountWrapper} name="discountFieldSet">
-        <legend
-          style={{
-            color: '#fff',
-          }}
-        >
-          Sort by discount:
-        </legend>
+        <legend className={styles.legend}>Sort by discount:</legend>
         <div className={styles.radioWrapper}>
           <input
             className="discountSet"
@@ -100,13 +88,7 @@ export const SortOptions = () => {
         </div>
       </fieldset>
       <fieldset className={styles.priceWrapper} name="sortingFieldSet">
-        <legend
-          style={{
-            color: '#fff',
-          }}
-        >
-          Sort options:
-        </legend>
+        <legend className={styles.legend}>Sort options:</legend>
 
         <div className={styles.radioWrapper}>
           <input
