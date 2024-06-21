@@ -77,7 +77,7 @@ export const UserAddresses = () => {
     setShowChangeModal(true);
   };
 
-  const handleSetDefaultAddress = async (addressId: string | undefined, type: DefaultAddressTypes) => {
+  const handleSetDefaultAddress = async (type: DefaultAddressTypes, addressId?: string) => {
     setIsLoading(() => true);
 
     const updatedUser = await setDefaultAddressType(customer!, type, addressId);
@@ -155,7 +155,7 @@ export const UserAddresses = () => {
                         title="Set as default"
                         type="button"
                         onClick={async () => {
-                          await handleSetDefaultAddress(currAddress!.id, DefaultAddressTypes.SHIPPING);
+                          await handleSetDefaultAddress(DefaultAddressTypes.SHIPPING, currAddress!.id);
                         }}
                         disabled={isLoading}
                       />
@@ -224,7 +224,7 @@ export const UserAddresses = () => {
                         title="Set as default"
                         type="button"
                         onClick={async () => {
-                          await handleSetDefaultAddress(currAddress!.id, DefaultAddressTypes.BILLING);
+                          await handleSetDefaultAddress(DefaultAddressTypes.BILLING, currAddress!.id);
                         }}
                         disabled={isLoading}
                       />
