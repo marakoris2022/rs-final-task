@@ -16,14 +16,7 @@ import {
 } from '../../api/commerce-tools-api-profile';
 import { EditAddress } from './edit-address/EditAddress';
 import { Address } from '../../interfaces/interfaces';
-
-const CountryCodes: Record<string, string> = {
-  US: 'USA',
-  CA: 'Canada',
-  GB: 'UK',
-  AU: 'Australia',
-  DE: 'Germany',
-};
+import { countryCodes } from '../../constants/common';
 
 export const UserAddresses = () => {
   const customer = useCustomerStore((state) => state.customer);
@@ -121,7 +114,7 @@ export const UserAddresses = () => {
             const addressItems = [
               { title: 'First name', value: currAddress.firstName },
               { title: 'Last name', value: currAddress.lastName },
-              { title: 'Country', value: CountryCodes[currAddress.country] },
+              { title: 'Country', value: countryCodes[currAddress.country] },
               { title: 'Postal Code', value: currAddress.postalCode },
               { title: 'City', value: currAddress.city },
               { title: 'Street', value: currAddress.streetName },
@@ -184,7 +177,7 @@ export const UserAddresses = () => {
             const addressItems = [
               { title: 'First name', value: currAddress.firstName },
               { title: 'Last name', value: currAddress.lastName },
-              { title: 'Country', value: CountryCodes[currAddress.country] },
+              { title: 'Country', value: countryCodes[currAddress.country] },
               { title: 'Postal Code', value: currAddress.postalCode },
               { title: 'City', value: currAddress.city },
               { title: 'Street', value: currAddress.streetName },
