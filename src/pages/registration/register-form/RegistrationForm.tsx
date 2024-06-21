@@ -13,6 +13,7 @@ import { login, signUp } from '../../../api/commers-tools-api.ts';
 import postalCodesRegexCollection from '../../../data/json/postal-codes.json';
 import { setCartToCustomerById } from '../../../api/commerce-tools-api-cart.ts';
 import { useCartStore } from '../../../store/useCartStore.ts';
+import { countryCodes } from '../../../constants/common.ts';
 
 type BillingAddressValues = {
   street: string;
@@ -29,14 +30,6 @@ const getCountry = (countryName: string): CountryPostalCode | undefined => {
 };
 
 const selectList = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
-
-const countryCodes: { [key: string]: string } = {
-  USA: 'US',
-  Canada: 'CA',
-  UK: 'GB',
-  Australia: 'AU',
-  Germany: 'DE',
-};
 
 const EMAIL_WHITESPACE_REGEX = /^\s+|\s+$/;
 const EMAIL_FORMAT_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;

@@ -9,16 +9,9 @@ import { SelectField } from '../../select-field/SelectField';
 import { ModalWindow } from '../../modal/ModalWindow';
 import { useCustomerStore } from '../../../store/useCustomerStore';
 import { changeAddress } from '../../../api/commerce-tools-api-profile';
+import { countryCodes } from '../../../constants/common';
 
 const selectList = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
-
-const countryCodes: { [key: string]: string } = {
-  USA: 'US',
-  Canada: 'CA',
-  UK: 'GB',
-  Australia: 'AU',
-  Germany: 'DE',
-};
 
 const countries: Record<'US' | 'CA' | 'GB' | 'AU' | 'DE', string> = {
   US: 'USA',

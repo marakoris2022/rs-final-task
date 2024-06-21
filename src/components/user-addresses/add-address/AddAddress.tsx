@@ -16,16 +16,9 @@ import {
   setDefaultAddressType,
 } from '../../../api/commerce-tools-api-profile';
 import { Loading } from '../../loading/Loading';
+import { countryCodes } from '../../../constants/common';
 
 const selectList = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
-
-const countryCodes: { [key: string]: string } = {
-  USA: 'US',
-  Canada: 'CA',
-  UK: 'GB',
-  Australia: 'AU',
-  Germany: 'DE',
-};
 
 const getCountry = (countryName: string): CountryPostalCode | undefined => {
   const countryInList: CountryPostalCode | undefined = postalCodesRegexCollection.find(
