@@ -124,7 +124,7 @@ export const CategoryList = ({ categoryList, setCurrentPage }: CategoryListType)
             name={category.name['en-US']}
             key={category.id}
             value={category.id}
-            isChecked={categoryCheckedItems.includes(category.id)}
+            isChecked={Array.from(categoryCheckedItems).includes(category.id)}
           >
             {category.name['en-US']}
             <a
