@@ -85,8 +85,8 @@ export const ProductCard = ({ product, dataTestid }: CardType) => {
           }}
           className={styles.priceInfo}
         >
-          <span>{discount ? <s>{price}</s> : price}</span>
-          <span>{currency}</span>
+          <span>{discount ? <s>{`${price} ${currency}`}</s> : `${price} ${currency}`}</span>
+
           {Boolean(discount) && (
             <>
               <span className={styles.discount}>-{discount}%</span>
