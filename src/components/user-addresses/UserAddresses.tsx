@@ -3,7 +3,7 @@ import { useCustomerStore } from '../../store/useCustomerStore';
 import { Button } from '../button/Button';
 import { useNavigate } from 'react-router-dom';
 import { FaTrash, FaEdit } from 'react-icons/fa';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ModalWindow } from '../modal/ModalWindow';
 import {
   DefaultAddressTypes,
@@ -35,13 +35,23 @@ export const UserAddresses = () => {
   const [addressToDelete, setAddressToDelete] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const shippingAddresses = customer?.addresses?.filter((address) =>
-    customer.shippingAddressIds?.includes(address.id || ''),
-  );
+  const shippingAddresses = useMemo(() => {
+    return customer?.addresses?.reduce<Address[]>((acc, address) => {
+      if (customer.shippingAddressIds?.includes(address.id || '')) {
+        acc.push(address);
+      }
+      return acc;
+    }, []);
+  }, [customer?.addresses, customer?.shippingAddressIds]);
 
-  const billingAddresses = customer?.addresses?.filter((address) =>
-    customer.billingAddressIds?.includes(address.id || ''),
-  );
+  const billingAddresses = useMemo(() => {
+    return customer?.addresses?.reduce<Address[]>((acc, address) => {
+      if (customer.billingAddressIds?.includes(address.id || '')) {
+        acc.push(address);
+      }
+      return acc;
+    }, []);
+  }, [customer?.addresses, customer?.billingAddressIds]);
 
   const handleDeleteAddress = async () => {
     const updatedUser = await removeAddress(customer, addressToDelete);
