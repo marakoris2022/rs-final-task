@@ -126,254 +126,252 @@ export const RegistrationForm = () => {
   });
 
   return (
-    <>
-      <form className={styles.loginForm} onSubmit={formik.handleSubmit}>
-        <FormField
-          stylesField={styles.loginFormField}
-          stylesError={styles.loginFormError}
-          stylesInput={styles.loginFormInput}
-          isRequired={true}
-          formik={formik}
-          labelText="Email"
-          placeholder="example@gmail.com"
-          id="email"
-          name="email"
-          type="text"
-          autoComplete="email"
-        ></FormField>
+    <form className={styles.loginForm} onSubmit={formik.handleSubmit}>
+      <FormField
+        stylesField={styles.loginFormField}
+        stylesError={styles.loginFormError}
+        stylesInput={styles.loginFormInput}
+        isRequired={true}
+        formik={formik}
+        labelText="Email"
+        placeholder="example@gmail.com"
+        id="email"
+        name="email"
+        type="text"
+        autoComplete="email"
+      ></FormField>
 
-        <FormField
-          stylesField={styles.loginFormField}
-          stylesError={styles.loginFormError}
-          stylesInput={styles.loginFormInput}
-          isRequired={true}
-          formik={formik}
-          labelText="Password"
-          id="password"
-          name="password"
-          type={showPassword ? 'text' : 'password'}
-          autoComplete="current-password"
-        >
-          <span className={styles.loginFormPassIco} onClick={togglePasswordVisibility}>
-            {showPassword ? <FaEye /> : <FaEyeSlash />}
-          </span>
-        </FormField>
+      <FormField
+        stylesField={styles.loginFormField}
+        stylesError={styles.loginFormError}
+        stylesInput={styles.loginFormInput}
+        isRequired={true}
+        formik={formik}
+        labelText="Password"
+        id="password"
+        name="password"
+        type={showPassword ? 'text' : 'password'}
+        autoComplete="current-password"
+      >
+        <span className={styles.loginFormPassIco} onClick={togglePasswordVisibility}>
+          {showPassword ? <FaEye /> : <FaEyeSlash />}
+        </span>
+      </FormField>
 
-        <FormField
-          stylesField={styles.loginFormField}
-          stylesError={styles.loginFormError}
-          stylesInput={styles.loginFormInput}
-          isRequired={true}
-          formik={formik}
-          labelText="First name"
-          placeholder="First name"
-          id="firstName"
-          name="firstName"
-          type="text"
-        ></FormField>
+      <FormField
+        stylesField={styles.loginFormField}
+        stylesError={styles.loginFormError}
+        stylesInput={styles.loginFormInput}
+        isRequired={true}
+        formik={formik}
+        labelText="First name"
+        placeholder="First name"
+        id="firstName"
+        name="firstName"
+        type="text"
+      ></FormField>
 
-        <FormField
-          stylesField={styles.loginFormField}
-          stylesError={styles.loginFormError}
-          stylesInput={styles.loginFormInput}
-          isRequired={true}
-          formik={formik}
-          labelText="Last name"
-          placeholder="Last name"
-          id="lastName"
-          name="lastName"
-          type="text"
-        ></FormField>
+      <FormField
+        stylesField={styles.loginFormField}
+        stylesError={styles.loginFormError}
+        stylesInput={styles.loginFormInput}
+        isRequired={true}
+        formik={formik}
+        labelText="Last name"
+        placeholder="Last name"
+        id="lastName"
+        name="lastName"
+        type="text"
+      ></FormField>
 
-        <FormField
-          stylesField={styles.loginFormField}
-          stylesError={styles.loginFormError}
-          stylesInput={styles.loginFormInput}
-          isRequired={true}
-          formik={formik}
-          labelText="Date of Birth"
-          placeholder="Last name"
-          id="dateOfBirth"
-          name="dateOfBirth"
-          type="date"
-          max="2010-01-01"
-        ></FormField>
+      <FormField
+        stylesField={styles.loginFormField}
+        stylesError={styles.loginFormError}
+        stylesInput={styles.loginFormInput}
+        isRequired={true}
+        formik={formik}
+        labelText="Date of Birth"
+        placeholder="Last name"
+        id="dateOfBirth"
+        name="dateOfBirth"
+        type="date"
+        max="2010-01-01"
+      ></FormField>
 
-        <div className={styles.addressWrapper}>
-          <div className={styles.addressWrapperTitle}>
-            <span>Shipping Address</span>
-          </div>
-
-          <FormField
-            stylesField={styles.loginFormField}
-            stylesError={styles.loginFormError}
-            stylesInput={styles.loginFormInput}
-            isRequired={true}
-            formik={formik}
-            labelText="Street"
-            placeholder="Street"
-            id="street"
-            name="street"
-            type="text"
-          ></FormField>
-
-          <FormField
-            stylesField={styles.loginFormField}
-            stylesError={styles.loginFormError}
-            stylesInput={styles.loginFormInput}
-            isRequired={true}
-            formik={formik}
-            labelText="City"
-            placeholder="City"
-            id="city"
-            name="city"
-            type="text"
-          ></FormField>
-
-          <FormField
-            stylesField={styles.loginFormField}
-            stylesError={styles.loginFormError}
-            stylesInput={styles.loginFormInput}
-            isRequired={true}
-            formik={formik}
-            labelText="Postal Code"
-            placeholder="Postal Code"
-            id="postal"
-            name="postal"
-            type="text"
-          ></FormField>
-
-          <SelectField
-            loginFormField={styles.loginFormField}
-            styleLabel={styles.label}
-            loginFormInput={styles.loginFormInput}
-            name={'country'}
-            labelText={'Select a country: '}
-            formik={formik}
-            selectList={selectList}
-          />
-
-          <FormField
-            stylesField={styles.loginFormFieldCheckbox}
-            stylesError={styles.loginFormError}
-            stylesInput={styles.loginFormInputCheckbox}
-            isRequired={true}
-            formik={formik}
-            labelText="Use this as the default delivery address?"
-            placeholder=""
-            id="defaultShippingAddress"
-            name="defaultShippingAddress"
-            type="checkbox"
-          ></FormField>
+      <div className={styles.addressWrapper}>
+        <div className={styles.addressWrapperTitle}>
+          <span>Shipping Address</span>
         </div>
 
-        <div className={styles.addressWrapper}>
-          <div className={styles.addressWrapperTitle}>
-            <span>Billing Address</span>
-          </div>
+        <FormField
+          stylesField={styles.loginFormField}
+          stylesError={styles.loginFormError}
+          stylesInput={styles.loginFormInput}
+          isRequired={true}
+          formik={formik}
+          labelText="Street"
+          placeholder="Street"
+          id="street"
+          name="street"
+          type="text"
+        ></FormField>
 
-          <Button
-            onClick={() => {
-              const billingAddressValues = {
-                street: formik.values.street,
-                city: formik.values.city,
-                postal: formik.values.postal,
-                country: formik.values.country,
-              };
+        <FormField
+          stylesField={styles.loginFormField}
+          stylesError={styles.loginFormError}
+          stylesInput={styles.loginFormInput}
+          isRequired={true}
+          formik={formik}
+          labelText="City"
+          placeholder="City"
+          id="city"
+          name="city"
+          type="text"
+        ></FormField>
 
-              fillBillingAddress(billingAddressValues);
-            }}
-            style={styles.smallBtn}
-            type="button"
-            title="Copy shipping address"
-          />
+        <FormField
+          stylesField={styles.loginFormField}
+          stylesError={styles.loginFormError}
+          stylesInput={styles.loginFormInput}
+          isRequired={true}
+          formik={formik}
+          labelText="Postal Code"
+          placeholder="Postal Code"
+          id="postal"
+          name="postal"
+          type="text"
+        ></FormField>
 
-          <FormField
-            stylesField={styles.loginFormField}
-            stylesError={styles.loginFormError}
-            stylesInput={styles.loginFormInput}
-            isRequired={true}
-            formik={formik}
-            labelText="Street"
-            placeholder="Street"
-            id="street2"
-            name="street2"
-            type="text"
-          ></FormField>
+        <SelectField
+          loginFormField={styles.loginFormField}
+          styleLabel={styles.label}
+          loginFormInput={styles.loginFormInput}
+          name={'country'}
+          labelText={'Select a country: '}
+          formik={formik}
+          selectList={selectList}
+        />
 
-          <FormField
-            stylesField={styles.loginFormField}
-            stylesError={styles.loginFormError}
-            stylesInput={styles.loginFormInput}
-            isRequired={true}
-            formik={formik}
-            labelText="City"
-            placeholder="City"
-            id="city2"
-            name="city2"
-            type="text"
-          ></FormField>
+        <FormField
+          stylesField={styles.loginFormFieldCheckbox}
+          stylesError={styles.loginFormError}
+          stylesInput={styles.loginFormInputCheckbox}
+          isRequired={true}
+          formik={formik}
+          labelText="Use this as the default delivery address?"
+          placeholder=""
+          id="defaultShippingAddress"
+          name="defaultShippingAddress"
+          type="checkbox"
+        ></FormField>
+      </div>
 
-          <FormField
-            stylesField={styles.loginFormField}
-            stylesError={styles.loginFormError}
-            stylesInput={styles.loginFormInput}
-            isRequired={true}
-            formik={formik}
-            labelText="Postal Code"
-            placeholder="Postal Code"
-            id="postal2"
-            name="postal2"
-            type="text"
-          ></FormField>
-
-          <SelectField
-            loginFormField={styles.loginFormField}
-            styleLabel={styles.label}
-            loginFormInput={styles.loginFormInput}
-            name={'country2'}
-            labelText={'Select a country: '}
-            formik={formik}
-            selectList={selectList}
-          />
-
-          <FormField
-            stylesField={styles.loginFormFieldCheckbox}
-            stylesError={styles.loginFormError}
-            stylesInput={styles.loginFormInputCheckbox}
-            isRequired={true}
-            formik={formik}
-            labelText="Use this as the default billing address?"
-            placeholder=""
-            id="defaultBillingAddress"
-            name="defaultBillingAddress"
-            type="checkbox"
-          ></FormField>
+      <div className={styles.addressWrapper}>
+        <div className={styles.addressWrapperTitle}>
+          <span>Billing Address</span>
         </div>
 
         <Button
-          style={styles.loginFormBtn}
-          title="Sign up"
-          type="submit"
-          disabled={!formik.isValid || formik.isSubmitting}
+          onClick={() => {
+            const billingAddressValues = {
+              street: formik.values.street,
+              city: formik.values.city,
+              postal: formik.values.postal,
+              country: formik.values.country,
+            };
+
+            fillBillingAddress(billingAddressValues);
+          }}
+          style={styles.smallBtn}
+          type="button"
+          title="Copy shipping address"
         />
 
-        <div className={styles.loginPrompt}>
-          <span>Have an account?</span>
-          <Button style={styles.navBtnLogin} title="Login page" type="button" onClick={() => navigate('/login')} />
-        </div>
-        {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
+        <FormField
+          stylesField={styles.loginFormField}
+          stylesError={styles.loginFormError}
+          stylesInput={styles.loginFormInput}
+          isRequired={true}
+          formik={formik}
+          labelText="Street"
+          placeholder="Street"
+          id="street2"
+          name="street2"
+          type="text"
+        ></FormField>
 
-        {registrationMessage && (
-          <ModalWindow
-            message={registrationMessage}
-            onClose={() => {
-              setRegistrationMessage(() => '');
-              setLogged(true);
-            }}
-          />
-        )}
-      </form>
-    </>
+        <FormField
+          stylesField={styles.loginFormField}
+          stylesError={styles.loginFormError}
+          stylesInput={styles.loginFormInput}
+          isRequired={true}
+          formik={formik}
+          labelText="City"
+          placeholder="City"
+          id="city2"
+          name="city2"
+          type="text"
+        ></FormField>
+
+        <FormField
+          stylesField={styles.loginFormField}
+          stylesError={styles.loginFormError}
+          stylesInput={styles.loginFormInput}
+          isRequired={true}
+          formik={formik}
+          labelText="Postal Code"
+          placeholder="Postal Code"
+          id="postal2"
+          name="postal2"
+          type="text"
+        ></FormField>
+
+        <SelectField
+          loginFormField={styles.loginFormField}
+          styleLabel={styles.label}
+          loginFormInput={styles.loginFormInput}
+          name={'country2'}
+          labelText={'Select a country: '}
+          formik={formik}
+          selectList={selectList}
+        />
+
+        <FormField
+          stylesField={styles.loginFormFieldCheckbox}
+          stylesError={styles.loginFormError}
+          stylesInput={styles.loginFormInputCheckbox}
+          isRequired={true}
+          formik={formik}
+          labelText="Use this as the default billing address?"
+          placeholder=""
+          id="defaultBillingAddress"
+          name="defaultBillingAddress"
+          type="checkbox"
+        ></FormField>
+      </div>
+
+      <Button
+        style={styles.loginFormBtn}
+        title="Sign up"
+        type="submit"
+        disabled={!formik.isValid || formik.isSubmitting}
+      />
+
+      <div className={styles.loginPrompt}>
+        <span>Have an account?</span>
+        <Button style={styles.navBtnLogin} title="Login page" type="button" onClick={() => navigate('/login')} />
+      </div>
+      {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
+
+      {registrationMessage && (
+        <ModalWindow
+          message={registrationMessage}
+          onClose={() => {
+            setRegistrationMessage(() => '');
+            setLogged(true);
+          }}
+        />
+      )}
+    </form>
   );
 };
