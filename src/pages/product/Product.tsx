@@ -308,7 +308,7 @@ export const Product = () => {
         </div>
       )}
 
-      <div style={{ width: '100%', marginBottom: '10px' }}>
+      <div className={styles.breadcrumbsWrapper}>
         <Breadcrumbs subPage={getCategoryNameById(productData.categories[0].id)!} currantPage={productData.title} />
       </div>
 
