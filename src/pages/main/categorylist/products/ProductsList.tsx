@@ -9,10 +9,9 @@ type ProductListType = {
 export const ProductList = ({ productList }: ProductListType) => {
   return (
     <div className={styles.container}>
-      {productList &&
-        productList.map((product) => (
-          <ProductCard dataTestid={`product-card-${product.id}`} key={product.id} product={product} />
-        ))}
+      {productList?.map((product) => (
+        <ProductCard dataTestid={`product-card-${product.id}`} key={product.id} product={product} />
+      ))}
     </div>
   );
 };
