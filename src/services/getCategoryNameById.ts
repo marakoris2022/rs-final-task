@@ -24,8 +24,10 @@ const Category = {
   Accounting: 'b86528fd-5351-4249-9248-f4c8de4a225e',
 };
 
+const entireCategory = Object.entries(Category);
+
 export function getCategoryNameById(id: string) {
-  for (const [key, value] of Object.entries(Category)) {
+  for (const [key, value] of entireCategory) {
     if (value === id) {
       return key;
     }
@@ -34,7 +36,7 @@ export function getCategoryNameById(id: string) {
 }
 
 export function getCategoryIdByName(name: string) {
-  for (const [key, value] of Object.entries(Category)) {
+  for (const [key, value] of entireCategory) {
     if (key === name) {
       return value;
     }
