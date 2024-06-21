@@ -6,164 +6,19 @@ import { useStore } from '../../../store/useStore.ts';
 import { FormField } from '../../../components/form-field/FormField.tsx';
 import { Button } from '../../../components/button/Button.tsx';
 import { SelectField } from '../../../components/select-field/SelectField.tsx';
-import { FormValues, CountryPostalCode } from '../../../interfaces/interfaces.ts';
 import { ModalWindow } from '../../../components/modal/ModalWindow.tsx';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { login, signUp } from '../../../api/commers-tools-api.ts';
-import postalCodesRegexCollection from '../../../data/json/postal-codes.json';
 import { setCartToCustomerById } from '../../../api/commerce-tools-api-cart.ts';
 import { useCartStore } from '../../../store/useCartStore.ts';
 import { countryCodes } from '../../../constants/common.ts';
+import { selectList, validateRegistrationForm as validate } from '../../../components/helpers.ts';
 
 type BillingAddressValues = {
   street: string;
   city: string;
   postal: string;
   country: string;
-};
-
-const getCountry = (countryName: string): CountryPostalCode | undefined => {
-  const countryInList: CountryPostalCode | undefined = postalCodesRegexCollection.find(
-    (country) => country['ISO'] === countryName || country['Country'] === countryName,
-  );
-  return countryInList;
-};
-
-const selectList = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
-
-const EMAIL_WHITESPACE_REGEX = /^\s+|\s+$/;
-const EMAIL_FORMAT_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-
-const PASSWORD_WHITESPACE_REGEX = /^\s|\s$/;
-const PASSWORD_LOWERCASE_REGEX = /(?=.*[a-z])/;
-const PASSWORD_UPPERCASE_REGEX = /(?=.*[A-Z])/;
-const PASSWORD_DIGIT_REGEX = /(?=.*\d)/;
-const PASSWORD_SPECIAL_CHAR_REGEX = /(?=.*[!@#$%^&*])/;
-
-const NAME_UPPERCASE_REGEX = /(?=.*[A-Z])/;
-const NAME_LETTERS_ONLY_REGEX = /^[a-zA-Z]+$/;
-
-const CITY_UPPERCASE_REGEX = /(?=.*[A-Z])/;
-const CITY_LETTERS_ONLY_REGEX = /^[a-zA-Z]+$/;
-
-const validate = (values: FormValues) => {
-  const errors: FormValues = {};
-
-  if (!values.email) {
-    errors.email = 'Required';
-  } else if (EMAIL_WHITESPACE_REGEX.test(values.email)) {
-    errors.email = 'Email must not contain leading or trailing whitespace';
-  } else if (!EMAIL_FORMAT_REGEX.test(values.email)) {
-    errors.email = 'Invalid email address';
-  }
-
-  if (!values.password) {
-    errors.password = 'Required';
-  } else if (PASSWORD_WHITESPACE_REGEX.test(values.password)) {
-    errors.password = 'Password must not contain leading or trailing whitespace';
-  } else if (!PASSWORD_LOWERCASE_REGEX.test(values.password)) {
-    errors.password = 'Password must contain at least one lowercase letter (a-z)';
-  } else if (!PASSWORD_UPPERCASE_REGEX.test(values.password)) {
-    errors.password = 'Password must contain at least one uppercase letter (A-Z)';
-  } else if (!PASSWORD_DIGIT_REGEX.test(values.password)) {
-    errors.password = 'Password must contain at least one digit (0-9)';
-  } else if (!PASSWORD_SPECIAL_CHAR_REGEX.test(values.password)) {
-    errors.password = 'Password must contain at least one special character !@#$%^&';
-  } else if (values.password.length < 8) {
-    errors.password = 'Must be at least 8 characters';
-  }
-
-  if (!values.firstName) {
-    errors.firstName = 'Required';
-  } else if (!NAME_UPPERCASE_REGEX.test(values.firstName)) {
-    errors.firstName = 'First name must contain at least one uppercase letter (A-Z)';
-  } else if (!NAME_LETTERS_ONLY_REGEX.test(values.firstName)) {
-    errors.firstName = 'First name must contain only letters';
-  } else if (values.firstName.length < 1) {
-    errors.firstName = 'First name must be at least 1 character';
-  }
-
-  if (!values.lastName) {
-    errors.lastName = 'Required';
-  } else if (!NAME_UPPERCASE_REGEX.test(values.lastName)) {
-    errors.lastName = 'Last name must contain at least one uppercase letter (A-Z)';
-  } else if (!NAME_LETTERS_ONLY_REGEX.test(values.lastName)) {
-    errors.lastName = 'Last name must contain only letters';
-  } else if (values.lastName.length < 1) {
-    errors.lastName = 'Last name must be at least 1 character';
-  }
-
-  if (!values.street) {
-    errors.street = 'Required';
-  } else if (values.street.length < 1) {
-    errors.street = 'Street must be at least 1 character';
-  }
-
-  if (!values.city) {
-    errors.city = 'Required';
-  } else if (!CITY_UPPERCASE_REGEX.test(values.city)) {
-    errors.city = 'City must contain at least one uppercase letter (A-Z)';
-  } else if (!CITY_LETTERS_ONLY_REGEX.test(values.city)) {
-    errors.city = 'City must contain only letters';
-  } else if (values.city.length < 4) {
-    errors.city = 'City must be at least 4 characters';
-  }
-
-  if (!values.country) {
-    errors.country = 'Required';
-  } else if (!selectList.includes(values.country)) {
-    errors.country = 'Invalid country';
-  }
-
-  if (!values.postal) {
-    errors.postal = 'Required';
-  } else if (values.country && values.postal) {
-    const countryInList = getCountry(values.country);
-
-    if (countryInList) {
-      const rg = countryInList['Regex'];
-      if (!values.postal.match(rg)) {
-        errors.postal = `${values.country} postal code example: ${countryInList['Example']}`;
-      }
-    }
-  }
-
-  if (!values.street2) {
-    errors.street2 = 'Required';
-  } else if (values.street2.length < 1) {
-    errors.street2 = 'Street must be at least 1 character';
-  }
-
-  if (!values.city2) {
-    errors.city2 = 'Required';
-  } else if (!CITY_UPPERCASE_REGEX.test(values.city2)) {
-    errors.city2 = 'City must contain at least one uppercase letter (A-Z)';
-  } else if (!CITY_LETTERS_ONLY_REGEX.test(values.city2)) {
-    errors.city2 = 'City must contain only letters';
-  } else if (values.city2.length < 4) {
-    errors.city2 = 'City must be at least 4 characters';
-  }
-
-  if (!values.postal2) {
-    errors.postal2 = 'Required';
-  } else if (values.country2 && values.postal2) {
-    const countryInList2 = getCountry(values.country2);
-
-    if (countryInList2) {
-      const rg = countryInList2['Regex'];
-      if (!values.postal2.match(rg)) {
-        errors.postal2 = `${values.country2} postal code example: ${countryInList2['Example']}`;
-      }
-    }
-  }
-
-  if (!values.country2) {
-    errors.country2 = 'Required';
-  } else if (!selectList.includes(values.country2)) {
-    errors.country2 = 'Invalid country';
-  }
-
-  return errors;
 };
 
 export const RegistrationForm = () => {
