@@ -6,20 +6,10 @@ import { addDiscountCode, changeProductsQuantity, removeDiscountCode } from '../
 import { Loading } from '../../components/loading/Loading';
 import { Button } from '../../components/button/Button';
 import { useFormik } from 'formik';
-import { FormValues } from '../../interfaces/interfaces';
 import { useEffect, useState } from 'react';
 import { FormField } from '../../components/form-field/FormField';
 import { ModalWindow } from '../../components/modal/ModalWindow';
-
-const validate = (values: FormValues) => {
-  const errors: FormValues = {};
-
-  if (!values.promoCode) {
-    errors.firstName = 'Required';
-  }
-
-  return errors;
-};
+import { validateBasket as validate } from '../../components/helpers';
 
 enum MinMaxNumberOfItems {
   MIN_ITEMS = 1,

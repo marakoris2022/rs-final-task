@@ -4,77 +4,10 @@ import { useMemo, useState } from 'react';
 import { Button } from '../button/Button';
 import { FormField } from '../form-field/FormField';
 import { useCustomerStore } from '../../store/useCustomerStore';
-import { FormValues } from '../../interfaces/interfaces';
 import { ModalWindow } from '../modal/ModalWindow';
 import { updateBasicUserData } from '../../api/commerce-tools-api-profile';
 import { FaEdit } from 'react-icons/fa';
-
-const EMAIL_WHITESPACE_REGEX = /^\s+|\s+$/;
-const EMAIL_FORMAT_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-const NAME_UPPERCASE_REGEX = /(?=.*[A-Z])/;
-const NAME_LETTERS_ONLY_REGEX = /^[a-zA-Z]+$/;
-
-function convertDateToReadableFormat(dateString: string | undefined) {
-  const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
-
-  if (dateString) {
-    const [year, month, day] = dateString.split('-');
-    const monthName = months[parseInt(month, 10) - 1];
-
-    return `${monthName} ${parseInt(day, 10)}, ${year}`;
-  }
-}
-
-const areValuesEqual = (initialValues: FormValues, currentValues: FormValues): boolean => {
-  return Object.keys(initialValues).every((key) => initialValues[key] === currentValues[key]);
-};
-
-const validate = (values: FormValues) => {
-  const errors: FormValues = {};
-
-  if (!values.email) {
-    errors.email = 'Required';
-  } else if (EMAIL_WHITESPACE_REGEX.test(values.email)) {
-    errors.email = 'Email must not contain leading or trailing whitespace';
-  } else if (!EMAIL_FORMAT_REGEX.test(values.email)) {
-    errors.email = 'Invalid email address';
-  }
-
-  if (!values.firstName) {
-    errors.firstName = 'Required';
-  } else if (!NAME_UPPERCASE_REGEX.test(values.firstName)) {
-    errors.firstName = 'First name must contain at least one uppercase letter (A-Z)';
-  } else if (!NAME_LETTERS_ONLY_REGEX.test(values.firstName)) {
-    errors.firstName = 'First name must contain only letters';
-  } else if (values.firstName.length < 1) {
-    errors.firstName = 'First name must be at least 1 character';
-  }
-
-  if (!values.lastName) {
-    errors.lastName = 'Required';
-  } else if (!NAME_UPPERCASE_REGEX.test(values.lastName)) {
-    errors.lastName = 'Last name must contain at least one uppercase letter (A-Z)';
-  } else if (!NAME_LETTERS_ONLY_REGEX.test(values.lastName)) {
-    errors.lastName = 'Last name must contain only letters';
-  } else if (values.lastName.length < 1) {
-    errors.lastName = 'Last name must be at least 1 character';
-  }
-
-  return errors;
-};
+import { areValuesEqual, convertDateToReadableFormat, validateUserBasicInfo as validate } from '../helpers';
 
 export const UserBasicInfo = () => {
   const customer = useCustomerStore((state) => state.customer);

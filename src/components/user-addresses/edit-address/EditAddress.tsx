@@ -2,94 +2,14 @@ import styles from './editAddress.module.scss';
 import { Button } from '../../button/Button';
 import { useState } from 'react';
 import { useFormik } from 'formik';
-import { Address, CountryPostalCode, FormValues } from '../../../interfaces/interfaces';
-import postalCodesRegexCollection from '../../../data/json/postal-codes.json';
+import { Address } from '../../../interfaces/interfaces';
 import { FormField } from '../../form-field/FormField';
 import { SelectField } from '../../select-field/SelectField';
 import { ModalWindow } from '../../modal/ModalWindow';
 import { useCustomerStore } from '../../../store/useCustomerStore';
 import { changeAddress } from '../../../api/commerce-tools-api-profile';
 import { countryCodes } from '../../../constants/common';
-
-const selectList = ['USA', 'Canada', 'UK', 'Australia', 'Germany'];
-
-const countries: Record<'US' | 'CA' | 'GB' | 'AU' | 'DE', string> = {
-  US: 'USA',
-  CA: 'Canada',
-  GB: 'UK',
-  AU: 'Australia',
-  DE: 'Germany',
-};
-
-const getCountry = (countryName: string): CountryPostalCode | undefined => {
-  const countryInList: CountryPostalCode | undefined = postalCodesRegexCollection.find(
-    (country) => country['ISO'] === countryName || country['Country'] === countryName,
-  );
-  return countryInList;
-};
-
-const NAME_UPPERCASE_REGEX = /(?=.*[A-Z])/;
-const NAME_LETTERS_ONLY_REGEX = /^[a-zA-Z]+$/;
-
-const CITY_UPPERCASE_REGEX = /(?=.*[A-Z])/;
-const CITY_LETTERS_ONLY_REGEX = /^[a-zA-Z]+$/;
-
-const validate = (values: FormValues) => {
-  const errors: FormValues = {};
-
-  if (values.firstName && !NAME_UPPERCASE_REGEX.test(values.firstName)) {
-    errors.firstName = 'First name must contain at least one uppercase letter (A-Z)';
-  } else if (values.firstName && !NAME_LETTERS_ONLY_REGEX.test(values.firstName)) {
-    errors.firstName = 'First name must contain only letters';
-  } else if (values.firstName && values.firstName.length < 1) {
-    errors.firstName = 'First name must be at least 1 character';
-  }
-
-  if (values.lastName && !NAME_UPPERCASE_REGEX.test(values.lastName)) {
-    errors.lastName = 'Last name must contain at least one uppercase letter (A-Z)';
-  } else if (values.lastName && !NAME_LETTERS_ONLY_REGEX.test(values.lastName)) {
-    errors.lastName = 'Last name must contain only letters';
-  } else if (values.lastName && values.lastName.length < 1) {
-    errors.lastName = 'Last name must be at least 1 character';
-  }
-
-  if (!values.street) {
-    errors.street = 'Required';
-  } else if (values.street.length < 1) {
-    errors.street = 'Street must be at least 1 character';
-  }
-
-  if (!values.city) {
-    errors.city = 'Required';
-  } else if (!CITY_UPPERCASE_REGEX.test(values.city)) {
-    errors.city = 'City must contain at least one uppercase letter (A-Z)';
-  } else if (!CITY_LETTERS_ONLY_REGEX.test(values.city)) {
-    errors.city = 'City must contain only letters';
-  } else if (values.city.length < 4) {
-    errors.city = 'City must be at least 4 characters';
-  }
-
-  if (!values.country) {
-    errors.country = 'Required';
-  } else if (!selectList.includes(values.country)) {
-    errors.country = 'Invalid country';
-  }
-
-  if (!values.postal) {
-    errors.postal = 'Required';
-  } else if (values.country && values.postal) {
-    const countryInList = getCountry(values.country);
-
-    if (countryInList) {
-      const rg = countryInList['Regex'];
-      if (!values.postal.match(rg)) {
-        errors.postal = `${values.country} postal code example: ${countryInList['Example']}`;
-      }
-    }
-  }
-
-  return errors;
-};
+import { countries, selectList, validateAddress as validate } from '../../helpers';
 
 type EditAddressProps = {
   onClose: () => void;
