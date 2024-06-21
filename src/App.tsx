@@ -17,6 +17,7 @@ import { Category } from './pages/category/Category';
 import { About } from './pages/about/About';
 import { Basket } from './pages/basket/Basket';
 import { Path } from './interfaces/enum';
+import { PrivateRoute } from './components/private-route/PrivateRoute';
 
 const Layout = () => {
   return (
@@ -54,14 +55,39 @@ export const App = () => {
           <Route path={Path.CategoryData} element={<Category />} />
           <Route path={Path.Login} element={isLogged ? <Navigate to={Path.Home} replace /> : <Login />} />
           <Route path={Path.Registration} element={isLogged ? <Navigate to={Path.Home} replace /> : <Registration />} />
-          <Route path={Path.Profile} element={isLogged ? <Profile /> : <Navigate to={Path.Login} replace />} />
+          <Route
+            path={Path.Profile}
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
           <Route
             path={Path.ProfilePersonalInfo}
-            element={isLogged ? <Profile /> : <Navigate to={Path.Login} replace />}
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
           />
-          <Route path={Path.ProfileAddresses} element={isLogged ? <Profile /> : <Navigate to={Path.Login} replace />} />
+          <Route
+            path={Path.ProfileAddresses}
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
           <Route path={Path.About} element={<About />} />
-          <Route path={Path.AddAddress} element={isLogged ? <AddAddress /> : <Navigate to={Path.Login} replace />} />
+          <Route
+            path={Path.AddAddress}
+            element={
+              <PrivateRoute>
+                <AddAddress />
+              </PrivateRoute>
+            }
+          />
           <Route path={Path.ProductKey} element={<Product />} />
           <Route path={Path.Basket} element={<Basket />} />
           <Route path={Path.NotFound} element={<NotFoundPage />} />
