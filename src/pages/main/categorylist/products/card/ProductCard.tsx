@@ -6,6 +6,7 @@ import { ModalWindow } from '../../../../../components/modal/ModalWindow';
 import { useCartStore } from '../../../../../store/useCartStore';
 import { Cart, addProductToCart, changeProductsQuantity } from '../../../../../api/commerce-tools-api-cart';
 import cartIcon from '/cart-check-svgrepo-com.svg';
+import { GiShoppingCart } from 'react-icons/gi';
 
 type CardType = {
   product: ProductType;
@@ -70,8 +71,10 @@ export const ProductCard = ({ product, dataTestid }: CardType) => {
 
       {findInCart(cart!, product.id) ? (
         <div
-          onClick={() => {
+          onClick={async function () {
+            setError('Remove from the cart...');
             changeProductsQuantity(cart!, [product], 0);
+            setError('Product removed.');
           }}
           className={styles.priceInfo + ' ' + styles.active}
         >
@@ -80,8 +83,10 @@ export const ProductCard = ({ product, dataTestid }: CardType) => {
         </div>
       ) : (
         <div
-          onClick={() => {
-            addProductToCart(cart!, product, 1);
+          onClick={async function () {
+            setError('Add to cart...');
+            await addProductToCart(cart!, product, 1);
+            setError('Product added to the cart.');
           }}
           className={styles.priceInfo}
         >
@@ -94,6 +99,9 @@ export const ProductCard = ({ product, dataTestid }: CardType) => {
               <span className={styles.discountPriceCurrency}>{currency}</span>
             </>
           )}
+          <span className={styles.cartFill}>
+            <GiShoppingCart className={styles.shoppingCart} />
+          </span>
         </div>
       )}
       {error && <ModalWindow message={error} onClose={() => setError(() => '')} />}
