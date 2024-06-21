@@ -46,27 +46,26 @@ export const UserBasicInfo = () => {
 
   const isModified = useMemo(() => !areValuesEqual(initialValues, formik.values), [formik.values, initialValues]);
 
+  const customerInfo = [
+    { label: 'Your Email:', value: customer?.email },
+    { label: 'Your First Name:', value: customer?.firstName },
+    { label: 'Your Last Name:', value: customer?.lastName },
+    { label: 'Your Date of Birth:', value: convertDateToReadableFormat(customer?.dateOfBirth) },
+  ];
+
   return (
     <div>
       <div className={styles.basicInfoContainer}>
         <h3>Your Personal Information</h3>
         <hr />
-        <div className={styles.basicInfoItemContainer}>
-          <h4>Your Email:</h4>
-          <p className={styles.basicInfoItem}>{customer?.email}</p>
-        </div>
-        <div className={styles.basicInfoItemContainer}>
-          <h4>Your First Name:</h4>
-          <p className={styles.basicInfoItem}>{customer?.firstName}</p>
-        </div>
-        <div className={styles.basicInfoItemContainer}>
-          <h4>Your Last Name:</h4>
-          <p className={styles.basicInfoItem}>{customer?.lastName}</p>
-        </div>
-        <div className={styles.basicInfoItemContainer}>
-          <h4>Your Date of Birth:</h4>
-          <p className={styles.basicInfoItem}>{convertDateToReadableFormat(customer?.dateOfBirth)}</p>
-        </div>
+
+        {customerInfo.map((info, index) => (
+          <div key={index} className={styles.basicInfoItemContainer}>
+            <h4>{info.label}</h4>
+            <p className={styles.basicInfoItem}>{info.value}</p>
+          </div>
+        ))}
+
         <FaEdit className={styles.modifyIco} onClick={() => setIsOpenModify((prev) => !prev)} />
       </div>
       <form className={styles.userForm} onSubmit={formik.handleSubmit}>
@@ -86,7 +85,7 @@ export const UserBasicInfo = () => {
                   name="email"
                   type="text"
                   autoComplete="email"
-                ></FormField>
+                />
                 <FormField
                   stylesError={styles.profileFormError}
                   stylesInput={styles.profileFormInput}
@@ -97,7 +96,7 @@ export const UserBasicInfo = () => {
                   id="firstName"
                   name="firstName"
                   type="text"
-                ></FormField>
+                />
                 <FormField
                   stylesError={styles.profileFormError}
                   stylesInput={styles.profileFormInput}
@@ -108,7 +107,7 @@ export const UserBasicInfo = () => {
                   id="lastName"
                   name="lastName"
                   type="text"
-                ></FormField>
+                />
                 <FormField
                   stylesError={styles.profileFormError}
                   stylesInput={styles.profileFormInput}
@@ -119,7 +118,7 @@ export const UserBasicInfo = () => {
                   name="dateOfBirth"
                   type="date"
                   max="2010-01-01"
-                ></FormField>
+                />
                 <Button
                   style={styles.profileFormBtn}
                   title="Save"
