@@ -273,17 +273,15 @@ export const Product = () => {
       <div className={styles.categoryWrapper}>
         <h3 className={styles.categoryTitle}>Game Categories:</h3>
         <ul className={styles.listWrapper}>
-          {productData.categories.map((item, index) => {
-            return (
-              <li className={styles.categoryItem} key={`${index}_cat`}>
-                <Button
-                  onClick={() => categoryClick(item.id)}
-                  style={styles.categoryBtn}
-                  title={getCategoryNameById(item.id)!}
-                />
-              </li>
-            );
-          })}
+          {productData.categories.map((item, index) => (
+            <li className={styles.categoryItem} key={`${index}_cat`}>
+              <Button
+                onClick={() => categoryClick(item.id)}
+                style={styles.categoryBtn}
+                title={getCategoryNameById(item.id)!}
+              />
+            </li>
+          ))}
         </ul>
       </div>
 
@@ -299,19 +297,18 @@ export const Product = () => {
       {productData.movie.length > 0 && (
         <div className={styles.videoBlockWrapper}>
           <h3 className={styles.videoTitle}>Game Movie</h3>
-          {productData.movie.map((video, index) => {
-            return (
-              <div key={`${index}_video`} className={styles.videoWrapper}>
-                <video className={styles.video} controls>
-                  <source src={video} />
-                </video>
-              </div>
-            );
-          })}
+
+          {productData.movie.map((video, index) => (
+            <div key={`${index}_video`} className={styles.videoWrapper}>
+              <video className={styles.video} controls>
+                <source src={video} />
+              </video>
+            </div>
+          ))}
         </div>
       )}
 
-      <div style={{ width: '100%', marginBottom: '10px' }}>
+      <div className={styles.breadcrumbsWrapper}>
         <Breadcrumbs subPage={getCategoryNameById(productData.categories[0].id)!} currantPage={productData.title} />
       </div>
 

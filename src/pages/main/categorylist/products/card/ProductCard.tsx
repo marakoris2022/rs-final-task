@@ -29,11 +29,9 @@ export const ProductCard = ({ product, dataTestid }: CardType) => {
 
   useEffect(() => {
     const { url } = product.masterVariant.images[0];
-    if (url) {
-      setImageUrl(url);
-    } else {
-      setImageUrl('./default-card-background.jpg');
-    }
+
+    setImageUrl(url ?? './default-card-background.jpg');
+
     const { value, discounted } = product.masterVariant.prices[0];
     const priceValue = value.centAmount / 10 ** value.fractionDigits;
     setPrice(priceValue);
@@ -92,19 +90,7 @@ export const ProductCard = ({ product, dataTestid }: CardType) => {
           }}
           className={styles.priceInfo}
         >
-          {discount ? (
-            <span>
-              <s>
-                {price}
-                <span>{currency}</span>
-              </s>
-            </span>
-          ) : (
-            <>
-              <span>{price}</span>
-              <span>{currency}</span>
-            </>
-          )}
+          <span>{discount ? <s>{`${price} ${currency}`}</s> : `${price} ${currency}`}</span>
 
           {Boolean(discount) && (
             <>

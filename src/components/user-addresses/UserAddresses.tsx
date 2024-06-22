@@ -3,7 +3,7 @@ import { useCustomerStore } from '../../store/useCustomerStore';
 import { Button } from '../button/Button';
 import { useNavigate } from 'react-router-dom';
 import { FaTrash, FaEdit } from 'react-icons/fa';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ModalWindow } from '../modal/ModalWindow';
 import {
   DefaultAddressTypes,
@@ -16,14 +16,7 @@ import {
 } from '../../api/commerce-tools-api-profile';
 import { EditAddress } from './edit-address/EditAddress';
 import { Address } from '../../interfaces/interfaces';
-
-const CountryCodes: Record<string, string> = {
-  US: 'USA',
-  CA: 'Canada',
-  GB: 'UK',
-  AU: 'Australia',
-  DE: 'Germany',
-};
+import { countryCodes, countryCodesReverse } from '../../constants/common';
 
 export const UserAddresses = () => {
   const customer = useCustomerStore((state) => state.customer);
@@ -35,13 +28,23 @@ export const UserAddresses = () => {
   const [addressToDelete, setAddressToDelete] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const shippingAddresses = customer?.addresses?.filter((address) =>
-    customer.shippingAddressIds?.includes(address.id || ''),
-  );
+  const shippingAddresses = useMemo(() => {
+    return customer?.addresses?.reduce<Address[]>((acc, address) => {
+      if (customer.shippingAddressIds?.includes(address.id || '')) {
+        acc.push(address);
+      }
+      return acc;
+    }, []);
+  }, [customer?.addresses, customer?.shippingAddressIds]);
 
-  const billingAddresses = customer?.addresses?.filter((address) =>
-    customer.billingAddressIds?.includes(address.id || ''),
-  );
+  const billingAddresses = useMemo(() => {
+    return customer?.addresses?.reduce<Address[]>((acc, address) => {
+      if (customer.billingAddressIds?.includes(address.id || '')) {
+        acc.push(address);
+      }
+      return acc;
+    }, []);
+  }, [customer?.addresses, customer?.billingAddressIds]);
 
   const handleDeleteAddress = async () => {
     const updatedUser = await removeAddress(customer, addressToDelete);
@@ -67,7 +70,7 @@ export const UserAddresses = () => {
     setShowChangeModal(true);
   };
 
-  const handleSetDefaultAddress = async (addressId: string | undefined, type: DefaultAddressTypes) => {
+  const handleSetDefaultAddress = async (type: DefaultAddressTypes, addressId?: string) => {
     setIsLoading(() => true);
 
     const updatedUser = await setDefaultAddressType(customer!, type, addressId);
@@ -78,9 +81,9 @@ export const UserAddresses = () => {
   };
 
   const handleChangeAddressType = async (
-    addressId: string | undefined,
     typeToRemove: RemoveAddressTypes,
     typeToAdd: AddressTypes,
+    addressId?: string,
   ) => {
     setIsLoading(() => true);
 
@@ -108,44 +111,37 @@ export const UserAddresses = () => {
           {shippingAddresses?.map((currAddress) => {
             const isDefaultAddress = customer?.defaultShippingAddressId === currAddress.id;
 
+            const addressItems = [
+              { title: 'First name', value: currAddress.firstName },
+              { title: 'Last name', value: currAddress.lastName },
+              { title: 'Country', value: countryCodesReverse[currAddress.country] },
+              { title: 'Postal Code', value: currAddress.postalCode },
+              { title: 'City', value: currAddress.city },
+              { title: 'Street', value: currAddress.streetName },
+            ];
+
             return (
               <div className={styles.addressContainer} key={currAddress.id}>
                 <div className={styles.addressWrapper}>
-                  <div className={styles.addressItemContainer}>
-                    <h4>First name:</h4>
-                    <div className={styles.addressValue}>{currAddress.firstName}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Last name:</h4>
-                    <div className={styles.addressValue}>{currAddress.lastName}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Country:</h4>
-                    <div className={styles.addressValue}>{CountryCodes[currAddress.country]}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Postal Code:</h4>
-                    <div className={styles.addressValue}>{currAddress.postalCode}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>City:</h4>
-                    <div className={styles.addressValue}>{currAddress.city}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Street:</h4>
-                    <div className={styles.addressValue}>{currAddress.streetName}</div>
-                  </div>
+                  {addressItems.map((item, index) => (
+                    <div key={index} className={styles.addressItemContainer}>
+                      <h4>{item.title}:</h4>
+                      <div className={styles.addressValue}>{item.value}</div>
+                    </div>
+                  ))}
                 </div>
+
                 <div className={styles.addressManageContainer}>
                   <div className={styles.addressManageBtnsContainer}>
                     {isDefaultAddress && <div className={styles.addressDefault}>Default shipping</div>}
+
                     {!isDefaultAddress && (
                       <Button
                         style={styles.setDefaultAddressBtn}
                         title="Set as default"
                         type="button"
                         onClick={async () => {
-                          await handleSetDefaultAddress(currAddress!.id, DefaultAddressTypes.SHIPPING);
+                          await handleSetDefaultAddress(DefaultAddressTypes.SHIPPING, currAddress!.id);
                         }}
                         disabled={isLoading}
                       />
@@ -156,11 +152,12 @@ export const UserAddresses = () => {
                       title="Set as billing"
                       type="button"
                       onClick={() => {
-                        handleChangeAddressType(currAddress.id, RemoveAddressTypes.SHIPPING, AddressTypes.BILLING);
+                        handleChangeAddressType(RemoveAddressTypes.SHIPPING, AddressTypes.BILLING, currAddress.id);
                       }}
                       disabled={isLoading}
                     />
                   </div>
+
                   <div className={styles.addressIconsContainer}>
                     <FaEdit onClick={() => !isLoading && openEditModal(currAddress)} />
                     <FaTrash onClick={() => !isLoading && openDeleteModal(currAddress.id)} />
@@ -177,33 +174,24 @@ export const UserAddresses = () => {
           {billingAddresses?.map((currAddress) => {
             const isDefaultAddress = customer?.defaultBillingAddressId === currAddress.id;
 
+            const addressItems = [
+              { title: 'First name', value: currAddress.firstName },
+              { title: 'Last name', value: currAddress.lastName },
+              { title: 'Country', value: countryCodesReverse[currAddress.country] },
+              { title: 'Postal Code', value: currAddress.postalCode },
+              { title: 'City', value: currAddress.city },
+              { title: 'Street', value: currAddress.streetName },
+            ];
+
             return (
               <div className={styles.addressContainer} key={currAddress.id}>
                 <div className={styles.addressWrapper}>
-                  <div className={styles.addressItemContainer}>
-                    <h4>First name:</h4>
-                    <div className={styles.addressValue}>{currAddress.firstName}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Last name:</h4>
-                    <div className={styles.addressValue}>{currAddress.lastName}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Country:</h4>
-                    <div className={styles.addressValue}>{CountryCodes[currAddress.country]}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Postal Code:</h4>
-                    <div className={styles.addressValue}>{currAddress.postalCode}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>City:</h4>
-                    <div className={styles.addressValue}>{currAddress.city}</div>
-                  </div>
-                  <div className={styles.addressItemContainer}>
-                    <h4>Street:</h4>
-                    <div className={styles.addressValue}>{currAddress.streetName}</div>
-                  </div>
+                  {addressItems.map((item, index) => (
+                    <div key={index} className={styles.addressItemContainer}>
+                      <h4>{item.title}:</h4>
+                      <div className={styles.addressValue}>{item.value}</div>
+                    </div>
+                  ))}
                 </div>
                 <div className={styles.addressManageContainer}>
                   <div className={styles.addressManageBtnsContainer}>
@@ -214,7 +202,7 @@ export const UserAddresses = () => {
                         title="Set as default"
                         type="button"
                         onClick={async () => {
-                          await handleSetDefaultAddress(currAddress!.id, DefaultAddressTypes.BILLING);
+                          await handleSetDefaultAddress(DefaultAddressTypes.BILLING, currAddress!.id);
                         }}
                         disabled={isLoading}
                       />
@@ -225,7 +213,7 @@ export const UserAddresses = () => {
                       title="Set as shipping"
                       type="button"
                       onClick={() => {
-                        handleChangeAddressType(currAddress.id, RemoveAddressTypes.BILLING, AddressTypes.SHIPPING);
+                        handleChangeAddressType(RemoveAddressTypes.BILLING, AddressTypes.SHIPPING, currAddress.id);
                       }}
                       disabled={isLoading}
                     />
