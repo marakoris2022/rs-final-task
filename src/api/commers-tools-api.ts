@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { ECommerceLS, IntrospectionResponse, LoginProps, UserProps } from '../interfaces/interfaces';
+import { ECommerceLS, IntrospectionResponse, LoginProps, UserProps, UserPropsExtended } from '../interfaces/interfaces';
 import { useCustomerStore } from '../store/useCustomerStore';
 import { useStore } from '../store/useStore';
 
@@ -117,7 +117,7 @@ export async function login(email: string, password: string): Promise<LoginProps
   }
 }
 
-export async function signUp(user: UserProps): Promise<void> {
+export async function signUp(user: UserProps): Promise<UserPropsExtended | undefined> {
   try {
     const bodyRaw = {
       key: user.key,
@@ -144,7 +144,7 @@ export async function signUp(user: UserProps): Promise<void> {
         },
       });
       const { customer } = response.data;
-      return customer;
+      return customer as UserPropsExtended;
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {

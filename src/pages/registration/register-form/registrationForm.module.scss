@@ -32,10 +32,11 @@
       position: absolute;
       left: 70px;
       top: -9px;
-      background-color: white;
+      border-radius: 5px;
+      background-color: rgba(5, 4, 62, 1);
       padding: 3px 5px;
       font-size: 14px;
-      color: #c7b7a3;
+      color: white;
     }
   }
 
@@ -47,9 +48,9 @@
 
   .navBtnLogin {
     border: none;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
-    color: #8b93ff;
+    color: #aeb3ff;
 
     padding: 3px 10px;
 
@@ -109,7 +110,7 @@
     }
 
     label {
-      color: #5b4d4d;
+      // color: #5b4d4d;
       min-width: 100px;
       display: inline-block;
       font-size: 1rem;
@@ -204,7 +205,7 @@
     }
 
     .navBtnLogin:hover {
-      background-color: lightgray;
+      color: lightskyblue;
     }
   }
 }

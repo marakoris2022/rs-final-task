@@ -10,7 +10,7 @@ type SelectFieldProps<T extends FormValues> = {
   styleLabel: string;
   loginFormInput: string;
   labelText: string;
-  name: keyof T;
+  name: string;
   formik: FormikProps<T>;
   selectList: string[];
   value?: string;
@@ -28,22 +28,22 @@ export const SelectField = <T extends FormValues>({
 }: SelectFieldProps<T>) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
-    formik.setFieldValue(name as string, selectedValue);
-    formik.setFieldTouched(name as string, true, false);
+    formik.setFieldValue(name, selectedValue);
+    formik.setFieldTouched(name, true, false);
   };
 
   return (
     <div className={loginFormField}>
-      <label className={styleLabel} htmlFor={name as string}>
+      <label className={styleLabel} htmlFor={name}>
         {labelText}
       </label>
       <select
         className={loginFormInput}
         style={{ padding: '0 10px' }}
-        name={name as string}
-        id={name as string}
+        name={name}
+        id={name}
         onChange={handleChange}
-        value={formik.values[name as string] ?? value}
+        value={formik.values[name] ?? value}
       >
         {selectList.map((item, index) => (
           <option key={`${item}-${index}`} value={item} label={item}>

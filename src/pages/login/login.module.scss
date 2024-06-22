@@ -1,10 +1,25 @@
-.loginPageTitle {
-  margin-bottom: 50px;
-  text-align: center;
+.mainWrapper {
+  background-color: rgba(5, 4, 62, 0.8);
+  padding-top: 20px;
 
-  @media screen and (max-width: 600px) {
-    & {
-      margin-bottom: 25px;
+  .formWrapper {
+    width: fit-content;
+    margin: 0 auto;
+
+    padding: 25px;
+    border-radius: 15px;
+
+    border: 2px solid rgb(0, 255, 68);
+
+    .loginPageTitle {
+      margin-bottom: 50px;
+      text-align: center;
+
+      @media screen and (max-width: 600px) {
+        & {
+          margin-bottom: 25px;
+        }
+      }
     }
   }
 }

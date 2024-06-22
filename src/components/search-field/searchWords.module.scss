@@ -1,0 +1,81 @@
+.searchLabel {
+  position: relative;
+
+  .glassImg {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background-image: url(/magnifying-glass.svg);
+    border-radius: 10px;
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 20px 20px;
+    z-index: 2;
+    cursor: pointer;
+    transition: all 0.2s linear;
+  }
+
+  .searchField {
+    position: relative;
+    padding: 5px 40px 5px 10px;
+    height: 40px;
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+
+    color: white;
+
+    border-style: inset;
+    border: 2px solid green;
+    background-color: rgba(11, 8, 155, 0.3);
+  }
+
+  .searchField:focus {
+    box-shadow: 5px 3px 3px #0dc6ec;
+  }
+}
+
+.searchField:active {
+  outline: none;
+}
+
+@media (hover: hover) {
+
+  .glassImg:hover,
+  .glassImg:active {
+    background-image: url(/magnifying-glass-hover.svg);
+    border-radius: 10px;
+    box-shadow:
+      0 0 2px rgba(0, 183, 255, 0.5),
+      0 0 5px rgba(0, 183, 255, 0.5),
+      0 0 20px rgba(0, 183, 255, 0.5),
+      0 0 30px rgba(0, 183, 255, 0.5);
+  }
+}
+
+@media screen and (max-width: 780px) {
+.searchLabel {
+    position: relative;
+
+    .glassImg {
+        position: absolute;
+        top: 0;
+        right: 10px;
+        width: 20px;
+        height: 20px;
+        background-image: url(/magnifying-glass.svg);
+        background-repeat: no-repeat;
+        background-position: center right;
+        background-size: 20px 20px;
+        z-index: 2;
+        cursor: pointer;
+        transition: all 0.2s linear;
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}

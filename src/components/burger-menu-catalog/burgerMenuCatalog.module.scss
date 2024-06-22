@@ -3,8 +3,15 @@
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  border: none;
-  background: goldenrod;
+  background: black;
+  border-radius: 5px;
+  border: 1px solid #5e42a6;
+
+  box-shadow:
+    0 0 2px rgba(0, 183, 255, 0.5),
+    0 0 5px rgba(0, 183, 255, 0.5),
+    0 0 20px rgba(0, 183, 255, 0.5),
+    0 0 30px rgba(0, 183, 255, 0.5);
 }
 
 .burgerIcon {
@@ -12,8 +19,8 @@
   transition: all 0.1s linear;
   object-fit: cover;
   object-position: center center;
-  width: 40px;
-  height: 40px;
+  width: 33px;
+  height: 30px;
 }
 
 .burgerIcon:active {
@@ -30,12 +37,12 @@
   }
 }
 
-@media (hover:hover) {
+@media (hover: hover) {
   .burgerIcon {
     transform: scale(0.8);
   }
 
-  .burgerContainer {
-    box-shadow: 2px 2px 5px brown;
-  }
+  // .burgerContainer {
+  //   box-shadow: 2px 2px 5px brown;
+  // }
 }

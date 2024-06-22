@@ -1,0 +1,12 @@
+.cardSkeleton {
+    width: 48%;
+    min-width: 250px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 608px) {
+    .cardSkeleton {
+        width: 90%;
+    }
+}

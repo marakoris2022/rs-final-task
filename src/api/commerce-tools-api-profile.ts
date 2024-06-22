@@ -74,9 +74,7 @@ export const updateBasicUserData = async (user: UserPropsExtended, updatedUserDa
     throw new Error(errorData.message || 'Failed to update user data');
   }
 
-  const updatedUserDataResponse: UserPropsExtended = await response.json();
-
-  return updatedUserDataResponse;
+  return await response.json();
 };
 
 export const updateUserPassword = async (user: UserPropsExtended, updatedUserData: UserDataPassword) => {
@@ -109,9 +107,7 @@ export const updateUserPassword = async (user: UserPropsExtended, updatedUserDat
     throw new Error(errorData.message || 'Failed to update password');
   }
 
-  const updatedUserDataResponse: UserPropsExtended = await response.json();
-
-  return updatedUserDataResponse;
+  return await response.json();
 };
 
 export const addNewAddress = async (user: UserPropsExtended, newAddressData: Address) => {
@@ -197,9 +193,7 @@ export const addAddressType = async (user: UserPropsExtended, type: AddressTypes
     throw new Error(errorData.message || 'Failed to create address');
   }
 
-  const updatedUserDataResponse: UserPropsExtended = await response.json();
-
-  return updatedUserDataResponse;
+  return await response.json();
 };
 
 export const removeAddress = async (user: UserPropsExtended | null, addressId: string) => {
@@ -235,9 +229,7 @@ export const removeAddress = async (user: UserPropsExtended | null, addressId: s
     throw new Error(errorData.message || 'Failed to create address');
   }
 
-  const resp: UserPropsExtended = await response.json();
-
-  return resp;
+  return await response.json();
 };
 
 export const setDefaultAddressType = async (
@@ -277,9 +269,7 @@ export const setDefaultAddressType = async (
     throw new Error(errorData.message || 'Failed to create address');
   }
 
-  const resp: UserPropsExtended = await response.json();
-
-  return resp;
+  return await response.json();
 };
 
 export const removeAddressType = async (
@@ -319,9 +309,7 @@ export const removeAddressType = async (
     throw new Error(errorData.message || 'Failed to create address');
   }
 
-  const resp: UserPropsExtended = await response.json();
-
-  return resp;
+  return await response.json();
 };
 
 export const changeAddress = async (user: UserPropsExtended, addressData: Address, addressId: string | undefined) => {
@@ -358,7 +346,5 @@ export const changeAddress = async (user: UserPropsExtended, addressData: Addres
     throw new Error(errorData.message || 'Failed to create address');
   }
 
-  const resp: UserPropsExtended = await response.json();
-
-  return resp;
+  return await response.json();
 };

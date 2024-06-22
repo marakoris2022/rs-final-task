@@ -8,8 +8,14 @@ import { Button } from '../../components/button/Button';
 import { getCategoryNameById } from '../../services/getCategoryNameById';
 import { Breadcrumbs } from '../../components/breadcrumbs/Breadcrumbs';
 import { useCategoryStore } from '../../store/useCategoryStore';
+import { useCartStore } from '../../store/useCartStore';
+import { Cart, addProductToCart, changeProductsQuantity } from '../../api/commerce-tools-api-cart';
+import cartIcon from '/cart-check-svgrepo-com.svg';
+import removeIcon from '/remove-circle-svgrepo-com.svg';
 
-type ProductData = {
+export type ProductData = {
+  id: string;
+  version: number;
   title: string;
   description: string;
   imageTitle: string;
@@ -23,6 +29,9 @@ type ProductData = {
   categoriesAdd: Array<string>;
   categories: { id: string }[];
   movie: Array<string>;
+  taxCategory?: string;
+  productId?: string;
+  quantity?: number;
 };
 
 function calculateDiscount(oldPrice: number, newPrice: number) {
@@ -30,14 +39,121 @@ function calculateDiscount(oldPrice: number, newPrice: number) {
   return Math.round(discountPercentage);
 }
 
+function findInCart(cart: Cart, productId: string) {
+  return cart?.lineItems.find((item) => item.productId === productId);
+}
+
+function buttonWithoutDiscount(
+  productData: ProductData,
+  cart: Cart,
+  openModal: React.Dispatch<React.SetStateAction<boolean>>,
+  setModalText: React.Dispatch<React.SetStateAction<JSX.Element>>,
+) {
+  return (
+    <>
+      <h3 className={styles.buyPromo}>
+        Buy with Discount{' '}
+        <span className={styles.discountPercent}>
+          {calculateDiscount(productData.price, productData.discountPrice!)}%
+        </span>{' '}
+        !{' '}
+      </h3>
+      <div className={styles.discountWrapper}>
+        <p className={styles.oldPrice}>{`${(productData.price / 100).toFixed(2)} USD`}</p>
+        <div className={styles.discountBtnContainer}>
+          <Button
+            style={styles.discountBtn}
+            title={`${(productData.discountPrice! / 100).toFixed(2)} USD`}
+            onClick={async () => {
+              setModalText(<p>Loading...</p>);
+              openModal(true);
+              await addProductToCart(cart, productData, 1);
+              setModalText(
+                <p>
+                  You <span style={{ color: 'green' }}>successfully</span> added item to the cart.
+                </p>,
+              );
+            }}
+          />
+        </div>
+      </div>
+    </>
+  );
+}
+
+function buttonWithDiscount(
+  productData: ProductData,
+  cart: Cart,
+  openModal: React.Dispatch<React.SetStateAction<boolean>>,
+  setModalText: React.Dispatch<React.SetStateAction<JSX.Element>>,
+) {
+  return (
+    <>
+      <h3 className={styles.buyPromo}>Buy it now! </h3>
+      <Button
+        style={styles.buyBtn}
+        title={`${(productData.price / 100).toFixed(2)} USD`}
+        onClick={async () => {
+          setModalText(<p>Loading...</p>);
+          openModal(true);
+          await addProductToCart(cart, productData, 1);
+          setModalText(
+            <p>
+              You <span style={{ color: 'green' }}>successfully</span> added item to the cart.
+            </p>,
+          );
+        }}
+      />
+    </>
+  );
+}
+
+function ItemInTheCart(
+  cart: Cart,
+  productData: ProductData,
+  openModal: React.Dispatch<React.SetStateAction<boolean>>,
+  setModalText: React.Dispatch<React.SetStateAction<JSX.Element>>,
+) {
+  return (
+    <div className={styles.cartBlockWrapper}>
+      <span className={styles.cartBlockText}>Item in the Cart!</span>
+      <img className={styles.cartIcon} src={cartIcon} alt="Cart" />
+      <img
+        onClick={async () => {
+          openModal(true);
+          setModalText(<p>Loading...</p>);
+          await changeProductsQuantity(cart!, [productData], 0);
+          setModalText(
+            <p>
+              You <span style={{ color: 'red' }}>remove</span> product from the cart.
+            </p>,
+          );
+        }}
+        className={styles.removeIcon}
+        src={removeIcon}
+        alt="Remove"
+      />
+    </div>
+  );
+}
+
 export const Product = () => {
   const navigate = useNavigate();
   const clearCategories = useCategoryStore((state) => state.clearCategories);
+  const clearCategoryCheckedItems = useCategoryStore((state) => state.clearCategoryCheckedItems);
   const addCategories = useCategoryStore((state) => state.addCategories);
+  const setCategoryCheckedItems = useCategoryStore((state) => state.setCategoryCheckedItems);
+  const cart = useCartStore((state) => state.cart);
+  const setOffset = useCategoryStore((state) => state.setOffset);
   const { key } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [isModal, setIsModal] = useState(false);
+  const [isPurchase, setIsPurchase] = useState(false);
+  const [modalText, setModalText] = useState(<p></p>);
   const [productData, setProductData] = useState<ProductData>({
+    id: '',
+    version: 1,
+    taxCategory: '',
     title: '',
     description: '',
     imageTitle: '',
@@ -56,6 +172,9 @@ export const Product = () => {
   function categoryClick(id: string) {
     clearCategories();
     addCategories([id]);
+    clearCategoryCheckedItems();
+    setCategoryCheckedItems(id);
+    setOffset(0);
     navigate(`/`);
   }
 
@@ -64,6 +183,10 @@ export const Product = () => {
       const fetchedData = await getProductByKey(productKey);
 
       if (fetchedData) {
+        const id = fetchedData.id;
+        const version = fetchedData.version;
+        const taxCategory = fetchedData?.taxCategory;
+
         const masterData = fetchedData.masterData.current;
         const masterVariant = masterData.masterVariant;
         const attributes = masterVariant.attributes;
@@ -87,6 +210,9 @@ export const Product = () => {
         const movie = JSON.parse(getStringAttribute(3) as string);
 
         setProductData({
+          version,
+          id,
+          taxCategory,
           title,
           description,
           imageTitle,
@@ -133,28 +259,11 @@ export const Product = () => {
       </div>
 
       <div className={styles.buyWrapper}>
-        {productData.discountPrice ? (
-          <>
-            <h3 className={styles.buyPromo}>
-              Buy with Discount{' '}
-              <span className={styles.discountPercent}>
-                {calculateDiscount(productData.price, productData.discountPrice)}%
-              </span>{' '}
-              !{' '}
-            </h3>
-            <div className={styles.discountWrapper}>
-              <p className={styles.oldPrice}>{`${(productData.price / 100).toFixed(2)} USD`}</p>
-              <div className={styles.discountBtnContainer}>
-                <Button style={styles.discountBtn} title={`${(productData.discountPrice / 100).toFixed(2)} USD`} />
-              </div>
-            </div>
-          </>
-        ) : (
-          <>
-            <h3 className={styles.buyPromo}>Buy it now! </h3>
-            <Button style={styles.buyBtn} title={`${(productData.price / 100).toFixed(2)} USD`} />
-          </>
-        )}
+        {findInCart(cart!, productData.id)
+          ? ItemInTheCart(cart!, productData, setIsPurchase, setModalText)
+          : productData.discountPrice
+            ? buttonWithoutDiscount(productData, cart!, setIsPurchase, setModalText)
+            : buttonWithDiscount(productData, cart!, setIsPurchase, setModalText)}
       </div>
 
       <div className={styles.carouselWrapper}>
@@ -164,17 +273,15 @@ export const Product = () => {
       <div className={styles.categoryWrapper}>
         <h3 className={styles.categoryTitle}>Game Categories:</h3>
         <ul className={styles.listWrapper}>
-          {productData.categories.map((item, index) => {
-            return (
-              <li className={styles.categoryItem} key={`${index}_cat`}>
-                <Button
-                  onClick={() => categoryClick(item.id)}
-                  style={styles.categoryBtn}
-                  title={getCategoryNameById(item.id)!}
-                />
-              </li>
-            );
-          })}
+          {productData.categories.map((item, index) => (
+            <li className={styles.categoryItem} key={`${index}_cat`}>
+              <Button
+                onClick={() => categoryClick(item.id)}
+                style={styles.categoryBtn}
+                title={getCategoryNameById(item.id)!}
+              />
+            </li>
+          ))}
         </ul>
       </div>
 
@@ -190,19 +297,18 @@ export const Product = () => {
       {productData.movie.length > 0 && (
         <div className={styles.videoBlockWrapper}>
           <h3 className={styles.videoTitle}>Game Movie</h3>
-          {productData.movie.map((video, index) => {
-            return (
-              <div key={`${index}_video`} className={styles.videoWrapper}>
-                <video className={styles.video} controls>
-                  <source src={video} />
-                </video>
-              </div>
-            );
-          })}
+
+          {productData.movie.map((video, index) => (
+            <div key={`${index}_video`} className={styles.videoWrapper}>
+              <video className={styles.video} controls>
+                <source src={video} />
+              </video>
+            </div>
+          ))}
         </div>
       )}
 
-      <div style={{ width: '100%', marginBottom: '10px' }}>
+      <div className={styles.breadcrumbsWrapper}>
         <Breadcrumbs subPage={getCategoryNameById(productData.categories[0].id)!} currantPage={productData.title} />
       </div>
 
@@ -215,6 +321,14 @@ export const Product = () => {
           }
           onClose={() => {
             setIsModal(false);
+          }}
+        />
+      )}
+      {isPurchase && (
+        <ModalWindow
+          message={findInCart(cart!, productData.id) ? modalText : modalText}
+          onClose={() => {
+            setIsPurchase(false);
           }}
         />
       )}

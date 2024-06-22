@@ -82,7 +82,7 @@ export const FormField = <T extends FormValues>({
       <div className={stylesInputWrapper ?? ''}>
         <label className={styles.label} htmlFor={id}>
           {labelText}
-          {isRequired ? <span>*</span> : ''}
+          {isRequired && <span>*</span>}
         </label>
         <div>
           <input
