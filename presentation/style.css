@@ -1,10 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Questrial&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Redressed&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Redressed&display=swap');
 
 .title__wrapper {
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(2, 0, 31, 0.9);
   border-radius: 20px;
+
+  border: 3px solid green;
 }
 
 .title__name {
