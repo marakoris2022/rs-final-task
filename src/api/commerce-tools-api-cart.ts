@@ -203,24 +203,6 @@ export const initializeCart = async () => {
   }
 };
 
-export const getCartById = async (cartId: string) => {
-  const commerceObj = localStorage.getItem(ECommerceKey);
-
-  if (commerceObj) {
-    const token = (JSON.parse(commerceObj) as ECommerceLS).accessToken;
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    const cartResp = await apiClient.get(`/${projectKey}/carts/${cartId}`, config);
-
-    return cartResp.data as Cart;
-  }
-};
-
 export const getCartByCustomerId = async (customerId: string): Promise<Cart | null | undefined> => {
   const commerceObj = localStorage.getItem(ECommerceKey);
 
@@ -269,10 +251,8 @@ export const setCartToCustomerById = async (cart: Cart, customerId: string) => {
       },
     };
 
-    const actualCart = await getCartById(cart.id);
-
     const requestBody = {
-      version: actualCart!.version,
+      version: cart.version,
       actions: [
         {
           action: CartActions.SET_CART_TO_CUSTOMER,
@@ -281,7 +261,7 @@ export const setCartToCustomerById = async (cart: Cart, customerId: string) => {
       ],
     };
 
-    const { data } = await apiClient.post(`/${projectKey}/carts/${actualCart!.id}`, requestBody, config);
+    const { data } = await apiClient.post(`/${projectKey}/carts/${cart.id}`, requestBody, config);
 
     const updateCart = useCartStore.getState().updateCart;
     updateCart(data);
@@ -323,10 +303,8 @@ export const addProductToCart = async (
       await apiClient.post(`/${projectKey}/products/${product.id}`, updateBodyTax, config);
     }
 
-    const actualCart = await getCartById(cart.id);
-
     const updateBody = {
-      version: actualCart!.version,
+      version: cart.version,
       actions: [
         {
           action: CartActions.ADD_LINE_ITEM,
@@ -361,10 +339,8 @@ export const changeProductsQuantity = async (
       },
     };
 
-    const actualCart = await getCartById(cart.id);
-
     const actions = products.map((product) => {
-      const itemToUpdate = actualCart!.lineItems.find((item) => item.productId === product.id);
+      const itemToUpdate = cart.lineItems.find((item) => item.productId === product.id);
       const lineItemId = itemToUpdate ? itemToUpdate.id : product.id;
 
       return {
@@ -375,7 +351,7 @@ export const changeProductsQuantity = async (
     });
 
     const requestBody = {
-      version: actualCart!.version,
+      version: cart.version,
       actions: actions,
     };
 
@@ -401,10 +377,8 @@ export const addDiscountCode = async (cart: Cart, discountCode: string) => {
         },
       };
 
-      const actualCart = await getCartById(cart.id);
-
       const requestBody = {
-        version: actualCart!.version,
+        version: cart.version,
         actions: [
           {
             action: CartActions.ADD_DISCOUNT_CODE,
@@ -413,7 +387,7 @@ export const addDiscountCode = async (cart: Cart, discountCode: string) => {
         ],
       };
 
-      const { data } = await apiClient.post(`/${projectKey}/carts/${actualCart!.id}`, requestBody, config);
+      const { data } = await apiClient.post(`/${projectKey}/carts/${cart.id}`, requestBody, config);
 
       const updateCart = useCartStore.getState().updateCart;
       updateCart(data);
@@ -442,10 +416,8 @@ export const removeDiscountCode = async (cart: Cart, discountCode: string) => {
         },
       };
 
-      const actualCart = await getCartById(cart.id);
-
       const requestBody = {
-        version: actualCart!.version,
+        version: cart.version,
         actions: [
           {
             action: 'removeDiscountCode',
@@ -457,7 +429,7 @@ export const removeDiscountCode = async (cart: Cart, discountCode: string) => {
         ],
       };
 
-      const { data } = await apiClient.post(`/${projectKey}/carts/${actualCart!.id}`, requestBody, config);
+      const { data } = await apiClient.post(`/${projectKey}/carts/${cart.id}`, requestBody, config);
 
       const updateCart = useCartStore.getState().updateCart;
       updateCart(data);

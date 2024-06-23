@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 const ECommerceKey = import.meta.env.VITE_E_COMMERCE_KEY;
 
+const authBroadcast = new BroadcastChannel('auth_channel');
 type Store = {
   isLogged: boolean;
   setLogged: (flag: boolean) => void;
@@ -14,11 +15,24 @@ function isUserInLS(): boolean {
   return !!data?.customerId;
 }
 
-const useStore = create<Store>()((set) => ({
-  isLogged: isUserInLS(),
-  setLogged: (flag) => set({ isLogged: flag }),
-  isToken: false,
-  setIsToken: (flag) => set({ isToken: flag }),
-}));
+const useStore = create<Store>()((set) => {
+  authBroadcast.onmessage = (event) => {
+    const { isLogged, isToken } = event.data;
+    set({ isLogged, isToken });
+  };
+
+  return {
+    isLogged: isUserInLS(),
+    setLogged: (flag) => {
+      set({ isLogged: flag });
+      authBroadcast.postMessage({ isLogged: flag, isToken: useStore.getState().isToken });
+    },
+    isToken: false,
+    setIsToken: (flag) => {
+      set({ isToken: flag });
+      authBroadcast.postMessage({ isLogged: useStore.getState().isLogged, isToken: flag });
+    },
+  };
+});
 
 export { useStore };
