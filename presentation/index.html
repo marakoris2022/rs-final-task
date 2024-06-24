@@ -215,58 +215,63 @@
 
         <!-- ОЛЯ -->
         <section data-background="assets/images/ourTeam_back.jpeg">
-          <div style="
+          <section>
+            <div style="
+                                        border: 3px solid rgb(0, 200, 255);
+                                        pad: 0;
+                                        max-height: 660px;
+                                        overflow: hidden;
+                                        margin-bottom: 10px;
+                                      " class="title__wrapper">
+              <h2>Ольга</h2>
+              <h4>Utilizing the commercetools API to offer filtering, sorting and searching options for users </h4>
+            </div>
+            <div style="
                             border: 3px solid rgb(0, 200, 255);
                             pad: 0;
                             max-height: 660px;
                             overflow: hidden;
                             margin-bottom: 10px;
                           " class="title__wrapper">
-            <h2>Ольга</h2>
-            <h4>Utilizing the commercetools API to offer filtering, sorting and searching options for users </h4>
-          </div>
-          <div style="
-                border: 3px solid rgb(0, 200, 255);
-                pad: 0;
-                max-height: 660px;
-                overflow: hidden;
-                margin-bottom: 10px;
-              " class="title__wrapper">
-            <pre><code data-trim data-noescape>
-          if (categoryID.length > 0) {
-          const arr: string[] = categoryID;
-          const categoryIDJoined = arr.length === 1 ? arr[0] : arr.join('","');
-          query.push(`filter=categories.id:"${categoryIDJoined}"`);
-          }
-          if (searchWords) {
-          query.push(`fuzzy=true&fuzzyLevel=1&text.en-us="${searchWords}"`);
-          }
-          if (categoryID.length === 0 && !searchWords) {
-          const categoryIDJoined = '93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b';
-          query.push(`filter=categories.id:"${categoryIDJoined}"`);
-          }
-          query.push(`filter=variants.price.centAmount:range(${priceRange})`);
-          query.push(`filter=variants.attributes.positive:range(${positiveCalls})`);
-          if (discount) query.push(`&filter=variants.scopedPriceDiscounted:true&priceCurrency=USD`);
-          if (movie) query.push(`filter=variants.attributes.movies:"[]"`);
-          query.push(`offset=${offset}`);
-          query.push(`limit=${limit}`);
-          if (sortingCriteria && sortingValue) query.push(`sort=${sortingCriteria} ${sortingValue}`);
-          urlString += query.join('&');
-          const response = await apiClient.get(urlString, config);
-              </code></pre>
-          </div>
-          <div style="
-                          border: 3px solid rgb(0, 200, 255);
-                          pad: 0;
-                          max-height: 660px;
-                          overflow: hidden;
-                          margin-bottom: 10px;
-                        " class="title__wrapper">
-            <video muted controls>
-              <source data-src="assets/video/DB_Filtering.mp4" type="video/mp4" />
-            </video>
-          </div>
+              <pre><code data-trim data-noescape>
+                      if (categoryID.length > 0) {
+                      const arr: string[] = categoryID;
+                      const categoryIDJoined = arr.length === 1 ? arr[0] : arr.join('","');
+                      query.push(`filter=categories.id:"${categoryIDJoined}"`);
+                      }
+                      if (searchWords) {
+                      query.push(`fuzzy=true&fuzzyLevel=1&text.en-us="${searchWords}"`);
+                      }
+                      if (categoryID.length === 0 && !searchWords) {
+                      const categoryIDJoined = '93c57e6a-77a1-4c9f-8cb4-cd08dc271d3b';
+                      query.push(`filter=categories.id:"${categoryIDJoined}"`);
+                      }
+                      query.push(`filter=variants.price.centAmount:range(${priceRange})`);
+                      query.push(`filter=variants.attributes.positive:range(${positiveCalls})`);
+                      if (discount) query.push(`&filter=variants.scopedPriceDiscounted:true&priceCurrency=USD`);
+                      if (movie) query.push(`filter=variants.attributes.movies:"[]"`);
+                      query.push(`offset=${offset}`);
+                      query.push(`limit=${limit}`);
+                      if (sortingCriteria && sortingValue) query.push(`sort=${sortingCriteria} ${sortingValue}`);
+                      urlString += query.join('&');
+                      const response = await apiClient.get(urlString, config);
+                          </code></pre>
+            </div>
+          </section>
+
+          <section>
+            <div style="
+                                      border: 3px solid rgb(0, 200, 255);
+                                      pad: 0;
+                                      max-height: 660px;
+                                      overflow: hidden;
+                                      margin-bottom: 10px;
+                                    " class="title__wrapper">
+              <video muted controls>
+                <source data-src="assets/video/DB_Filtering.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </section>
         </section>
 
         <!-- САША -->
