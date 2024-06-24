@@ -97,6 +97,7 @@ export const Catalog = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true);
         const productList = await getProductList(
           selectedCategories,
           selectedMovie,
